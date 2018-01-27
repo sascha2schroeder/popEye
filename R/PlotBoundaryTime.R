@@ -1,0 +1,99 @@
+
+# NOTE: do after boundary cleaning computations
+
+
+# PlotBoundaryTime.R
+# -------------------
+
+PlotBoundaryTime <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
+  
+  # start pdf
+  if (sub == F) {
+    if (pdf == T) {
+      pdf("Test.pdf", width = 16, height = 8.5)
+      par(mfrow = c(1, 1), cex = .9, oma = c(0, 0, 2, 0))
+    } else {
+      par(mfrow = c(1, 1), cex = 1.25, oma = c(0, 0, 3, 0))
+      if (interactive == T) par(ask = T)
+    }
+  }
+  
+  # compute boundary time and location
+  boundary.time <- SelectSubject(exp, subject)$trial[[trial]]$all$start[SelectSubject(exp, subject)$trial[[trial]]$all$msg == exp$setup$message$boundary]
+  target.time <- SelectSubject(exp, subject)$trial[[trial]]$all$start[SelectSubject(exp, subject)$trial[[trial]]$all$msg == exp$setup$message$target]
+  boundary.loc <- as.numeric(SelectSubject(exp, subject)$trial[[trial]]$stim$boundary)
+  
+  # compute offsets
+  offset.time <- 50
+  offset.loc <- 130
+  
+  # create plot
+  if (sub == T) {
+    plot(SelectSubject(exp, subject)$trial[[trial]]$xy$time[(boundary.time - offset.time):(boundary.time + offset.time)],
+         SelectSubject(exp, subject)$trial[[trial]]$xy$x[(boundary.time - offset.time):(boundary.time + offset.time)], 
+         type = "l", ylim = c(boundary.loc + offset.loc, boundary.loc - offset.loc), 
+         main = "Time Plot", xlab = "Time (ms)", ylab = "x Position (px)")
+  } else {
+    plot(SelectSubject(exp, subject)$trial[[trial]]$xy$time[(boundary.time - offset.time):(boundary.time + offset.time)],
+         SelectSubject(exp, subject)$trial[[trial]]$xy$x[(boundary.time - offset.time):(boundary.time + offset.time)], 
+         type = "l", ylim = c(boundary.loc + offset.loc, boundary.loc - offset.loc),  
+         main = paste("Trial", trial, sep = " "), 
+         xlab = "Time (ms)", ylab = "x Position (px)", xaxt = "none")
+    axis(1, at = seq((boundary.time - offset.time), (boundary.time + offset.time), by = 10), 
+         tick = T)
+  }
+
+  # compute fixations
+  fix <- SelectSubject(exp, subject)$trial[[trial]]$fix
+  fix.before <- tail(fix$stop[fix$start < boundary.time], n = 1)
+  fix.after <- head(fix$start[fix$start > boundary.time], n = 1)
+  
+  for (i in 1:nrow(fix)){
+    lines(fix$start[i]:fix$stop[i],
+          rep(fix$xs[i], fix$stop[i] - fix$start[i] + 1),
+          col = "cornflowerblue", lwd = 2)
+  }
+  
+  abline(v = fix.before, lty = 1, col = "cornflowerblue", lwd = 2)
+  abline(v = fix.after, lty = 1, col = "cornflowerblue", lwd = 2)
+  
+  # change saccade
+  rect(fix.before, 0, fix.after, exp$setup$display$resolutionX,
+       angle = NA, lwd = 2, col = makeTransparent("cornflowerblue", alpha = .2))
+  
+  # add text
+  words <- gsub("\\*", " ", SelectSubject(exp, subject)$trial[[trial]]$stim$text)
+  letters <- unlist(strsplit(words, ""))
+  x <- exp$setup$display$marginX
+  y <- exp$setup$display$marginY
+  
+  # add lines
+  lin = seq(x, x + nchar(words) * exp$setup$font$letpix, by = exp$setup$font$letpix)
+  for (i in 1:length(lin)) {
+    abline(h = lin[i], lwd = .1)
+  }
+
+  # add boundary
+  abline(h = boundary.loc, col = "navyblue", lwd = 2)
+  
+  # change saccade
+  rect(boundary.time, 0, target.time, exp$setup$display$resolutionX,
+       angle = NA, lwd = 2, col = makeTransparent("navyblue", alpha = .2))
+  
+  
+  # turn off device  
+  # ----------------
+  
+  if (sub == F) {
+    if (pdf == T) {
+      title(paste("Trial", SelectSubject(exp, subject)$trial[[trial]]$meta$trialnum, 
+                  sep = " "), outer = T, cex.main = 1.75)
+      dev.off()
+    } else {
+      title(paste("Trial", SelectSubject(exp, subject)$trial[[trial]]$meta$trialnum, 
+                  sep = " "), outer = T, cex.main = 2)
+      par(mfrow = c(1, 1), cex = 1, oma = c(0, 0, 0, 0))
+      if (interactive == T) par(ask = F)
+    }  
+  }
+}
