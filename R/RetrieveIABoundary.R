@@ -13,7 +13,7 @@ RetrieveIABoundary <- function(dat, trial, env = parent.frame(n = 2)) {
   tmp <- gsub(env$exp$setup$stimulus$word, " ", tmp)
   
   # determine target IA
-  if (env$exp$setup$type == "target") {
+  if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary") {
     dat$trial[[trial]]$meta$target <- grep(env$exp$setup$stimulus$target, unlist(strsplit(tmp, ia.delim)))
   }
   tmp <- gsub(env$exp$setup$stimulus$target, "", tmp)

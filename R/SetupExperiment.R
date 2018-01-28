@@ -41,6 +41,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   if (env$stimulus.id == "") env$stimulus.id <- "itemid"
   if (env$stimulus.cond == "") env$stimulus.cond <- NA
   if (env$stimulus.text == "") env$stimulus.text <- "text"
+  if (env$stimulus.change == "") env$stimulus.text <- "target"
   
   if (env$stimulus.word == "") env$stimulus.word <- " "
   if (env$stimulus.target == "") env$stimulus.target <- "\\*"
@@ -49,6 +50,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   stimulus <- list(id = env$stimulus.id,
                    cond = env$stimulus.cond,
                    text = env$stimulus.text,
+                   change = env$stimulus.change,
                    file = env$stimulus.file,
                    word = env$stimulus.word,
                    target = env$stimulus.target,                 

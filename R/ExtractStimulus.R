@@ -20,8 +20,16 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
   }
   
   # TODO: not sure it makes sense to replace word delimiter with blank here
-  # TODO: parse out ia delimiter
-  
+
+  # save changed sentence  
+  if (env$exp$setup$type == "boundary") {
+    for (trial in 1:length(dat$trial)) {
+      dat$trial[[trial]]$meta$change <- stimfile[, match(env$exp$setup$stimulus$change, colnames(stimfile))][stimfile[, match("id", colnames(stimfile))] == paste(dat$trial[[trial]]$meta$itemid, dat$trial[[trial]]$meta$cond, sep = ":")]  
+      dat$trial[[trial]]$meta$change <- gsub(env$exp$setup$stimulus$target, "", dat$trial[[trial]]$meta$change)  
+      dat$trial[[trial]]$meta$change <- gsub(env$exp$setup$stimulus$word, " ", dat$trial[[trial]]$meta$change)  
+      dat$trial[[trial]]$meta$change <- gsub(env$exp$setup$stimulus$ia, "", dat$trial[[trial]]$meta$change)    
+    }  
+  }
   
   return(dat)
   

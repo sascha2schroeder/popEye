@@ -1,17 +1,13 @@
 
-# boundary cleaning
-# ------------------
-
-# TODO: generate problem report
-# TODO: store more information from tfile (time until boundary, etc.)
-
-
 CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
 
+# TODO: generate problem report
+  
   # set labels
   boundary.label <- env$exp$setup$message$boundary
   target.label <- env$exp$setup$message$target
-  
+
+  # trial loop  
   for (trial in 1:length(dat$trial)) {
     # trial <- 2
  
@@ -30,6 +26,12 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     target <- tmp[tmp$msg == target.label, ]
     pre.target <- tmp[tmp$num[tmp$msg == target.label] - 1, ]
     post.target <- tmp[tmp$num[tmp$msg == target.label] + 1, ]
+    
+    
+    # compute boundary position
+    dat$trial[[trial]]$meta$boundary <- env$exp$setup$display$marginX + 
+      (dat$trial[[trial]]$meta$ia.boundary[dat$trial[[trial]]$meta$target] - 1) * 
+      env$exp$setup$font$letpix
     
     
     # cleaning criteria
@@ -92,7 +94,7 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     }
     
     # TODO: change slot (to boundary sub-slot)
-    if (fix.after$xs <= as.numeric(dat$trial[[trial]]$stim$boundary)) {
+    if (fix.after$xs <= as.numeric(dat$trial[[trial]]$meta$boundary)) {
       dat$trial[[trial]]$clean$boundary$hook <-  1
     }   
     

@@ -1,10 +1,4 @@
 
-# NOTE: do after boundary cleaning computations
-
-
-# PlotBoundaryTime.R
-# -------------------
-
 PlotBoundaryTime <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
   
   # start pdf
@@ -19,23 +13,25 @@ PlotBoundaryTime <- function(exp, subject, trial, pdf = F, interactive = F, sub 
   }
   
   # compute boundary time and location
-  boundary.time <- SelectSubject(exp, subject)$trial[[trial]]$all$start[SelectSubject(exp, subject)$trial[[trial]]$all$msg == exp$setup$message$boundary]
-  target.time <- SelectSubject(exp, subject)$trial[[trial]]$all$start[SelectSubject(exp, subject)$trial[[trial]]$all$msg == exp$setup$message$target]
-  boundary.loc <- as.numeric(SelectSubject(exp, subject)$trial[[trial]]$stim$boundary)
+  boundary.time <- SelectSubjectTrial(exp, subject, trial)$all$start[SelectSubjectTrial(exp, subject, trial)$all$msg == exp$setup$message$boundary]
+  target.time <- SelectSubjectTrial(exp, subject, trial)$all$start[SelectSubjectTrial(exp, subject, trial)$all$msg == exp$setup$message$target]
+  boundary.loc <- as.numeric(SelectSubjectTrial(exp, subject, trial)$meta$boundary)
   
   # compute offsets
   offset.time <- 50
   offset.loc <- 130
   
+  # TODO: change this
+  
   # create plot
   if (sub == T) {
-    plot(SelectSubject(exp, subject)$trial[[trial]]$xy$time[(boundary.time - offset.time):(boundary.time + offset.time)],
-         SelectSubject(exp, subject)$trial[[trial]]$xy$x[(boundary.time - offset.time):(boundary.time + offset.time)], 
+    plot(SelectSubjectTrial(exp, subject, trial)$xy$time[(boundary.time - offset.time):(boundary.time + offset.time)],
+         SelectSubjectTrial(exp, subject, trial)$xy$x[(boundary.time - offset.time):(boundary.time + offset.time)], 
          type = "l", ylim = c(boundary.loc + offset.loc, boundary.loc - offset.loc), 
          main = "Time Plot", xlab = "Time (ms)", ylab = "x Position (px)")
   } else {
-    plot(SelectSubject(exp, subject)$trial[[trial]]$xy$time[(boundary.time - offset.time):(boundary.time + offset.time)],
-         SelectSubject(exp, subject)$trial[[trial]]$xy$x[(boundary.time - offset.time):(boundary.time + offset.time)], 
+    plot(SelectSubjectTrial(exp, subject, trial)$xy$time[(boundary.time - offset.time):(boundary.time + offset.time)],
+         SelectSubjectTrial(exp, subject, trial)$xy$x[(boundary.time - offset.time):(boundary.time + offset.time)], 
          type = "l", ylim = c(boundary.loc + offset.loc, boundary.loc - offset.loc),  
          main = paste("Trial", trial, sep = " "), 
          xlab = "Time (ms)", ylab = "x Position (px)", xaxt = "none")
@@ -44,7 +40,7 @@ PlotBoundaryTime <- function(exp, subject, trial, pdf = F, interactive = F, sub 
   }
 
   # compute fixations
-  fix <- SelectSubject(exp, subject)$trial[[trial]]$fix
+  fix <- SelectSubjectTrial(exp, subject, trial)$fix
   fix.before <- tail(fix$stop[fix$start < boundary.time], n = 1)
   fix.after <- head(fix$start[fix$start > boundary.time], n = 1)
   
@@ -62,7 +58,7 @@ PlotBoundaryTime <- function(exp, subject, trial, pdf = F, interactive = F, sub 
        angle = NA, lwd = 2, col = makeTransparent("cornflowerblue", alpha = .2))
   
   # add text
-  words <- gsub("\\*", " ", SelectSubject(exp, subject)$trial[[trial]]$stim$text)
+  words <- gsub("\\*", " ", SelectSubjectTrial(exp, subject, trial)$meta$text)
   letters <- unlist(strsplit(words, ""))
   x <- exp$setup$display$marginX
   y <- exp$setup$display$marginY
@@ -86,11 +82,11 @@ PlotBoundaryTime <- function(exp, subject, trial, pdf = F, interactive = F, sub 
   
   if (sub == F) {
     if (pdf == T) {
-      title(paste("Trial", SelectSubject(exp, subject)$trial[[trial]]$meta$trialnum, 
+      title(paste("Trial", SelectSubjectTrial(exp, subject, trial)$meta$trialnum, 
                   sep = " "), outer = T, cex.main = 1.75)
       dev.off()
     } else {
-      title(paste("Trial", SelectSubject(exp, subject)$trial[[trial]]$meta$trialnum, 
+      title(paste("Trial", SelectSubjectTrial(exp, subject, trial)$meta$trialnum, 
                   sep = " "), outer = T, cex.main = 2)
       par(mfrow = c(1, 1), cex = 1, oma = c(0, 0, 0, 0))
       if (interactive == T) par(ask = F)

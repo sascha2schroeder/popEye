@@ -2,17 +2,7 @@
 PlotTargetX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
  
   # TODO: resize y dimension? 
-  # TODO: align letters  # start pdf
-  
-   if (sub == F) {
-    if (pdf == T) {
-      pdf("Test.pdf", width = 16, height = 8.5)
-      par(mfrow = c(1, 1), cex = .9, oma = c(0, 0, 2, 0))
-    } else {
-      par(mfrow = c(1, 1), cex = 1.25, oma = c(0, 0, 3, 0))
-      if (interactive == T) par(ask = T)
-    }  
-  }
+  # TODO: align letters  
   
   
   # start pdf
@@ -50,9 +40,8 @@ PlotTargetX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) 
   points(blink$xs, blink$ys2, type = "b", pch = 16, col = "red", 
          cex = blink$dur / mean(blink$dur))
   
-  
   # add text
-  words <- gsub("\\*", " ", tmp$meta$text)
+  words <- gsub(exp$setup$stimulus$word, " ", tmp$meta$text)
   letters <- unlist(strsplit(words, ""))
   x <- exp$setup$display$marginX
   y <- exp$setup$display$marginY 
@@ -93,7 +82,7 @@ PlotTargetX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) 
   }
 
   # add target word
-  j <- SelectSubject(exp, subject)$trial[[trial]]$meta$target
+  j <- tmp$meta$target
   rect(x + (sum(let[1:(j - 1)]) + (j - 1)) * exp$setup$font$letpix, y - exp$setup$font$letpix / 2,
        x + (sum(let[1:j]) + (j - 1)) * exp$setup$font$letpix, y + exp$setup$font$letpix / 2, 
        angle = NA, lwd = 2, col = makeTransparent("navyblue", alpha = .2))

@@ -4,9 +4,8 @@
 
 PlotBoundaryX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
   
-  # trial <- 1
   
-  # start device
+  # start pdf
   if (sub == F) {
     if (pdf == T) {
       pdf("Test.pdf", width = 16, height = 8.5)
@@ -16,13 +15,15 @@ PlotBoundaryX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F
       if (interactive == T) par(ask = T)
     }
   }
+    
+  tmp <- SelectSubjectTrial(exp, subject, trial)
   
   # data
-  msg <- SelectSubject(exp, subject)$trial[[trial]]$all
-  fix <- SelectSubject(exp, subject)$trial[[trial]]$fix
+  msg <- tmp$all
+  fix <- tmp$fix
   fix$ys2 <- (fix$ys - exp$setup$display$marginY) / exp$setup$font$letpix + 
     exp$setup$display$marginY
-  
+
   # variables
   x <- exp$setup$display$marginX
   y <- exp$setup$display$marginY 
@@ -35,40 +36,38 @@ PlotBoundaryX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F
   fix2 <- fix[fix$start > msg$start[msg$msg == exp$setup$message$boundary],]
   
   # basic plot
-  plot(fix$xs, fix$ys, ylim = c(exp$setup$display$marginY - 2*exp$setup$font$letpix, 
-                                exp$setup$display$marginY + 2*exp$setup$font$letpix), 
+  plot(fix$xs, fix$ys, ylim = c(exp$setup$display$marginY - 1.5*exp$setup$font$letpix, 
+                                exp$setup$display$marginY + 1.5*exp$setup$font$letpix), 
        xlim = c(0, exp$setup$display$resolutionX), type = "n", 
        pch = 16, xlab = "x Position (px)", ylab = "y Position (px)", 
        main = "X Plot")
-  
+
   points(fix1$xs, fix1$ys2, type = "b", pch = 16, col = "cornflowerblue", 
          cex = fix$dur / mean(fix$dur))
   points(fix2$xs, fix2$ys2, type = "b", pch = 16, col = "navyblue", 
          cex = fix$dur / mean(fix$dur))
   
-  
   # add blinks
-  # -----------
-  
-  blink <- SelectSubject(exp, subject)$trial[[trial]]$sac[SelectSubject(exp, subject)$trial[[trial]]$sac$msg == "BLINK", ]
+  blink <- tmp$sac[tmp$sac$msg == "BLINK", ]
   blink$ys2 <- (blink$ys - exp$setup$display$marginY) / exp$setup$font$letpix + 
     exp$setup$display$marginY
   points(blink$xs, blink$ys2, type = "b", pch = 16, col = "red", 
          cex = blink$dur / mean(blink$dur))
-  
+
   
   # boundary change
   # ----------------
   
   # compute change event
-  boundary <- SelectSubject(exp, subject)$trial[[trial]]$all$start[SelectSubject(exp, subject)$trial[[trial]]$all$msg == exp$setup$message$boundary]
-  for (i in 1:nrow(SelectSubject(exp, subject)$trial[[trial]]$all)) {
-    if (is.na(SelectSubject(exp, subject)$trial[[trial]]$all$stop[i]) == T) next # FIX: change
-    if (boundary %in% SelectSubject(exp, subject)$trial[[trial]]$all$start[i]:SelectSubject(exp, subject)$trial[[trial]]$all$stop[i]) {
-      change <- SelectSubject(exp, subject)$trial[[trial]]$all[i, ]
+  boundary <- msg$start[msg$msg == exp$setup$message$boundary]
+  for (i in 1:nrow(msg)) {
+    if (is.na(msg$stop[i]) == T) next # FIX: change
+    if (boundary %in% msg$start[i]:msg$stop[i]) {
+      change <- msg[i, ]
     }
   }
   
+  print(boundary)
   # saccade
   if (change$msg == "SAC"){
     change$ys2 <- (change$ys - y) / exp$setup$font$letpix + y
@@ -87,9 +86,10 @@ PlotBoundaryX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F
   # add text
   # ---------
   
-  # variables
-  words <- gsub("\\*", " ", SelectSubject(exp, "ps1")$trial[[trial]]$stim$text)
+  words <- gsub(exp$setup$stimulus$word, " ", tmp$meta$text)
   letters <- unlist(strsplit(words, ""))
+  x <- exp$setup$display$marginX
+  y <- exp$setup$display$marginY 
   
   # add letters
   for (j in 1:length(letters)){
@@ -120,23 +120,29 @@ PlotBoundaryX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F
          angle = NA, lwd = 2)
   }
   
+  # add fixation number
+  fix$num <- 1:nrow(fix)
+  for (i in 1:nrow(fix)) {
+    text(fix$xs[i], (fix$ys2[i] - 1), fix$num[i], col = "navyblue", cex = .75)  
+  }
+
   # add target word
-  j <- SelectSubject(exp, subject)$trial[[trial]]$stim$target
+  j <- tmp$meta$target
   rect(x + (sum(let[1:(j - 1)]) + (j - 1)) * exp$setup$font$letpix, y - exp$setup$font$letpix / 2,
        x + (sum(let[1:j]) + (j - 1)) * exp$setup$font$letpix, y + exp$setup$font$letpix / 2, 
        angle = NA, lwd = 2, col = makeTransparent("navyblue", alpha = .2))
   
   # add boundary
   abline(v = SelectSubject(exp, subject)$trial[[trial]]$stim$boundary, col = "navyblue", lwd = 2)
-  
+ 
   # turn off device  
   if (sub == F) {
     if (pdf == T) {
-      title(paste("Trial", SelectSubject(exp, subject)$trial[[trial]]$meta$trialnum, sep = " "), 
+      title(paste("Trial", tmp$meta$trialnum, sep = " "), 
             outer = T, cex.main = 1.75)
       dev.off()
     } else {
-      title(paste("Trial", SelectSubject(exp, subject)$trial[[trial]]$meta$trialnum, sep = " "), 
+      title(paste("Trial", tmp$meta$trialnum, sep = " "), 
             outer = T, cex.main = 2)
       par(mfrow = c(1, 1), cex = 1, oma = c(0, 0, 0, 0))
       if (interactive == T) par(ask = F)
