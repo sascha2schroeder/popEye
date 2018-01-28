@@ -8,7 +8,6 @@ CleanAll <- function(dat, env = parent.frame(n = 1)) {
   if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary") {
     dat <- CleanTarget(dat)
   }
-  # TODO: integrate noconstant target
   
   # boundary cleaning
   if (env$exp$setup$type == "boundary") {

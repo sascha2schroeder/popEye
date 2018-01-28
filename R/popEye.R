@@ -5,7 +5,9 @@ popEye <- function(datpath, stimpath,
                    message.start, message.stop,
                    message.boundary, message.target,
                    message.itemid, message.condition,
-                   stimulus.file, stimulus.word,
+                   stimulus.file, stimulus.id,
+                   stimulus.cond, stimulus.text,
+                   stimulus.word,
                    stimulus.target, stimulus.ia,
                    display.marginX, display.marginY, 
                    font.name, font.size,
@@ -130,7 +132,6 @@ popEye <- function(datpath, stimpath,
     } else if (tracker.software == "ET") {
       filepath <- paste(datpath, version.list[v], sep = "")  
       sub.list <- list.files(filepath)
-      print(sub.list)
       sub.list <- sub.list[grep("edf|EDF", sub.list)]
     }
      
@@ -232,7 +233,7 @@ popEye <- function(datpath, stimpath,
       message(".. Assign letters/words")
       
       dat <- MatchStim(dat)
-      
+     
       
       # assign IAs
       # ------------
@@ -244,7 +245,7 @@ popEye <- function(datpath, stimpath,
       # NOTE: IA is word at present
       # TODO: think about relationship between IA and word
       #       (can be sub- [morphological constituents] or super-lexical [phrases])
-      
+     
       
       # clean IAs
       # -----------
@@ -378,7 +379,7 @@ popEye <- function(datpath, stimpath,
   # NOTE: save number of subjects in setup slot?
   
   
-  #collect output files
+  # collect output files
   # ---------------------
   
   exp$out$item <- item[-1, ]

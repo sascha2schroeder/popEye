@@ -2,12 +2,24 @@
 RetrieveIABoundary <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # set ia.delim to word.delim (default)
-  if (is.na(env$exp$setup$stimulus$ia) == T) {
-    env$exp$setup$stimulus$ia = env$exp$setup$stimulus$word
+  if (env$exp$setup$stimulus$ia == "") {
+    ia.delim <- env$exp$setup$stimulus$word
+  } else {
+    ia.delim <- env$exp$setup$stimulus$ia
   }
   
+  # parse out ia delimiter and target indicator
+  tmp <- dat$trial[[trial]]$meta$stim
+  tmp <- gsub(env$exp$setup$stimulus$word, " ", tmp)
+  
+  # determine target IA
+  if (env$exp$setup$type == "target") {
+    dat$trial[[trial]]$meta$target <- grep(env$exp$setup$stimulus$target, unlist(strsplit(tmp, ia.delim)))
+  }
+  tmp <- gsub(env$exp$setup$stimulus$target, "", tmp)
+  
   # determine IA boundaries
-  ia.length <- sapply(strsplit(dat$trial[[trial]]$meta$text, env$exp$setup$stimulus$ia), nchar)
+  ia.length <- sapply(strsplit(tmp, ia.delim), nchar)
   ia.boundary <- 0
   for (j in 2:length(ia.length)){
     ia.boundary <- c(ia.boundary, sum(ia.length[1:(j - 1)]) + (j - 1))

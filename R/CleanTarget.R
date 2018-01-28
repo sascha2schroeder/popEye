@@ -1,23 +1,13 @@
 
-# target cleaning
-# ----------------
-
-# TODO: generalize to non-constant target word
-#       (retrieve from stimulus slot)
-
 CleanTarget <- function(dat, env = parent.frame(n = 2)) {
-
     
-  # variables
-  # ----------
-  
   letpix <- env$exp$setup$font$letpix
   offset <- env$exp$setup$display$marginX
   
   for (trial in 1:length(dat$trial)) {
     # trial <- 9
-
-    target.word <- dat$trial[[trial]]$stim$target
+    
+    target.word <- dat$trial[[trial]]$meta$target
     
     # set up output slot
     dat$trial[[trial]]$clean$target <- list(fix = 0, blink = 0, pre.sac = 0, 
@@ -31,10 +21,9 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     tmp <- dat$trial[[trial]]$fix
     target <- tmp[tmp$ia == target.word & tmp$ia.run == 1 & tmp$ia.run.fix == 1, ]
     
-    
     # check whether blink involves target word
-    target.range <- seq(from = dat$trial[[trial]]$stim$word.boundary[target.word]*letpix + offset,
-                        to = dat$trial[[trial]]$stim$word.boundary[target.word + 1]*letpix + offset)
+    target.range <- seq(from = dat$trial[[trial]]$meta$word.boundary[target.word]*letpix + offset,
+                        to = dat$trial[[trial]]$meta$word.boundary[target.word + 1]*letpix + offset)
     
     for (i in 1:nrow(dat$trial[[trial]]$sac)) {
       # i <- 1

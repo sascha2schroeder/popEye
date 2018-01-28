@@ -38,12 +38,18 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # stimfile
   # ---------
   
+  if (env$stimulus.id == "") env$stimulus.id <- "itemid"
+  if (env$stimulus.cond == "") env$stimulus.cond <- NA
+  if (env$stimulus.text == "") env$stimulus.text <- "text"
   
   if (env$stimulus.word == "") env$stimulus.word <- " "
   if (env$stimulus.target == "") env$stimulus.target <- "\\*"
-  if (env$stimulus.ia == "") env$stimulus.ia <- NA
+  if (env$stimulus.ia == "") env$stimulus.ia <- ""
   
-  stimulus <- list(file = env$stimulus.file,
+  stimulus <- list(id = env$stimulus.id,
+                   cond = env$stimulus.cond,
+                   text = env$stimulus.text,
+                   file = env$stimulus.file,
                    word = env$stimulus.word,
                    target = env$stimulus.target,                 
                    ia = env$stimulus.ia)
@@ -92,7 +98,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # TODO: experiment calculations 
   #       - calculate letpix based on font type and size information
   #       - load letsize table for non-mono fonts
-  #       - delimiter characters (?)
   # TODO: create font.type x font.size table
   
   

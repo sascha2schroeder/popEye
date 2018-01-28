@@ -1,16 +1,11 @@
 
 RetrieveWordBoundary <- function(dat, trial, env = parent.frame(n = 2)) {
   
-  # # parse out ia.delim
-  # if (is.na(ia.delim) == F) {
-  #   tmp <- dat$trial[[trial]]$stim$text
-  #   tmp <- gsub(ia.delim, "", tmp)
-  # } else {
-  #   tmp <- dat$trial[[trial]]$stim$text
-  # }
-  
-  tmp <- dat$trial[[trial]]$meta$text
-  
+  # parse out ia delimiter and target indicator
+  tmp <- dat$trial[[trial]]$meta$stim
+  tmp <- gsub(env$exp$setup$stimulus$target, "", tmp)
+  tmp <- gsub(env$exp$setup$stimulus$ia, "", tmp)
+ 
   # determine word boundaries
   word.length <- sapply(strsplit(tmp, env$exp$setup$stimulus$word), nchar)
   word.boundary <- 0
