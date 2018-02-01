@@ -10,7 +10,7 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
   
   # TODO: maybe separate restructuring function
   
- 
+  
   # trial loop
   # -----------
   

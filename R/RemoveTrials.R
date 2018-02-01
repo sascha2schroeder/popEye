@@ -4,23 +4,55 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
   if (env$exp$setup$tracker$software == "EB") {
 
     # remove practice trials
-    dat$msg <- dat$msg[dat$msg$trialnum > env$exp$setup$clean$practrial, ]
+    dat$msg <- dat$msg[dat$msg$trialnum > env$exp$setup$clean$practice, ]
     
-    dat$msg$trialnum <- dat$msg$trialnum - env$exp$setup$clean$practrial
+    # recompute trialnum
+    dat$msg$trialnum <- dat$msg$trialnum - env$exp$setup$clean$practice
+    
+    # exclude items
+    if (env$exp$setup$item$keep == "") {
+      env$exp$setup$item$keep <- unlist(dimnames(table(dat$msg$itemid)))
+    } 
+    dat$msg <- dat$msg[dat$msg$itemid %in% env$exp$setup$item$keep, ]
+    # NOTE: all items as default
+    
+    
+    # exclude sample and event data
     dat$samp <- dat$samp[dat$samp$time > (dat$msg$time[1] - 1), ]
     dat$event <- dat$event[dat$event$time > (dat$msg$time[1] - 1), ]
     
   } else if (env$exp$setup$tracker$software == "ET") {
     
     # remove practice trials
-    dat$msg <- dat$msg[dat$msg$trialnum > env$exp$setup$clean$practrial, ]
- 
-    # extract main trials
-    dat$msg <- dat$msg[-grep("99|90", dat$msg$itemid), ]
+    dat$msg <- dat$msg[dat$msg$trialnum > dat$msg$trialnum[
+      dat$msg$itemid == env$exp$setup$clean$practice][1], ]
+    # NOTE: not sure this approach works always    
     
-    # TODO: provide item codes to be excluded as argument
-   
+    # remove trigger trials
+    dat$msg <- dat$msg[-grep(env$exp$setup$item$trigger, dat$msg$itemid), ]
+    
+    # remove questions trials
+    dat$msg <- dat$msg[dat$msg$itemid < env$exp$setup$item$question, ]
+    
+    # remove repeated trials
+    tmp <- dat$msg$itemid[dat$msg$msg == env$exp$setup$message$start]
+    exc <- unlist(dimnames(table(tmp)[table(tmp) > 1]))
+    if (is.null(exc) == FALSE) {
+      dat$msg <- dat$msg[(dat$msg$item %in% exc) == FALSE]
+    }
+    # TODO: not sure this works -> test 
+    
+    # recompute trialnum
     dat$msg$trialnum <- as.numeric(factor(dat$msg$trialnum))
+    
+    # exclude items
+    if (env$exp$setup$item$keep == "") {
+      env$exp$setup$item$keep <- unlist(dimnames(table(dat$msg$itemid)))
+    }
+    dat$msg <- dat$msg[dat$msg$itemid %in% env$exp$setup$item$keep, ]
+    # NOTE: all items as default
+    
+    # exclude corresponding samples and events
     dat$samp <- dat$samp[dat$samp$time > (dat$msg$time[1] - 1), ]
     dat$event <- dat$event[dat$event$time > (dat$msg$time[1] - 1), ]
     

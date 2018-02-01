@@ -1,38 +1,38 @@
 
 ExtractMsg <- function(dat, env = parent.frame(n = 3)){
-
+  
   # remove non-message events
   dat <- dat[grep("MSG", dat, useBytes = T)]
   
   
   # extract useful information
   # ---------------------------
-
+  
   # TODO: date (?)
-
+  
   # display coordinates
   # env$exp$setup$display$resolutionX <-
   #   as.numeric(sapply(strsplit(dat[grep("DISPLAY_COORDS", dat)], " "), "[[", 5)) + 1
   # env$exp$setup$display$resolutionY <-
   #   as.numeric(sapply(strsplit(dat[grep("DISPLAY_COORDS", dat)], " "), "[[", 6)) + 1
-
+  
   env$exp$setup$display$resolutionX <-
     as.numeric(sapply(strsplit(dat[grep("GAZE_COORDS", dat)], " "), "[[", 5)[1]) + 1
   env$exp$setup$display$resolutionY <-
     as.numeric(sapply(strsplit(dat[grep("GAZE_COORDS", dat)], " "), "[[", 6)[1]) + 1
   
   # TODO: monitor refresh rate (?)
-
+  
   # sample rate
   env$exp$setup$tracker$samp <-
     as.numeric(sapply(strsplit(dat[grep("RECORD", dat)][1], " "), "[[", 5))
-
+  
   # calibration method
   env$exp$setup$tracker$calibration <-
     sapply(strsplit(dat[grep("CALIBRATION", dat)][1], " "), "[[", 4)
-
+  
   # TODO: what if calibration method changes during experiment?
-
+  
   # calibration accuracy
   tmp <- dat[grep("VALIDATION", dat)]
   
@@ -40,10 +40,11 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   if (length(grep("ABORTED", tmp)) > 0) {
     tmp <- tmp[-grep("ABORTED", tmp)]  
   }
+  tmp <- gsub("  ", " ", tmp)
   env$header$calibration <- as.numeric(sapply(strsplit(tmp, " "), "[[", 9))
-
+  
   # TODO: store as vector or mean?
-
+  
   # # driftcorrect
   # time <- as.numeric(sapply(strsplit(sapply(strsplit(
   #   dat[grep("DRIFTCORRECT", dat)], " "), "[[", 1)), "\t"), "[[", 2)
@@ -61,6 +62,7 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   time <- as.numeric(sapply(strsplit(tmp[grep("TRIALID", tmp)], " "), "[[", 1))
   trialnum <- 1:length(time)
   
+  
   # EB
   if (env$exp$setup$tracker$software == "EB") {
     
@@ -70,10 +72,9 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     itemid <- as.numeric(sapply(strsplit(tmp[ind == env$exp$setup$message$itemid], " "), "[[", 5))
     
     # number of practice trials
-    env$exp$setup$clean$practrial <- max(as.numeric(unlist(dimnames(table(table(itemid)))))) - 1
+    env$exp$setup$clean$practice <- max(as.numeric(unlist(dimnames(table(table(itemid)))))) - 1
     
     # condition
-    
     if (is.na(env$exp$setup$message$condition) == FALSE) {
       tmp <- dat[grep("TRIAL_VAR", dat)]
       ind <- sapply(strsplit(tmp, " "), "[[", 4)
@@ -88,26 +89,25 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   }
   
   # ET
- if (env$exp$setup$tracker$software == "ET") {
+  if (env$exp$setup$tracker$software == "ET") {
+    
+    # extract itemid
+    itemtmp <- sapply(strsplit(tmp[grep("TRIALID", tmp)], " "), "[[", 3)
+    tmp <- strsplit(itemtmp, "P|E|I|D")
+    
+    # itemid
+    itemid <- as.numeric(sapply(tmp, "[[", 3))
+    
+    # number of practice trials
+    env$exp$setup$clean$practice <- length(itemtmp[grep(env$exp$setup$item$practice, itemtmp)])
    
-   itemtmp <- sapply(strsplit(tmp[grep("TRIALID", tmp)], " "), "[[", 3)
-   tmp <- strsplit(itemtmp, "P|E|I|D")
-   
-   # NOTE: not sure whether this is needed as an argument
-   
-   # itemid
-   itemid <- as.numeric(sapply(tmp, "[[", 3))
-   
-   # number of practice trials
-   env$exp$setup$clean$practrial <- length(itemtmp[grep("^P", itemtmp)])
-   
-   # condition
-   condition <- sapply(tmp, "[[", 2)
-   
-   # dependency
-   dependency <- as.numeric(sapply(tmp, "[[", 4)) # save for later use (multiple-screen) texts
- }
-
+    # condition
+    condition <- sapply(tmp, "[[", 2)
+    
+    # dependency
+    dependency <- as.numeric(sapply(tmp, "[[", 4)) # save for later use (multiple-screen) texts
+  }
+  
   # trial slot
   trial <- data.frame(time = time, trialnum = trialnum, itemid = itemid,
                       condition = condition, dependency = dependency,
@@ -119,12 +119,14 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   # create message frame
   # ---------------------
   
+  # select message stamps
   tmp <- dat[grep(paste(unlist(env$exp$setup$message), collapse = "|"), dat, useBytes = T)]
   
+  # exclude variable statements for EB
   if (env$exp$setup$tracker$software == "EB") {
     tmp <- tmp[-grep("!V", tmp)]  
   } 
- 
+  
   # substract delay from timestamp
   if (env$exp$setup$tracker$software == "EB") {
     time <- as.numeric(sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 1), "\t"), "[[", 2)) -
@@ -133,15 +135,17 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     time <- as.numeric(sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 1), "\t"), "[[", 2))
   } 
   
+  # extract messages
   if (env$exp$setup$tracker$software == "EB") {
     msg <- sapply(strsplit(tmp, " "), "[[", 3)  
   } else if (env$exp$setup$tracker$software == "ET") {
     msg <- sapply(strsplit(tmp, " "), "[[", 2)  
   }
   
+  # save as data frame
   msg <- data.frame(time = time, msg = msg, stringsAsFactors = F)
-
-  # add trial-level variables to msg frame
+  
+  # combine with trial-level variables
   msg$trialnum <- NA
   msg$itemid <- NA
   msg$condition <- NA
@@ -152,16 +156,22 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     msg$condition[msg$time >= trial$time[i]] <- trial$condition[i]
     msg$dependency[msg$time >= trial$time[i]] <- trial$dependency[i]
   }
-
+  
   # write out
   names=c("trialnum", "itemid" , "condition", "dependency", "time", "msg")
   msg <- msg[, match(names, colnames(msg))]
-
-  # exclude conditional msg
+  
+  # exclude conditional msg (EB)
   if (length(grep("conditional", msg$msg)) > 0) {
     msg <- msg[-grep("conditional", msg$msg), ]
   }
-   
+
+  # rename display change events (ET)  
+  msg$ind <- paste(msg$itemid, msg$msg, sep = ":") 
+  msg$msg[msg$msg == "DISPLAY" & duplicated(msg$ind) == FALSE] = env$exp$setup$message$boundary
+  msg$msg[msg$msg == "DISPLAY" & duplicated(msg$ind) == TRUE] = env$exp$setup$message$target
+  msg$ind <- NULL
+  
   return(msg)
   
   

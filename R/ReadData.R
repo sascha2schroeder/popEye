@@ -22,7 +22,7 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
   
   if (env$exp$setup$tracker$software == "EB") {
     setwd(paste(filepath, "/", subid, sep = ""))  
-  } else if (env$exp$setup$tracker$software == "EB") {
+  } else if (env$exp$setup$tracker$software == "ET") {
     setwd(paste(filepath, sep = ""))  
   }
   

@@ -35,6 +35,20 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   message$condition <- env$message.condition
 
   
+  # item
+  # -----
+  
+  if (env$item.practice == "") env$item.practice <- "^P"
+  if (env$item.trigger == "") env$item.trigger <- "999"
+  if (env$item.question == "") env$item.question <- 1000
+  if (length(env$item.keep) == 1) env$item.keep <- ""
+  
+  item <- list(practice = env$item.practice,
+               trigger = env$item.trigger,
+               question = env$item.question,
+               keep = env$item.keep)
+  
+  
   # stimfile
   # ---------
   
@@ -156,7 +170,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # merge setup slot
   # -----------------
   
-  setup <- list(tracker = tracker, type = type, message = message, 
+  setup <- list(tracker = tracker, type = type, message = message, item = item,
                 stimulus = stimulus, display = display, font = font, 
                 clean = clean, analysis = analysis, exclude = exclude)
   

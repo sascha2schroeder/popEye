@@ -12,7 +12,7 @@ RemoveSamples <- function(dat, env = parent.frame(n = 2)) {
   event <- data.frame(matrix(data = NA, nrow = 1, ncol = 6)) 
   names(event) <- c('time',  'msg', 'xs', 'ys', 'xe', 'ye')
 
-  for (trial in 1:length(table(dat$msg$trialnum))) {
+  for (trial in 1:max(dat$msg$trialnum)) {
     # trial = 1
     
     # timestamps

@@ -1,18 +1,19 @@
 
 popEye <- function(datpath, stimpath,
-                   tracker.model, tracker.software, 
-                   type, 
+                   tracker.model, tracker.software, type, 
                    message.start, message.stop,
                    message.boundary, message.target,
                    message.itemid, message.condition,
+                   item.practice, item.trigger,
+                   item.question, item.keep,
                    stimulus.file, stimulus.id,
                    stimulus.cond, stimulus.text,
                    stimulus.change, stimulus.word,
                    stimulus.target, stimulus.ia,
                    display.marginX, display.marginY, 
                    font.name, font.size,
-                   analysis.eyelink,
-                   analysis.vfac, analysis.mindur, analysis.postdur,
+                   analysis.eyelink, analysis.vfac, 
+                   analysis.mindur, analysis.postdur,
                    analysis.drift, analysis.sparse,
                    clean.stage1Dur, clean.stage1Dist,
                    clean.stage2Dur, clean.stage2Dist,
@@ -171,7 +172,7 @@ popEye <- function(datpath, stimpath,
       
       dat <-  ReadData(filepath, 
                        subid)
-
+      
       # TODO: loading rather slow, might cause problems for following function
       # TODO: do not convert to asc, but read edf directly (-> external packages)
       
@@ -215,9 +216,6 @@ popEye <- function(datpath, stimpath,
       
       dat <- ReadStimulus(dat)
      
-      # TODO: integrate in workflow
-      # TODO: make sensitive to experiment type
-     
       
       # extract fixations
       # --------------------
@@ -242,7 +240,7 @@ popEye <- function(datpath, stimpath,
       
       dat <- MatchIA(dat)
       
-      # NOTE: IA is word at present
+      # NOTE: IA is word as default
       # TODO: think about relationship between IA and word
       #       (can be sub- [morphological constituents] or super-lexical [phrases])
      
