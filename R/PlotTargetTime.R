@@ -55,36 +55,28 @@ PlotTargetTime <- function(exp, subject, trial, pdf = F, interactive = F, sub = 
     }
   }
 
-  # add text
-  words <- gsub("\\*", " ", tmp$meta$text)
-  letters <- unlist(strsplit(words, ""))
-
-  x <- exp$setup$display$marginX
-
   # add lines
-  lin = seq(x, x + nchar(words) * exp$setup$font$letpix, by = exp$setup$font$letpix)
-  for (i in 1:length(lin)) {
-    abline(h = lin[i], cex = .5)
+  for (i in 1:length(tmp$meta$letter.boundary)) {
+    abline(h = tmp$meta$letter.boundary[i], cex = .5)
   }
 
   # add letters
-  for (i in 1:(length(lin) - 1)) {
-    text(-50, lin[i]  + exp$setup$font$letpix / 2, letters[i],
+  letters <- unlist(strsplit(tmp$meta$text, ""))
+  for (i in 1:(length(tmp$meta$letter.boundary) - 1)) {
+    text(-50, (tmp$meta$letter.boundary[i]  + tmp$meta$letter.boundary[i + 1]) / 2, letters[i],
          family = exp$setup$font$family, cex = .75)
   }
 
   # add words
-  let <- sapply(unlist(strsplit(words, " ")), nchar)
-  abline(h = x, col = "navyblue", lwd = 2)
-  abline(h = x  + let[1] * exp$setup$font$letpix, col = "navyblue", lwd = 2)
-  for (j in 2:length(let)){
-    abline(h = x + (sum(let[1:j]) + (j - 1)) * exp$setup$fon$letpix, col = "navyblue", lwd = 2)
+  abline(h = tmp$meta$letter.boundary[1], col = "navyblue", lwd = 2)
+  for (j in 2:length(tmp$meta$word.boundary)){
+    abline(h = tmp$meta$letter.boundary[tmp$meta$word.boundary[j]], col = "navyblue", lwd = 2)
   }
   
   # add target word
-  j <- SelectSubjectTrial(exp, subject, trial)$meta$target
-  rect(-200, x + (sum(let[1:(j - 1)]) + (j - 2)) * exp$setup$fon$letpix, 
-       tmp$all$start[nrow(tmp$all)], x + (sum(let[1:j]) + (j - 1)) * exp$setup$fon$letpix,  
+  j <- tmp$meta$target
+  rect(-200, tmp$meta$letter.boundary[tmp$meta$word.boundary[j]], 
+       tmp$all$start[nrow(tmp$all)], tmp$meta$letter.boundary[tmp$meta$word.boundary[j + 1]],  
        angle = NA, lwd = 2, border = "navyblue", col = makeTransparent("navyblue", alpha = .2))
   
   # turn off device

@@ -47,9 +47,11 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
     
     # exclude items
     if (env$exp$setup$item$keep == "") {
-      env$exp$setup$item$keep <- unlist(dimnames(table(dat$msg$itemid)))
+      keep <- unlist(dimnames(table(dat$msg$itemid)))
+    } else {
+      keep <- env$exp$setup$item$keep
     }
-    dat$msg <- dat$msg[dat$msg$itemid %in% env$exp$setup$item$keep, ]
+    dat$msg <- dat$msg[dat$msg$itemid %in% keep, ]
     # NOTE: all items as default
     
     # exclude corresponding samples and events

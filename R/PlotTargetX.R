@@ -20,12 +20,13 @@ PlotTargetX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) 
   
   # data
   fix <- tmp$fix
-  fix$ys2 <- (fix$ys - exp$setup$display$marginY) / exp$setup$font$letpix + 
+  fix$ys2 <- (fix$ys - exp$setup$display$marginY) / exp$setup$font$size + 
     exp$setup$display$marginY
   
   # basic plot
-  plot(fix$xs, fix$ys, ylim = c(exp$setup$display$marginY - 1.5*exp$setup$font$letpix, 
-                                exp$setup$display$marginY + 1.5*exp$setup$font$letpix), 
+  plot(fix$xs, fix$ys, 
+       ylim = c(exp$setup$display$marginY - 1*exp$setup$font$size,
+                exp$setup$display$marginY + 1*exp$setup$font$size), 
        xlim = c(0, exp$setup$display$resolutionX), type = "n", 
        pch = 16, xlab = "x Position (px)", ylab = "y Position (px)", 
        main = "X Plot")
@@ -35,44 +36,37 @@ PlotTargetX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) 
   
   # add blinks
   blink <- tmp$sac[tmp$sac$msg == "BLINK", ]
-  blink$ys2 <- (blink$ys - exp$setup$display$marginY) / exp$setup$font$letpix + 
+  blink$ys2 <- (blink$ys - exp$setup$display$marginY) / exp$setup$font$size + 
     exp$setup$display$marginY
   points(blink$xs, blink$ys2, type = "b", pch = 16, col = "red", 
          cex = blink$dur / mean(blink$dur))
   
-  # add text
-  words <- gsub(exp$setup$stimulus$word, " ", tmp$meta$text)
-  letters <- unlist(strsplit(words, ""))
-  x <- exp$setup$display$marginX
+  # add letters
+  letters <- unlist(strsplit(tmp$meta$text, ""))
   y <- exp$setup$display$marginY 
   
-  # add letters
-  for (j in 1:length(letters)){
-    if (letters[j] == " ") next
-    rect(x + j * exp$setup$font$letpix - exp$setup$font$letpix, y - exp$setup$font$letpix / 2,
-         x + j * exp$setup$font$letpix, y + exp$setup$font$letpix / 2, angle = NA)
+  for (j in 1:(length(tmp$meta$letter.boundary) - 1)) {
+    rect(tmp$meta$letter.boundary[j], y - exp$setup$font$size / 2,
+         tmp$meta$letter.boundary[j + 1], y + exp$setup$font$size / 2, angle = NA)
     if (is.element(letters[j], exp$setup$font$print$mi)){
-      text(x + j * exp$setup$font$letpix - exp$setup$font$letpix + exp$setup$font$letpix / 2, 
+      text((tmp$meta$letter.boundary[j] + tmp$meta$letter.boundary[j + 1] - 1) / 2,
            y + 0.25, labels = letters[j], family = exp$setup$font$family, cex = .9)
     } else if (is.element(letters[j], exp$setup$font$print$up)){
-      text(x + j * exp$setup$font$letpix - exp$setup$font$letpix + exp$setup$font$letpix / 2,
-           y + 0.35, labels = letters[j], family = exp$setup$font$family, cex = .9)
+      text((tmp$meta$letter.boundary[j] + tmp$meta$letter.boundary[j + 1] - 1) / 2,
+           y + 0.25, labels = letters[j], family = exp$setup$font$family, cex = .9)
     } else if (is.element(letters[j], exp$setup$font$print$de)){
-      text(x + j * exp$setup$font$letpix - exp$setup$font$letpix + exp$setup$font$letpix / 2,
+      text((tmp$meta$letter.boundary[j] + tmp$meta$letter.boundary[j + 1] - 1) / 2,
            y + 0.15, labels = letters[j], family = exp$setup$font$family, cex = .9)
     } else if (is.element(letters[j], exp$setup$font$print$pu)){
-      text(x + j * exp$setup$font$letpix - exp$setup$font$letpix + exp$setup$font$letpix / 2,
+      text((tmp$meta$letter.boundary[j] + tmp$meta$letter.boundary[j + 1] - 1) / 2,
            y, labels = letters[j], family = exp$setup$font$family, cex = .9)
     }
   }
   
   # add words
-  let <- sapply(unlist(strsplit(words, " ")), nchar)
-  rect(x, y - exp$setup$font$letpix / 2, x + let[1] * exp$setup$font$letpix, y + exp$setup$font$letpix / 2, angle = NA, lwd = 2)
-  for (j in 2:length(let)){
-    rect(x + (sum(let[1:(j - 1)]) + (j - 1)) * exp$setup$font$letpix, y - exp$setup$font$letpix / 2,
-         x + (sum(let[1:j]) + (j - 1)) * exp$setup$font$letpix, y + exp$setup$font$letpix / 2, 
-         angle = NA, lwd = 2)
+  for (j in 1:(length(tmp$meta$word.boundary) - 1)) {
+    rect(tmp$meta$letter.boundary[tmp$meta$word.boundary[j] + 1], y - exp$setup$font$size / 2, 
+         tmp$meta$letter.boundary[tmp$meta$word.boundary[j + 1]], y + exp$setup$font$size / 2, angle = NA, lwd = 2)
   }
   
   # add fixation number
@@ -83,8 +77,8 @@ PlotTargetX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) 
 
   # add target word
   j <- tmp$meta$target
-  rect(x + (sum(let[1:(j - 1)]) + (j - 1)) * exp$setup$font$letpix, y - exp$setup$font$letpix / 2,
-       x + (sum(let[1:j]) + (j - 1)) * exp$setup$font$letpix, y + exp$setup$font$letpix / 2, 
+  rect(tmp$meta$letter.boundary[tmp$meta$word.boundary[j] + 1], y - exp$setup$font$size / 2,
+       tmp$meta$letter.boundary[tmp$meta$word.boundary[j + 1]], y + exp$setup$font$size / 2, 
        angle = NA, lwd = 2, col = makeTransparent("navyblue", alpha = .2))
   
   # turn off device  

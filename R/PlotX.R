@@ -7,12 +7,9 @@ PlotX <- function(exp, subject, trial) {
   xy2 <- SmoothData(SmoothData(tmp$xy))
   
   # create plot
-  # plot(xy2$x, type = "l", ylim = c(1024, 1), main = "X Plot", 
-  #      xlab = "Time (ms)", ylab = "x Position (px)")
-  
   plot(xy2$x, type = "l", 
-       ylim = c(max(tmp$meta$ia.boundary)*exp$setup$font$letpix + 2*exp$setup$font$letpix,
-                exp$setup$display$marginX - 2*exp$setup$font$letpix),
+       ylim = c(max(tmp$meta$letter.boundary) + 3*exp$setup$font$size,
+                min(tmp$meta$letter.boundary) - 3*exp$setup$font$size),
        main = "X Plot", 
        xlab = "Time (ms)", ylab = "x Position (px)")
   

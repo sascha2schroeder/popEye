@@ -142,8 +142,7 @@ popEye <- function(datpath, stimpath,
     # ----------------------------------
     
     for (s in 1:length(sub.list)) {
-    # for (s in 1:1) {
-      # s = 1
+    # for (s in 2:2) {
       
       # increment number of subjects
       nsub <- nsub + 1
@@ -265,7 +264,6 @@ popEye <- function(datpath, stimpath,
       
       dat <- ComputeFixationMeasures(dat)
       
-      
       # NOTE: fixation measures only on IA level (which is the word level at present)
       # NOTE: relationship between IA and word level entirely unclear:
       #       sepearat measures? aggregate from word level to IA level (works only
@@ -383,7 +381,7 @@ popEye <- function(datpath, stimpath,
   exp$out$item <- item[-1, ]
   row.names(exp$out$item) <- NULL
   
-  exp$out$fix <- fix[-1, ]
+  exp$out$fix <- fix
   row.names(exp$out$fix) <- NULL
   
   # TODO: contingent on "EB"

@@ -12,10 +12,12 @@ PlotBoundaryTime <- function(exp, subject, trial, pdf = F, interactive = F, sub 
     }
   }
   
+  tmp <- SelectSubjectTrial(exp, subject, trial)
+  
   # compute boundary time and location
-  boundary.time <- SelectSubjectTrial(exp, subject, trial)$all$start[SelectSubjectTrial(exp, subject, trial)$all$msg == exp$setup$message$boundary]
-  target.time <- SelectSubjectTrial(exp, subject, trial)$all$start[SelectSubjectTrial(exp, subject, trial)$all$msg == exp$setup$message$target]
-  boundary.loc <- as.numeric(SelectSubjectTrial(exp, subject, trial)$meta$boundary)
+  boundary.time <- tmp$all$start[tmp$all$msg == exp$setup$message$boundary]
+  target.time <- tmp$all$start[tmp$all$msg == exp$setup$message$target]
+  boundary.loc <- as.numeric(tmp$meta$boundary)
   
   # compute offsets
   offset.time <- 50
@@ -25,13 +27,13 @@ PlotBoundaryTime <- function(exp, subject, trial, pdf = F, interactive = F, sub 
   
   # create plot
   if (sub == T) {
-    plot(SelectSubjectTrial(exp, subject, trial)$xy$time[(boundary.time - offset.time):(boundary.time + offset.time)],
-         SelectSubjectTrial(exp, subject, trial)$xy$x[(boundary.time - offset.time):(boundary.time + offset.time)], 
+    plot(tmp$xy$time[(boundary.time - offset.time):(boundary.time + offset.time)],
+         tmp$xy$x[(boundary.time - offset.time):(boundary.time + offset.time)], 
          type = "l", ylim = c(boundary.loc + offset.loc, boundary.loc - offset.loc), 
          main = "Time Plot", xlab = "Time (ms)", ylab = "x Position (px)")
   } else {
-    plot(SelectSubjectTrial(exp, subject, trial)$xy$time[(boundary.time - offset.time):(boundary.time + offset.time)],
-         SelectSubjectTrial(exp, subject, trial)$xy$x[(boundary.time - offset.time):(boundary.time + offset.time)], 
+    plot(tmp$xy$time[(boundary.time - offset.time):(boundary.time + offset.time)],
+         tmp$xy$x[(boundary.time - offset.time):(boundary.time + offset.time)], 
          type = "l", ylim = c(boundary.loc + offset.loc, boundary.loc - offset.loc),  
          main = paste("Trial", trial, sep = " "), 
          xlab = "Time (ms)", ylab = "x Position (px)", xaxt = "none")
@@ -40,7 +42,7 @@ PlotBoundaryTime <- function(exp, subject, trial, pdf = F, interactive = F, sub 
   }
 
   # compute fixations
-  fix <- SelectSubjectTrial(exp, subject, trial)$fix
+  fix <- tmp$fix
   fix.before <- tail(fix$stop[fix$start < boundary.time], n = 1)
   fix.after <- head(fix$start[fix$start > boundary.time], n = 1)
   
@@ -58,15 +60,13 @@ PlotBoundaryTime <- function(exp, subject, trial, pdf = F, interactive = F, sub 
        angle = NA, lwd = 2, col = makeTransparent("cornflowerblue", alpha = .2))
   
   # add text
-  words <- gsub("\\*", " ", SelectSubjectTrial(exp, subject, trial)$meta$text)
-  letters <- unlist(strsplit(words, ""))
+  letters <- unlist(strsplit(tmp$meta$text, ""))
   x <- exp$setup$display$marginX
   y <- exp$setup$display$marginY
   
   # add lines
-  lin = seq(x, x + nchar(words) * exp$setup$font$letpix, by = exp$setup$font$letpix)
-  for (i in 1:length(lin)) {
-    abline(h = lin[i], lwd = .1)
+  for (i in 1:length(tmp$meta$letter.boundary)) {
+    abline(h = tmp$meta$letter.boundary[i], cex = .5)
   }
 
   # add boundary

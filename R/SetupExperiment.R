@@ -51,11 +51,11 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   
   # stimfile
   # ---------
-  
+ 
   if (env$stimulus.id == "") env$stimulus.id <- "itemid"
   if (env$stimulus.cond == "") env$stimulus.cond <- NA
   if (env$stimulus.text == "") env$stimulus.text <- "text"
-  if (env$stimulus.change == "") env$stimulus.text <- "target"
+  if (env$stimulus.change == "") env$stimulus.change <- "target"
   
   if (env$stimulus.word == "") env$stimulus.word <- " "
   if (env$stimulus.target == "") env$stimulus.target <- "\\*"
@@ -92,14 +92,54 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # set font family
   if (env$font.name == "CourierNew") {
     font$family <- "mono"
+  } else if (env$font.name == "Symbol") {
+    font$family <- "HersheySymbol"
   } else {
     font$family <- "unknown"
   }
   
   # pixel per letter
   if (font$name == "CourierNew" & font$size == 14) {
-    font$letpix <- 13
+    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
+                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
+                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
+                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
+                " ", ",",".","?","!")
+    pixel <- rep(13, length(letter))
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
   }
+  
+  if (font$name == "Symbol" & font$size == 13) {
+    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
+                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
+                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
+                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
+                " ", ",",".","?","!")
+    pixel <- c(19,17,17,19,17,17,19,16,19,8,11,21,20,22,19,19,13,
+               19,18,15,16,18,19,NA,13,20,NA,21,17,
+               14,14,13,14,12,11,15,13,14,8,11,14,14,13,13,14,13,15,12,13,16,12,11,
+               13,13,17,17,13,17,10,
+               12,6,5,NA,NA)
+    # NOTE: "Ö" correct?
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    
+  }
+
+  if (font$name == "Symbol" & font$size == 14) {
+    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
+                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
+                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
+                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
+                " ", ",",".","?","!")
+    pixel <- c(21,17,16,21,19,18,19,18,20,9,12,21,21,22,18,20,NA,
+               20,NA,15,16,19,21,NA,12,22,NA,NA,18,
+               15,15,13,14,12,11,15,13,14,7,11,14,16,15,13,13,13,
+               16,NA,13,16,14,11,13,13,17,17,13,NA,11,
+               14,3,3,NA,NA)
+    # NOTE: "I" correct?
+    font$letpix <- data.frame(letter = letter, pixel = pixel) 
+  }
+  
   
   # print classes
   font$print$up <- c("A","E","I","O","U","Q","W","R","T","Z","P","S","D","F",

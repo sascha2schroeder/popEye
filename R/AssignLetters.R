@@ -1,22 +1,20 @@
 
-AssignLetters <- function(dat, trial, env = parent.frame(n = 2)) {
-  
-  # NOTE: only works with monospaced font at present
-  
-  # variables  
-  left.margin <- env$exp$setup$display$marginX 
-  right.margin <- env$exp$setup$display$resolutionX
-  letpix <- env$exp$setup$font$letpix
-  let.boundary <- seq((left.margin - letpix), right.margin, by = letpix)
-  
-  dat$trial[[trial]]$fix$letter = NA
+AssignLetters <- function(dat, trial) {
+  # trial <- 2
+  dat$trial[[trial]]$fix$letter <- 0
   for (j in 1:nrow(dat$trial[[trial]]$fix)) {
-    for (k in 1:length(let.boundary)) {
-      if(dat$trial[[trial]]$fix$xs[j] >= 
-         let.boundary[k]) dat$trial[[trial]]$fix$letter[j] <- k - 1
+    # j = 1
+    if (is.na(dat$trial[[trial]]$fix$xs[j]) == T) next
+    for (k in 1:(length(dat$trial[[trial]]$meta$letter.boundary) - 1)) {
+      # k = 1
+      if(dat$trial[[trial]]$fix$xs[j] >= dat$trial[[trial]]$meta$letter.boundary[k]) {
+        dat$trial[[trial]]$fix$letter[j] = k 
+      } 
+      # print(k)
     }
+    # print(j)
   }
   
   return(dat)
-
+  
 }

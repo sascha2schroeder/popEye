@@ -8,14 +8,18 @@ PlotY <- function(exp, subject, trial) {
   
   # create basic plot
   plot(xy2$y, type = "l", 
-       ylim = c(exp$setup$display$marginY - 2*exp$setup$font$letpix,
-                exp$setup$display$marginY + 2*exp$setup$font$letpix), 
+       ylim = c(exp$setup$display$marginY - 3*exp$setup$font$size,
+                exp$setup$display$marginY + 3*exp$setup$font$size), 
        main = "Y Plot", xlab = "Time (ms)", 
        ylab = "y Position (px)")
   
   # add start/stop
   abline (v = 0, col = "navyblue", lwd = 2)
   abline (v = nrow(tmp$xy), col = "navyblue", lwd = 2)
+  
+  # add line
+  abline (h = exp$setup$display$marginY, col = "cornflowerblue", lwd = 2)
+  
   
   # add start saccade
   sac <- tmp$parse[tmp$parse$msg == "SAC", ]

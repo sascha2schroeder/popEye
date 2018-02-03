@@ -8,14 +8,12 @@ PlotXY <- function(exp, subject, trial) {
 
   # basic plot
   plot(xy2$x, xy2$y, type = "l", 
-       ylim = c(exp$setup$display$marginY - 2*exp$setup$font$letpix, 
-                exp$setup$display$marginY + 2*exp$setup$font$letpix), 
-       # xlim = c(exp$setup$display$marginX, 
-       #          exp$setup$display$resolutionX),
-       xlim = c(exp$setup$display$marginX,
-               max(tmp$meta$ia.boundary)*exp$setup$font$letpix),
+       xlim = c(min(tmp$meta$letter.boundary) - 3*exp$setup$font$size,
+                max(tmp$meta$letter.boundary) + 3*exp$setup$font$size),
+       ylim = c(exp$setup$display$marginY - 3*exp$setup$font$size,
+                exp$setup$display$marginY + 3*exp$setup$font$size), 
        main = "XY Plot", xlab = "x Position (px)", ylab = "y Position (px)")
-
+  
   # add saccades
   sac <- tmp$parse[tmp$parse$msg == "SAC", ]
   for (s in 1:nrow(sac)) {

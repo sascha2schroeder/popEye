@@ -1,16 +1,16 @@
 
 CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
-
-# TODO: generate problem report
+  
+  # TODO: generate problem report
   
   # set labels
   boundary.label <- env$exp$setup$message$boundary
   target.label <- env$exp$setup$message$target
-
+  
   # trial loop  
   for (trial in 1:length(dat$trial)) {
     # trial <- 2
- 
+    
     # set up output slot
     dat$trial[[trial]]$clean$boundary <- list(trigger = 0, blink = 0, seq = 0, 
                                               pattern = 0, time = 0, hook = 0, 
@@ -29,9 +29,7 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     
     
     # compute boundary position
-    dat$trial[[trial]]$meta$boundary <- env$exp$setup$display$marginX + 
-      (dat$trial[[trial]]$meta$ia.boundary[dat$trial[[trial]]$meta$target] - 1) * 
-      env$exp$setup$font$letpix
+    dat$trial[[trial]]$meta$boundary <- dat$trial[[trial]]$meta$letter.boundary[dat$trial[[trial]]$meta$ia.boundary[dat$trial[[trial]]$meta$target]]
     
     
     # cleaning criteria
@@ -74,7 +72,7 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     if (dat$trial[[trial]]$clean$boundary$seq == 0) {
       dat$trial[[trial]]$clean$boundary$pattern <- 1
       dat$trial[[trial]]$clean$boundary$seq <- paste(pre.target$msg, 
-                                         target$msg, post.target$msg, sep = "-")
+                                                     target$msg, post.target$msg, sep = "-")
     }
     
     # 3. remove if display change occured after 10 ms in fixation (Slattery et al., 2011)
