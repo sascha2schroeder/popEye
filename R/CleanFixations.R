@@ -41,7 +41,7 @@ CleanFixations <- function(out, dur.thresh, dist.thresh){
         }
       }
       
-    # close if duration threshold
+    # close if above duration threshold
     } else {
       merge <- 0
     }
@@ -72,11 +72,16 @@ CleanFixations <- function(out, dur.thresh, dist.thresh){
   }
   
   # save
-  
   names <- c("num", "start", "stop", "xs", "ys", "xe", "ye", "msg", "blink")
   out <- rbind(fix[names], sac[names])
   out <- out[order(out$start), ]
   out$num <- 1:nrow(out)
+  
+  # delete last fixation
+  if (out$msg[nrow(out)] == "FIX" & 
+      (out$stop[nrow(out)] - out$start[nrow(out)]) < dur.thresh) {
+      out <- out[-nrow(out), ]
+  }
   
   return(out)
 

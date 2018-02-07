@@ -24,16 +24,27 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   message$start <- env$message.start
   message$stop <- env$message.stop
   
-  if (env$type == "boundary") {
+  if (env$type == "boundary" | env$type == "fast") {
     message$boundary <- env$message.boundary
     message$target <- env$message.target
   }
 
-  if (env$message.itemid == "") env$message.itemid <- "id"
-  message$itemid <- env$message.itemid
-  if (env$message.condition == "") env$message.condition <- NA
-  message$condition <- env$message.condition
+  if (env$type == "fast") {
+    message$prime <- env$message.prime
+  }
+  
+  
+  # variable
+  # ---------
+  
+  if (env$variable.id == "") env$variable.id <- "id"
+  variable.id <- env$variable.id
+  if (env$variable.cond == "") env$variable.cond <- NA
+  variable.cond <- env$variable.cond
 
+  variable <- list(id = env$variable.id,
+               cond = env$variable.cond)
+  
   
   # item
   # -----
@@ -52,27 +63,34 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # stimfile
   # ---------
  
-  if (env$stimulus.id == "") env$stimulus.id <- "itemid"
+  if (env$stimulus.id == "") env$stimulus.id <- "id"
   if (env$stimulus.cond == "") env$stimulus.cond <- NA
+  if (env$stimulus.preview == "") env$stimulus.preview <- "preview"
+  if (env$stimulus.prime == "") env$stimulus.prime <- "prime"
   if (env$stimulus.text == "") env$stimulus.text <- "text"
-  if (env$stimulus.change == "") env$stimulus.change <- "target"
   
-  if (env$stimulus.word == "") env$stimulus.word <- " "
-  if (env$stimulus.target == "") env$stimulus.target <- "\\*"
-  if (env$stimulus.ia == "") env$stimulus.ia <- ""
-  
-  stimulus <- list(id = env$stimulus.id,
+  stimulus <- list(file = env$stimulus.file,
+                   id = env$stimulus.id,
                    cond = env$stimulus.cond,
-                   text = env$stimulus.text,
-                   change = env$stimulus.change,
-                   file = env$stimulus.file,
-                   word = env$stimulus.word,
-                   target = env$stimulus.target,                 
-                   ia = env$stimulus.ia)
+                   preview = env$stimulus.preview,
+                   prime = env$stimulus.prime,
+                   text = env$stimulus.text)
 
+  
+  # indicator
+  # ----------
     
-  # setup display
-  # --------------
+  if (env$indicator.word == "") env$indicator.word <- " "
+  if (env$indicator.ia == "") env$indicator.ia <- ""
+  if (env$indicator.target == "") env$indicator.target <- "\\*"
+  
+  indicator <- list(word = env$indicator.word,
+                    ia = env$indicator.ia,
+                    target = env$indicator.target)                 
+  
+  
+  # display
+  # --------
   
   if (env$display.marginX == "") env$display.marginX <- 150
   if (env$display.marginY == "") env$display.marginY <- 300
@@ -82,14 +100,14 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # TODO: add aspect ration(4:3, 16:10, 16:9 for plots)
   
   
-  # setup font
-  # -----------
+  # font
+  # -----
   
+  # font type
   if (env$font.name == "") env$font.name <- "CourierNew"
   if (env$font.size == "") env$font.size <- 14
   font <- list(name = env$font.name, size = env$font.size)
   
-  # set font family
   if (env$font.name == "CourierNew") {
     font$family <- "mono"
   } else if (env$font.name == "Symbol") {
@@ -140,7 +158,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$letpix <- data.frame(letter = letter, pixel = pixel) 
   }
   
-  
   # print classes
   font$print$up <- c("A","E","I","O","U","Q","W","R","T","Z","P","S","D","F",
                      "G","H","J","K","L","Y","X","C","V","B","N","M","Ä","Ö",
@@ -151,14 +168,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   font$print$pu <- c(".",",")
 
   # TODO: multiline experiments: line spacing matrix (separat or in ymargin?)
-  # TODO: experiment calculations 
-  #       - calculate letpix based on font type and size information
-  #       - load letsize table for non-mono fonts
-  # TODO: create font.type x font.size table
   
   
   # analysis
-  # -----------
+  # ---------
   
   if (env$analysis.eyelink == "") env$analysis.eyelink <- FALSE
   if (env$analysis.vfac == "") env$analysis.vfac <- 5
@@ -211,8 +224,9 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # -----------------
   
   setup <- list(tracker = tracker, type = type, message = message, item = item,
-                stimulus = stimulus, display = display, font = font, 
-                clean = clean, analysis = analysis, exclude = exclude)
+                variable = variable, stimulus = stimulus, indicator = indicator, 
+                display = display, font = font, clean = clean, 
+                analysis = analysis, exclude = exclude)
   
   return(setup)
   

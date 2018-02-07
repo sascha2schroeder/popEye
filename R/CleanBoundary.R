@@ -35,16 +35,37 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     # cleaning criteria
     # ------------------
     
+    # 0. trigger problems (skips rest)
+    
+    # retrieve fixations    
+    fix <- dat$trial[[trial]]$fix
+    
     # check if boundary has been triggered
     if (nrow(boundary) == 0) {
-      dat$trial[[trial]]$clean$boundary$trigger <- 1
-      dat$trial[[trial]]$clean$boundary$crit <- 1
+      dat$trial[[trial]]$clean$fast$trigger <- 1
+      dat$trial[[trial]]$clean$fast$crit <- 1
+      next
+    }
+
+    # check if boundary change occured before first fixation
+    # (not sure how this is possible, but it happened once)
+    if (fix$start[1] > boundary$start) {
+      dat$trial[[trial]]$clean$fast$trigger <- 1
+      dat$trial[[trial]]$clean$fast$crit <- 1
       next
     }
     
-    # 1. check for blinks before/after boundary saccade
+    # check if there is a fixation after boundary change 
+    # (response button pressed too early)
     
-    fix <- dat$trial[[trial]]$fix
+    if (fix$start[nrow(fix)] < boundary$start) {
+      dat$trial[[trial]]$clean$fast$trigger <- 1
+      dat$trial[[trial]]$clean$fast$crit <- 1
+      next
+    }
+
+    
+    # 1. check for blinks before/after boundary saccade
     
     blink.before <- tail(fix$blink[fix$start < boundary$start], n = 1)
     blink.after <- head(fix$blink[fix$start > boundary$start], n = 1)

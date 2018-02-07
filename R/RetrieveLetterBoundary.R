@@ -3,8 +3,8 @@ RetrieveLetterBoundary <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # parse out ia delimiter and target indicator
   tmp <- dat$trial[[trial]]$meta$stim
-  tmp <- gsub(env$exp$setup$stimulus$target, "", tmp)
-  tmp <- gsub(env$exp$setup$stimulus$ia, "", tmp)
+  tmp <- gsub(env$exp$setup$indicator$target, "", tmp)
+  tmp <- gsub(env$exp$setup$indicator$ia, "", tmp)
  
   # determine word boundaries
   letters <- unlist(strsplit(tmp, ""))

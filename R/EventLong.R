@@ -83,8 +83,6 @@ EventLong <- function(out) {
   tmplong$blink.before <- NULL
   tmplong$blink.after <- NULL
   
-  # save
-  
   return(tmplong) 
   
 }

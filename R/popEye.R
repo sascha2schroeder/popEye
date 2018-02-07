@@ -2,14 +2,14 @@
 popEye <- function(datpath, stimpath,
                    tracker.model, tracker.software, type, 
                    message.start, message.stop,
-                   message.boundary, message.target,
-                   message.itemid, message.condition,
+                   message.boundary, message.prime, message.target,
+                   variable.id, variable.cond,
                    item.practice, item.trigger,
                    item.question, item.keep,
                    stimulus.file, stimulus.id,
-                   stimulus.cond, stimulus.text,
-                   stimulus.change, stimulus.word,
-                   stimulus.target, stimulus.ia,
+                   stimulus.cond, stimulus.preview,
+                   stimulus.prime, stimulus.text, 
+                   indicator.word, indicator.ia, indicator.target,
                    display.marginX, display.marginY, 
                    font.name, font.size,
                    analysis.eyelink, analysis.vfac, 
@@ -99,6 +99,25 @@ popEye <- function(datpath, stimpath,
                          "boundary.hook", "boundary.crit", "crit")
   }
   
+  if (type == "fast") {
+    clean <- data.frame(matrix(NA, 1, 32))
+    colnames(clean) <- c("subid", "trialnum", "cond",
+                         "trial.fix", "trial.blink",
+                         "trial.crit", "target.fix", "target.blink",
+                         "target.pre.sac", "target.pre.skip",
+                         "target.pre.launch", "target.pre.refix",
+                         "target.pre.reg", "target.post.fix",
+                         "target.post.sac", "target.post.refix",
+                         "target.post.reg", "target.crit",
+                         "fast.trigger", "fast.seq", 
+                         "fast.sac.dur", "fast.pre.time", 
+                         "fast.prime.time", "fast.post.prime", 
+                         "fast.fix.dur", "fast.fix.target", "fast.blink",
+                         "fast.pattern", "fast.time",
+                         "fast.hook", "fast.crit", "crit")
+  }
+  # TODO: adapt to fast priming paradigm
+  
   
   # create version list
   # --------------------
@@ -118,13 +137,16 @@ popEye <- function(datpath, stimpath,
   # initialize number of subjects
   nsub <- 0
 
+  # TODO: save version in subject header
+  
   
   # ----------------------------------
   # version loop
   # ----------------------------------
   
   for (v in 1:length(version.list)) {
-    # v <- 1
+  # for (v in 4:4) {
+    # v <- 2
 
     # list of subjects
     if (tracker.software == "EB") {
@@ -142,7 +164,7 @@ popEye <- function(datpath, stimpath,
     # ----------------------------------
     
     for (s in 1:length(sub.list)) {
-    # for (s in 2:2) {
+    # for (s in 4:4) {
       
       # increment number of subjects
       nsub <- nsub + 1
@@ -155,9 +177,7 @@ popEye <- function(datpath, stimpath,
       # generate header slot
       header <- list(subid = subid)
 
-      # TODO: store other information about subject (e.g., calibration accuracy,
-      #       version)
-      # TODO: function to read out calibration accuracy
+      # TODO: store other information about subject (e.g., version)
       
       
       # --------------------------------------------
@@ -202,11 +222,6 @@ popEye <- function(datpath, stimpath,
       # -----------------------
       
       # message(". Modul 2: Cleaning")
-      
-      # NOTE: ExperimentalBuilder organized in folders
-      # NOTE: read in subject-specific item file or general item file and then match
-      #       by itemid -> extract during preprocessing
-      
       
       # add stimulus information
       # -------------------------
@@ -294,7 +309,6 @@ popEye <- function(datpath, stimpath,
       dat <- CleanAll(dat)
       
       # NOTE: think about relationship between cleaning here and in main analysis
-      # TODO: write out DA file
       
       
       # clean trials

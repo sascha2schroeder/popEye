@@ -128,7 +128,6 @@ ComputeFixations <- function(xy, sac, env = parent.frame(n = 3)){
     
   }
   
-  
   # drift check
   if (env$exp$setup$analysis$drift == T) {
     for (i in 1:nrow(fix)) {

@@ -15,7 +15,7 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
   # -----------
   
   for (trial in 1:length(table(dat$msg$trialnum))){
-    # trial <- 22
+    # trial <- 84
     
     start <- RetrieveStartStop(dat, trial)$start
     stop <- RetrieveStartStop(dat, trial)$stop
@@ -35,7 +35,7 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
     tmp$msg$condition <- NULL # remove condition from msg object
     tmp$msg$dependency <- NULL # remove condition from msg object
     
-    if (is.na(tmp$samp$x) == T) { # FIX: if trial is empty
+    if (mean(is.na(tmp$samp$x)) > .95) { # FIX: if trial is (nearly) empty
 
       xy <- NULL
       vxy <- NULL
@@ -62,12 +62,16 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
     }
     
     
-    # clean
-    # -----------
+    # skip trial if no saccade present
+    if (sum(out$msg == "SAC") > 0) {
+      
+      # clean
+      # -----------
+      
+      clean = Cleaning(out)
+      
+    }
     
-    clean = Cleaning(out)
-    
-    # TODO: Cleaning short/last fixation ?
     
     # align
     # ----------------

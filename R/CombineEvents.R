@@ -51,7 +51,21 @@ CombineEvents <- function(dat) {
     dat$trial[[trial]]$sac2 <- NULL
     dat$trial[[trial]]$msg2 <- NULL
     
-    # delete message stop time needed for sorting
+    
+    # delete short last fixation
+    # ---------------------------
+    
+    # if (dat$trial[[trial]]$all$msg[nrow(dat$trial[[trial]]$all) - 1] == "FIX" & 
+    #     (dat$trial[[trial]]$all$stop[nrow(dat$trial[[trial]]$all) -1] - 
+    #     dat$trial[[trial]]$all$start[nrow(dat$trial[[trial]]$all) -1]) < 50) {
+    #   dat$trial[[trial]]$all <- dat$trial[[trial]]$all[-(nrow(dat$trial[[trial]]$all) - 1), ]  
+    #   print(dat$trial[[trial]]$all)
+    # }
+    # TODO: here or in DeleteFixations 
+    
+    # delete message stop time (needed for sorting)
+    # ----------------------------------------------
+    
     dat$trial[[trial]]$all$stop[dat$trial[[trial]]$all$stop == 0] <- NA
     
   }

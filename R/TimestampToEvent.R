@@ -31,10 +31,13 @@ TimestampToEvent <- function(dat) {
     sacnum <- 1
     sac$num[sacnum] <- 1
     sac$start[sacnum] <- 1
-  } else if (dat$event$msg[1] == "SFIX"){
+  } else if (dat$event$msg[1] == "SFIX") {
     fixnum <- fixnum
+  } else if (dat$event$msg[1] == "EBLINK") {
+    blinknum <- 1
+    blink$num[blinknum] <- 1
+    blink$start[blinknum] <- 1
   } else {
-    # return()
     print(paste("First element", dat$event$msg[1], "not defined yet.", sep = " "))
   }
   
