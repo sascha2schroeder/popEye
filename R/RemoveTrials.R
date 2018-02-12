@@ -38,9 +38,8 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
     tmp <- dat$msg$itemid[dat$msg$msg == env$exp$setup$message$start]
     exc <- unlist(dimnames(table(tmp)[table(tmp) > 1]))
     if (is.null(exc) == FALSE) {
-      dat$msg <- dat$msg[(dat$msg$item %in% exc) == FALSE]
+      dat$msg <- dat$msg[(dat$msg$itemid %in% exc) == FALSE, ]
     }
-    # TODO: not sure this works -> test 
     
     # recompute trialnum
     dat$msg$trialnum <- as.numeric(factor(dat$msg$trialnum))

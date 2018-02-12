@@ -6,8 +6,9 @@ ExtractFixation <- function(dat) {
     
     dat <- RetrieveFixations(dat, trial) # creates fix object
     dat <- ComputeDur(dat, trial)
+    
   }
   
- return(dat) 
+  return(dat) 
   
 }

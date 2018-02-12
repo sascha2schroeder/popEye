@@ -14,8 +14,8 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
   # trial loop
   # -----------
   
-  for (trial in 1:length(table(dat$msg$trialnum))){
-    # trial <- 84
+  for (trial in 1:length(table(dat$msg$trialnum))) {
+  # for (trial in 66:66) {
     
     start <- RetrieveStartStop(dat, trial)$start
     stop <- RetrieveStartStop(dat, trial)$stop
@@ -35,63 +35,79 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
     tmp$msg$condition <- NULL # remove condition from msg object
     tmp$msg$dependency <- NULL # remove condition from msg object
     
-    if (mean(is.na(tmp$samp$x)) > .95) { # FIX: if trial is (nearly) empty
-
-      xy <- NULL
-      vxy <- NULL
+    
+    if (nrow(tmp$samp) > 500) { # FIX: skip if there are less than 500 samples in trial
       
-      # parse events
-      # -------------
-      
-      out <- EventLong(TimestampToEvent(tmp))
-      
-    } else {
-      
-      xy <- SmoothData(tmp$samp[, c("time", "x", "y")])
-      vxy <- ComputeVelocity(xy, type = 2)
-
-      # parse events
-      # -------------
-      
-      if (env$exp$setup$analysis$eyelink == FALSE) {
-        out <- EventLong(ComputeEvents(xy, vxy))  
+      if (mean(is.na(tmp$samp$x)) > .75) { # FIX: if trial is (nearly) empty
+        
+        xy <- NULL
+        vxy <- NULL
+        
+        # parse events
+        # -------------
+        
+        out <- EventLong(TimestampToEvent(tmp))
+        
       } else {
-        out <- EventLong(TimestampToEvent(tmp))  
+        
+        xy <- SmoothData(tmp$samp[, c("time", "x", "y")])
+        vxy <- ComputeVelocity(xy, type = 2)
+        
+        # parse events
+        # -------------
+        
+        if (env$exp$setup$analysis$eyelink == FALSE) {
+          out <- EventLong(ComputeEvents(xy, vxy))  
+        } else {
+          out <- EventLong(TimestampToEvent(tmp))  
+        }
+        
       }
       
-    }
-    
-    
-    # skip trial if no saccade present
-    if (sum(out$msg == "SAC") > 0) {
       
       # clean
       # -----------
       
-      clean = Cleaning(out)
+      if (sum(out$msg == "SAC") > 0) { # QUICK FIX: do not clean if no saccade detected
+        clean = Cleaning(out)  
+      }    
+      
+      
+      # align
+      # ----------------
+      
+      # # TODO: adjust to tmplong format
+      # if (align == T) {
+      #   out$fix <- AlignFixations(out$fix)
+      # }
+      
+    } else {
+      
+      xy <- NA
+      vxy <- NA
+      clean <- NA
       
     }
     
-    
-    # align
-    # ----------------
-    
-    # # TODO: adjust to tmplong format
-    # if (align == T) {
-    #   out$fix <- AlignFixations(out$fix)
-    # }
-    
     # write out
-    ret[[trial]] = list(meta = meta,
-                        msg = tmp$msg,
-                        samp = tmp$samp,
-                        event = tmp$event,
-                        xy = xy,
-                        vxy = vxy,
-                        parse = clean)
+      ret[[trial]] <- list(meta = meta,
+                          msg = tmp$msg,
+                          samp = tmp$samp,
+                          event = tmp$event,
+                          xy = xy,
+                          vxy = vxy,
+                          parse = clean)
   }
   
-  # message("... done ...")
+  
+  # check for empty slots
+  for (i in length(ret):1) {
+      
+    if (length(ret[[i]]$parse) == 1) {
+      ret[[i]] <- NULL
+    }
+    
+  }
   
   dat$trial <- ret
   dat$msg <- NULL

@@ -23,9 +23,8 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   
   # calibration method
   env$exp$setup$tracker$calibration <-
-    sapply(strsplit(dat[grep("CALIBRATION", dat)][1], " "), "[[", 4)
-  
-  # TODO: what if calibration method changes during experiment?
+    unlist(dimnames(table(sapply(strsplit(dat[grep("CALIBRATION", dat)], " "), "[[", 4))))[1]
+  # NOTE: use lowest calibration method in experiment
   
   # calibration accuracy
   tmp <- dat[grep("VALIDATION", dat)]
@@ -36,7 +35,6 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   }
   tmp <- gsub("  ", " ", tmp)
   env$header$calibration <- as.numeric(sapply(strsplit(tmp, " "), "[[", 9))
-  
   # TODO: store as vector or mean?
   
   # # driftcorrect
@@ -55,7 +53,6 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   tmp <- sapply(strsplit(dat[grep("TRIALID", dat)], "\t"), "[[", 2)
   time <- as.numeric(sapply(strsplit(tmp[grep("TRIALID", tmp)], " "), "[[", 1))
   trialnum <- 1:length(time)
-  
   
   # EB
   if (env$exp$setup$tracker$software == "EB") {

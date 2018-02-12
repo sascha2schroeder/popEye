@@ -7,10 +7,9 @@ ComputeEvents <- function(xy, vxy) {
   
   # SAC
   sac <- ComputeSaccades(xy, vxy)$sac
-  
   # FIX
   fix <- ComputeFixations(xy, sac)
-
+  
   # BLINK
   blink <- fix[is.na(fix$xs) == T, ]
   

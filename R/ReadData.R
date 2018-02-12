@@ -10,10 +10,10 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
   
   # create names for files
   if (env$exp$setup$tracker$software == "EB") {
-    edffile <- paste(filepath, "/", subid, "/", subid, ".edf", sep = "")
+    # edffile <- paste(filepath, "/", subid, "/", subid, ".edf", sep = "")
     ascfile <- paste(filepath, "/", subid, "/", subid, ".asc", sep = "")
   } else if(env$exp$setup$tracker$software == "ET") {
-    edffile <- paste(filepath, "/", subid, ".EDF", sep = "")
+    # edffile <- paste(filepath, "/", subid, ".EDF", sep = "")
     ascfile <- paste(filepath, "/", subid, ".asc", sep = "")
   }
   
@@ -26,25 +26,23 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
     setwd(paste(filepath, sep = ""))  
   }
   
-  # check whether EDF file exists
-  if (file.exists(edffile) == F){
-    message("... No EDF file in directory")
-    setwd(oldwd)
-    return()
-  }
+  # # check whether EDF file exists
+  # if (file.exists(edffile) == F){
+  #   message("... No EDF file in directory")
+  #   setwd(oldwd)
+  #   return()
+  # }
   
   # extract raw data
-  if (file.exists(ascfile) == F) {
-    message(".. Read EDF file")
-    ConvertEDF(edffile)  
+  # if (file.exists(ascfile) == F) {
+  #   message(".. Read EDF file")
+  #   ConvertEDF(edffile)  
+  #   message(".. Extract data")
+  #   raw <- ExtractAll(ascfile, subid)
+  # } else {
     message(".. Extract data")
     raw <- ExtractAll(ascfile, subid)
-  } else {
-    message(".. Extract data")
-    raw <- ExtractAll(ascfile, subid)
-  } 
-  
-  # TODO: delete ASC file?
+  # } 
   
   # return wd
   setwd(oldwd)

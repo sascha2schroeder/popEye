@@ -2,17 +2,11 @@
 ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
   
   # NOTE: saccade "amplitude" in pixels, not degrees at present
-  # TODO: integrate RemoveGlissade routine (?)
   
-
-  # variables
-  # ----------
-  
-  # samp <- dat$exp$tracker$samp # needed?
   
   # determine tresholds
   # ---------------------
-
+  
   # compute threshold
   medx <- median(vxy$x, na.rm = T)
   msdx <- MedianSD(vxy$x)
@@ -31,13 +25,11 @@ ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
   } else {
     test <- (vxy$x / radiusx)^2 + (vxy$y / radiusy)^2
   }
-
-  indx <- which(test > 1)
-
   
   # compute saccades
   # -----------------
   
+  indx <- which(test > 1)
   N <- length(indx)
   sac <- NULL
   nsac <- 0

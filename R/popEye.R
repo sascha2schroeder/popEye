@@ -155,21 +155,21 @@ popEye <- function(datpath, stimpath,
     } else if (tracker.software == "ET") {
       filepath <- paste(datpath, version.list[v], sep = "")  
       sub.list <- list.files(filepath)
-      sub.list <- sub.list[grep("edf|EDF", sub.list)]
+      sub.list <- sub.list[grep("asc", sub.list)]
     }
-     
+   
     
     # ----------------------------------
     # subject loop
     # ----------------------------------
     
     for (s in 1:length(sub.list)) {
-    # for (s in 4:4) {
+    # for (s in 74:length(sub.list)) {
       
       # increment number of subjects
       nsub <- nsub + 1
       
-      subid <- gsub("\\.EDF", "", sub.list[s])
+      subid <- gsub("\\.asc", "", sub.list[s])
       
       # message subject
       message(paste(". Subject: ", subid, paste = ""))
