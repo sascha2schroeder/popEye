@@ -39,7 +39,7 @@ AggregateIA <- function(exp) {
              "skip", "firstskip", "nrun", "reread", "nfix", "refix", "reg", "dur")
   ia <- ia[names]
   
-    
+  
   return(ia)
   
 }

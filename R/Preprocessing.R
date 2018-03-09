@@ -15,7 +15,7 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
   # -----------
   
   for (trial in 1:length(table(dat$msg$trialnum))) {
-  # for (trial in 66:66) {
+  # for (trial in 6:6) {
     
     start <- RetrieveStartStop(dat, trial)$start
     stop <- RetrieveStartStop(dat, trial)$stop
@@ -35,10 +35,9 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
     tmp$msg$condition <- NULL # remove condition from msg object
     tmp$msg$dependency <- NULL # remove condition from msg object
     
-    
-    if (nrow(tmp$samp) > 500) { # FIX: skip if there are less than 500 samples in trial
+    if (sum(tmp$event$msg == "SFIX") > 3) { # FIX: skip if there are less than three fixations in trial
       
-      if (mean(is.na(tmp$samp$x)) > .75) { # FIX: if trial is (nearly) empty
+      if (nrow(tmp$samp) == 0 | mean(is.na(tmp$samp$x)) > .75) { # FIX: if trial is (nearly) empty
         
         xy <- NULL
         vxy <- NULL
@@ -97,12 +96,13 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
                           xy = xy,
                           vxy = vxy,
                           parse = clean)
+      
   }
   
   
   # check for empty slots
   for (i in length(ret):1) {
-      
+    
     if (length(ret[[i]]$parse) == 1) {
       ret[[i]] <- NULL
     }

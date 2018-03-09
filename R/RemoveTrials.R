@@ -16,17 +16,31 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
     dat$msg <- dat$msg[dat$msg$itemid %in% env$exp$setup$item$keep, ]
     # NOTE: all items as default
     
-    
     # exclude sample and event data
     dat$samp <- dat$samp[dat$samp$time > (dat$msg$time[1] - 1), ]
     dat$event <- dat$event[dat$event$time > (dat$msg$time[1] - 1), ]
     
   } else if (env$exp$setup$tracker$software == "ET") {
     
+    dat$msg <- dat$msg[(dat$msg$itemid %in% env$exp$setup$clean$practice) == F, ]
+
     # remove practice trials
-    dat$msg <- dat$msg[dat$msg$trialnum > dat$msg$trialnum[
-      dat$msg$itemid == env$exp$setup$clean$practice][1], ]
-    # NOTE: not sure this approach works always    
+    if (sum(dat$msg$itemid == env$exp$setup$clean$practice) > 1) { # FIX: check
+      # dat$msg <- dat$msg[dat$msg$trialnum > dat$msg$trialnum[
+      #   dat$msg$itemid == env$exp$setup$clean$practice][1], ]
+      dat$msg <- dat$msg[(dat$msg$itemid %in% env$exp$setup$clean$practice) == F, ]
+      
+    } else {
+      # dat$msg <- dat$msg[dat$msg$trialnum > dat$msg$trialnum[
+      #   dat$msg$itemid == env$exp$setup$clean$practice - 1][1], ]
+      dat$msg <- dat$msg[(dat$msg$itemid %in% env$exp$setup$clean$practice) == F, ]
+    }
+
+    # remove letters from itemid
+    tmp <- strsplit(dat$msg$itemid, "P|E|I|D")
+    
+    # itemid
+    dat$msg$itemid <- as.numeric(sapply(tmp, "[[", 3))
     
     # remove trigger trials
     dat$msg <- dat$msg[-grep(env$exp$setup$item$trigger, dat$msg$itemid), ]

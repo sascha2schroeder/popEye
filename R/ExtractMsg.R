@@ -84,14 +84,18 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     
     # extract itemid
     itemtmp <- sapply(strsplit(tmp[grep("TRIALID", tmp)], " "), "[[", 3)
-    tmp <- strsplit(itemtmp, "P|E|I|D")
-    
-    # itemid
-    itemid <- as.numeric(sapply(tmp, "[[", 3))
     
     # number of practice trials
-    env$exp$setup$clean$practice <- length(itemtmp[grep(env$exp$setup$item$practice, itemtmp)])
-   
+    # env$exp$setup$clean$practice <- length(itemtmp[grep(env$exp$setup$item$practice, itemtmp)])
+    env$exp$setup$clean$practice <-itemtmp[grep(env$exp$setup$item$practice, itemtmp)]
+    
+    # remove letters from itemid
+    tmp <- strsplit(itemtmp, "P|E|I|D")
+
+    # itemid
+    # itemid <- as.numeric(sapply(tmp, "[[", 3))
+    itemid <- itemtmp
+    
     # condition
     condition <- sapply(tmp, "[[", 2)
     

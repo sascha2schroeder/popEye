@@ -145,7 +145,7 @@ popEye <- function(datpath, stimpath,
   # ----------------------------------
   
   for (v in 1:length(version.list)) {
-  # for (v in 4:4) {
+    # for (v in 4:4) {
     # v <- 2
 
     # list of subjects
@@ -164,7 +164,8 @@ popEye <- function(datpath, stimpath,
     # ----------------------------------
     
     for (s in 1:length(sub.list)) {
-    # for (s in 74:length(sub.list)) {
+    # for (s in 27:length(sub.list)) {
+    # for (s in 1:1) {
       
       # increment number of subjects
       nsub <- nsub + 1
@@ -340,7 +341,6 @@ popEye <- function(datpath, stimpath,
       itemtmp <- ItemFile(dat)
       itemtmp$subid <- subid
       item <- rbind(item, itemtmp)
-      
       
       # TODO: created from stim slot -> load?
       

@@ -24,7 +24,7 @@ RetrieveIABoundary <- function(dat, trial, env = parent.frame(n = 2)) {
     ia.boundary <- c(ia.boundary, sum(ia.length[1:(j - 1)]) + (j - 1))
   }
   ia.boundary[length(ia.boundary) + 1] <- sum(ia.length) + length(ia.length)
-  
+ 
   # save in stim slot
   dat$trial[[trial]]$meta$ia.boundary <- ia.boundary
   
