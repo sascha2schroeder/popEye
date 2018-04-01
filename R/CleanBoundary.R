@@ -9,6 +9,7 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
   
   # trial loop  
   for (trial in 1:length(dat$trial)) {
+  # for (trial in 67:67) {
     # trial <- 2
     
     # set up output slot
@@ -64,10 +65,9 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
       next
     }
 
-    
     # 1. check for blinks before/after boundary saccade
     
-    blink.before <- tail(fix$blink[fix$start < boundary$start], n = 1)
+    blink.before <- tail(fix$blink[fix$start <= boundary$start], n = 1)
     blink.after <- head(fix$blink[fix$start > boundary$start], n = 1)
     
     if (blink.before == 1 | blink.after == 1) {

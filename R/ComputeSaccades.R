@@ -3,7 +3,6 @@ ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
   
   # NOTE: saccade "amplitude" in pixels, not degrees at present
   
-  
   # determine tresholds
   # ---------------------
   
@@ -56,6 +55,15 @@ ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
     sac <- rbind(sac,c(indx[a], indx[N]))
   }
   
+  # FIX: check number of saccades
+  # -------------------------
+  
+  if (nsac == 0) {
+    sacout <- data.frame(matrix(0, 1, 7))
+    names(sacout) <- c('num', 'start', 'stop', 'xs', 'ys', 'xe', 'ye')
+    results = list(sac = sacout, radius = radius)
+    return(results)
+  }
   
   # remove glissades
   # --------------------

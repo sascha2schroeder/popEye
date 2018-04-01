@@ -63,7 +63,7 @@ PlotSentenceTime <- function(exp, subject, trial, pdf = F, interactive = F, sub 
   # add letters
   letters <- unlist(strsplit(tmp$meta$text, ""))
   for (i in 1:(length(tmp$meta$letter.boundary) - 1)) {
-    text(-200, (tmp$meta$letter.boundary[i]  + tmp$meta$letter.boundary[i + 1]) / 2, letters[i],
+    text(-50, (tmp$meta$letter.boundary[i]  + tmp$meta$letter.boundary[i + 1]) / 2, letters[i],
          family = exp$setup$font$family, cex = .75)
   }
 

@@ -2,6 +2,7 @@
 CleanTrial <- function(dat, env = parent.frame(n = 2)) {
   
   for (trial in 1:length(dat$trial)) {
+  # for (trial in 69:69) {
     # trial = 1
     
     # set up output slot

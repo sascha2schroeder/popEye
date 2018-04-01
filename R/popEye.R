@@ -164,8 +164,8 @@ popEye <- function(datpath, stimpath,
     # ----------------------------------
     
     for (s in 1:length(sub.list)) {
-    # for (s in 27:length(sub.list)) {
-    # for (s in 1:1) {
+    # for (s in 24:length(sub.list)) {
+    # for (s in 24:24) {
       
       # increment number of subjects
       nsub <- nsub + 1
@@ -190,8 +190,7 @@ popEye <- function(datpath, stimpath,
       # read data
       # -----------
       
-      dat <-  ReadData(filepath, 
-                       subid)
+      dat <-  ReadData(filepath, subid)
       
       # TODO: loading rather slow, might cause problems for following function
       # TODO: do not convert to asc, but read edf directly (-> external packages)

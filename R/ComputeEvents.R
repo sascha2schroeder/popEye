@@ -7,8 +7,17 @@ ComputeEvents <- function(xy, vxy) {
   
   # SAC
   sac <- ComputeSaccades(xy, vxy)$sac
-  # FIX
-  fix <- ComputeFixations(xy, sac)
+  
+  # FIX: check number of saccades
+  # ------------------------------
+  if (sum(sac$start > 0) == 0) {
+    fix = data.frame(matrix(0, 1, 9))
+    colnames(fix) = c("num", "start", "stop", "xs", "ys", "xe", "ye", 
+                      "xdrift", "ydrift")  
+  } else {
+    # FIX
+    fix <- ComputeFixations(xy, sac)
+  }
   
   # BLINK
   blink <- fix[is.na(fix$xs) == T, ]
@@ -35,7 +44,7 @@ ComputeEvents <- function(xy, vxy) {
         out$sac$ye[out$sac$num == (out$blink$num[i] - 1)] <- out$sac$ye[sac$num == out$blink$num[i]]   
       }
     }
-
+    
     out$sac <- out$sac[-out$blink$num, ]
     out$fix <- out$fix[is.na(out$fix$xs) == F, ]
     
