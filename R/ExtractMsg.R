@@ -5,8 +5,8 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   dat <- dat[grep("MSG", dat, useBytes = T)]
   
   
-  # extract useful information
-  # ---------------------------
+  # extract information
+  # --------------------
   
   # TODO: date (?)
   # TODO: monitor refresh rate (?)
@@ -45,8 +45,8 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   # 
   # # TODO: not for ET  
   # # TODO: store on trial level
-  
-  
+
+    
   # extract trials
   # ---------------
   
@@ -78,6 +78,7 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     dependency <- as.numeric(rep(0, length(itemid)))
     # NOTE: does not make much sense; store to be parallel with ET
   }
+
   
   # ET
   if (env$exp$setup$tracker$software == "ET") {
@@ -93,11 +94,14 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     tmp <- strsplit(itemtmp, "P|E|I|D")
 
     # itemid
-    # itemid <- as.numeric(sapply(tmp, "[[", 3))
     itemid <- itemtmp
     
     # condition
-    condition <- sapply(tmp, "[[", 2)
+    if (is.na(env$exp$setup$variable$cond) == FALSE) {
+      condition <- sapply(tmp, "[[", 2)
+      } else {
+      condition <- rep(1, length(itemid))
+    }
     
     # dependency
     dependency <- as.numeric(sapply(tmp, "[[", 4)) # save for later use (multiple-screen) texts

@@ -15,9 +15,10 @@ ExtractSamples <- function(dat){
   dat <- dat[nchar(dat) > 0]
   
   # select only elements with more than two elements
-  dat <- dat[sapply(strsplit(dat, "\t"), length) > 2]
-  # NOTE: not sure about the consequences of this 
-  
+  dat <- dat[sapply(strsplit(dat, "\t"), length) > 3]
+  # NOTE: assuems structure timestamp, x, y, pupil, ..., ...
+
+    
   # extract variables
   time = as.numeric(sapply(strsplit(dat, "\t"), "[[", 1))
   x = as.numeric(gsub(" ", "", sapply(strsplit(dat, "\t"), "[[", 2)))

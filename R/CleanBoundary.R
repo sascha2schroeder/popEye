@@ -143,24 +143,24 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     
     # time between boundary and target
     dat$trial[[trial]]$clean$boundary$target.time <- 
-      target$start - boundary$start
+      min(target$start - boundary$start)
     dat$trial[[trial]]$clean$boundary$target.time[length(dat$trial[[trial]]$clean$boundary$target.time) == 0] = -999
     
     # time between target and fixation onset (negative if target occured in fixation)
     if (pre.target$msg == "FIX") {
       dat$trial[[trial]]$clean$boundary$post.time <-
-        pre.target$start - target$start
+        min(pre.target$start - target$start, na.rm = T)
     } else {
       dat$trial[[trial]]$clean$boundary$post.time <-
-        post.target$start - target$start 
+        min(post.target$start - target$start, na.rm = T)
     }
     dat$trial[[trial]]$clean$boundary$post.time[length(dat$trial[[trial]]$clean$boundary$post.time) == 0] = -999
     
     # duration of fixation after change
     if (pre.target$msg == "FIX") {
-      dat$trial[[trial]]$clean$boundary$target.fix <- pre.target$stop - pre.target$start  
+      dat$trial[[trial]]$clean$boundary$target.fix <- min(pre.target$stop - pre.target$start, na.rm = T) 
     } else {
-      dat$trial[[trial]]$clean$boundary$target.fix <- post.target$stop - post.target$start  
+      dat$trial[[trial]]$clean$boundary$target.fix <- min(post.target$stop - post.target$start, na.rm = T) 
     }
     
     # print(trial)

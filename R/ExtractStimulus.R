@@ -1,6 +1,6 @@
 
 ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
-
+  
   # compute condition variable (if not provided)
   if (is.na(env$exp$setup$stimulus$cond) == TRUE) {
     # create match variable (itemid)
@@ -12,6 +12,7 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
   }
   
   if (is.na(env$exp$setup$stimulus$cond) == TRUE) {
+    
     # parse out indicator characters from text display
     for (trial in 1:length(dat$trial)) {
       dat$trial[[trial]]$meta$stim <- stimfile[, match(env$exp$setup$stimulus$text, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == dat$trial[[trial]]$meta$itemid]  
@@ -69,7 +70,6 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
         dat$trial[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$ia, "", dat$trial[[trial]]$meta$prime)    
       }  
     }
-    
   }
   
   

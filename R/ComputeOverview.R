@@ -2,8 +2,7 @@
 ComputeOverview <- function(exp) {
   
   if (exp$setup$type == "sentence") {
-    cagg=aggregate(cbind(exp$out$clean$trial.crit, exp$out$clean$target.crit, 
-                         exp$out$clean$boundary.crit, exp$out$clean$crit),
+    cagg=aggregate(cbind(exp$out$clean$trial.crit, exp$out$clean$crit),
                    list(exp$out$clean$subid), mean, na.rm = T)
     colnames(cagg) <- c("subid", "prob.trial", "prob.all")
     cagg$prob.trial <- round(cagg$prob.trial, 3)
@@ -46,18 +45,24 @@ ComputeOverview <- function(exp) {
   
   # trial
   sagg <- aggregate(cbind(exp$out$trial$nrun, exp$out$trial$nfix, 
-                          exp$out$trial$skip, exp$out$trial$refix, 
-                          exp$out$trial$reg, exp$out$trial$dur),
+                          exp$out$trial$blink, exp$out$trial$skip, 
+                          exp$out$trial$sac, exp$out$trial$refix, 
+                          exp$out$trial$reg, exp$out$trial$mfix, 
+                          exp$out$trial$dur, exp$out$trial$rate),
                     list(exp$out$trial$subid), mean, na.rm = T)
-  colnames(sagg) <- c("subid", "nrun", "nfix", "skip", "refix", "reg", 
-                      "trial.rt")
+  colnames(sagg) <- c("subid", "nrun", "nfix", "blink", "skip", "sac", 
+                      "refix", "reg", "mfix", "dur", "rate")
   
   sagg$nrun <- round(sagg$nrun, 2)
   sagg$nfix <- round(sagg$nfix, 2)
+  sagg$blink <- round(sagg$blink, 3)
   sagg$skip <- round(sagg$skip, 3)
+  sagg$sac <- round(sagg$sac, 3)
   sagg$refix <- round(sagg$refix, 3)
   sagg$reg <- round(sagg$reg, 3)
-  sagg$trial.rt <- round(sagg$trial.rt)
+  sagg$mfix <- round(sagg$mfix)
+  sagg$dur <- round(sagg$dur)
+  sagg$rate <- round(sagg$rate)
   
   # results
   if (exp$setup$tracker$software == "EB") {

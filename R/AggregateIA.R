@@ -5,7 +5,7 @@ AggregateIA <- function(exp) {
   iatmp <- exp$out$fix
   iatmp$id <- as.character(paste(iatmp$subid, iatmp$trialnum, iatmp$ia, sep = ":"))
   ia <- iatmp[duplicated(iatmp$id) == F, ]
-  names <- c("id", "subid", "trialnum", "ia")
+  names <- c("id", "subid", "trialid", "trialnum", "ia")
   ia <- ia[names]  
   ia <- ia[order(ia$id), ]
   
@@ -20,7 +20,7 @@ AggregateIA <- function(exp) {
   ia$dur <- as.numeric(tapply(iatmp$dur, list(iatmp$id), sum))
   
   # delete variables
-  ia <- ia[, -match(c("subid", "trialnum", "ia"), colnames(ia))]
+  ia <- ia[, -match(c("subid", "trialid", "trialnum", "ia"), colnames(ia))]
   
   # skippings
   item <- exp$out$item
@@ -35,10 +35,9 @@ AggregateIA <- function(exp) {
   
   # save
   ia <- ia[order(ia$trialnum, ia$ia), ]
-  names <- c("subid", "trialnum", "itemid", "cond", "ia", "word", "blink", 
+  names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ia", "word", "blink", 
              "skip", "firstskip", "nrun", "reread", "nfix", "refix", "reg", "dur")
   ia <- ia[names]
-  
   
   return(ia)
   

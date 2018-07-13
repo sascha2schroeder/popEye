@@ -3,15 +3,18 @@ ComputeClean <- function(dat, env = parent.frame(n = 1)) {
   
   # TODO: write retrieval functions
   
-  cleantmp <- data.frame(matrix(NA, length(dat$trial), 3))
-  colnames(cleantmp) <- c("subid", "trialnum", "cond")
+  cleantmp <- data.frame(matrix(NA, length(dat$trial), 5))
+  colnames(cleantmp) <- c("subid", "trialid", "trialnum", "itemid", "cond")
   
   # extract values
+  cleantmp$trialid <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "trialid"))
   cleantmp$trialnum <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "trialnum"))
+  cleantmp$itemid <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "itemid"))
   cleantmp$cond <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "condition"))
   
   cleantmp$trial.fix <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "nfix"))
   cleantmp$trial.blink <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "blink"))
+  cleantmp$trial.sac <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "sac"))
   cleantmp$trial.crit <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "crit"))
   
   if (env$exp$setup$type == "target"  | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {

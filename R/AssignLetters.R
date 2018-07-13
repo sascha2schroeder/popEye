@@ -1,6 +1,7 @@
 
 AssignLetters <- function(dat, trial) {
   # trial <- 2
+  
   dat$trial[[trial]]$fix$letter <- 0
   for (j in 1:nrow(dat$trial[[trial]]$fix)) {
     # j = 1

@@ -105,7 +105,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   
   # font type
   if (env$font.name == "") env$font.name <- "CourierNew"
-  if (env$font.size == "") env$font.size <- 14
+  if (env$font.size == "") env$font.size <- 16
   font <- list(name = env$font.name, size = env$font.size)
   
   if (env$font.name == "CourierNew") {
@@ -116,8 +116,19 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$family <- "unknown"
   }
   
-  # pixel per letter
+  # CourierNew, 14 pt
   if (font$name == "CourierNew" & font$size == 14) {
+    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
+                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
+                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
+                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
+                " ", ",",".","?","!")
+    pixel <- rep(11, length(letter))
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+  }
+  
+  # CourierNew, 16 pt
+  if (font$name == "CourierNew" & font$size == 16) {
     letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
                 "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
                 "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
@@ -127,6 +138,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$letpix <- data.frame(letter = letter, pixel = pixel)
   }
   
+  # Symbol, 13 pt
   if (font$name == "Symbol" & font$size == 13) {
     letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
                 "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
@@ -143,6 +155,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     
   }
 
+  # Symbol, 14 pt
   if (font$name == "Symbol" & font$size == 14) {
     letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
                 "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
@@ -212,12 +225,14 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
 
   
   # exclude
-  # -----------
+  # --------
   
   if (env$exclude.blink == "") env$exclude.blink <- FALSE
   if (env$exclude.nfix == "") env$exclude.nfix <- 3
+  if (env$exclude.sac == "") env$exclude.sac <- 100
   exclude <- list(blink = env$exclude.blink,
-                  nfix = env$exclude.nfix)
+                  nfix = env$exclude.nfix,
+                  sac = env$exclude.sac)
 
     
   # merge setup slot

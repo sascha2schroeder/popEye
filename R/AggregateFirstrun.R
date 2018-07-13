@@ -34,8 +34,8 @@ AggregateFirstrun <- function(exp) {
   
   # save
   firstrun <- firstrun[order(firstrun$trialnum, firstrun$ia), ]
-  names <- c("subid", "trialnum", "itemid", "cond", "ia", "word", "blink", 
-             "skip", "firstskip", "nfix", "refix", "reg", "dur")
+  names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ia", "word", 
+             "blink", "skip", "firstskip", "nfix", "refix", "reg", "dur")
   firstrun <- firstrun[names]
   firstrun <- firstrun[order(firstrun$subid), ]
   

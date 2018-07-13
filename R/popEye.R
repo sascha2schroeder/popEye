@@ -20,9 +20,8 @@ popEye <- function(datpath, stimpath,
                    clean.stage3, clean.stage3Dur, 
                    clean.stage4, clean.stage4Min,
                    clean.stage4Max, clean.delete,
-                   exclude.blink, exclude.nfix,
-                   outpath = "", 
-                   outname = "") {
+                   exclude.blink, exclude.nfix, exclude.sac,
+                   outpath = "", outname = "") {
   
   
   # ----------------------------------
@@ -36,7 +35,7 @@ popEye <- function(datpath, stimpath,
   
   # retrieve setup infomation
   exp$setup <- SetupExperiment()
-
+  
   # TODO: think about workflow (directories, paths, subids, etc.)
   
   # Experiment Builder: assumes that complete experiment including
@@ -52,27 +51,30 @@ popEye <- function(datpath, stimpath,
   # --------------------
   
   # item
-  item <- data.frame(matrix(NA, 1, 6))
-  colnames(item) <- c("subid", "trialnum", "itemid", "cond", "ia", "word")
+  item <- data.frame(matrix(NA, 1, 7))
+  colnames(item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ia", "word")
   
   # fix
   fix <- NULL
+  
+  # sac
+  sac <- NULL
   
   # results
   results <- list(text = NA, quest = NA)
   
   # clean
   if (type == "sentence") {
-    clean <- data.frame(matrix(NA, 1, 7))
-    colnames(clean) <- c("subid", "trialnum", "cond",
-                         "trial.fix", "trial.blink",
+    clean <- data.frame(matrix(NA, 1, 10))
+    colnames(clean) <- c("subid", "trialid", "trialnum", "itemid", "cond",
+                         "trial.fix", "trial.blink", "trial.sac",
                          "trial.crit", "crit")
   } 
   
   if (type == "target") {
-    clean <- data.frame(matrix(NA, 1, 19))
-    colnames(clean) <- c("subid", "trialnum", "cond",
-                         "trial.fix", "trial.blink",
+    clean <- data.frame(matrix(NA, 1, 22))
+    colnames(clean) <- c("subid", "trialid", "trialnum", "itemid", "cond",
+                         "trial.fix", "trial.blink", "trial.sac",
                          "trial.crit", "target.fix", "target.blink",
                          "target.pre.sac", "target.pre.skip",
                          "target.pre.launch", "target.pre.refix",
@@ -82,9 +84,9 @@ popEye <- function(datpath, stimpath,
   }
   
   if (type == "boundary") {
-    clean <- data.frame(matrix(NA, 1, 31))
-    colnames(clean) <- c("subid", "trialnum", "cond",
-                         "trial.fix", "trial.blink",
+    clean <- data.frame(matrix(NA, 1, 34))
+    colnames(clean) <- c("subid", "trialid", "trialnum", "itemid", "cond",
+                         "trial.fix", "trial.blink", "trial.sac",
                          "trial.crit", "target.fix", "target.blink",
                          "target.pre.sac", "target.pre.skip",
                          "target.pre.launch", "target.pre.refix",
@@ -100,9 +102,9 @@ popEye <- function(datpath, stimpath,
   }
   
   if (type == "fast") {
-    clean <- data.frame(matrix(NA, 1, 32))
-    colnames(clean) <- c("subid", "trialnum", "cond",
-                         "trial.fix", "trial.blink",
+    clean <- data.frame(matrix(NA, 1, 35))
+    colnames(clean) <- c("subid", "trialid", "trialnum", "itemid", "cond",
+                         "trial.fix", "trial.blink", "trial.sac",
                          "trial.crit", "target.fix", "target.blink",
                          "target.pre.sac", "target.pre.skip",
                          "target.pre.launch", "target.pre.refix",
@@ -139,15 +141,14 @@ popEye <- function(datpath, stimpath,
 
   # TODO: save version in subject header
   
-  
   # ----------------------------------
   # version loop
   # ----------------------------------
   
   for (v in 1:length(version.list)) {
-    # for (v in 4:4) {
-    # v <- 2
-
+  # for (v in 1:1) {
+  # v <- 2
+    
     # list of subjects
     if (tracker.software == "EB") {
       filepath <- paste(datpath, version.list[v], "results/", sep = "")  
@@ -158,15 +159,14 @@ popEye <- function(datpath, stimpath,
       sub.list <- sub.list[grep("asc", sub.list)]
     }
    
-    
+  
     # ----------------------------------
     # subject loop
     # ----------------------------------
     
     for (s in 1:length(sub.list)) {
     # for (s in 24:length(sub.list)) {
-    # for (s in 24:24) {
-      
+    # for (s in 3:3) {
       # increment number of subjects
       nsub <- nsub + 1
       
@@ -205,7 +205,7 @@ popEye <- function(datpath, stimpath,
       
       # TODO: remove non-adjecent trials (questions in EyeTrack)
       #       Use identifier in variable name? Load external file?
-     
+    
       
       # create trials
       # ---------------
@@ -245,7 +245,7 @@ popEye <- function(datpath, stimpath,
       message(".. Assign letters/words")
       
       dat <- MatchStim(dat)
-     
+      
       
       # assign IAs
       # ------------
@@ -283,8 +283,8 @@ popEye <- function(datpath, stimpath,
       # NOTE: relationship between IA and word level entirely unclear:
       #       sepearat measures? aggregate from word level to IA level (works only
       #       with superlexical IAs)
-      
-      
+
+            
       # retrieve saccades and blinks
       # -----------------------------
       
@@ -309,8 +309,8 @@ popEye <- function(datpath, stimpath,
       dat <- CleanAll(dat)
       
       # NOTE: think about relationship between cleaning here and in main analysis
-      
-      
+
+            
       # clean trials
       # -------------
       
@@ -341,9 +341,7 @@ popEye <- function(datpath, stimpath,
       itemtmp$subid <- subid
       item <- rbind(item, itemtmp)
       
-      # TODO: created from stim slot -> load?
-      
-      
+
       # select fixations
       # -----------------
       
@@ -352,8 +350,18 @@ popEye <- function(datpath, stimpath,
       fixtmp <- SelectFix(dat)
       fixtmp$subid <-  subid
       fix <- rbind(fix, fixtmp)
+      fix <- fix[order(fix$subid, fix$trialnum, fix$fixid), ]
       
-      # TODO: include word (as text) in fix file
+      
+      # select saccades
+      # -----------------
+
+      message(".. Select saccades")
+
+      sactmp <- SelectSac(dat)
+      sactmp$subid <-  subid
+      sac <- rbind(sac, sactmp)
+      sac <- sac[order(sac$subid, sac$trialnum, sac$sacid), ]
       
       
       # results file
@@ -397,7 +405,9 @@ popEye <- function(datpath, stimpath,
   exp$out$fix <- fix
   row.names(exp$out$fix) <- NULL
   
-  # TODO: contingent on "EB"
+  exp$out$sac <- sac
+  row.names(exp$out$sac) <- NULL
+  
   if (exp$setup$tracker$software == "EB") {
     exp$out$results$text <- results$text[-1, ]
     row.names(exp$out$results$text) <- NULL

@@ -12,7 +12,7 @@ RetrieveLetterBoundary <- function(dat, trial, env = parent.frame(n = 2)) {
   letpix <- env$exp$setup$font$letpix
   for (i in 1:length(letters)){
     letter.boundary <- c(letter.boundary, letter.boundary[length(letter.boundary)] 
-                         + letpix$pixel[letpix$letter == letters[i]] + 1)
+                         + letpix$pixel[letpix$letter == letters[i]])
   }
   
   # save in stim slot

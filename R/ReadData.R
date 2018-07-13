@@ -11,17 +11,18 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
   # create names for files
   if (env$exp$setup$tracker$software == "EB") {
     # edffile <- paste(filepath, "/", subid, "/", subid, ".edf", sep = "")
-    ascfile <- paste(filepath, "/", subid, "/", subid, ".asc", sep = "")
+    ascfile <- paste(filepath, subid, "/", subid, ".asc", sep = "")
   } else if(env$exp$setup$tracker$software == "ET") {
     # edffile <- paste(filepath, "/", subid, ".EDF", sep = "")
     ascfile <- paste(filepath, "/", subid, ".asc", sep = "")
   }
-  
+
   # setwd
   oldwd <- getwd()
-  
+
   if (env$exp$setup$tracker$software == "EB") {
-    setwd(paste(filepath, "/", subid, sep = ""))  
+    newwd <- paste(filepath, subid, "/",sep = "")
+    # setwd(newwd)
   } else if (env$exp$setup$tracker$software == "ET") {
     setwd(paste(filepath, sep = ""))  
   }

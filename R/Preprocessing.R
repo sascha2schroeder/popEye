@@ -29,7 +29,7 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
     # create trial slot
     # ------------------
     
-    meta <- list(trialnum = max(tmp$msg$trialnum), itemid = max(tmp$msg$itemid), condition = max(tmp$msg$condition), dependency = max(tmp$msg$dependency))
+    meta <- list(trialid = trial, trialnum = max(tmp$msg$trialnum), itemid = max(tmp$msg$itemid), condition = max(tmp$msg$condition), dependency = max(tmp$msg$dependency))
     tmp$msg$trialnum <- NULL # remove trialnum from msg object
     tmp$msg$itemid <- NULL # remove condition from msg object
     tmp$msg$condition <- NULL # remove condition from msg object
