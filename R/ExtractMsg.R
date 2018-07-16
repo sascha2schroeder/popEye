@@ -97,7 +97,7 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     itemid <- itemtmp
     
     # condition
-    if (is.na(env$exp$setup$variable$cond) == FALSE) {
+    if (is.na(env$exp$setup$stimulus$cond) == FALSE) {
       condition <- sapply(tmp, "[[", 2)
       } else {
       condition <- rep(1, length(itemid))

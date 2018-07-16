@@ -195,7 +195,6 @@ popEye <- function(datpath, stimpath,
       # TODO: loading rather slow, might cause problems for following function
       # TODO: do not convert to asc, but read edf directly (-> external packages)
       
-      
       # remove data
       # --------------
       
@@ -229,8 +228,8 @@ popEye <- function(datpath, stimpath,
       message(".. Add stimulus")
       
       dat <- ReadStimulus(dat)
-     
       
+     
       # extract fixations
       # --------------------
       
@@ -258,7 +257,6 @@ popEye <- function(datpath, stimpath,
       # TODO: think about relationship between IA and word
       #       (can be sub- [morphological constituents] or super-lexical [phrases])
      
-      
       # clean IAs
       # -----------
       
@@ -317,7 +315,6 @@ popEye <- function(datpath, stimpath,
       if (exp$setup$analysis$sparse == TRUE) {
         dat <- Sparse(dat)
       }
-      
       
       # save in experiment slot
       # ------------------------

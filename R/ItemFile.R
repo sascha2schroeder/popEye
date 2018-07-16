@@ -10,7 +10,7 @@ ItemFile <- function(dat, env = parent.frame(n = 1)) {
     # trial = 1
     
     # temporary item frame
-    ia <- unlist(strsplit(dat$trial[[trial]]$meta$text, env$exp$setup$indicator$word))
+    ia <- unlist(strsplit(dat$trial[[trial]]$meta$stim, env$exp$setup$indicator$ia))
     ia <- gsub("[[:punct:]]", "", ia)
     itemtmp <- data.frame(matrix(NA, length(ia), 6))
     colnames(itemtmp) <- c("subid", "trialnum", "itemid", "cond", "ia", "word")
