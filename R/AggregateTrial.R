@@ -32,7 +32,7 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   trial$skip <- round(as.numeric(tapply(ia$ia.firstskip, list(ia$id), mean)), 3)
   trial$refix <- round(as.numeric(tapply(ia$ia.refix, list(ia$id), mean, na.rm = T)), 3)
   # this is the proportion of words that have been refixated
-  trial$reg <- round(as.numeric(tapply(ia$ia.reg, list(ia$id), mean, na.rm = T)), 3)
+  trial$reg <- round(as.numeric(tapply(ia$ia.reg.in, list(ia$id), mean, na.rm = T)), 3)
   # this is the proportion of words that have been regressed to
   
   # trial$refix.fix <- round(as.numeric(tapply(trialtmp$refix, list(trialtmp$trialnum), mean)), 3)

@@ -6,20 +6,20 @@ CombineIA <- function(exp) {
     factor(exp$out$iatmp$subid):factor(exp$out$iatmp$trialnum):factor(exp$out$iatmp$ia)
   names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "ia", "word", 
              "blink", "skip", "firstskip", "nrun", "reread", "nfix", "refix", 
-             "reg", "dur")
+             "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
   iatmp <- exp$out$iatmp[names]
   colnames(iatmp) <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "ia", 
                        "stimulus", "ia.blink", "ia.skip", "ia.firstskip", 
-                       "ia.nrun", "ia.reread", "ia.nfix", "ia.refix", "ia.reg", 
-                       "ia.dur")
+                       "ia.nrun", "ia.reread", "ia.nfix", "ia.refix", "ia.reg.in", 
+                       "ia.reg.out", "ia.dur", "ia.gopast", "ia.gopast.sel")
   
   # first
   exp$out$first$id <- 
     factor(exp$out$first$subid):factor(exp$out$first$trialnum):factor(exp$out$first$ia)
-  names <- c("id", "nfix", "refix", "reg", "dur")
+  names <- c("id", "nfix", "refix", "reg.in", "reg.out", "dur")
   firsttmp <- exp$out$first[names]
   colnames(firsttmp) <- c("id", "firstrun.nfix", "firstrun.refix", 
-                          "firstrun.reg", "firstrun.dur")
+                          "firstrun.reg.in", "firstrun.reg.out", "firstrun.dur")
   
   # firstfix
   exp$out$fix$id <- 
@@ -30,7 +30,6 @@ CombineIA <- function(exp) {
   colnames(fixtmp) <- c("id", "firstfix.launch", "firstfix.land", 
                         "firstfix.cland", "firstfix.dur")
 
-  
   # merge 
   comb <- merge(merge(iatmp, firsttmp), fixtmp, all.x = T)
   comb$id <- NULL
@@ -46,21 +45,25 @@ CombineIA <- function(exp) {
   
   # compute single measures
   
+  # single
+  exp$out$ia$singlefix <- 0
+  exp$out$ia$singlefix[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- 1
+  
   # launch
-  exp$out$ia$single.launch <- NA
-  exp$out$ia$single.launch[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- exp$out$ia$firstfix.launch[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1]
+  exp$out$ia$singlefix.launch <- NA
+  exp$out$ia$singlefix.launch[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- exp$out$ia$firstfix.launch[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1]
   
   # land
-  exp$out$ia$single.land <- NA
-  exp$out$ia$single.land[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- exp$out$ia$firstfix.land[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1]
+  exp$out$ia$singlefix.land <- NA
+  exp$out$ia$singlefix.land[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- exp$out$ia$firstfix.land[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1]
   
   # cland
-  exp$out$ia$single.cland <- NA
-  exp$out$ia$single.cland[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- exp$out$ia$firstfix.cland[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1]
+  exp$out$ia$singlefix.cland <- NA
+  exp$out$ia$singlefix.cland[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- exp$out$ia$firstfix.cland[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1]
   
   # duration
-  exp$out$ia$single.dur <- NA
-  exp$out$ia$single.dur[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- exp$out$ia$firstfix.dur[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1]
+  exp$out$ia$singlefix.dur <- NA
+  exp$out$ia$singlefix.dur[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- exp$out$ia$firstfix.dur[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1]
   
   return(exp)
   

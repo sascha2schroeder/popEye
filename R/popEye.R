@@ -166,7 +166,7 @@ popEye <- function(datpath, stimpath,
     
     for (s in 1:length(sub.list)) {
     # for (s in 24:length(sub.list)) {
-    # for (s in 3:3) {
+    # for (s in 1:1) {
       # increment number of subjects
       nsub <- nsub + 1
       

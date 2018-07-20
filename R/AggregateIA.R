@@ -1,6 +1,6 @@
 
 AggregateIA <- function(exp) {
-
+  
   # create outfile  
   iatmp <- exp$out$fix
   iatmp$id <- as.character(paste(iatmp$subid, iatmp$trialnum, iatmp$ia, sep = ":"))
@@ -9,6 +9,9 @@ AggregateIA <- function(exp) {
   ia <- ia[names]  
   ia <- ia[order(ia$id), ]
   
+  # compute gopast time
+  iatmp <- ComputeGopast(iatmp)
+  
   # compute measures
   ia$blink <- as.numeric(tapply(iatmp$blink, list(iatmp$id), max))
   ia$firstskip <- as.numeric(tapply(iatmp$firstskip, list(iatmp$id), max))
@@ -16,8 +19,11 @@ AggregateIA <- function(exp) {
   ia$reread <- ifelse(ia$nrun > 1, 1, 0)
   ia$nfix <- as.numeric(tapply(iatmp$fixid, list(iatmp$id), length))
   ia$refix <- as.numeric(tapply(iatmp$refix, list(iatmp$id), max))
-  ia$reg <- as.numeric(tapply(iatmp$reg.in, list(iatmp$id), max))
+  ia$reg.in <- as.numeric(tapply(iatmp$reg.in, list(iatmp$id), max))
+  ia$reg.out <- as.numeric(tapply(iatmp$reg.out, list(iatmp$id), max))
   ia$dur <- as.numeric(tapply(iatmp$dur, list(iatmp$id), sum))
+  ia$gopast <- as.numeric(tapply(iatmp$gopast, list(iatmp$id), max))
+  ia$gopast.sel <- as.numeric(tapply(iatmp$selgopast, list(iatmp$id), max))
   
   # delete variables
   ia <- ia[, -match(c("subid", "trialid", "trialnum", "ia"), colnames(ia))]
@@ -35,8 +41,9 @@ AggregateIA <- function(exp) {
   
   # save
   ia <- ia[order(ia$trialnum, ia$ia), ]
-  names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ia", "word", "blink", 
-             "skip", "firstskip", "nrun", "reread", "nfix", "refix", "reg", "dur")
+  names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ia", "word", 
+             "blink", "skip", "firstskip", "nrun", "reread", "nfix", "refix", 
+             "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
   ia <- ia[names]
   
   return(ia)

@@ -15,7 +15,8 @@ AggregateFirstrun <- function(exp) {
   firstrun$firstskip <- as.numeric(tapply(firstruntmp$firstskip, list(firstruntmp$id), max))
   firstrun$nfix <- as.numeric(tapply(firstruntmp$fixid, list(firstruntmp$id), length))
   firstrun$refix <- as.numeric(tapply(firstruntmp$refix, list(firstruntmp$id), max))
-  firstrun$reg <- as.numeric(tapply(firstruntmp$reg.in, list(firstruntmp$id), max))
+  firstrun$reg.in <- as.numeric(tapply(firstruntmp$reg.in, list(firstruntmp$id), max))
+  firstrun$reg.out <- as.numeric(tapply(firstruntmp$reg.out, list(firstruntmp$id), max))
   firstrun$dur <- as.numeric(tapply(firstruntmp$dur, list(firstruntmp$id), sum))
   
   # delete variables
@@ -35,7 +36,8 @@ AggregateFirstrun <- function(exp) {
   # save
   firstrun <- firstrun[order(firstrun$trialnum, firstrun$ia), ]
   names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ia", "word", 
-             "blink", "skip", "firstskip", "nfix", "refix", "reg", "dur")
+             "blink", "skip", "firstskip", "nfix", "refix", "reg.in", "reg.out", 
+             "dur")
   firstrun <- firstrun[names]
   firstrun <- firstrun[order(firstrun$subid), ]
   
