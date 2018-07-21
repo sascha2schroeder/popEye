@@ -81,7 +81,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # ----------
     
   if (env$indicator.word == "") env$indicator.word <- " "
-  if (env$indicator.ia == "") env$indicator.ia <- ""
+  if (env$indicator.ia == "") env$indicator.ia <- " "
   if (env$indicator.target == "") env$indicator.target <- "\\*"
   
   indicator <- list(word = env$indicator.word,
