@@ -7,6 +7,11 @@
 
 # NOTE: split in seperate functions?
 
+# functional hierarchy
+# -> AggregateIA
+# -> -> CombineIA
+# -> -> -> popEye
+
 ComputeGopast <- function(dat) {
   
   # create response vectors
