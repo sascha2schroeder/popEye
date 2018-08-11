@@ -16,7 +16,7 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     
     # select data
     tmp <- dat$trial[[trial]]$fix
-    target <- tmp[tmp$ia == target.word & tmp$ia.run == 1 & tmp$ia.run.fix == 1, ]
+    target <- tmp[tmp$ianum == target.word & tmp$ia.run == 1 & tmp$ia.run.fix == 1, ]
     
     # check whether blink involves target IA
     target.range <- seq(from = dat$trial[[trial]]$meta$letter.boundary[dat$trial[[trial]]$meta$ia.boundary[target.word]],

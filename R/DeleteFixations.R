@@ -14,7 +14,7 @@
 DeleteFixations <- function(dat, trial) {
   
   dat$trial[[trial]]$fix <- 
-    dat$trial[[trial]]$fix[is.na(dat$trial[[trial]]$fix$ia) == F, ]
+    dat$trial[[trial]]$fix[is.na(dat$trial[[trial]]$fix$ianum) == F, ]
   
   return(dat)
   

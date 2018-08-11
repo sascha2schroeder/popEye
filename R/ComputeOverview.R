@@ -48,10 +48,10 @@ ComputeOverview <- function(exp) {
                           exp$out$trial$blink, exp$out$trial$skip, 
                           exp$out$trial$sac, exp$out$trial$refix, 
                           exp$out$trial$reg, exp$out$trial$mfix, 
-                          exp$out$trial$dur, exp$out$trial$rate),
+                          exp$out$trial$total, exp$out$trial$rate),
                     list(exp$out$trial$subid), mean, na.rm = T)
   colnames(sagg) <- c("subid", "nrun", "nfix", "blink", "skip", "sac", 
-                      "refix", "reg", "mfix", "dur", "rate")
+                      "refix", "reg", "mfix", "total", "rate")
   
   sagg$nrun <- round(sagg$nrun, 2)
   sagg$nfix <- round(sagg$nfix, 2)
@@ -61,7 +61,7 @@ ComputeOverview <- function(exp) {
   sagg$refix <- round(sagg$refix, 3)
   sagg$reg <- round(sagg$reg, 3)
   sagg$mfix <- round(sagg$mfix)
-  sagg$dur <- round(sagg$dur)
+  sagg$total <- round(sagg$total)
   sagg$rate <- round(sagg$rate)
   
   # results

@@ -8,21 +8,16 @@ ComputeFixationMeasures <- function(dat) {
     # trial <- 2
     
     dat <- ComputeSaccadeLength(dat, trial) 
-    # NOTE: does only depend on letter -> maybe move to MatchStim()?
+    # NOTE: does only depend on letter not IA or word -> maybe move to MatchStim()?
     
     dat <- ComputeLandingPosition(dat, trial)
     dat <- ComputeLaunchDistance(dat, trial)
-    
-    # TODO: combine?
-    # TODO: for word/IA seperately?
+    # TODO: combine in one function?
     
     dat <- ComputeRefixation(dat, trial)
     dat <- ComputeRegression(dat, trial)
     dat <- ComputeFirstskip(dat, trial)
-    # TODO: for word/IA seperately?
-    
     dat <- ComputeRun(dat, trial)
-    # TODO: for word/IA seperately
     
     # print(trial)
     

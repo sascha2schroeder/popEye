@@ -3,8 +3,11 @@ SelectFix <- function(dat, env = parent.frame(n = 1)) {
   
   # TODO: compute relative landing position
   
-  itmp <- env$itemtmp
-  itmp$ind <- paste(env$itemtmp$itemid, env$itemtmp$ia, sep = ":")
+  iatmp <- env$ia.itemtmp
+  iatmp$ind <- paste(env$ia.itemtmp$itemid, env$ia.itemtmp$ianum, sep = ":")
+  
+  wordtmp <- env$word.itemtmp
+  wordtmp$ind <- paste(env$word.itemtmp$itemid, env$word.itemtmp$wordnum, sep = ":")
   
   # create output slot
   fix <- dat$trial[[1]]$fix[1, ]
@@ -33,25 +36,36 @@ SelectFix <- function(dat, env = parent.frame(n = 1)) {
 
   }
 
-  # merge stimulus
-  fix$ind <- paste(fix$itemid, fix$ia, sep = ":")  
+  # merge IA
+  fix$ind <- paste(fix$itemid, fix$ianum, sep = ":")  
+  names <- c("ind", "ia")
+  iatmp2 <- iatmp[names]
+  fix <- merge(fix, iatmp2)
+  fix$ind <- NULL
+  
+  # merge word
+  fix$ind <- paste(fix$itemid, fix$wordnum, sep = ":")  
   names <- c("ind", "word")
-  itmp2 <- itmp[names]
-  colnames(itmp2) <- c("ind", "stimulus")
-  fix <- merge(fix, itmp2)
+  wordtmp2 <- wordtmp[names]
+  fix <- merge(fix, wordtmp2)
   fix$ind <- NULL
   
   # rename fixid
   fix$fixid <- fix$num
   
   # centered landing position (see Vitu et al., 2001)
-  fix$cland <- fix$land - (nchar(fix$stimulus) + 1) / 2
+  fix$ia.cland <- fix$ia.land - (nchar(fix$ia) + 1) / 2
+  fix$word.cland <- fix$word.land - (nchar(fix$word) + 1) / 2
   
   # select variables
   names <- c("subid", "trialid", "trialnum", "itemid", "cond", "fixid",  "letter", 
-             "word", "ia", "stimulus", "runid", "ia.run", "ia.fix", "ia.run.fix", 
-             "dur", "blink", "firstskip", "sac.in", "sac.out", "land", "cland",
-             "launch", "refix", "reg.in", "reg.out")
+             "ianum", "ia", "wordnum", "word", "blink", "dur", "sac.in", "sac.out",
+             "ia.runid", "ia.run", "ia.fix", "ia.run.fix", 
+             "ia.firstskip",  "ia.land", "ia.cland", "ia.launch", 
+             "ia.refix", "ia.reg.in", "ia.reg.out",
+             "word.runid", "word.run", "word.fix", "word.run.fix",
+             "word.firstskip",  "word.land", "word.cland", "word.launch", 
+             "word.refix", "word.reg.in", "word.reg.out")
   fix <- fix[names]
   
   return(fix)

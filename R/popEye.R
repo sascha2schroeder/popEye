@@ -51,8 +51,11 @@ popEye <- function(datpath, stimpath,
   # --------------------
   
   # item
-  item <- data.frame(matrix(NA, 1, 7))
-  colnames(item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ia", "word")
+  ia.item <- data.frame(matrix(NA, 1, 7))
+  colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia")
+  
+  word.item <- data.frame(matrix(NA, 1, 7))
+  colnames(word.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "wordnum", "word")
   
   # fix
   fix <- NULL
@@ -256,7 +259,8 @@ popEye <- function(datpath, stimpath,
       # NOTE: IA is word as default
       # TODO: think about relationship between IA and word
       #       (can be sub- [morphological constituents] or super-lexical [phrases])
-     
+    
+      
       # clean IAs
       # -----------
       
@@ -276,13 +280,9 @@ popEye <- function(datpath, stimpath,
       message(".. Compute fixation measures")
       
       dat <- ComputeFixationMeasures(dat)
-      
-      # NOTE: fixation measures only on IA level (which is the word level at present)
-      # NOTE: relationship between IA and word level entirely unclear:
-      #       sepearat measures? aggregate from word level to IA level (works only
-      #       with superlexical IAs)
+      # NOTE: relationship between IA and word level not clear
 
-            
+
       # retrieve saccades and blinks
       # -----------------------------
       
@@ -316,6 +316,7 @@ popEye <- function(datpath, stimpath,
         dat <- Sparse(dat)
       }
       
+      
       # save in experiment slot
       # ------------------------
       
@@ -334,9 +335,13 @@ popEye <- function(datpath, stimpath,
       
       message(".. Load item file")
       
-      itemtmp <- ItemFile(dat)
-      itemtmp$subid <- subid
-      item <- rbind(item, itemtmp)
+      ia.itemtmp <- ItemFileIA(dat)
+      ia.itemtmp$subid <- subid
+      ia.item <- rbind(ia.item, ia.itemtmp)
+      
+      word.itemtmp <- ItemFileWord(dat)
+      word.itemtmp$subid <- subid
+      word.item <- rbind(word.item, word.itemtmp)
       
 
       # select fixations
@@ -348,8 +353,8 @@ popEye <- function(datpath, stimpath,
       fixtmp$subid <-  subid
       fix <- rbind(fix, fixtmp)
       fix <- fix[order(fix$subid, fix$trialnum, fix$fixid), ]
-      
-      
+
+            
       # select saccades
       # -----------------
 
@@ -396,8 +401,11 @@ popEye <- function(datpath, stimpath,
   # collect output files
   # ---------------------
   
-  exp$out$item <- item[-1, ]
-  row.names(exp$out$item) <- NULL
+  exp$out$ia.item <- ia.item[-1, ]
+  row.names(exp$out$ia.item) <- NULL
+  
+  exp$out$word.item <- word.item[-1, ]
+  row.names(exp$out$word.item) <- NULL
   
   exp$out$fix <- fix
   row.names(exp$out$fix) <- NULL
@@ -417,12 +425,22 @@ popEye <- function(datpath, stimpath,
   row.names(exp$out$clean) <- NULL
   
   
+  # aggregate word
+  # ---------------
+  
+  message("Aggregate word")
+  
+  exp$out$wordfirst <- AggregateWordFirstrun(exp)
+  exp$out$wordtmp <- AggregateWord(exp)
+  exp <- CombineWord(exp)
+  
+  
   # aggregate IA
-  # -------------------
+  # -------------
   
   message("Aggregate IA")
   
-  exp$out$first <- AggregateFirstrun(exp)
+  exp$out$first <- AggregateIAFirstrun(exp)
   exp$out$iatmp <- AggregateIA(exp)
   exp <- CombineIA(exp)
   
@@ -433,7 +451,6 @@ popEye <- function(datpath, stimpath,
   message("Aggregate trial")
   
   exp <- AggregateTrial(exp)
-  
   
   # compute overview file
   # ----------------------
@@ -446,7 +463,8 @@ popEye <- function(datpath, stimpath,
   # clean up
   # ----------
   
-  exp$out$item <- NULL
+  # exp$out$ia.item <- NULL
+  # exp$out$word.item <- NULL
   
   
   # save

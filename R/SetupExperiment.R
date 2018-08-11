@@ -229,7 +229,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   
   if (env$exclude.blink == "") env$exclude.blink <- FALSE
   if (env$exclude.nfix == "") env$exclude.nfix <- 3
-  if (env$exclude.sac == "") env$exclude.sac <- 100
+  if (env$exclude.sac == "") env$exclude.sac <- 200
   exclude <- list(blink = env$exclude.blink,
                   nfix = env$exclude.nfix,
                   sac = env$exclude.sac)

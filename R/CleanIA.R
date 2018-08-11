@@ -1,7 +1,7 @@
 
 CleanIA <- function(dat, env = parent.frame(n = 1)) {
   
-  # TODO: common output format even if now cleaning
+  # TODO: common output format even if no cleaning
   
   for (trial in 1:length(dat$trial)) {
     # trial = 1

@@ -11,11 +11,11 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   
   # compute measures
   trial$blink <- as.numeric(tapply(trialtmp$blink, list(trialtmp$id), max))
-  trial$nrun <- as.numeric(tapply(trialtmp$runid, list(trialtmp$id), max))
+  trial$nrun <- as.numeric(tapply(trialtmp$word.runid, list(trialtmp$id), max))
   trial$nfix <- as.numeric(tapply(trialtmp$fixid, list(trialtmp$id), length))
   
   # compute forward saccade length (in letters)
-  trialtmp$sac <- (trialtmp$land + trialtmp$launch)
+  trialtmp$sac <- (trialtmp$word.land + trialtmp$word.launch)
   trial$sac <- NA
   trial$sac <- round(as.numeric(tapply(trialtmp$sac[trialtmp$sac >= 0], list(trialtmp$id[trialtmp$sac >= 0]), mean)), 2)
   
@@ -25,15 +25,8 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   # backtmp$sac.back <- round(abs(backtmp$sac.back), 2)
   # trial <- merge(trial, backtmp)
   
-  # match with ia file 
-  ia <- exp$out$ia
-  ia$id <- paste(ia$subid, ia$trialnum, sep = ":")
-  
-  trial$skip <- round(as.numeric(tapply(ia$ia.firstskip, list(ia$id), mean)), 3)
-  trial$refix <- round(as.numeric(tapply(ia$ia.refix, list(ia$id), mean, na.rm = T)), 3)
-  # this is the proportion of words that have been refixated
-  trial$reg <- round(as.numeric(tapply(ia$ia.reg.in, list(ia$id), mean, na.rm = T)), 3)
-  # this is the proportion of words that have been regressed to
+  # mean fixation duration
+  trial$mfix <- round(as.numeric(tapply(trialtmp$dur, list(trialtmp$id), mean)))
   
   # trial$refix.fix <- round(as.numeric(tapply(trialtmp$refix, list(trialtmp$trialnum), mean)), 3)
   # # this is the proportion of fixations that are refixations
@@ -41,23 +34,32 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   # # this is the proportion of fixations that are regressions
   
   # trial duration (only fixation time)
-  trial$dur <- as.numeric(tapply(trialtmp$dur, list(trialtmp$id), sum))
+  trial$total <- as.numeric(tapply(trialtmp$dur, list(trialtmp$id), sum))
   
   # reading rate
-  trial$nwords <- tapply(trialtmp$word, list(trialtmp$id), max)
-  # trial$nia <- tapply(ia$subid, list(ia$id), length)
-  trial$rate <- round(60000 / (trial$dur / trial$nwords))
-  # NOTE: This is only reading reate if IA is word
+  trial$nwords <- tapply(trialtmp$wordnum, list(trialtmp$id), max)
+  trial$rate <- round(60000 / (trial$total / trial$nwords))
   
-  # mean fixation duration
-  fix <- exp$out$fix
-  fix$id <- paste(fix$subid, fix$trialnum, sep = ":")
-  trial$mfix <- round(as.numeric(tapply(fix$dur, list(fix$id), mean)))
+  # match with word-level file 
+  word <- exp$out$word
+  word$id <- paste(word$subid, word$trialnum, sep = ":")
+  
+  trial$skip <- round(as.numeric(tapply(word$firstrun.skip, list(word$id), mean)), 3)
+  trial$refix <- round(as.numeric(tapply(word$refix, list(word$id), mean, na.rm = T)), 3)
+  # this is the proportion of words that have been refixated
+  trial$reg <- round(as.numeric(tapply(word$reg.in, list(word$id), mean, na.rm = T)), 3)
+  # this is the proportion of words that have been regressed to
+
+  # compute first-pass reading time
+  trial$firstpass <- round(as.numeric(tapply(word$firstrun.dur, list(word$id), sum, na.rm = T)))
+  
+  # compute rereading time
+  trial$rereading <- round(as.numeric(tapply(word$dur - word$firstrun.dur, list(word$id), sum, na.rm = T)))
   
   # return
   names <- c("subid", "trialid", "trialnum", "itemid", "cond", "nwords", 
              "blink", "nrun", "nfix", "sac", "skip", "refix", "reg", "mfix", 
-             "dur", "rate")
+             "firstpass", "rereading", "total", "rate")
   exp$out$trial <- trial[order(trial$subid, trial$trialnum), names]
   trial$id <- NULL
   row.names(exp$out$trial) <- NULL
