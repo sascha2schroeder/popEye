@@ -7,7 +7,6 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
   # TODO: add argument for EyeTrack workflow
   # TODO: check whether edf file can be read in directly
   
-  
   # create names for files
   if (env$exp$setup$tracker$software == "EB") {
     # edffile <- paste(filepath, "/", subid, "/", subid, ".edf", sep = "")
@@ -16,7 +15,7 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
     # edffile <- paste(filepath, "/", subid, ".EDF", sep = "")
     ascfile <- paste(filepath, "/", subid, ".asc", sep = "")
   }
-
+  
   # setwd
   oldwd <- getwd()
 

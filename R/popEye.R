@@ -35,7 +35,7 @@ popEye <- function(datpath, stimpath,
   
   # retrieve setup infomation
   exp$setup <- SetupExperiment()
-  
+
   # TODO: think about workflow (directories, paths, subids, etc.)
   
   # Experiment Builder: assumes that complete experiment including
@@ -122,7 +122,7 @@ popEye <- function(datpath, stimpath,
                          "fast.hook", "fast.crit", "crit")
   }
   # TODO: adapt to fast priming paradigm
-  
+
   
   # create version list
   # --------------------
@@ -144,6 +144,7 @@ popEye <- function(datpath, stimpath,
 
   # TODO: save version in subject header
   
+  
   # ----------------------------------
   # version loop
   # ----------------------------------
@@ -161,15 +162,15 @@ popEye <- function(datpath, stimpath,
       sub.list <- list.files(filepath)
       sub.list <- sub.list[grep("asc", sub.list)]
     }
-   
-  
+
+    
     # ----------------------------------
     # subject loop
     # ----------------------------------
     
-    for (s in 1:length(sub.list)) {
+    # for (s in 1:length(sub.list)) {
     # for (s in 24:length(sub.list)) {
-    # for (s in 1:1) {
+    for (s in 16:16) {
       # increment number of subjects
       nsub <- nsub + 1
       
@@ -177,13 +178,13 @@ popEye <- function(datpath, stimpath,
       
       # message subject
       message(paste(". Subject: ", subid, paste = ""))
-      
+    
       # generate header slot
       header <- list(subid = subid)
 
       # TODO: store other information about subject (e.g., version)
       
-      
+
       # --------------------------------------------
       # Modul 1: Preprocessing
       # --------------------------------------------
@@ -197,7 +198,8 @@ popEye <- function(datpath, stimpath,
       
       # TODO: loading rather slow, might cause problems for following function
       # TODO: do not convert to asc, but read edf directly (-> external packages)
-      
+
+            
       # remove data
       # --------------
       
@@ -218,6 +220,7 @@ popEye <- function(datpath, stimpath,
       
       # TODO: align y-axis
 
+      return(dat)
       
       # -----------------------
       # Modul 2: Cleaning

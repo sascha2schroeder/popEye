@@ -4,7 +4,6 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   # remove non-message events
   dat <- dat[grep("MSG", dat, useBytes = T)]
   
-  
   # extract information
   # --------------------
   
@@ -53,18 +52,19 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   tmp <- sapply(strsplit(dat[grep("TRIALID", dat)], "\t"), "[[", 2)
   time <- as.numeric(sapply(strsplit(tmp[grep("TRIALID", tmp)], " "), "[[", 1))
   trialnum <- 1:length(time)
-  
+
+    
   # EB
   if (env$exp$setup$tracker$software == "EB") {
-    
+  
     # itemid
     tmp <- dat[grep("TRIAL_VAR", dat)]
     ind <- sapply(strsplit(tmp, " "), "[[", 4)
-    itemid <- as.numeric(sapply(strsplit(tmp[ind == env$exp$setup$variable$id], " "), "[[", 5))
+    itemid <- sapply(strsplit(tmp[ind == env$exp$setup$variable$id], " "), "[[", 5)
     
     # number of practice trials
     env$exp$setup$clean$practice <- max(as.numeric(unlist(dimnames(table(table(itemid)))))) - 1
-    
+
     # condition
     if (is.na(env$exp$setup$variable$cond) == FALSE) {
       tmp <- dat[grep("TRIAL_VAR", dat)]
@@ -137,9 +137,9 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   } else {
     tmp <- c(start, stop)
   }
-  
+
   # exclude variable statements for EB
-  if (env$exp$setup$tracker$software == "EB") {
+  if (env$exp$setup$tracker$software == "EB" & length(grep("!V", tmp))) {
     tmp <- tmp[-grep("!V", tmp)]  
   } 
   

@@ -1,4 +1,4 @@
-sPackage: popEye
+Package: popEye
 Version: 0.5.0.1
 Date: 2018-08-17
 Title: Analysis of eye-tracking data from reading experiments
