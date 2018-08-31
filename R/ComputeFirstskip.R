@@ -13,6 +13,10 @@ ComputeFirstskip <- function(dat, trial) {
   # fixation loop
   for (j in 1:nrow(dat$trial[[trial]]$fix)){
     # j <- 1
+
+    # skip outliers
+    if(is.na(dat$trial[[trial]]$fix$wordnum[j])) next
+    # NOTE: delete if outliers are excluded earlier
     
     # word
     if (dat$trial[[trial]]$fix$wordnum[j] < max(word.mem) & 
@@ -30,6 +34,10 @@ ComputeFirstskip <- function(dat, trial) {
     word.mem <- c(word.mem, dat$trial[[trial]]$fix$wordnum[j])
     # print(j)
   }  
+  
+  dat$trial[[trial]]$fix$word.firstskip[dat$trial[[trial]]$fix$line == 0] <- NA
+  dat$trial[[trial]]$fix$ia.firstskip[dat$trial[[trial]]$fix$line == 0] <- NA
+  # NOTE: delete if outliers are excluded earlier
   
   return(dat)
   
