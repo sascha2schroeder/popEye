@@ -9,12 +9,13 @@ popEye <- function(datpath, stimpath,
                    stimulus.file, stimulus.id,
                    stimulus.cond, stimulus.preview,
                    stimulus.prime, stimulus.text, 
-                   indicator.word, indicator.ia, indicator.target,
-                   display.marginX, display.marginY, 
-                   font.name, font.size,
+                   indicator.word, indicator.ia, indicator.target, indicator.line,
+                   display.marginLeft, display.marginTop, display.marginRight, display.marginBottom, 
+                   font.name, font.size, font.spacing,
                    analysis.eyelink, analysis.vfac, 
                    analysis.mindur, analysis.postdur,
                    analysis.drift, analysis.sparse,
+                   analysis.alignX, analysis.alignY,
                    clean.stage1Dur, clean.stage1Dist,
                    clean.stage2Dur, clean.stage2Dist,
                    clean.stage3, clean.stage3Dur, 
@@ -220,7 +221,6 @@ popEye <- function(datpath, stimpath,
       
       # TODO: align y-axis
 
-      return(dat)
       
       # -----------------------
       # Modul 2: Cleaning
@@ -250,18 +250,18 @@ popEye <- function(datpath, stimpath,
       message(".. Assign letters/words")
       
       dat <- MatchStim(dat)
+
       
-      
-      # assign IAs
-      # ------------
-      
-      message(".. Assign interest areas")
-      
-      dat <- MatchIA(dat)
-      
-      # NOTE: IA is word as default
-      # TODO: think about relationship between IA and word
-      #       (can be sub- [morphological constituents] or super-lexical [phrases])
+      # # assign IAs
+      # # ------------
+      # 
+      # message(".. Assign interest areas")
+      # 
+      # dat <- MatchIA(dat)
+      # 
+      # # NOTE: IA is word as default
+      # # TODO: think about relationship between IA and word
+      # #       (can be sub- [morphological constituents] or super-lexical [phrases])
     
       
       # clean IAs
@@ -275,7 +275,8 @@ popEye <- function(datpath, stimpath,
       # NOTE: stage3 cleaning is completely useless !
       # NOTE: stage4 cleaning is dangerous !
       # TODO: report deleted fixations
-      
+
+      return(dat)
       
       # compute fixation measures
       # --------------------------
@@ -285,6 +286,7 @@ popEye <- function(datpath, stimpath,
       dat <- ComputeFixationMeasures(dat)
       # NOTE: relationship between IA and word level not clear
 
+      # return(dat)
 
       # retrieve saccades and blinks
       # -----------------------------

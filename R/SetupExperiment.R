@@ -83,19 +83,25 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   if (env$indicator.word == "") env$indicator.word <- " "
   if (env$indicator.ia == "") env$indicator.ia <- " "
   if (env$indicator.target == "") env$indicator.target <- "\\*"
+  if (env$indicator.line == "") env$indicator.line <- "\\\\n"
   
   indicator <- list(word = env$indicator.word,
                     ia = env$indicator.ia,
-                    target = env$indicator.target)                 
+                    target = env$indicator.target,
+                    line = env$indicator.line)                 
   
   
   # display
   # --------
   
-  if (env$display.marginX == "") env$display.marginX <- 150
-  if (env$display.marginY == "") env$display.marginY <- 300
-  display <- list(marginX = env$display.marginX,
-                  marginY = env$display.marginY)
+  if (env$display.marginLeft == "") env$display.marginLeft <- 150
+  if (env$display.marginTop == "") env$display.marginTop <- 300
+  if (env$display.marginRight == "") env$display.marginRight <- 50
+  if (env$display.marginBottom == "") env$display.marginBottom <- 100
+  display <- list(marginLeft = env$display.marginLeft,
+                  marginTop = env$display.marginTop,
+                  marginRight = env$display.marginRight,
+                  marginBottom = env$display.marginBottom)
   # TODO: add physical width/height/dist in cm (for visual angle calculations)
   # TODO: add aspect ration(4:3, 16:10, 16:9 for plots)
   
@@ -103,10 +109,15 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # font
   # -----
   
+  # TODO: specify height indicators for all fonts
+  
   # font type
   if (env$font.name == "") env$font.name <- "CourierNew"
   if (env$font.size == "") env$font.size <- 16
-  font <- list(name = env$font.name, size = env$font.size)
+  if (env$font.spacing == "") env$font.spacing <- "double"
+  font <- list(name = env$font.name, 
+               size = env$font.size,
+               spacing = env$font.spacing)
   
   if (env$font.name == "CourierNew") {
     font$family <- "mono"
@@ -122,7 +133,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                 "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
                 "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
                 "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
-                " ", ",",".","?","!")
+                " ", ",",".","?","!","–")
     pixel <- rep(11, length(letter))
     font$letpix <- data.frame(letter = letter, pixel = pixel)
   }
@@ -133,9 +144,27 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                 "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
                 "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
                 "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
-                " ", ",",".","?","!")
+                " ", ",",".","?","!","–")
     pixel <- rep(13, length(letter))
     font$letpix <- data.frame(letter = letter, pixel = pixel)
+  }
+  
+  # CourierNew, 20 pt
+  if (font$name == "CourierNew" & font$size == 20) {
+    
+    # width
+    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
+                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
+                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
+                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
+                " ", ",",".","?","!","–")
+    pixel <- rep(16, length(letter))
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    
+    # height
+    font$height <- 18
+    font$lead <- 5
+    
   }
   
   # Symbol, 13 pt
@@ -178,26 +207,28 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                      "!")
   font$print$mi <- c("v","w","r","z","s","x","c","n","m","a","e","o","u")
   font$print$de <- c("q","p","g","j","y")
-  font$print$pu <- c(".",",")
+  font$print$pu <- c(".",",","–")
 
   # TODO: multiline experiments: line spacing matrix (separat or in ymargin?)
   
   
   # analysis
   # ---------
-  
   if (env$analysis.eyelink == "") env$analysis.eyelink <- FALSE
   if (env$analysis.vfac == "") env$analysis.vfac <- 5
   if (env$analysis.mindur == "") env$analysis.mindur <- 10
   if (env$analysis.postdur == "") env$analysis.postdur <- 30
   if (env$analysis.drift == "") env$analysis.drift <- TRUE
   if (env$analysis.sparse == "") env$analysis.sparse <- TRUE
+  if (env$analysis.alignX == "") env$analysis.alignX <- "no"
+  if (env$analysis.alignY == "") env$analysis.alignY <- "no"
   
   analysis <- list(eyelink = env$analysis.eyelink, vfac = env$analysis.vfac,
                    mindur = env$analysis.mindur, postdur = env$analysis.postdur,
-                   drift = env$analysis.drift, sparse = env$analysis.sparse)
-  
-  
+                   drift = env$analysis.drift, sparse = env$analysis.sparse,
+                   alignX = env$analysis.alignX, alignY = env$analysis.alignY)
+
+    
   # cleaning
   # -----------
   
