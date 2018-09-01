@@ -17,7 +17,7 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   # compute forward saccade length (in letters)
   trialtmp$sac <- (trialtmp$word.land + trialtmp$word.launch)
   trial$sac <- NA
-  trial$sac <- round(as.numeric(tapply(trialtmp$sac[trialtmp$sac >= 0], list(trialtmp$id[trialtmp$sac >= 0]), mean)), 2)
+  trial$sac <- round(as.numeric(tapply(trialtmp$sac[trialtmp$sac >= 0 & is.na(trialtmp$sac) == F], list(trialtmp$id[trialtmp$sac >= 0 & is.na(trialtmp$sac) == F]), mean)), 2)
   
   # # backward
   # backtmp <- aggregate(trialtmp$sac[trialtmp$sac < 0], list(trialtmp$id[trialtmp$sac < 0]), mean)

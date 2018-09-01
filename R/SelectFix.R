@@ -1,8 +1,6 @@
 
 SelectFix <- function(dat, env = parent.frame(n = 1)) {
   
-  # TODO: compute relative landing position
-  
   iatmp <- env$ia.itemtmp
   iatmp$ind <- paste(env$ia.itemtmp$itemid, env$ia.itemtmp$ianum, sep = ":")
   
@@ -36,18 +34,21 @@ SelectFix <- function(dat, env = parent.frame(n = 1)) {
 
   }
 
+  # remove first row
+  fix <- fix[-1, ]
+  
   # merge IA
   fix$ind <- paste(fix$itemid, fix$ianum, sep = ":")  
   names <- c("ind", "ia")
   iatmp2 <- iatmp[names]
-  fix <- merge(fix, iatmp2)
+  fix <- merge(fix, iatmp2, all.x = T)
   fix$ind <- NULL
   
   # merge word
   fix$ind <- paste(fix$itemid, fix$wordnum, sep = ":")  
   names <- c("ind", "word")
   wordtmp2 <- wordtmp[names]
-  fix <- merge(fix, wordtmp2)
+  fix <- merge(fix, wordtmp2, all.x = T)
   fix$ind <- NULL
   
   # rename fixid
@@ -56,10 +57,15 @@ SelectFix <- function(dat, env = parent.frame(n = 1)) {
   # centered landing position (see Vitu et al., 2001)
   fix$ia.cland <- fix$ia.land - (nchar(fix$ia) + 1) / 2
   fix$word.cland <- fix$word.land - (nchar(fix$word) + 1) / 2
+
+  # TODO: compute relative landing position
   
   # select variables
-  names <- c("subid", "trialid", "trialnum", "itemid", "cond", "fixid",  "letter", 
-             "ianum", "ia", "wordnum", "word", "blink", "dur", "sac.in", "sac.out",
+  names <- c("subid", "trialid", "trialnum", "itemid", "cond", "fixid",  
+             "type", "line", "letternum", 
+              "letter",
+             "ianum", "ia", "wordnum", "word", 
+             "line.change", "blink", "dur", "sac.in", "sac.out",
              "ia.runid", "ia.run", "ia.fix", "ia.run.fix", 
              "ia.firstskip",  "ia.land", "ia.cland", "ia.launch", 
              "ia.refix", "ia.reg.in", "ia.reg.out",

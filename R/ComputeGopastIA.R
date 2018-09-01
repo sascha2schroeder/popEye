@@ -38,19 +38,19 @@ ComputeGopastIA <- function(dat) {
         dat$gopast[id == ids[i]][dat$ianum[id == ids[i]]== ias[j]] <- 
           sum(
             dat$dur[id == ids[i]][
-              dat$fixid[id == ids[i]] >= min(dat$fixid[id == ids[i]][dat$ianum[id == ids[i]] == ias[j]]) 
-              & dat$fixid[id == ids[i]] < min(dat$fixid[id == ids[i]][dat$ianum[id == ids[i]] > ias[j]])
+              dat$fixid[id == ids[i]] >= min(dat$fixid[id == ids[i]][dat$ianum[id == ids[i]] == ias[j]], na.rm = T) 
+              & dat$fixid[id == ids[i]] < min(dat$fixid[id == ids[i]][dat$ianum[id == ids[i]] > ias[j]], na.rm = T)
               ]
-            )
+            , na.rm = T)
         
         dat$selgopast[id == ids[i]][dat$ianum[id == ids[i]]== ias[j]] <- 
           sum(
               dat$dur[id == ids[i]][
-                dat$fixid[id == ids[i]] >= min(dat$fixid[id == ids[i]][dat$ianum[id == ids[i]] == ias[j]])
-                & dat$fixid[id == ids[i]] < min(dat$fixid[id == ids[i]][dat$ianum[id == ids[i]] > ias[j]])
+                dat$fixid[id == ids[i]] >= min(dat$fixid[id == ids[i]][dat$ianum[id == ids[i]] == ias[j]], na.rm = T)
+                & dat$fixid[id == ids[i]] < min(dat$fixid[id == ids[i]][dat$ianum[id == ids[i]] > ias[j]], na.rm = T)
                 & dat$ianum[id == ids[i]] == ias[j]
                 ]
-            )
+              , na.rm = T)
         # print(j)
     }
     # print(i)

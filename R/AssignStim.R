@@ -90,6 +90,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     
     fix$line[i] <- stimmat$line[which.min(out)]
     fix$letternum[i] <- stimmat$letno[which.min(out)]
+    fix$letter[i] <- stimmat$letter[which.min(out)]
     fix$wordnum[i] <- stimmat$word[which.min(out)]
     fix$ianum[i] <- stimmat$ia[which.min(out)]
     
@@ -97,6 +98,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # recompute outlier
   fix$letternum[fix$type == "out"] <- NA
+  fix$letter[fix$type == "out"] <- NA
   fix$wordnum[fix$type == "out"] <- NA
   fix$ianum[fix$type == "out"] <- NA
   fix$line[fix$type == "out"] <- 0

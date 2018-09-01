@@ -27,7 +27,7 @@ ComputeGopastWord <- function(dat) {
   # for (i in 1:1){
     # i = 1
     
-    # compute vector of IAs in trial
+    # compute vector of words in trial
     ias <- as.numeric(unlist(dimnames(table(dat$wordnum[id == ids[i]]))))
     
     # compute measures
@@ -38,19 +38,19 @@ ComputeGopastWord <- function(dat) {
         dat$gopast[id == ids[i]][dat$wordnum[id == ids[i]]== ias[j]] <- 
           sum(
             dat$dur[id == ids[i]][
-              dat$fixid[id == ids[i]] >= min(dat$fixid[id == ids[i]][dat$wordnum[id == ids[i]] == ias[j]]) 
-              & dat$fixid[id == ids[i]] < min(dat$fixid[id == ids[i]][dat$wordnum[id == ids[i]] > ias[j]])
+              dat$fixid[id == ids[i]] >= min(dat$fixid[id == ids[i]][dat$wordnum[id == ids[i]] == ias[j]], na.rm = T) 
+              & dat$fixid[id == ids[i]] < min(dat$fixid[id == ids[i]][dat$wordnum[id == ids[i]] > ias[j]], na.rm = T)
               ]
-            )
+            , na.rm = T)
         
         dat$selgopast[id == ids[i]][dat$wordnum[id == ids[i]]== ias[j]] <- 
           sum(
               dat$dur[id == ids[i]][
-                dat$fixid[id == ids[i]] >= min(dat$fixid[id == ids[i]][dat$wordnum[id == ids[i]] == ias[j]])
-                & dat$fixid[id == ids[i]] < min(dat$fixid[id == ids[i]][dat$wordnum[id == ids[i]] > ias[j]])
+                dat$fixid[id == ids[i]] >= min(dat$fixid[id == ids[i]][dat$wordnum[id == ids[i]] == ias[j]], na.rm = T)
+                & dat$fixid[id == ids[i]] < min(dat$fixid[id == ids[i]][dat$wordnum[id == ids[i]] > ias[j]], na.rm = T)
                 & dat$wordnum[id == ids[i]] == ias[j]
                 ]
-            )
+              , na.rm = T)
         # print(j)
     }
     # print(i)
