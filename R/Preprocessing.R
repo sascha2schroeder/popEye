@@ -16,7 +16,8 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
   
   for (trial in 1:length(table(dat$msg$trialnum))) {
   # for (trial in 65:65) {
-   
+    # trial <- 63
+    
     start <- RetrieveStartStop(dat, trial)$start
     stop <- RetrieveStartStop(dat, trial)$stop
 
@@ -35,7 +36,7 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
     tmp$msg$condition <- NULL # remove condition from msg object
     tmp$msg$dependency <- NULL # remove condition from msg object
     
-    if (sum(tmp$event$msg == "SFIX") > 3) { # FIX: skip if there are less than three fixations in trial
+    if (sum(tmp$event$msg == "SFIX") >= 3) { # FIX: skip if there are less than three fixations in trial
       
       if (nrow(tmp$samp) == 0 | mean(is.na(tmp$samp$x)) > .75) { # FIX: if trial is (nearly) empty
         

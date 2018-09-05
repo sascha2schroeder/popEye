@@ -15,7 +15,7 @@ ComputeFirstskip <- function(dat, trial) {
     # j <- 1
 
     # skip outliers
-    if(is.na(dat$trial[[trial]]$fix$wordnum[j])) next
+    if(dat$trial[[trial]]$fix$type[j] == "out") next
     # NOTE: delete if outliers are excluded earlier
     
     # word
@@ -23,7 +23,7 @@ ComputeFirstskip <- function(dat, trial) {
         is.element(dat$trial[[trial]]$fix$wordnum[j], word.mem) == F) {
       dat$trial[[trial]]$fix$word.firstskip[j] <- 1 
     }
-    
+
     # IA
     if (dat$trial[[trial]]$fix$ianum[j] < max(ia.mem) & 
         is.element(dat$trial[[trial]]$fix$ianum[j], ia.mem) == F) {

@@ -3,7 +3,7 @@ ComputeSaccadeLength <- function(dat, trial) {
   
   # trial = 1
   
-  # NOTE: saccades from outlying fixations do not receive saccade length
+  # NOTE: saccades from outlying fixations do not receive saccade lengths
   # NOTE: y distance is ignored in multi-line saccades
     
   # incoming
@@ -11,6 +11,8 @@ ComputeSaccadeLength <- function(dat, trial) {
   # dat$trial[[trial]]$fix$sac.in[1] <- dat$trial[[trial]]$fix$letternum[1] 
   
   for (j in 2:nrow(dat$trial[[trial]]$fix)) {
+    
+    if (is.na(dat$trial[[trial]]$fix$line[j]) | is.na(dat$trial[[trial]]$fix$line[j - 1])) next
     
     # same line
     if (dat$trial[[trial]]$fix$line[j - 1] == dat$trial[[trial]]$fix$line[j]) {
@@ -38,6 +40,8 @@ ComputeSaccadeLength <- function(dat, trial) {
   dat$trial[[trial]]$fix$sac.out <- NA
   
   for (j in 1:(nrow(dat$trial[[trial]]$fix) - 1)){
+   
+    if (is.na(dat$trial[[trial]]$fix$line[j]) | is.na(dat$trial[[trial]]$fix$line[j + 1])) next
     
     # same line
     if (dat$trial[[trial]]$fix$line[j + 1] == dat$trial[[trial]]$fix$line[j]) {

@@ -2,8 +2,8 @@
 ComputeRefixation <- function(dat, trial) {
   
   # initialize
-  dat$trial[[trial]]$fix$word.refix <- 0
-  dat$trial[[trial]]$fix$ia.refix <- 0
+  dat$trial[[trial]]$fix$word.refix <- NA
+  dat$trial[[trial]]$fix$ia.refix <- NA
   
   for (j in 2:nrow(dat$trial[[trial]]$fix)){
     # j <- 2
@@ -15,19 +15,17 @@ ComputeRefixation <- function(dat, trial) {
     # word
     if(dat$trial[[trial]]$fix$wordnum[j] == dat$trial[[trial]]$fix$wordnum[j - 1]) {
       dat$trial[[trial]]$fix$word.refix[j] <- 1
+    } else {
+      dat$trial[[trial]]$fix$word.refix[j] <- 0
     }
     
     # IA
     if(dat$trial[[trial]]$fix$ianum[j] == dat$trial[[trial]]$fix$ianum[j - 1]) {
       dat$trial[[trial]]$fix$ia.refix[j] <- 1
+    } else {
+      dat$trial[[trial]]$fix$ia.refix[j] <- 0
     }
   }
-  
-  dat$trial[[trial]]$fix$word.refix[dat$trial[[trial]]$fix$line == 0] <- NA
-  # NOTE: delete if outliers are excluded earlier
-  
-  dat$trial[[trial]]$fix$ia.refix[dat$trial[[trial]]$fix$line == 0] <- NA
-  # NOTE: delete if outliers are excluded earlier
   
   return(dat)
   

@@ -11,8 +11,8 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   
   # compute measures
   trial$blink <- as.numeric(tapply(trialtmp$blink, list(trialtmp$id), max))
-  trial$nrun <- as.numeric(tapply(trialtmp$word.runid, list(trialtmp$id), max))
-  trial$nfix <- as.numeric(tapply(trialtmp$fixid, list(trialtmp$id), length))
+  trial$nrun <- as.numeric(tapply(trialtmp$word.runid, list(trialtmp$id), max, na.rm = T))
+  trial$nfix <- as.numeric(tapply(trialtmp$fixid[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), length))
   
   # compute forward saccade length (in letters)
   trialtmp$sac <- (trialtmp$word.land + trialtmp$word.launch)
@@ -34,10 +34,10 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   # # this is the proportion of fixations that are regressions
   
   # trial duration (only fixation time)
-  trial$total <- as.numeric(tapply(trialtmp$dur, list(trialtmp$id), sum))
+  trial$total <- as.numeric(tapply(trialtmp$dur[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), sum))
   
   # reading rate
-  trial$nwords <- tapply(trialtmp$wordnum, list(trialtmp$id), max)
+  trial$nwords <- tapply(trialtmp$wordnum, list(trialtmp$id), max, na.rm = T)
   trial$rate <- round(60000 / (trial$total / trial$nwords))
   
   # match with word-level file 

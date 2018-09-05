@@ -179,6 +179,30 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   # TODO: save in stimmat?
   
+  
+  # letter positions
+  # ----------------
+  
+  # letter in line
+  stimmat$letline <- ave(stimmat$letno, stimmat$line, FUN = rank)
+  
+  # letter in word
+  stimmat$letword <- ave(stimmat$letno, stimmat$word, FUN = rank) - 1
+  
+  first <- tapply(stimmat$word, stimmat$line, min)
+  for (i in 1:length(first)) {
+    stimmat$letword[stimmat$word == first[i]] <- stimmat$letword + 1
+  }
+  
+  # letter in IA
+  stimmat$letia <- ave(stimmat$letno, stimmat$ia, FUN = rank) - 1
+  
+  first <- tapply(stimmat$ia, stimmat$line, min)
+  for (i in 1:length(first)) {
+    stimmat$letia[stimmat$ia == first[i]] <- stimmat$letword + 1
+  }
+  
+  
   # return
   # -------
   

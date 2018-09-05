@@ -14,6 +14,15 @@ ItemFileIA <- function(dat, env = parent.frame(n = 1)) {
     # ia <- gsub("[[:punct:]]", "", ia)
     # NOTE: parse out interpunctation?
     
+    # parse out indicators    
+    
+    ia <- gsub(env$exp$setup$indicator$target, "", ia)
+    # ia <- gsub("[[:punct:]]", "", ia)
+    # NOTE: parse out interpunctation?
+    
+    ia <- gsub(env$exp$setup$indicator$line, "", ia)
+    
+    
     itemtmp <- data.frame(matrix(NA, length(ia), 6))
     colnames(itemtmp) <- c("subid", "trialnum", "itemid", "cond", "ianum", "ia")
     

@@ -169,9 +169,9 @@ popEye <- function(datpath, stimpath,
     # subject loop
     # ----------------------------------
     
-    # for (s in 1:length(sub.list)) {
+    for (s in 1:length(sub.list)) {
     # for (s in 24:length(sub.list)) {
-    for (s in 16:16) {
+    # for (s in 4:4) {
       # increment number of subjects
       nsub <- nsub + 1
       
@@ -197,7 +197,7 @@ popEye <- function(datpath, stimpath,
       
       dat <-  ReadData(filepath, subid)
       
-      # TODO: loading rather slow, might cause problems for following function
+      # TODO: reading asc data rather slow
       # TODO: do not convert to asc, but read edf directly (-> external packages)
 
             
@@ -208,9 +208,6 @@ popEye <- function(datpath, stimpath,
       
       dat <- Remove(dat) 
       
-      # TODO: remove non-adjecent trials (questions in EyeTrack)
-      #       Use identifier in variable name? Load external file?
-    
       
       # create trials
       # ---------------
@@ -219,9 +216,7 @@ popEye <- function(datpath, stimpath,
 
       dat <- Preprocessing(dat)
       
-      # TODO: align y-axis
 
-      
       # -----------------------
       # Modul 2: Cleaning
       # -----------------------
@@ -250,19 +245,7 @@ popEye <- function(datpath, stimpath,
       message(".. Assign letters/words")
       
       dat <- MatchStim(dat)
-
       
-      # # assign IAs
-      # # ------------
-      # 
-      # message(".. Assign interest areas")
-      # 
-      # dat <- MatchIA(dat)
-      # 
-      # # NOTE: IA is word as default
-      # # TODO: think about relationship between IA and word
-      # #       (can be sub- [morphological constituents] or super-lexical [phrases])
-    
       
       # clean IAs
       # -----------
@@ -276,25 +259,22 @@ popEye <- function(datpath, stimpath,
       # NOTE: stage4 cleaning is dangerous !
       # TODO: report deleted fixations
 
-      return(dat)
-      
+
       # compute fixation measures
       # --------------------------
       
       message(".. Compute fixation measures")
       
       dat <- ComputeFixationMeasures(dat)
-      # NOTE: relationship between IA and word level not clear
 
-      # return(dat)
-
+      
       # retrieve saccades and blinks
       # -----------------------------
       
       message(".. Compute saccade measures")
       
       dat <- ProcessSaccades(dat)
-      
+
       
       # combine events
       # ----------------
@@ -302,7 +282,7 @@ popEye <- function(datpath, stimpath,
       message(".. Combine events")
       
       dat <- CombineEvents(dat)
-      
+
       
       # cleaning
       # ---------
@@ -310,7 +290,7 @@ popEye <- function(datpath, stimpath,
       message(".. Cleaning trial")
       
       dat <- CleanAll(dat)
-      
+
       # NOTE: think about relationship between cleaning here and in main analysis
 
             
@@ -320,13 +300,13 @@ popEye <- function(datpath, stimpath,
       if (exp$setup$analysis$sparse == TRUE) {
         dat <- Sparse(dat)
       }
-      
+
       
       # save in experiment slot
       # ------------------------
       
       exp$subject[[nsub]] <- list(header = header, trial = dat$trial)
-      
+
       
       # -----------------------
       # Modul 3: Aggregation
@@ -347,8 +327,8 @@ popEye <- function(datpath, stimpath,
       word.itemtmp <- ItemFileWord(dat)
       word.itemtmp$subid <- subid
       word.item <- rbind(word.item, word.itemtmp)
-      
 
+        
       # select fixations
       # -----------------
       
@@ -359,7 +339,7 @@ popEye <- function(datpath, stimpath,
       fix <- rbind(fix, fixtmp)
       fix <- fix[order(fix$subid, fix$trialnum, fix$fixid), ]
 
-            
+      
       # select saccades
       # -----------------
 
@@ -374,6 +354,8 @@ popEye <- function(datpath, stimpath,
       # results file
       # -------------
       
+      # TODO: integration results file and experiment needs to be improved
+      
       if (exp$setup$tracker$software == "EB") {
         
         message(".. Load results file")
@@ -385,7 +367,6 @@ popEye <- function(datpath, stimpath,
         results <- list(text = rbind(results$text, resultstmp$text),
                         quest = rbind(results$quest, resultstmp$quest))
       }
-      
       
       # clean file
       # -------------
@@ -448,7 +429,7 @@ popEye <- function(datpath, stimpath,
   exp$out$first <- AggregateIAFirstrun(exp)
   exp$out$iatmp <- AggregateIA(exp)
   exp <- CombineIA(exp)
-  
+
   
   # aggregate trial
   # ----------------
@@ -456,6 +437,7 @@ popEye <- function(datpath, stimpath,
   message("Aggregate trial")
   
   exp <- AggregateTrial(exp)
+
   
   # compute overview file
   # ----------------------

@@ -10,13 +10,18 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
     dat$msg$trialnum <- dat$msg$trialnum - env$exp$setup$clean$practice
     
     # exclude items
-    if (env$exp$setup$item$keep == "") {
-      env$exp$setup$item$keep <- unlist(dimnames(table(dat$msg$itemid)))
-    } 
+    env$exp$setup$item$keep <- unlist(env$exp$setup$stimulus$file[env$exp$setup$stimulus$id])
+    # NOTE: keep all items in stimulusfile
+
+    # if (env$exp$setup$item$keep == "") {
+    #   env$exp$setup$item$keep <- unlist(dimnames(table(dat$msg$itemid)))
+    # } 
+
     dat$msg <- dat$msg[dat$msg$itemid %in% env$exp$setup$item$keep, ]
-    # NOTE: all items as default
     
-    # exclude sample and event data
+    # env$exp$setup$item$keep <- ""
+    
+    # exclude corresponding sample and event data
     dat$samp <- dat$samp[dat$samp$time > (dat$msg$time[1] - 1), ]
     dat$event <- dat$event[dat$event$time > (dat$msg$time[1] - 1), ]
     

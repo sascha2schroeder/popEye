@@ -2,39 +2,39 @@
 ComputeRegression <- function(dat, trial) {
   
   # initialize
-  dat$trial[[trial]]$fix$word.reg.out <- 0
-  dat$trial[[trial]]$fix$word.reg.in <- 0
   
-  dat$trial[[trial]]$fix$ia.reg.out <- 0
-  dat$trial[[trial]]$fix$ia.reg.in <- 0
+  tmp <- dat$trial[[trial]]$fix[dat$trial[[trial]]$fix$type == "in", ]
   
-  for (j in 2:nrow(dat$trial[[trial]]$fix)){
+  tmp$word.reg.out <- 0
+  tmp$word.reg.in <- 0
+  
+  tmp$ia.reg.out <- 0
+  tmp$ia.reg.in <- 0
+  
+  for (j in 2:nrow(tmp)){
     # j <- 2
     
     # skip outliers
-    if(is.na(dat$trial[[trial]]$fix$wordnum[j]) | is.na(dat$trial[[trial]]$fix$wordnum[j - 1])) next
+    if(is.na(tmp$wordnum[j]) | is.na(tmp$wordnum[j - 1])) next
     # NOTE: delete if outliers are excluded earlier
     
     # word
-    if(dat$trial[[trial]]$fix$wordnum[j] < dat$trial[[trial]]$fix$wordnum[j - 1]) {
-      dat$trial[[trial]]$fix$word.reg.in[j] <- 1
-      dat$trial[[trial]]$fix$word.reg.out[j - 1] <- 1
+    if(tmp$wordnum[j] < tmp$wordnum[j - 1]) {
+      tmp$word.reg.in[j] <- 1
+      tmp$word.reg.out[j - 1] <- 1
     }
     
     # IA
-    if(dat$trial[[trial]]$fix$ianum[j] < dat$trial[[trial]]$fix$ianum[j - 1]) {
-      dat$trial[[trial]]$fix$ia.reg.in[j] <- 1
-      dat$trial[[trial]]$fix$ia.reg.out[j - 1] <- 1
+    if(tmp$ianum[j] < tmp$ianum[j - 1]) {
+      tmp$ia.reg.in[j] <- 1
+      tmp$ia.reg.out[j - 1] <- 1
     }
     
   }
   
-  dat$trial[[trial]]$fix$word.reg.in[dat$trial[[trial]]$fix$line == 0] <- NA
-  dat$trial[[trial]]$fix$word.reg.out[dat$trial[[trial]]$fix$line == 0] <- NA
-  dat$trial[[trial]]$fix$ia.reg.in[dat$trial[[trial]]$fix$line == 0] <- NA
-  dat$trial[[trial]]$fix$ia.reg.out[dat$trial[[trial]]$fix$line == 0] <- NA
-  # NOTE: delete if outliers are excluded earlier
-  
+  names <- c("num", "word.reg.out", "word.reg.in", "ia.reg.out", "ia.reg.in")
+  tmp <- tmp[names]
+  dat$trial[[trial]]$fix <- merge(dat$trial[[trial]]$fix, tmp, by = "num", all.x = T)
   
   return(dat)
   

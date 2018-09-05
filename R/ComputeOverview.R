@@ -64,6 +64,9 @@ ComputeOverview <- function(exp) {
   sagg$total <- round(sagg$total)
   sagg$rate <- round(sagg$rate)
   
+  # number of trials
+  sagg$ntrial <- tapply(exp$out$trial$trialnum, exp$out$trial$subid, length)
+  
   # results
   if (exp$setup$tracker$software == "EB") {
     sagg$quest.acc <- round(as.numeric(tapply(exp$out$results$quest$quest.acc, 
@@ -72,7 +75,12 @@ ComputeOverview <- function(exp) {
                                              exp$out$results$quest$subid, mean)))
   }
   
+  # merge and write out
   exp$out$overview <- merge(cagg, sagg, by = "subid")
+  
+  names <- c("subid", "ntrial", "nrun", "nfix", "blink", "skip", "sac", 
+    "refix", "reg", "mfix", "total", "rate", "quest.acc", "quest.rt")
+  exp$out$overview <- exp$out$overview[names]
   row.names(exp$out$overview) <- NULL
   
   return(exp)

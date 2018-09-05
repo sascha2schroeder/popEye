@@ -2,116 +2,87 @@
 ComputeRun <- function(dat, trial) {
   # trial = 1
   
+  tmp <- dat$trial[[trial]]$fix[dat$trial[[trial]]$fix$type == "in", ]
   
   # run
   # ----
   
   # initialize
-  dat$trial[[trial]]$fix$ia.runid <- 1
-  dat$trial[[trial]]$fix$word.runid <- 1
+  tmp$word.runid <- 1
+  tmp$ia.runid <- 1
   
   # fixation loop
-  for (j in 2:nrow(dat$trial[[trial]]$fix)){
+  for (j in 2:nrow(tmp)){
     # j <- 2
     
-    # skip outliers
-    if(is.na(dat$trial[[trial]]$fix$wordnum[j]) | is.na(dat$trial[[trial]]$fix$wordnum[j - 1])) next
-    # NOTE: delete if outliers are excluded earlier
-    
     # word
-    if (dat$trial[[trial]]$fix$word.reg.in[j] == 1 & dat$trial[[trial]]$fix$word.reg.in[j - 1] != 1) {
-      dat$trial[[trial]]$fix$word.runid[j] <- dat$trial[[trial]]$fix$word.runid[j - 1] + 1
+    if (tmp$word.reg.in[j] == 1 & tmp$word.reg.in[j - 1] != 1) {
+      tmp$word.runid[j] <- tmp$word.runid[j - 1] + 1
     } else {
-      dat$trial[[trial]]$fix$word.runid[j] <- dat$trial[[trial]]$fix$word.runid[j - 1]
+      tmp$word.runid[j] <- tmp$word.runid[j - 1]
     }
     
     # IA
-    if (dat$trial[[trial]]$fix$ia.reg.in[j] == 1 & dat$trial[[trial]]$fix$ia.reg.in[j - 1] != 1) {
-      dat$trial[[trial]]$fix$ia.runid[j] <- dat$trial[[trial]]$fix$ia.runid[j - 1] + 1
+    if (tmp$ia.reg.in[j] == 1 & tmp$ia.reg.in[j - 1] != 1) {
+      tmp$ia.runid[j] <- tmp$ia.runid[j - 1] + 1
     } else {
-      dat$trial[[trial]]$fix$ia.runid[j] <- dat$trial[[trial]]$fix$ia.runid[j - 1]
+      tmp$ia.runid[j] <- tmp$ia.runid[j - 1]
     }
+    # print(j)
   }
-  
-  dat$trial[[trial]]$fix$word.runid[dat$trial[[trial]]$fix$line == 0] <- NA
-  # NOTE: delete if outliers are excluded earlier
-  
-  dat$trial[[trial]]$fix$ia.runid[dat$trial[[trial]]$fix$line == 0] <- NA
-  # NOTE: delete if outliers are excluded earlier
-  
+
   
   # fixid
   # ------
   
   # fixid in word
-  dat$trial[[trial]]$fix$word.fix = ave(dat$trial[[trial]]$fix$num, 
-                                        dat$trial[[trial]]$fix$wordnum, FUN = rank)
-  
-  dat$trial[[trial]]$fix$word.fix[dat$trial[[trial]]$fix$line == 0] <- NA
-  # NOTE: delete if outliers are excluded earlier
+  tmp$word.fix = ave(tmp$num, tmp$wordnum, FUN = rank)
   
   # fixid in IA
-  dat$trial[[trial]]$fix$ia.fix = ave(dat$trial[[trial]]$fix$num, 
-                                      dat$trial[[trial]]$fix$ianum, FUN = rank)
-  
-  dat$trial[[trial]]$fix$ia.fix[dat$trial[[trial]]$fix$line == 0] <- NA
-  # NOTE: delete if outliers are excluded earlier
+  tmp$ia.fix = ave(tmp$num, tmp$ianum, FUN = rank)
   
   
   # runid
   # ------
   
   # runid in word
-  dat$trial[[trial]]$fix$id <- 
-    paste(dat$trial[[trial]]$fix$wordnum, dat$trial[[trial]]$fix$word.runid, sep = ":")
-  fix.tmp <- dat$trial[[trial]]$fix[duplicated(dat$trial[[trial]]$fix$id) == F, ]
+  tmp$id <- paste(tmp$wordnum, tmp$word.runid, sep = ":")
+  fix.tmp <- tmp[duplicated(tmp$id) == F, ]
   fix.tmp$word.run <- ave(fix.tmp$word.runid, fix.tmp$wordnum, FUN = rank)
-  dat$trial[[trial]]$fix <- merge(dat$trial[[trial]]$fix, 
-                                  fix.tmp[c("id", "word.run")], by = "id")
-  dat$trial[[trial]]$fix$id <- NULL
-  dat$trial[[trial]]$fix <- dat$trial[[trial]]$fix[order(dat$trial[[trial]]$fix$num), ]
-  
-  dat$trial[[trial]]$fix$word.run[dat$trial[[trial]]$fix$line == 0] <- NA
-  # NOTE: delete if outliers are excluded earlier
+  tmp <- merge(tmp, fix.tmp[c("id", "word.run")], by = "id")
+  tmp$id <- NULL
+  tmp <- tmp[order(tmp$num), ]
   
   # runid in IA
-  dat$trial[[trial]]$fix$id <- 
-    paste(dat$trial[[trial]]$fix$ianum, dat$trial[[trial]]$fix$ia.runid, sep = ":")
-  fix.tmp <- dat$trial[[trial]]$fix[duplicated(dat$trial[[trial]]$fix$id) == F, ]
+  tmp$id <- paste(tmp$ianum, tmp$ia.runid, sep = ":")
+  fix.tmp <- tmp[duplicated(tmp$id) == F, ]
   fix.tmp$ia.run <- ave(fix.tmp$ia.runid, fix.tmp$ianum, FUN = rank)
-  dat$trial[[trial]]$fix <- merge(dat$trial[[trial]]$fix, 
-                                  fix.tmp[c("id", "ia.run")], by = "id")
-  dat$trial[[trial]]$fix$id <- NULL
-  dat$trial[[trial]]$fix <- dat$trial[[trial]]$fix[order(dat$trial[[trial]]$fix$num), ]
- 
-  dat$trial[[trial]]$fix$ia.run[dat$trial[[trial]]$fix$line == 0] <- NA
-  # NOTE: delete if outliers are excluded earlier
-  
+  tmp <- merge(tmp, fix.tmp[c("id", "ia.run")], by = "id")
+  tmp$id <- NULL
+  tmp <- tmp[order(tmp$num), ]
+
    
   # fixnum
   # -------
   
   # fixnum in word.run
-  dat$trial[[trial]]$fix$id <- 
-    paste(dat$trial[[trial]]$fix$wordnum, dat$trial[[trial]]$fix$word.run, sep = ":")
-  dat$trial[[trial]]$fix$word.run.fix <- 
-    ave(dat$trial[[trial]]$fix$num, dat$trial[[trial]]$fix$id, FUN = rank)
-  dat$trial[[trial]]$fix$id <- NULL
-  dat$trial[[trial]]$fix <- dat$trial[[trial]]$fix[order(dat$trial[[trial]]$fix$num), ]
-  
-  dat$trial[[trial]]$fix$word.run.fix[dat$trial[[trial]]$fix$line == 0] <- NA
-  # NOTE: delete if outliers are excluded earlier
+  tmp$id <- paste(tmp$wordnum, tmp$word.run, sep = ":")
+  tmp$word.run.fix <- ave(tmp$num, tmp$id, FUN = rank)
+  tmp$id <- NULL
+  tmp <- tmp[order(tmp$num), ]
   
   # fixnum in ia.run
-  dat$trial[[trial]]$fix$id <- 
-    paste(dat$trial[[trial]]$fix$ianum, dat$trial[[trial]]$fix$ia.run, sep = ":")
-  dat$trial[[trial]]$fix$ia.run.fix <- 
-    ave(dat$trial[[trial]]$fix$num, dat$trial[[trial]]$fix$id, FUN = rank)
-  dat$trial[[trial]]$fix$id <- NULL
-  dat$trial[[trial]]$fix <- dat$trial[[trial]]$fix[order(dat$trial[[trial]]$fix$num), ]
+  tmp$id <- paste(tmp$ianum, tmp$ia.run, sep = ":")
+  tmp$ia.run.fix <- ave(tmp$num, tmp$id, FUN = rank)
+  tmp$id <- NULL
+  tmp <- tmp[order(tmp$num), ]
   
-  dat$trial[[trial]]$fix$ia.run.fix[dat$trial[[trial]]$fix$line == 0] <- NA
-  # NOTE: delete if outliers are excluded earlier
+  # outdat <- 
+  names <- c("num", "word.runid", "ia.runid", "word.fix", "ia.fix",
+             "word.run", "ia.run", "word.run.fix", "ia.run.fix")
+  tmp <- tmp[names]
+  
+  dat$trial[[trial]]$fix <- merge(dat$trial[[trial]]$fix, tmp, by = "num", all.x = T)
   
   return(dat)
   

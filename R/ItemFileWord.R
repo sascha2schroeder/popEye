@@ -13,12 +13,17 @@ ItemFileWord <- function(dat, env = parent.frame(n = 1)) {
     word <- unlist(strsplit(dat$trial[[trial]]$meta$stim, env$exp$setup$indicator$word))
 
     # parse out indicators    
+    
     if (env$exp$setup$indicator$ia != " ") {
       word <- gsub(env$exp$setup$indicator$ia, "", word)
     }
+    
     word <- gsub(env$exp$setup$indicator$target, "", word)
     # ia <- gsub("[[:punct:]]", "", ia)
     # NOTE: parse out interpunctation?
+    
+    word <- gsub(env$exp$setup$indicator$line, "", word)
+    
     
     itemtmp <- data.frame(matrix(NA, length(word), 6))
     colnames(itemtmp) <- c("subid", "trialnum", "itemid", "cond", "wordnum", "word")

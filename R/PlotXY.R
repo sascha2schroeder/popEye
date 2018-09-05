@@ -10,8 +10,8 @@ PlotXY <- function(exp, subject, trial) {
   plot(xy2$x, xy2$y, type = "l", 
        xlim = c(min(tmp$meta$letter.boundary) - 3*exp$setup$font$size,
                 max(tmp$meta$letter.boundary) + 3*exp$setup$font$size),
-       ylim = c(exp$setup$display$marginY - 3*exp$setup$font$size,
-                exp$setup$display$marginY + 3*exp$setup$font$size), 
+       ylim = c(exp$setup$display$marginTop - 3*exp$setup$font$size,
+                exp$setup$display$marginTop + 3*exp$setup$font$size), 
        main = "XY Plot", xlab = "x Position (px)", ylab = "y Position (px)")
   
   # add saccades

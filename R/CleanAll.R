@@ -8,23 +8,23 @@ CleanAll <- function(dat, env = parent.frame(n = 1)) {
   if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
     dat <- CleanTarget(dat)
   }
-  
+
   # boundary cleaning
   if (env$exp$setup$type == "boundary") {
     dat <- CleanBoundary(dat)
   }
-  
+
   # fast priming cleaning
   if (env$exp$setup$type == "fast") {
     dat <- CleanFast(dat)
   }
-  
+
   
   # combine
   # --------
 
   for (trial in 1:length(dat$trial)) {
-    
+
     dat$trial[[trial]]$clean$crit <- 0
 
     # sentence

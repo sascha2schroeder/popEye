@@ -3,34 +3,21 @@ ComputeLineChange <- function(dat, trial) {
   
   # trial = 1
   
-  dat$trial[[trial]]$fix$line.change <- NA
-  dat$trial[[trial]]$fix$line.change[1] <- 0
+  tmp <- dat$trial[[trial]]$fix[dat$trial[[trial]]$fix$type == "in", ]
   
-  for (j in 2:nrow(dat$trial[[trial]]$fix)) {
+  tmp$line.change <- NA
+  tmp$line.change[1] <- 0
+  
+  for (j in 2:nrow(tmp)) {
     
-    if (dat$trial[[trial]]$fix$line[j - 1] == 0 | dat$trial[[trial]]$fix$line[j] == 0) {
-      next
-    } else {
-      dat$trial[[trial]]$fix$line.change[j] <- dat$trial[[trial]]$fix$line[j] - dat$trial[[trial]]$fix$line[j - 1] 
-    }
-    
-    # # no line change
-    # if (dat$trial[[trial]]$fix$line[j - 1] == dat$trial[[trial]]$fix$line[j]) {
-    #   dat$trial[[trial]]$fix$line.change[j] <- 0
-    # }
-    # 
-    # # line ahead
-    # if (dat$trial[[trial]]$fix$line[j - 1] < dat$trial[[trial]]$fix$line[j]) {
-    #   dat$trial[[trial]]$fix$line.change[j] <- 1
-    # }
-    #     
-    # # line before
-    # if (dat$trial[[trial]]$fix$line[j - 1] > dat$trial[[trial]]$fix$line[j]) {
-    #   dat$trial[[trial]]$fix$sac.in[j] <- -1
-    # }
+    tmp$line.change[j] <- tmp$line[j] - tmp$line[j - 1] 
     
   }
   
+  names <- c("num", "line.change")
+  out <- tmp[names]
+  
+  dat$trial[[trial]]$fix <- merge(dat$trial[[trial]]$fix, out, by = "num", all.x = T)
   return(dat)
   
 }

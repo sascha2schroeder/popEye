@@ -16,11 +16,14 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     
     # select data
     tmp <- dat$trial[[trial]]$fix
-    target <- tmp[tmp$ianum == target.word & tmp$ia.run == 1 & tmp$ia.run.fix == 1, ]
+    target <- tmp[is.na(tmp$ianum) == F & 
+                    tmp$ianum == target.word & 
+                    tmp$ia.run == 1 & 
+                    tmp$ia.run.fix == 1, ]
     
     # check whether blink involves target IA
-    target.range <- seq(from = dat$trial[[trial]]$meta$letter.boundary[dat$trial[[trial]]$meta$ia.boundary[target.word]],
-                        to = dat$trial[[trial]]$meta$letter.boundary[dat$trial[[trial]]$meta$ia.boundary[target.word + 1]])
+    target.range <- seq(from = min(dat$trial[[trial]]$meta$stimmat$xs[dat$trial[[trial]]$meta$stimmat$ia == target.word]),
+                        to = max(dat$trial[[trial]]$meta$stimmat$xe[dat$trial[[trial]]$meta$stimmat$ia == target.word]))
     
     for (i in 1:nrow(dat$trial[[trial]]$sac)) {
       # i <- 1
@@ -48,8 +51,7 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
       # -------
       
       # blink before target fixation
-      if (sum(dat$trial[[trial]]$all$msg[dat$trial[[trial]]$all$start < 
-                                           target$start] == "BLINK")) {
+      if (sum(dat$trial[[trial]]$all$msg[dat$trial[[trial]]$all$start < target$start] == "BLINK") > 0) {
         dat$trial[[trial]]$clean$target$blink <- 1
       }
       
@@ -117,7 +119,7 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
       }
       
       # check whether there is a fixation on a word after target word
-      if (sum(tmp$ia[tmp$num > target$num] > target.word) == 0)  {
+      if (sum(tmp$ianum[is.na(tmp$ianum) == F & tmp$num > target$num] > target.word) == 0)  {
         dat$trial[[trial]]$clean$target$post.fix <- 1
         dat$trial[[trial]]$clean$target$crit <- 1
         next
@@ -129,13 +131,13 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
       }
       
       # check whether next fixation is a regressive refixation
-      if (tmp$refix[tmp$num == (target$num + 1)] == 1 & tmp$sac.out[target$num] < 0) {
+      if (tmp$ia.refix[tmp$num == (target$num + 1)] == 1 & tmp$sac.out[target$num] < 0) {
         dat$trial[[trial]]$clean$target$post.refix <- 1
       }
       
       # check whether target word was left to the right (?)
-      target.ia <- tmp[tmp$ia == target.word & tmp$ia.run == 1, ]
-      if (head(tmp$ia[tmp$num > target.ia$num[nrow(target.ia)]], n = 1) < target.word) {
+      target.ia <- tmp[is.na(tmp$ianum) == F & tmp$ianum == target.word & tmp$ia.run == 1, ]
+      if (head(tmp$ianum[tmp$num > target.ia$num[nrow(target.ia)]], n = 1) < target.word) {
         dat$trial[[trial]]$clean$target$post.reg <- 1
       }
       
