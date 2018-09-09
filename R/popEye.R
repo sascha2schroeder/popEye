@@ -52,8 +52,13 @@ popEye <- function(datpath, stimpath,
   # --------------------
   
   # item
-  ia.item <- data.frame(matrix(NA, 1, 7))
-  colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia")
+  if (exp$setup$type == "sentence") {
+    ia.item <- data.frame(matrix(NA, 1, 7))
+    colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia")
+  } else {
+    ia.item <- data.frame(matrix(NA, 1, 8))
+    colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", "target")
+  }
   
   word.item <- data.frame(matrix(NA, 1, 7))
   colnames(word.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "wordnum", "word")
@@ -169,9 +174,9 @@ popEye <- function(datpath, stimpath,
     # subject loop
     # ----------------------------------
     
-    for (s in 1:length(sub.list)) {
+    # for (s in 1:length(sub.list)) {
     # for (s in 24:length(sub.list)) {
-    # for (s in 4:4) {
+    for (s in 4:4) {
       # increment number of subjects
       nsub <- nsub + 1
       
@@ -323,7 +328,7 @@ popEye <- function(datpath, stimpath,
       ia.itemtmp <- ItemFileIA(dat)
       ia.itemtmp$subid <- subid
       ia.item <- rbind(ia.item, ia.itemtmp)
-      
+
       word.itemtmp <- ItemFileWord(dat)
       word.itemtmp$subid <- subid
       word.item <- rbind(word.item, word.itemtmp)
@@ -410,6 +415,7 @@ popEye <- function(datpath, stimpath,
   exp$out$clean <- clean[-1, ]
   row.names(exp$out$clean) <- NULL
   
+  return(exp)
   
   # aggregate word
   # ---------------

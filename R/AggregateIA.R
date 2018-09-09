@@ -4,11 +4,15 @@ AggregateIA <- function(exp) {
   # create outfile  
   iatmp <- exp$out$fix
   iatmp$id <- as.character(paste(iatmp$subid, iatmp$trialnum, iatmp$ianum, sep = ":"))
-  ia <- iatmp[duplicated(iatmp$id) == F, ]
   names <- c("id", "subid", "trialid", "trialnum", "ianum")
-  ia <- ia[names]  
+
+  
+  ia <- iatmp[names]  
+  ia <- 
   ia <- ia[order(ia$id), ]
   
+  print(ia)
+    
   # compute gopast time
   iatmp <- ComputeGopastIA(iatmp)
   
@@ -39,9 +43,17 @@ AggregateIA <- function(exp) {
   
   # save
   ia <- ia[order(ia$trialnum, ia$ia), ]
-  names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", 
-             "blink", "skip", "nrun", "reread", "nfix", "refix", "reg.in", 
-             "reg.out", "dur", "gopast", "gopast.sel")
+  
+  if (exp$setup$type == "sentence") {
+    names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", 
+               "blink", "skip", "nrun", "reread", "nfix", "refix", "reg.in", 
+               "reg.out", "dur", "gopast", "gopast.sel")
+  } else {
+    names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia",,
+               "target", "blink", "skip", "nrun", "reread", "nfix", "refix", 
+               "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
+  }
+  
   ia <- ia[names]
   
   return(ia)
