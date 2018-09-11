@@ -220,8 +220,8 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   if (env$analysis.postdur == "") env$analysis.postdur <- 30
   if (env$analysis.drift == "") env$analysis.drift <- TRUE
   if (env$analysis.sparse == "") env$analysis.sparse <- TRUE
-  if (env$analysis.alignX == "") env$analysis.alignX <- "no"
-  if (env$analysis.alignY == "") env$analysis.alignY <- "no"
+  if (env$analysis.alignX == "") env$analysis.alignX <- F
+  if (env$analysis.alignY == "") env$analysis.alignY <- F
   
   analysis <- list(eyelink = env$analysis.eyelink, vfac = env$analysis.vfac,
                    mindur = env$analysis.mindur, postdur = env$analysis.postdur,
@@ -242,6 +242,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   if (env$clean.stage4Min == "") env$clean.stage4Min <- 80
   if (env$clean.stage4Max == "") env$clean.stage4Max <- 800
   if (env$clean.delete == "") env$clean.delete <- FALSE
+  if (env$clean.outlier == "") env$clean.outlier <- FALSE
   
   clean <- list(stage1Dur = env$clean.stage1Dur, 
                 stage1Dist = env$clean.stage1Dist,
@@ -252,7 +253,9 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                 stage4 = env$clean.stage4,
                 stage4Min = env$clean.stage4Min,
                 stage4Max = env$clean.stage4Max,
-                delete = env$clean.delete)
+                delete = env$clean.delete,
+                outlier = env$clean.outlier
+                )
 
   
   # exclude

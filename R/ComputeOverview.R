@@ -45,17 +45,19 @@ ComputeOverview <- function(exp) {
   
   # trial
   sagg <- aggregate(cbind(exp$out$trial$nrun, exp$out$trial$nfix, 
-                          exp$out$trial$blink, exp$out$trial$skip, 
+                          exp$out$trial$nblink, exp$out$trial$nout,
+                          exp$out$trial$skip, 
                           exp$out$trial$sac, exp$out$trial$refix, 
                           exp$out$trial$reg, exp$out$trial$mfix, 
                           exp$out$trial$total, exp$out$trial$rate),
                     list(exp$out$trial$subid), mean, na.rm = T)
-  colnames(sagg) <- c("subid", "nrun", "nfix", "blink", "skip", "sac", 
+  colnames(sagg) <- c("subid", "nrun", "nfix", "nblink", "nout", "skip", "sac", 
                       "refix", "reg", "mfix", "total", "rate")
   
   sagg$nrun <- round(sagg$nrun, 2)
   sagg$nfix <- round(sagg$nfix, 2)
-  sagg$blink <- round(sagg$blink, 3)
+  sagg$nblink <- round(sagg$nblink, 2)
+  sagg$nout <- round(sagg$nout, 2)
   sagg$skip <- round(sagg$skip, 3)
   sagg$sac <- round(sagg$sac, 3)
   sagg$refix <- round(sagg$refix, 3)
@@ -78,7 +80,7 @@ ComputeOverview <- function(exp) {
   # merge and write out
   exp$out$overview <- merge(cagg, sagg, by = "subid")
   
-  names <- c("subid", "ntrial", "nrun", "nfix", "blink", "skip", "sac", 
+  names <- c("subid", "ntrial", "nrun", "nfix", "nblink", "nout", "skip", "sac", 
     "refix", "reg", "mfix", "total", "rate", "quest.acc", "quest.rt")
   exp$out$overview <- exp$out$overview[names]
   row.names(exp$out$overview) <- NULL

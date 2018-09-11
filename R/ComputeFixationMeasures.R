@@ -7,7 +7,7 @@ ComputeFixationMeasures <- function(dat) {
     # dat <- OutlierAsBlinks(dat, trial) 
     # NOTE: not sure whether this function makes sense
     
-    dat <- ComputeLineChange(dat, trial) 
+    dat <- ComputeLineChange(dat, trial)
     dat <- ComputeSaccadeLength(dat, trial) 
     dat <- ComputeLaunchDistance(dat, trial)
     dat <- ComputeRefixation(dat, trial)

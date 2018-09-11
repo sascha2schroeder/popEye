@@ -35,8 +35,8 @@ ComputeFirstskip <- function(dat, trial) {
     # print(j)
   }  
   
-  dat$trial[[trial]]$fix$word.firstskip[dat$trial[[trial]]$fix$line == 0] <- NA
-  dat$trial[[trial]]$fix$ia.firstskip[dat$trial[[trial]]$fix$line == 0] <- NA
+  dat$trial[[trial]]$fix$word.firstskip[is.na(dat$trial[[trial]]$fix$line) == T] <- NA
+  dat$trial[[trial]]$fix$ia.firstskip[is.na(dat$trial[[trial]]$fix$line) == T] <- NA
   # NOTE: delete if outliers are excluded earlier
   
   return(dat)

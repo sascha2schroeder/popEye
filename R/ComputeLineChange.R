@@ -8,10 +8,10 @@ ComputeLineChange <- function(dat, trial) {
   tmp$line.change <- NA
   tmp$line.change[1] <- 0
   
-  for (j in 2:nrow(tmp)) {
-    
-    tmp$line.change[j] <- tmp$line[j] - tmp$line[j - 1] 
-    
+  if (nrow(tmp) > 1) {
+    for (j in 2:nrow(tmp)) {
+      tmp$line.change[j] <- tmp$line[j] - tmp$line[j - 1] 
+    }  
   }
   
   names <- c("num", "line.change")

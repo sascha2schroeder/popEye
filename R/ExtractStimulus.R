@@ -18,6 +18,7 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
       dat$trial[[trial]]$meta$stim <- stimfile[, match(env$exp$setup$stimulus$text, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == dat$trial[[trial]]$meta$itemid]  
       dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$target, "", dat$trial[[trial]]$meta$stim)  
       dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$word, " ", dat$trial[[trial]]$meta$text) 
+      dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$line, " ", dat$trial[[trial]]$meta$text) 
       if (env$exp$setup$indicator$ia != " ") {
         dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$ia, "", dat$trial[[trial]]$meta$text)    
       }
@@ -29,6 +30,7 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
         dat$trial[[trial]]$meta$preview <- stimfile[, match(env$exp$setup$stimulus$preview, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == dat$trial[[trial]]$meta$itemid]  
         dat$trial[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$target, "", dat$trial[[trial]]$meta$preview)  
         dat$trial[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$word, " ", dat$trial[[trial]]$meta$preview)  
+        dat$trial[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$line, " ", dat$trial[[trial]]$meta$preview) 
         if (env$exp$setup$indicator$ia != " "){
           dat$trial[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$ia, "", dat$trial[[trial]]$meta$preview) 
         }
@@ -41,6 +43,7 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
         dat$trial[[trial]]$meta$prime <- stimfile[, match(env$exp$setup$stimulus$prime, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == dat$trial[[trial]]$meta$itemid]  
         dat$trial[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$target, "", dat$trial[[trial]]$meta$prime)  
         dat$trial[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$word, " ", dat$trial[[trial]]$meta$prime)  
+        dat$trial[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$line, " ", dat$trial[[trial]]$meta$prime)  
         if (env$exp$setup$indicator$ia != " "){
           dat$trial[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$ia, "", dat$trial[[trial]]$meta$prime)
         }

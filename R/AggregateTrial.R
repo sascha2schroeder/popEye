@@ -10,14 +10,31 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   trial <- trial[order(trial$id), ]
   
   # compute measures
-  trial$blink <- as.numeric(tapply(trialtmp$blink, list(trialtmp$id), max))
+  # -----------------
+  
+  # number of blinks
+  blink <- aggregate(trialtmp$blink, list(trialtmp$id), sum)
+  colnames(blink) <- c("id", "nblink")
+  trial <- merge(trial, blink, all.x = T)
+  
+  # number of runs
   trial$nrun <- as.numeric(tapply(trialtmp$word.runid, list(trialtmp$id), max, na.rm = T))
+  
+  # number of fixations
   trial$nfix <- as.numeric(tapply(trialtmp$fixid[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), length))
+
+  # number of outliers  
+  nout <- aggregate(trialtmp$fixid[trialtmp$type == "out"], list(trialtmp$id[trialtmp$type == "out"]), length)
+  colnames(nout) <- c("id", "nout")
+  trial <- merge(trial, nout, all.x = T)
+  trial$nout[is.na(trial$nout)] <- 0
   
   # compute forward saccade length (in letters)
   trialtmp$sac <- (trialtmp$word.land + trialtmp$word.launch)
-  trial$sac <- NA
-  trial$sac <- round(as.numeric(tapply(trialtmp$sac[trialtmp$sac >= 0 & is.na(trialtmp$sac) == F], list(trialtmp$id[trialtmp$sac >= 0 & is.na(trialtmp$sac) == F]), mean)), 2)
+  sac <- aggregate(trialtmp$sac[trialtmp$sac >= 0 & is.na(trialtmp$sac) == F], list(trialtmp$id[trialtmp$sac >= 0 & is.na(trialtmp$sac) == F]), mean, na.rm = T)
+  colnames(sac) <- c("id", "sac")
+  sac$sac <- round(sac$sac, 2)
+  trial <- merge(trial, sac, all.x = T)
   
   # # backward
   # backtmp <- aggregate(trialtmp$sac[trialtmp$sac < 0], list(trialtmp$id[trialtmp$sac < 0]), mean)
@@ -33,11 +50,19 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   # trial$reg.fix <- round(as.numeric(tapply(trialtmp$reg.in, list(trialtmp$trialnum), mean)), 3)
   # # this is the proportion of fixations that are regressions
   
-  # trial duration (only fixation time)
+  # trial duration
   trial$total <- as.numeric(tapply(trialtmp$dur[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), sum))
+  # NOTE: only fixation time, does not include saccades and outliers
+  # NOTE: maybe differentiate between "trial time" and "reading time"
+  
+  # number of words
+  wordtmp <- exp$out$word.item
+  wordtmp$id <- paste(wordtmp$subid, wordtmp$trialnum, sep = ":")
+  nwords <- aggregate(wordtmp$wordnum, list(wordtmp$id), max)
+  colnames(nwords) <- c("id", "nwords")
+  trial <- merge(trial, nwords, all.x = T)
   
   # reading rate
-  trial$nwords <- tapply(trialtmp$wordnum, list(trialtmp$id), max, na.rm = T)
   trial$rate <- round(60000 / (trial$total / trial$nwords))
   
   # match with word-level file 
@@ -58,7 +83,7 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   
   # return
   names <- c("subid", "trialid", "trialnum", "itemid", "cond", "nwords", 
-             "blink", "nrun", "nfix", "sac", "skip", "refix", "reg", "mfix", 
+             "nblink", "nrun", "nfix", "nout", "sac", "skip", "refix", "reg", "mfix", 
              "firstpass", "rereading", "total", "rate")
   exp$out$trial <- trial[order(trial$subid, trial$trialnum), names]
   trial$id <- NULL

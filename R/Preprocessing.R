@@ -16,7 +16,7 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
   
   for (trial in 1:length(table(dat$msg$trialnum))) {
   # for (trial in 65:65) {
-    # trial <- 63
+    # trial <- 3
     
     start <- RetrieveStartStop(dat, trial)$start
     stop <- RetrieveStartStop(dat, trial)$stop
@@ -64,24 +64,14 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
         
       }
      
-      
       # clean
       # -----------
-      
+
       if (sum(out$msg == "SAC") > 0) { # QUICK FIX: do not clean if no saccade detected
-        clean <- Cleaning(out)  
+        clean <- Cleaning(out)
       } else {
         clean <- NA
-      }    
-      
-      
-      # align
-      # ----------------
-      
-      # # TODO: adjust to tmplong format
-      # if (align == T) {
-      #   out$fix <- AlignFixations(out$fix)
-      # }
+      }
       
     } else {
       

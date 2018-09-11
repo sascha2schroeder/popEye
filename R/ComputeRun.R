@@ -12,25 +12,27 @@ ComputeRun <- function(dat, trial) {
   tmp$ia.runid <- 1
   
   # fixation loop
-  for (j in 2:nrow(tmp)){
-    # j <- 2
+  if (nrow(tmp) > 1) {
     
-    # word
-    if (tmp$word.reg.in[j] == 1 & tmp$word.reg.in[j - 1] != 1) {
-      tmp$word.runid[j] <- tmp$word.runid[j - 1] + 1
-    } else {
-      tmp$word.runid[j] <- tmp$word.runid[j - 1]
+    for (j in 2:nrow(tmp)){
+      # j <- 2
+      
+      # word
+      if (tmp$word.reg.in[j] == 1 & tmp$word.reg.in[j - 1] != 1) {
+        tmp$word.runid[j] <- tmp$word.runid[j - 1] + 1
+      } else {
+        tmp$word.runid[j] <- tmp$word.runid[j - 1]
+      }
+      
+      # IA
+      if (tmp$ia.reg.in[j] == 1 & tmp$ia.reg.in[j - 1] != 1) {
+        tmp$ia.runid[j] <- tmp$ia.runid[j - 1] + 1
+      } else {
+        tmp$ia.runid[j] <- tmp$ia.runid[j - 1]
+      }
+      # print(j)
     }
-    
-    # IA
-    if (tmp$ia.reg.in[j] == 1 & tmp$ia.reg.in[j - 1] != 1) {
-      tmp$ia.runid[j] <- tmp$ia.runid[j - 1] + 1
-    } else {
-      tmp$ia.runid[j] <- tmp$ia.runid[j - 1]
-    }
-    # print(j)
   }
-
   
   # fixid
   # ------

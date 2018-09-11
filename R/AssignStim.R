@@ -7,73 +7,77 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   fix <- dat$trial[[trial]]$fix
   stimmat <- dat$trial[[trial]]$meta$stimmat
   
-  # define outlier
-  fix$type <- "in"
-  fix$type[fix$ys > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
-  fix$type[fix$ys < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
-  
 
   # align fixations on x axis
   # --------------------------
   
-  # no corretion
-  if (env$exp$setup$analysis$alignX == "no") {
+  if (env$exp$setup$analysis$alignX == T) {
+    fix$xn <- fix$xs + (env$exp$setup$display$marginLeft - fix$xs[1])
+  } else {
     fix$xn <- fix$xs 
   }
-  
-  # drift method
-  if (env$exp$setup$analysis$alignX == "drift") {
-    fix$xn <- fix$xs + (env$exp$setup$display$marginLeft - fix$xs[1])
-  } 
   
     
   # align fixations on y axis
   # --------------------------
   
-  # no corretion
-  if (env$exp$setup$analysis$alignY == "no") {
+  if (env$exp$setup$analysis$alignY == "drift") {
+    fix$yn <- fix$ys + (env$exp$setup$display$marginTop - fix$ys[1])
+  } else {
     fix$yn <- fix$ys 
   }
   
-  # drift correct method
-  if (env$exp$setup$analysis$alignY == "drift") {
-    fix$yn <- fix$ys + (env$exp$setup$display$marginTop - fix$ys[1])
-  }
+  # define outlier
+  # ----------------
+  
+  fix$type <- "in"
+  
+  # # lose outlier definition
+  # fix$type[fix$yn > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
+  # fix$type[fix$yn < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
+  
+  # strict outlier definition
+  fix$type[fix$yn > max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 0.5] <- "out"
+  fix$type[fix$yn < min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 0.5] <- "out"
+  
   
   # cluster method
-  if (env$exp$setup$analysis$alignY == "cluster") {
-    # NOTE: dependency library(fpc)
-    
-    fix$xn <- fix$xs
-    
-    if (max(stimmat$line) > 1) {
-      clu <- kmeans(fix$ys[fix$type == "in"], 
-                    fpc::pamk(fix$ys[fix$type == "in"], 
-                              criterion="asw", 
-                              krange = 1:max(stimmat$line),
-                              alpha = .1)$nc)
-      if (max(clu$cluster) > 1) {
-        cl_mean <- sort(round(clu$center))
-        clu <- kmeans(fix$ys[fix$type == "in"], cl_mean)  
-      }
-      
-      fix$cluster[fix$type == "out"] <- 0
-      fix$cluster[fix$type == "in"] <- clu$cluster
-      
-      fix$yn <- fix$ys
-      line_mean  <- tapply(stimmat$ym, stimmat$line, max)
-      for(i in 1:max(fix$cluster)) {
-        fix$yn[fix$cluster == i] <- line_mean[i]
-      } 
-      
-    } else {
-      
-      fix$yn <- max(stimmat$ym)
-      
-    }
-    
-  }
+  # ---------------
+  
+  # if (env$exp$setup$analysis$alignY == "cluster") {
+  #   # NOTE: dependency library(fpc)
+  #   
+  #   fix$xn <- fix$xs
+  #   
+  #   if (max(stimmat$line) > 1) {
+  #     clu <- kmeans(fix$ys[fix$type == "in"], 
+  #                   fpc::pamk(fix$ys[fix$type == "in"], 
+  #                             criterion="asw", 
+  #                             krange = 1:max(stimmat$line),
+  #                             alpha = .1)$nc)
+  #     if (max(clu$cluster) > 1) {
+  #       cl_mean <- sort(round(clu$center))
+  #       clu <- kmeans(fix$ys[fix$type == "in"], cl_mean)  
+  #     }
+  #     
+  #     fix$cluster[fix$type == "out"] <- 0
+  #     fix$cluster[fix$type == "in"] <- clu$cluster
+  #     
+  #     fix$yn <- fix$ys
+  #     line_mean  <- tapply(stimmat$ym, stimmat$line, max)
+  #     for(i in 1:max(fix$cluster)) {
+  #       fix$yn[fix$cluster == i] <- line_mean[i]
+  #     } 
+  #     
+  #   } else {
+  #     
+  #     fix$yn <- max(stimmat$ym)
+  #     
+  #   }
+  #   
+  # }
 
+  
   # TODO: FixAlign method (Cohen, 2013) 
   
   
@@ -98,7 +102,10 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     fix$ia.land[i] <- stimmat$letia[which.min(out)]
   }
   
+  
   # recompute outlier
+  # ------------------
+  
   fix$line[fix$type == "out"] <- NA
   fix$letternum[fix$type == "out"] <- NA
   fix$letter[fix$type == "out"] <- NA
@@ -108,8 +115,21 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   fix$word.land[fix$type == "out"] <- NA
   fix$ia.land[fix$type == "out"] <- NA
   
+  
   # return
-  dat$trial[[trial]]$fix <- fix
+  # -------
+  
+  # # exclude trial if too many outlier fixations
+  # # NOTE: experimental!
+  # if (sum(dat$trial[[trial]]$fix$type == "in") / nrow(dat$trial[[trial]]$fix) > .5) {
+  #   dat$trial[[trial]]$fix <- fix  
+  # } else {
+  #   dat$trial[[trial]] <- NULL 
+  # }
+  # # TODO: recompute trialid
+  
+  
+  dat$trial[[trial]]$fix <- fix  
   
   return(dat)
   

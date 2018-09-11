@@ -3,15 +3,21 @@ CombineIA <- function(exp) {
   
   # ia
   exp$out$iatmp$id <- 
-    factor(exp$out$iatmp$subid):factor(exp$out$iatmp$trialnum):factor(exp$out$iatmp$ia)
-  names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", 
-             "blink", "skip", "nrun", "reread", "nfix", "refix", "reg.in", "reg.out", 
-             "dur", "gopast", "gopast.sel")
+    factor(exp$out$iatmp$subid):factor(exp$out$iatmp$trialnum):factor(exp$out$iatmp$ianum)
+  if (exp$setup$type == "sentence") {
+    names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", 
+               "blink", "skip", "nrun", "reread", "nfix", "refix", "reg.in", "reg.out", 
+               "dur", "gopast", "gopast.sel")
+  } else {
+    names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "ianum", 
+               "ia", "target", "blink", "skip", "nrun", "reread", "nfix", 
+               "refix", "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
+  }
   iatmp <- exp$out$iatmp[names]
   
   # first
   exp$out$first$id <- 
-    factor(exp$out$first$subid):factor(exp$out$first$trialnum):factor(exp$out$first$ia)
+    factor(exp$out$first$subid):factor(exp$out$first$trialnum):factor(exp$out$first$ianum)
   names <- c("id", "firstrun.skip", "firstrun.nfix", "firstrun.refix", "firstrun.reg.in", 
              "firstrun.reg.out", "firstrun.dur")
   firsttmp <- exp$out$first[names]
@@ -19,7 +25,7 @@ CombineIA <- function(exp) {
   
   # firstfix
   exp$out$fix$id <- 
-    factor(exp$out$fix$subid):factor(exp$out$fix$trialnum):factor(exp$out$fix$ia)
+    factor(exp$out$fix$subid):factor(exp$out$fix$trialnum):factor(exp$out$fix$ianum)
   fixtmp <- exp$out$fix[exp$out$fix$ia.run == 1 & exp$out$fix$ia.run.fix == 1, ]
   names <- c("id", "ia.launch", "ia.land", "ia.cland", "dur")
   fixtmp <- fixtmp[names]

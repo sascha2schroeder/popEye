@@ -20,7 +20,7 @@ popEye <- function(datpath, stimpath,
                    clean.stage2Dur, clean.stage2Dist,
                    clean.stage3, clean.stage3Dur, 
                    clean.stage4, clean.stage4Min,
-                   clean.stage4Max, clean.delete,
+                   clean.stage4Max, clean.delete, clean.outlier,
                    exclude.blink, exclude.nfix, exclude.sac,
                    outpath = "", outname = "") {
   
@@ -174,9 +174,9 @@ popEye <- function(datpath, stimpath,
     # subject loop
     # ----------------------------------
     
-    # for (s in 1:length(sub.list)) {
+    for (s in 1:length(sub.list)) {
     # for (s in 24:length(sub.list)) {
-    for (s in 4:4) {
+    # for (s in 1:1) {
       # increment number of subjects
       nsub <- nsub + 1
       
@@ -220,8 +220,8 @@ popEye <- function(datpath, stimpath,
       message(".. Create trials")
 
       dat <- Preprocessing(dat)
-      
 
+     
       # -----------------------
       # Modul 2: Cleaning
       # -----------------------
@@ -415,7 +415,6 @@ popEye <- function(datpath, stimpath,
   exp$out$clean <- clean[-1, ]
   row.names(exp$out$clean) <- NULL
   
-  return(exp)
   
   # aggregate word
   # ---------------
