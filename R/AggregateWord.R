@@ -41,9 +41,10 @@ AggregateWord <- function(exp) {
   
   # save
   word <- word[order(word$trialnum, word$wordnum), ]
-  names <- c("subid", "trialid", "trialnum", "itemid", "cond", "wordnum", "word", 
-             "blink", "skip", "nrun", "reread", "nfix", "refix", "reg.in", 
-             "reg.out", "dur", "gopast", "gopast.sel")
+  names <- c("subid", "trialid", "trialnum", "itemid", "cond",
+             "wordnum", "word", "blink", "skip", "nrun", "reread", 
+             "nfix", "refix", "reg.in", "reg.out", "dur", 
+             "gopast", "gopast.sel")
   word <- word[names]
   
   return(word)

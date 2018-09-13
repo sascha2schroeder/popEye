@@ -8,6 +8,7 @@ ComputeEvents <- function(xy, vxy) {
   # SAC
   sac <- ComputeSaccades(xy, vxy)$sac
   
+  
   # FIX: check number of saccades
   # ------------------------------
   if (sum(sac$start > 0) == 0) {
@@ -29,7 +30,7 @@ ComputeEvents <- function(xy, vxy) {
   # NOTE: Not sure whether this works with multiple blinks in a trial
   
   out <- list(sac = sac, fix = fix, blink = blink)
-
+  
   if (nrow(out$blink) > 0) {
     for (i in 1:nrow(out$blink)) {
       if (out$blink$num[i] > max(out$sac$num)){

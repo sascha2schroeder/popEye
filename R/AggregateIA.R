@@ -9,7 +9,6 @@ AggregateIA <- function(exp) {
   ia <- ia[names]  
   ia <- ia[order(ia$id), ]
   
-    
   # compute gopast time
   iatmp <- ComputeGopastIA(iatmp)
   
@@ -18,7 +17,7 @@ AggregateIA <- function(exp) {
   ia$nrun <- as.numeric(tapply(iatmp$ia.run, list(iatmp$id), max, na.rm = T))
   ia$reread <- ifelse(ia$nrun > 1, 1, 0)
   ia$nfix <- as.numeric(tapply(iatmp$fixid, list(iatmp$id), length))
-  ia$refix <- as.numeric(tapply(iatmp$ia.refix, list(iatmp$id), max, na.rm = T))
+  ia$refix <- as.numeric(tapply(iatmp$ia.refix, list(iatmp$id), max))
   ia$reg.in <- as.numeric(tapply(iatmp$ia.reg.in, list(iatmp$id), max, na.rm = T))
   ia$reg.out <- as.numeric(tapply(iatmp$ia.reg.out, list(iatmp$id), max, na.rm = T))
   ia$dur <- as.numeric(tapply(iatmp$dur, list(iatmp$id), sum, na.rm = T))

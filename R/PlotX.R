@@ -8,8 +8,8 @@ PlotX <- function(exp, subject, trial) {
   
   # create plot
   plot(xy2$x, type = "l", 
-       ylim = c(max(tmp$meta$letter.boundary) + 3*exp$setup$font$size,
-                min(tmp$meta$letter.boundary) - 3*exp$setup$font$size),
+       ylim = c(max(tmp$meta$stimmat$xs) + 3*exp$setup$font$size,
+                min(tmp$meta$stimmat$xs) - 3*exp$setup$font$size),
        main = "X Plot", 
        xlab = "Time (ms)", ylab = "x Position (px)")
   
@@ -39,14 +39,14 @@ PlotX <- function(exp, subject, trial) {
   # add fixation number
   fix$num <- 1:nrow(fix)
   for (i in 1:nrow(fix)) {
-    text(((fix$stop[i] + fix$start[i]) / 2), (fix$xs[i] - 25), fix$num[i], 
-         col = "royalblue", cex = .75)  
+    text(((fix$stop[i] + fix$start[i]) / 2), (fix$xs[i] - 30), fix$num[i], 
+         col = "royalblue", cex = .6)  
   }
   
   # add fixation duration
   fix$dur <- fix$stop - fix$start + 1
   for (i in 1:nrow(fix)) {
-    text(((fix$stop[i] + fix$start[i]) / 2), (fix$xs[i] + 25), fix$dur[i], 
+    text(((fix$stop[i] + fix$start[i]) / 2), (fix$xs[i] + 30), fix$dur[i], 
          col = "black", cex = .6)  
   }
   

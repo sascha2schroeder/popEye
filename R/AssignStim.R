@@ -119,16 +119,6 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # return
   # -------
   
-  # # exclude trial if too many outlier fixations
-  # # NOTE: experimental!
-  # if (sum(dat$trial[[trial]]$fix$type == "in") / nrow(dat$trial[[trial]]$fix) > .5) {
-  #   dat$trial[[trial]]$fix <- fix  
-  # } else {
-  #   dat$trial[[trial]] <- NULL 
-  # }
-  # # TODO: recompute trialid
-  
-  
   dat$trial[[trial]]$fix <- fix  
   
   return(dat)

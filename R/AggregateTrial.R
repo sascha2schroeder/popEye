@@ -24,10 +24,9 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   trial$nfix <- as.numeric(tapply(trialtmp$fixid[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), length))
 
   # number of outliers  
-  nout <- aggregate(trialtmp$fixid[trialtmp$type == "out"], list(trialtmp$id[trialtmp$type == "out"]), length)
+  nout <- aggregate(trialtmp$type == "out", list(trialtmp$id), sum)
   colnames(nout) <- c("id", "nout")
   trial <- merge(trial, nout, all.x = T)
-  trial$nout[is.na(trial$nout)] <- 0
   
   # compute forward saccade length (in letters)
   trialtmp$sac <- (trialtmp$word.land + trialtmp$word.launch)
@@ -69,7 +68,7 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   word <- exp$out$word
   word$id <- paste(word$subid, word$trialnum, sep = ":")
   
-  trial$skip <- round(as.numeric(tapply(word$firstrun.skip, list(word$id), mean)), 3)
+  trial$skip <- round(as.numeric(tapply(word$firstrun.skip, list(word$id), mean, na.rm = T)), 3)
   trial$refix <- round(as.numeric(tapply(word$refix, list(word$id), mean, na.rm = T)), 3)
   # this is the proportion of words that have been refixated
   trial$reg <- round(as.numeric(tapply(word$reg.in, list(word$id), mean, na.rm = T)), 3)

@@ -39,13 +39,16 @@ CombineWord <- function(exp) {
   row.names(exp$out$word) <- NULL
   
   # recompute firstrun skip (skips also firstkips)
-  exp$out$word$firstrun.skip[exp$out$word$skip == 1] <- 1
+  # exp$out$word$firstrun.skip[exp$out$word$skip == 1] <- 1
+  # NOTE: does this make sense?
+  exp$out$word$firstrun.skip[exp$out$word$skip == 1] <- NA
   
   # compute single measures
   
   # single
   exp$out$word$singlefix <- 0
   exp$out$word$singlefix[is.na(exp$out$word$firstrun.nfix) == F & exp$out$word$firstrun.nfix == 1] <- 1
+  exp$out$word$singlefix[exp$out$word$skip == 1] <- NA
   
   # launch
   exp$out$word$singlefix.launch <- NA

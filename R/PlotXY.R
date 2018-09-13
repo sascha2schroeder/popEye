@@ -7,11 +7,17 @@ PlotXY <- function(exp, subject, trial) {
   xy2 <- SmoothData(SmoothData(tmp$xy))
 
   # basic plot
-  plot(xy2$x, xy2$y, type = "l", 
-       xlim = c(min(tmp$meta$letter.boundary) - 3*exp$setup$font$size,
-                max(tmp$meta$letter.boundary) + 3*exp$setup$font$size),
-       ylim = c(exp$setup$display$marginTop - 3*exp$setup$font$size,
-                exp$setup$display$marginTop + 3*exp$setup$font$size), 
+  # plot(xy2$x, xy2$y, type = "l", 
+  #      xlim = c(min(tmp$meta$stimmat$xs) - 3*exp$setup$font$size,
+  #               max(tmp$meta$stimmat$xs) + 3*exp$setup$font$size),
+  #      ylim = c(max(tmp$meta$stimmat$ys) + 3*exp$setup$font$size,
+  #               min(tmp$meta$stimmat$ys) - 3*exp$setup$font$size), 
+  #      main = "XY Plot", xlab = "x Position (px)", ylab = "y Position (px)")
+  
+  # full plot
+  plot(xy2$x, xy2$y, type = "l",
+       xlim = c(1, exp$setup$display$resolutionX),
+       ylim = c(exp$setup$display$resolutionY, 1),
        main = "XY Plot", xlab = "x Position (px)", ylab = "y Position (px)")
   
   # add saccades
@@ -30,13 +36,13 @@ PlotXY <- function(exp, subject, trial) {
   # add fixation number
   fix$num <- 1:nrow(fix)
   for (s in 1:nrow(fix)) {
-    text(fix$xs[s], fix$ys[s] + 5, fix$num[s], col = 'royalblue', cex = .75)
+    text(fix$xs[s], fix$ys[s] - 30, fix$num[s], col = 'royalblue', cex = .6)
   }
 
   # add fixation duration
   fix$dur <- fix$stop - fix$start + 1
   for (s in 1:nrow(fix)) {
-    text(fix$xs[s], fix$ys[s] - 5, fix$dur[s], col = 'black', cex = .6)
+    text(fix$xs[s], fix$ys[s] + 30, fix$dur[s], col = 'black', cex = .6)
   }
   
 }

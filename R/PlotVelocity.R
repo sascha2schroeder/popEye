@@ -5,7 +5,8 @@ PlotVelocity <- function(exp, subject, trial) {
   
   # create basic plot
   plot(tmp$vxy$x, tmp$vxy$y, type = "n", main = "2D Velocity Plot",
-       xlab = "x Velocity", ylab = "y Velocity", ylim = rev(range(tmp$vxy$y, na.rm = T)))
+       xlab = "x Velocity", ylab = "y Velocity", 
+       ylim = rev(range(tmp$vxy$y, na.rm = T)))
   
   points(tmp$vxy$x, tmp$vxy$y, type = "l", col = "royalblue", lwd = .5)
   

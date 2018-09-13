@@ -13,7 +13,7 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
     a <- sac$start[s]
     b <- sac$stop[s]
     
-    if (is.null(dat$trial[[trial]]$xy$x) == FALSE) {
+    if (is.na(dat$trial[[trial]]$xy$x[a:b]) == FALSE) {
       # saccade peak velocity (vpeak)
       if (env$exp$setup$tracker$calibration != "H3") {
         sac$peak.vel[s] <- round(max(sqrt(dat$trial[[trial]]$vxy$x[a:b]^2

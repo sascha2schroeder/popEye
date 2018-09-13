@@ -199,7 +199,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   first <- tapply(stimmat$ia, stimmat$line, min)
   for (i in 1:length(first)) {
-    stimmat$letia[stimmat$ia == first[i]] <- stimmat$letword + 1
+    stimmat$letia[stimmat$ia == first[i]] <- stimmat$letia + 1
   }
   
   

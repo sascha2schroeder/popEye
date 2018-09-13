@@ -22,15 +22,27 @@ CleanOutlier <- function(dat, trial) {
       change <- 1
     }
     
-    # final -> delete 
+    # third -> delete first to third
+    if (out$type[out$num == 3] == "out") {
+      out <- out[out$num != 1 & out$num != 2 & out$num != 3, ]
+      change <- 1
+    }
+    
+    # n -> delete n
     if (out$type[out$num == max(out$num)] == "out") {
       out <- out[out$num != max(out$num), ]
       change <- 1
     }
     
-    # prefinal -> delete prefinal and final 
+    # n-1 -> delete n-1 and n 
     if (out$type[out$num == max(out$num) - 1] == "out") {
       out <- out[out$num != max(out$num) & (out$num != max(out$num) - 1), ]
+      change <- 1
+    }
+    
+    # n-2 -> delete n-2 to n 
+    if (out$type[out$num == max(out$num) - 2] == "out") {
+      out <- out[out$num != max(out$num) & (out$num != max(out$num) - 1) & (out$num != max(out$num) - 2), ]
       change <- 1
     }
     
@@ -60,7 +72,11 @@ CleanOutlier <- function(dat, trial) {
     }
   }
   
-  dat$trial[[trial]]$fix <- out
+  if (sum(out$type == "in") > 1) {
+    dat$trial[[trial]]$fix <- out
+  } else {
+    dat$trial[[trial]]$fix <- NULL
+  }
   
   return(dat)
   

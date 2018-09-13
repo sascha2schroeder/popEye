@@ -46,13 +46,16 @@ CombineIA <- function(exp) {
   row.names(exp$out$ia) <- NULL
   
   # recompute firstrun skip (skips also firstkips)
-  exp$out$ia$firstrun.skip[exp$out$ia$skip == 1] <- 1
+  # exp$out$ia$firstrun.skip[exp$out$ia$skip == 1] <- 1
+  # NOTE: does this make sense?
+  exp$out$ia$firstrun.skip[exp$out$ia$skip == 1] <- NA
   
   # compute single measures
   
   # single
   exp$out$ia$singlefix <- 0
   exp$out$ia$singlefix[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- 1
+  exp$out$ia$singlefix[exp$out$ia$skip == 1] <- NA
   
   # launch
   exp$out$ia$singlefix.launch <- NA

@@ -1,9 +1,12 @@
 
 ItemFileWord <- function(dat, env = parent.frame(n = 1)) {
   
+  # NOTE: maybe take from stimmat
+  
   # create output slot
   item <- data.frame(matrix(NA, 1, 7))
-  colnames(item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "wordnum", "word")
+  colnames(item) <- c("subid", "trialid", "trialnum", "itemid", "cond", 
+                      "wordnum", "word")
   
   # trial loop
   for (trial in 1:length(dat$trial)) {
@@ -11,9 +14,8 @@ ItemFileWord <- function(dat, env = parent.frame(n = 1)) {
     
     # temporary item frame
     word <- unlist(strsplit(dat$trial[[trial]]$meta$stim, env$exp$setup$indicator$word))
-
-    # parse out indicators    
     
+    # parse out indicators    
     if (env$exp$setup$indicator$ia != " ") {
       word <- gsub(env$exp$setup$indicator$ia, "", word)
     }
@@ -25,8 +27,9 @@ ItemFileWord <- function(dat, env = parent.frame(n = 1)) {
     word <- gsub(env$exp$setup$indicator$line, "", word)
     
     
-    itemtmp <- data.frame(matrix(NA, length(word), 6))
-    colnames(itemtmp) <- c("subid", "trialnum", "itemid", "cond", "wordnum", "word")
+    itemtmp <- data.frame(matrix(NA, length(word), 7))
+    colnames(itemtmp) <- c("subid", "trialid", "trialnum", "itemid", 
+                           "cond", "wordnum", "word")
     
     itemtmp$trialid <- dat$trial[[trial]]$meta$trialid
     itemtmp$trialnum <- dat$trial[[trial]]$meta$trialnum

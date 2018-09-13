@@ -15,7 +15,7 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
   # -----------
   
   for (trial in 1:length(table(dat$msg$trialnum))) {
-  # for (trial in 65:65) {
+  # for (trial in 3:3) {
     # trial <- 3
     
     start <- RetrieveStartStop(dat, trial)$start

@@ -4,7 +4,7 @@ CleanFixations <- function(out, dur.thresh, dist.thresh){
   # select events  
   fix <- ComputeDurDist(out[out$msg == "FIX", ])
   fix$num <- 1:nrow(fix) # FIX: number of fixations
-
+  
   sac <- out[out$msg == "SAC" | out$msg == "BLINK", ]
   
   i <- 1

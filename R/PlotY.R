@@ -8,8 +8,8 @@ PlotY <- function(exp, subject, trial) {
   
   # create basic plot
   plot(xy2$y, type = "l", 
-       ylim = c(exp$setup$display$marginY - 3*exp$setup$font$size,
-                exp$setup$display$marginY + 3*exp$setup$font$size), 
+       ylim = c(max(tmp$meta$stimmat$ys) + 3*exp$setup$font$size,
+                min(tmp$meta$stimmat$ys) - 3*exp$setup$font$size), 
        main = "Y Plot", xlab = "Time (ms)", 
        ylab = "y Position (px)")
   
@@ -43,14 +43,14 @@ PlotY <- function(exp, subject, trial) {
   # add fixation number
   fix$num <- 1:nrow(fix)
   for (i in 1:nrow(fix)) {
-    text(((fix$stop[i] + fix$start[i]) / 2), (fix$ys[i] + 5), fix$num[i], 
-         col = "royalblue", cex = .75)  
+    text(((fix$stop[i] + fix$start[i]) / 2), (fix$ys[i] - 10), fix$num[i], 
+         col = "royalblue", cex = .6)  
   }
   
   # add fixation duration
   fix$dur <- fix$stop - fix$start + 1
   for (i in 1:nrow(fix)) {
-    text(((fix$stop[i] + fix$start[i]) / 2), (fix$ys[i] - 5), fix$dur[i], 
+    text(((fix$stop[i] + fix$start[i]) / 2), (fix$ys[i] + 10), fix$dur[i], 
          col = "black", cex = .6)  
   }
   

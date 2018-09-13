@@ -176,7 +176,7 @@ popEye <- function(datpath, stimpath,
     
     for (s in 1:length(sub.list)) {
     # for (s in 24:length(sub.list)) {
-    # for (s in 1:1) {
+    # for (s in 2:2) {
       # increment number of subjects
       nsub <- nsub + 1
       
@@ -212,7 +212,7 @@ popEye <- function(datpath, stimpath,
       message(".. Remove data")
       
       dat <- Remove(dat) 
-      
+
       
       # create trials
       # ---------------
@@ -221,7 +221,6 @@ popEye <- function(datpath, stimpath,
 
       dat <- Preprocessing(dat)
 
-     
       # -----------------------
       # Modul 2: Cleaning
       # -----------------------
@@ -264,67 +263,66 @@ popEye <- function(datpath, stimpath,
       # NOTE: stage4 cleaning is dangerous !
       # TODO: report deleted fixations
 
-
       # compute fixation measures
       # --------------------------
-      
+
       message(".. Compute fixation measures")
-      
+
       dat <- ComputeFixationMeasures(dat)
 
-      
+
       # retrieve saccades and blinks
       # -----------------------------
-      
+
       message(".. Compute saccade measures")
-      
+
       dat <- ProcessSaccades(dat)
 
-      
+
       # combine events
       # ----------------
-      
+
       message(".. Combine events")
-      
+
       dat <- CombineEvents(dat)
 
-      
+
       # cleaning
       # ---------
-      
+
       message(".. Cleaning trial")
-      
+
       dat <- CleanAll(dat)
 
       # NOTE: think about relationship between cleaning here and in main analysis
 
-            
+
       # clean trials
       # -------------
-      
+
       if (exp$setup$analysis$sparse == TRUE) {
         dat <- Sparse(dat)
       }
 
-      
+
       # save in experiment slot
       # ------------------------
-      
+
       exp$subject[[nsub]] <- list(header = header, trial = dat$trial)
 
-      
+
       # -----------------------
       # Modul 3: Aggregation
       # -----------------------
-      
+
       # message(". Modul 3: Aggregation")
-      
-      
+
+
       # item file
       # -----------
-      
+
       message(".. Load item file")
-      
+
       ia.itemtmp <- ItemFileIA(dat)
       ia.itemtmp$subid <- subid
       ia.item <- rbind(ia.item, ia.itemtmp)
@@ -333,18 +331,18 @@ popEye <- function(datpath, stimpath,
       word.itemtmp$subid <- subid
       word.item <- rbind(word.item, word.itemtmp)
 
-        
+
       # select fixations
       # -----------------
-      
+
       message(".. Select fixations")
-      
+
       fixtmp <- SelectFix(dat)
       fixtmp$subid <-  subid
       fix <- rbind(fix, fixtmp)
       fix <- fix[order(fix$subid, fix$trialnum, fix$fixid), ]
 
-      
+
       # select saccades
       # -----------------
 
@@ -354,132 +352,132 @@ popEye <- function(datpath, stimpath,
       sactmp$subid <-  subid
       sac <- rbind(sac, sactmp)
       sac <- sac[order(sac$subid, sac$trialnum, sac$sacid), ]
-      
-      
+
+
       # results file
       # -------------
-      
+
       # TODO: integration results file and experiment needs to be improved
-      
+
       if (exp$setup$tracker$software == "EB") {
-        
+
         message(".. Load results file")
-        
-        resultstmp <- ResultsFile(subid, 
+
+        resultstmp <- ResultsFile(subid,
                                   filepath)
         resultstmp$text$subid <-  subid
         resultstmp$quest$subid <-  subid
         results <- list(text = rbind(results$text, resultstmp$text),
                         quest = rbind(results$quest, resultstmp$quest))
       }
-      
+
       # clean file
       # -------------
-      
+
       message(".. Create clean file")
-      
+
       cleantmp <- ComputeClean(dat)
       cleantmp$subid <- subid
       clean <- rbind(clean, cleantmp)
-      
+
     }
-    
+
   }
-  
+
   # NOTE: save number of subjects in setup slot?
-  
-  
+
+
   # collect output files
   # ---------------------
-  
+
   exp$out$ia.item <- ia.item[-1, ]
   row.names(exp$out$ia.item) <- NULL
-  
+
   exp$out$word.item <- word.item[-1, ]
   row.names(exp$out$word.item) <- NULL
-  
+
   exp$out$fix <- fix
   row.names(exp$out$fix) <- NULL
-  
+
   exp$out$sac <- sac
   row.names(exp$out$sac) <- NULL
-  
+
   if (exp$setup$tracker$software == "EB") {
     exp$out$results$text <- results$text[-1, ]
     row.names(exp$out$results$text) <- NULL
     exp$out$results$quest <- results$quest[-1, ]
     row.names(exp$out$results$quest) <- NULL
   }
-  
+
   # out
   exp$out$clean <- clean[-1, ]
   row.names(exp$out$clean) <- NULL
-  
-  
+
+
   # aggregate word
   # ---------------
-  
+
   message("Aggregate word")
-  
+
   exp$out$wordfirst <- AggregateWordFirstrun(exp)
   exp$out$wordtmp <- AggregateWord(exp)
   exp <- CombineWord(exp)
-  
-  
+
+
   # aggregate IA
   # -------------
-  
+
   message("Aggregate IA")
-  
+
   exp$out$first <- AggregateIAFirstrun(exp)
   exp$out$iatmp <- AggregateIA(exp)
   exp <- CombineIA(exp)
 
-  
+
   # aggregate trial
   # ----------------
-  
+
   message("Aggregate trial")
-  
+
   exp <- AggregateTrial(exp)
 
-  
+
   # compute overview file
   # ----------------------
-  
+
   message("Compute overview")
-  
+
   exp <- ComputeOverview(exp)
-  
-  
+
+
   # clean up
   # ----------
-  
+
   # exp$out$ia.item <- NULL
   # exp$out$word.item <- NULL
-  
-  
+
+
   # save
   # -----
-  
+
   # NOTE: save one RDS file for complete experiment in directory from which
-  #       function has been called; name is the same as the last directory in 
+  #       function has been called; name is the same as the last directory in
   #       datpath (not sure whether this generally makes sense -> argument?)
-  
+
   message("Save")
-  
+
   # set outpath
   if (outpath == "") {
     outpath <- getwd()
   }
-  
+
   # set outname
   if (outname == "") {
     tmp <- unlist(strsplit(datpath, "/"))
     outname <- tmp[length(tmp)]
   }
-  
-  # save
+
+  save
   saveRDS(exp, file = paste(outpath, "/", outname, ".RDS", sep = ""))
   
 }
