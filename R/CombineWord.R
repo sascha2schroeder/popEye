@@ -39,9 +39,7 @@ CombineWord <- function(exp) {
   row.names(exp$out$word) <- NULL
   
   # recompute firstrun skip (skips also firstkips)
-  # exp$out$word$firstrun.skip[exp$out$word$skip == 1] <- 1
-  # NOTE: does this make sense?
-  exp$out$word$firstrun.skip[exp$out$word$skip == 1] <- NA
+  exp$out$word$firstrun.skip[exp$out$word$skip == 1] <- 1
   
   # compute single measures
   

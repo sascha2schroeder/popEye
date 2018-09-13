@@ -46,9 +46,7 @@ CombineIA <- function(exp) {
   row.names(exp$out$ia) <- NULL
   
   # recompute firstrun skip (skips also firstkips)
-  # exp$out$ia$firstrun.skip[exp$out$ia$skip == 1] <- 1
-  # NOTE: does this make sense?
-  exp$out$ia$firstrun.skip[exp$out$ia$skip == 1] <- NA
+  exp$out$ia$firstrun.skip[exp$out$ia$skip == 1] <- 1
   
   # compute single measures
   
