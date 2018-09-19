@@ -24,7 +24,7 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
     # exclude corresponding sample and event data
     dat$samp <- dat$samp[dat$samp$time > (dat$msg$time[1] - 1), ]
     dat$event <- dat$event[dat$event$time > (dat$msg$time[1] - 1), ]
-    
+
   } else if (env$exp$setup$tracker$software == "ET") {
     
     dat$msg <- dat$msg[(dat$msg$itemid %in% env$exp$setup$clean$practice) == F, ]

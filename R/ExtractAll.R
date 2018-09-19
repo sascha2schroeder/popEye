@@ -3,7 +3,7 @@ ExtractAll <- function(ascfile = ascfile, subid = subid, env = parent.frame(n = 
   
   # read ASC
   infile   <- readLines(ascfile, encoding = "UTF-8")
-
+  
   # compute frames
   msg   <- ExtractMsg(infile)
   samp  <- ExtractSamples(infile)

@@ -52,8 +52,7 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   tmp <- sapply(strsplit(dat[grep("TRIALID", dat)], "\t"), "[[", 2)
   time <- as.numeric(sapply(strsplit(tmp[grep("TRIALID", tmp)], " "), "[[", 1))
   trialnum <- 1:length(time)
-
-    
+  
   # EB
   if (env$exp$setup$tracker$software == "EB") {
   
@@ -77,8 +76,8 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     # dependency
     dependency <- as.numeric(rep(0, length(itemid)))
     # NOTE: does not make much sense; store to be parallel with ET
+    
   }
-
   
   # ET
   if (env$exp$setup$tracker$software == "ET") {
@@ -137,12 +136,12 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   } else {
     tmp <- c(start, stop)
   }
-
+  
   # exclude variable statements for EB
   if (env$exp$setup$tracker$software == "EB" & length(grep("!V", tmp))) {
     tmp <- tmp[-grep("!V", tmp)]  
   } 
-  
+
   # substract delay from timestamp
   if (env$exp$setup$tracker$software == "EB") {
     time <- as.numeric(sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 1), "\t"), "[[", 2)) -

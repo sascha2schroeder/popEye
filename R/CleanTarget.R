@@ -5,7 +5,7 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     # trial <- 9
     
     target.word <- dat$trial[[trial]]$meta$target
-   
+    
     # set up output slot
     dat$trial[[trial]]$clean$target <- list(fix = 0, blink = 0, pre.sac = 0, 
                                             pre.skip = 0, pre.launch = 0, 
