@@ -159,6 +159,8 @@ popEye <- function(datpath, stimpath,
   # for (v in 1:1) {
   # v <- 2
     
+    print(v)
+    
     # list of subjects
     if (tracker.software == "EB") {
       filepath <- paste(datpath, version.list[v], "results/", sep = "")  
