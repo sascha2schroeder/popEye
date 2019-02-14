@@ -133,9 +133,14 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                 "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
                 "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
                 "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
-                " ", ",",".","?","!","–")
+                " ", ",",".","?","!","–", "-",
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
     pixel <- rep(11, length(letter))
     font$letpix <- data.frame(letter = letter, pixel = pixel)
+    
+    # height
+    font$height <- 16
+    font$lead <- 3
   }
   
   # CourierNew, 16 pt
@@ -144,9 +149,15 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                 "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
                 "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
                 "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
-                " ", ",",".","?","!","–")
+                " ", ",",".","?","!","–","-",
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
     pixel <- rep(13, length(letter))
     font$letpix <- data.frame(letter = letter, pixel = pixel)
+    
+    # height
+    font$height <- 17
+    font$lead <- 4
+    
   }
   
   # CourierNew, 20 pt
@@ -155,7 +166,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # width
     letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
                 "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
-                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
                 "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
                 " ", ",",".","?","!","–", "-", "’", "´", "‘", 
                 "1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
@@ -163,8 +173,8 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     
     # height
-    font$height <- 18
-    font$lead <- 5
+    font$height <- 22
+    font$lead <- 6
     
   }
   

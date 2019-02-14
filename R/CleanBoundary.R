@@ -9,15 +9,16 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
   
   # trial loop  
   for (trial in 1:length(dat$trial)) {
-  # for (trial in 67:67) {
+  # for (trial in 94:95) {
     # trial <- 2
     
     # set up output slot
     dat$trial[[trial]]$clean$boundary <- list(trigger = 0, blink = 0, seq = 0, 
                                               pattern = 0, time = 0, hook = 0, 
-                                              crit = 0, change.sac = 0, 
+                                              change.sac = 0, 
                                               pre.time = 0, target.time = 0, 
-                                              post.time = 0, target.fix = 0)
+                                              post.time = 0, target.fix = 0,
+                                              crit = 0)
     
     # variables
     tmp <- dat$trial[[trial]]$all
@@ -28,11 +29,10 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     pre.target <- tmp[tmp$num[tmp$msg == target.label] - 1, ]
     post.target <- tmp[tmp$num[tmp$msg == target.label] + 1, ]
     
-    
     # compute boundary position
-    dat$trial[[trial]]$meta$boundary <- dat$trial[[trial]]$meta$letter.boundary[dat$trial[[trial]]$meta$ia.boundary[dat$trial[[trial]]$meta$target]]
-    
-    
+    dat$trial[[trial]]$meta$boundary <- dat$trial[[trial]]$meta$stimmat$xs[min(dat$trial[[trial]]$meta$stimmat$letno[dat$trial[[trial]]$meta$stimmat$word == dat$trial[[trial]]$meta$target])]
+                                              
+                                                                               
     # cleaning criteria
     # ------------------
     
@@ -43,16 +43,16 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     
     # check if boundary has been triggered
     if (nrow(boundary) == 0) {
-      dat$trial[[trial]]$clean$fast$trigger <- 1
-      dat$trial[[trial]]$clean$fast$crit <- 1
+      dat$trial[[trial]]$clean$boundary$trigger <- 1
+      dat$trial[[trial]]$clean$boundary$crit <- 1
       next
     }
 
     # check if boundary change occured before first fixation
     # (not sure how this is possible, but it happened once)
     if (fix$start[1] > boundary$start) {
-      dat$trial[[trial]]$clean$fast$trigger <- 1
-      dat$trial[[trial]]$clean$fast$crit <- 1
+      dat$trial[[trial]]$clean$boundary$trigger <- 1
+      dat$trial[[trial]]$clean$boundary$crit <- 1
       next
     }
     
@@ -60,19 +60,27 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     # (response button pressed too early)
     
     if (fix$start[nrow(fix)] < boundary$start) {
-      dat$trial[[trial]]$clean$fast$trigger <- 1
-      dat$trial[[trial]]$clean$fast$crit <- 1
+      dat$trial[[trial]]$clean$boundary$trigger <- 1
+      dat$trial[[trial]]$clean$boundary$crit <- 1
       next
     }
 
     # 1. check for blinks before/after boundary saccade
     
     blink.before <- tail(fix$blink[fix$start <= boundary$start], n = 1)
-    blink.after <- head(fix$blink[fix$start > boundary$start], n = 1)
+    
+    blink.after <- 1
+    tmp2 <- head(fix$blink[fix$start > boundary$start], n = 1)
+    if (length(tmp2) > 0) {
+      if (tmp2 == 0) {
+        blink.after <- 0  
+      }
+    }
     
     if (blink.before == 1 | blink.after == 1) {
       dat$trial[[trial]]$clean$boundary$blink <- 1
     }
+    
     
     # 2. remove trials with non-standard pattern
     

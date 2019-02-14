@@ -77,8 +77,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$xs <- c(x.offset, cumsum(stimmat$width) + x.offset)[1:length(stimmat$width)]
   stimmat$xe <- cumsum(stimmat$width) + x.offset
   # NOTE: seperate start and end positions necessary?
-  
-  
+
   # compute lines
   # --------------
   
@@ -88,7 +87,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   # line breaks
   
   # NOTE: maybe condition on software (ET vs EB)
-  
   
   # Stage 1: compute wrap-up line breaks
   
@@ -101,6 +99,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     
     # line loop
     for (n in 1:(nlines - 1)) {
+      
       stimmat$line[stimmat$line == n  & stimmat$letno >= line.length[n]] <- stimmat$line[stimmat$line == n & stimmat$letno >= line.length[n]] + 1
       
       # delete blank before line break
@@ -115,7 +114,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     }
     
   }
-  
   
   # Stage 2: compute wrap-up line breaks
   
@@ -151,14 +149,20 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     
   }
   
-  
   # compute y positions
   # --------------------
   
+  # for (i in 1:max(stimmat$line)) {
+  #   # i = 1
+  #   stimmat$ys[stimmat$line == i] <- y.offset + font.height*((i - 1) * (1 + mult) - 1) + font.lead*(2 * (i - 1))
+  #   stimmat$ye[stimmat$line == i] <- y.offset + font.height*(i * (1 + mult) - 1) + font.lead*(2 * i)
+  #   # print (i)
+  # }
+  
   for (i in 1:max(stimmat$line)) {
     # i = 1
-    stimmat$ys[stimmat$line == i] <- y.offset + font.height*((i - 1) * (1 + mult) - 1) + font.lead*(2 * (i - 1))
-    stimmat$ye[stimmat$line == i] <- y.offset + font.height*(i * (1 + mult) - 1) + font.lead*(2 * i)
+    stimmat$ys[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height - 1) * mult * (i - 1) - font.height * 0.5
+    stimmat$ye[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height - 1) * mult * (i - 1) + font.height * 1.5
     # print (i)
   }
   
@@ -168,7 +172,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   stimmat$xm <- (stimmat$xs + stimmat$xe) / 2
   stimmat$ym <- (stimmat$ys + stimmat$ye) / 2
-  
+  # stimmat$ym <- stimmat$ys + font.height/2
   
   # determine target IA
   # --------------------

@@ -13,7 +13,7 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   # -----------------
   
   # number of blinks
-  blink <- aggregate(trialtmp$blink, list(trialtmp$id), sum)
+  blink <- aggregate(trialtmp$blink, list(trialtmp$id), function(x) round(sum(x) / 2))
   colnames(blink) <- c("id", "nblink")
   trial <- merge(trial, blink, all.x = T)
   

@@ -37,44 +37,44 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # fix$type[fix$yn < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
   
   # strict outlier definition
-  fix$type[fix$yn > max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 0.5] <- "out"
   fix$type[fix$yn < min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 0.5] <- "out"
+  fix$type[fix$yn > max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 0.5] <- "out"
   
   
-  # cluster method
-  # ---------------
-  
+  # # cluster method
+  # # ---------------
+  # 
   # if (env$exp$setup$analysis$alignY == "cluster") {
   #   # NOTE: dependency library(fpc)
-  #   
+  # 
   #   fix$xn <- fix$xs
-  #   
+  # 
   #   if (max(stimmat$line) > 1) {
-  #     clu <- kmeans(fix$ys[fix$type == "in"], 
-  #                   fpc::pamk(fix$ys[fix$type == "in"], 
-  #                             criterion="asw", 
+  #     clu <- kmeans(fix$ys[fix$type == "in"],
+  #                   fpc::pamk(fix$ys[fix$type == "in"],
+  #                             criterion="asw",
   #                             krange = 1:max(stimmat$line),
   #                             alpha = .1)$nc)
   #     if (max(clu$cluster) > 1) {
   #       cl_mean <- sort(round(clu$center))
-  #       clu <- kmeans(fix$ys[fix$type == "in"], cl_mean)  
+  #       clu <- kmeans(fix$ys[fix$type == "in"], cl_mean)
   #     }
-  #     
+  # 
   #     fix$cluster[fix$type == "out"] <- 0
   #     fix$cluster[fix$type == "in"] <- clu$cluster
-  #     
+  # 
   #     fix$yn <- fix$ys
   #     line_mean  <- tapply(stimmat$ym, stimmat$line, max)
   #     for(i in 1:max(fix$cluster)) {
   #       fix$yn[fix$cluster == i] <- line_mean[i]
-  #     } 
-  #     
+  #     }
+  # 
   #   } else {
-  #     
+  # 
   #     fix$yn <- max(stimmat$ym)
-  #     
+  # 
   #   }
-  #   
+  # 
   # }
 
   

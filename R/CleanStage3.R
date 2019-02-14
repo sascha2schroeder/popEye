@@ -16,7 +16,7 @@
 
 CleanStage3 <- function(dat, trial, env = parent.frame(n = 2)) {
   
-  print(env$exp$setup$clean$stage3Dur)
+  # print(env$exp$setup$clean$stage3Dur)
   
   dat$trial[[trial]]$fix$merge.stage3 <- 0
   

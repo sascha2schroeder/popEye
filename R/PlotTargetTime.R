@@ -18,12 +18,12 @@ PlotTargetTime <- function(exp, subject, trial, pdf = F, interactive = F, sub = 
   
   # create plot
   plot(tmp$xy$x, type = "l", ylim = c(exp$setup$display$resolutionX, 1),
-       xlim = c(-50, tmp$all$start[nrow(tmp$all)]) , main = "Time Plot", xlab = "Time (ms)",
+       xlim = c(-50, tmp$fix$stop[nrow(tmp$fix)]) , main = "Time Plot", xlab = "Time (ms)",
        ylab = "x Position (px)")
-
+  
   # add start/stop
   abline (v = 0, col = "royalblue", lwd = 2)
-  abline (v = tmp$all$start[nrow(tmp$all)], col = "royalblue", lwd = 2)
+  abline (v = tmp$fix$stop[nrow(tmp$fix)], col = "royalblue", lwd = 2)
 
   # add fixations
   fix <- tmp$fix
@@ -56,29 +56,34 @@ PlotTargetTime <- function(exp, subject, trial, pdf = F, interactive = F, sub = 
   }
 
   # add lines
-  for (i in 1:length(tmp$meta$letter.boundary)) {
-    abline(h = tmp$meta$letter.boundary[i], cex = .5)
+  for (i in 1:length(tmp$meta$stimmat$letter)) {
+    abline(h = tmp$meta$stimmat$xs[i], cex = .5)
   }
 
-  # add letters
-  letters <- unlist(strsplit(tmp$meta$text, ""))
-  for (i in 1:(length(tmp$meta$letter.boundary) - 1)) {
-    text(-50, (tmp$meta$letter.boundary[i]  + tmp$meta$letter.boundary[i + 1]) / 2, letters[i],
-         family = exp$setup$font$family, cex = .75)
-  }
-
-  # add words
-  abline(h = tmp$meta$letter.boundary[1], col = "navyblue", lwd = 2)
-  for (j in 2:length(tmp$meta$word.boundary)){
-    abline(h = tmp$meta$letter.boundary[tmp$meta$word.boundary[j]], col = "navyblue", lwd = 2)
+  if (max(tmp$meta$stimmat$line) == 1) {
+    
+    # add letters
+    letters <- unlist(strsplit(tmp$meta$stimmat$letter, ""))
+    for (i in 1:(length(tmp$meta$stimmat$letter) - 1)) {
+      text(-50, (tmp$meta$stimmat$xs[i]  + tmp$meta$stimmat$xe[i + 1]) / 2 - 6, letters[i],
+           family = exp$setup$font$family, cex = .75)
+    }
+    
+    # add words
+    word <- tmp$meta$stimmat[duplicated(tmp$meta$stimmat$word) == F, ]
+    for (j in 2:length(word$xe)){
+      abline(h = word$xs[j], col = "navyblue", lwd = 2)
+    }
+    abline(h = min(tmp$meta$stimmat$xs), col = "navyblue", lwd = 2)
+    abline(h = max(tmp$meta$stimmat$xe), col = "navyblue", lwd = 2)
   }
   
   # add target word
   j <- tmp$meta$target
-  rect(-200, tmp$meta$letter.boundary[tmp$meta$word.boundary[j]], 
-       tmp$all$start[nrow(tmp$all)], tmp$meta$letter.boundary[tmp$meta$word.boundary[j + 1]],  
-       angle = NA, lwd = 2, border = "navyblue", col = makeTransparent("navyblue", alpha = .2))
-  
+  rect(-300, min(tmp$meta$stimmat$xs[tmp$meta$stimmat$ia == j]), 
+       tmp$fix$stop[nrow(tmp$fix)] + 300, max(tmp$meta$stimmat$xe[tmp$meta$stimmat$ia == j]),  
+       angle = NA, lwd = 2, col = makeTransparent("navyblue", alpha = .2))
+       
   # turn off device
   if (sub == F) {
     if (pdf == T) {

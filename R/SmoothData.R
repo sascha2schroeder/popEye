@@ -21,7 +21,7 @@ SmoothData <- function(xy, k = 5) {
   xys$x <- round(ma(xy$x), 1)
   xys$y <- round(ma(xy$y), 1)
   
-  xys <- xys[is.na(xys$x) == F, ]
+  # xys <- xys[is.na(xys$x) == F, ]
   
   return(xys)
   

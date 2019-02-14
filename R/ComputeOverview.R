@@ -80,8 +80,14 @@ ComputeOverview <- function(exp) {
   # merge and write out
   exp$out$overview <- merge(cagg, sagg, by = "subid")
   
-  names <- c("subid", "ntrial", "nrun", "nfix", "nblink", "nout", "skip", "sac", 
-    "refix", "reg", "mfix", "total", "rate", "quest.acc", "quest.rt")
+  if (exp$setup$tracker$software == "EB") {
+    names <- c("subid", "ntrial", "nrun", "nfix", "nblink", "nout", "skip", "sac", 
+      "refix", "reg", "mfix", "total", "rate", "quest.acc", "quest.rt")
+  } else {
+    names <- c("subid", "ntrial", "nrun", "nfix", "nblink", "nout", "skip", "sac", 
+               "refix", "reg", "mfix", "total", "rate")
+  }
+  
   exp$out$overview <- exp$out$overview[names]
   row.names(exp$out$overview) <- NULL
   

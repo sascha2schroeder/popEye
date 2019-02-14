@@ -50,7 +50,7 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
         
       } else {
         
-        xy <- SmoothData(tmp$samp[, c("time", "x", "y")])
+        xy <- SmoothData(data.frame(tmp$samp[, c("time", "x", "y")]))
         vxy <- ComputeVelocity(xy, type = 2)
         
         # parse events
@@ -89,17 +89,13 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
                           xy = xy,
                           vxy = vxy,
                           parse = clean)
-      
   }
-  
   
   # check for empty slots
   for (i in length(ret):1) {
-    
     if (length(ret[[i]]$parse) == 1) {
       ret[[i]] <- NULL
     }
-    
   }
   
   dat$trial <- ret

@@ -2,12 +2,12 @@
 ComputeVelocity <- function(xy, type = 2, env = parent.frame(n = 2)) {
 
   # retrieve sample rate
-  samp <- env$exp$setup$tracker$samp
+  samp <- as.numeric(env$exp$setup$tracker$samp)
   
   # prep
   N <- nrow(xy)
   v <- data.frame(matrix(data = 0, nrow = N, ncol = 3)) 
-  names(v) <- c('time', 'x',  'y')
+  colnames(v) <- c('time', 'x',  'y')
   
   v$time <- xy$time
 

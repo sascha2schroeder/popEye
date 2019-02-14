@@ -34,6 +34,9 @@ popEye <- function(datpath, stimpath,
   # create output file
   exp <- list(setup = NA, subject = list())
   
+  # exp <- list(setup = NA, subject = NA)
+  # subject <- list()
+  
   # retrieve setup infomation
   exp$setup <- SetupExperiment()
 
@@ -81,10 +84,11 @@ popEye <- function(datpath, stimpath,
   } 
   
   if (type == "target") {
-    clean <- data.frame(matrix(NA, 1, 22))
+    clean <- data.frame(matrix(NA, 1, 23))
     colnames(clean) <- c("subid", "trialid", "trialnum", "itemid", "cond",
                          "trial.fix", "trial.blink", "trial.sac",
-                         "trial.crit", "target.fix", "target.blink",
+                         "trial.crit", "target.fix", "target.blink", 
+                         "target.first",
                          "target.pre.sac", "target.pre.skip",
                          "target.pre.launch", "target.pre.refix",
                          "target.pre.reg", "target.post.fix",
@@ -93,10 +97,11 @@ popEye <- function(datpath, stimpath,
   }
   
   if (type == "boundary") {
-    clean <- data.frame(matrix(NA, 1, 34))
+    clean <- data.frame(matrix(NA, 1, 35))
     colnames(clean) <- c("subid", "trialid", "trialnum", "itemid", "cond",
                          "trial.fix", "trial.blink", "trial.sac",
                          "trial.crit", "target.fix", "target.blink",
+                         "target.first", 
                          "target.pre.sac", "target.pre.skip",
                          "target.pre.launch", "target.pre.refix",
                          "target.pre.reg", "target.post.fix",
@@ -111,10 +116,11 @@ popEye <- function(datpath, stimpath,
   }
   
   if (type == "fast") {
-    clean <- data.frame(matrix(NA, 1, 35))
+    clean <- data.frame(matrix(NA, 1, 36))
     colnames(clean) <- c("subid", "trialid", "trialnum", "itemid", "cond",
                          "trial.fix", "trial.blink", "trial.sac",
                          "trial.crit", "target.fix", "target.blink",
+                         "target.first",
                          "target.pre.sac", "target.pre.skip",
                          "target.pre.launch", "target.pre.refix",
                          "target.pre.reg", "target.post.fix",
@@ -159,8 +165,6 @@ popEye <- function(datpath, stimpath,
   # for (v in 1:1) {
   # v <- 2
     
-    print(v)
-    
     # list of subjects
     if (tracker.software == "EB") {
       filepath <- paste(datpath, version.list[v], "results/", sep = "")  
@@ -178,7 +182,7 @@ popEye <- function(datpath, stimpath,
     
     for (s in 1:length(sub.list)) {
     # for (s in 24:length(sub.list)) {
-    # for (s in 1:1) {
+    # for (s in 3:3) {
       # increment number of subjects
       nsub <- nsub + 1
       
@@ -215,14 +219,15 @@ popEye <- function(datpath, stimpath,
       
       dat <- Remove(dat) 
 
-      
+            
       # create trials
       # ---------------
       
       message(".. Create trials")
 
       dat <- Preprocessing(dat)
-
+      
+      
       # -----------------------
       # Modul 2: Cleaning
       # -----------------------
@@ -287,7 +292,7 @@ popEye <- function(datpath, stimpath,
       message(".. Combine events")
 
       dat <- CombineEvents(dat)
-
+      
       
       # cleaning
       # ---------
@@ -305,14 +310,25 @@ popEye <- function(datpath, stimpath,
       if (exp$setup$analysis$sparse == TRUE) {
         dat <- Sparse(dat)
       }
+      
 
+      # finalize
+      # ---------
 
+      # names for trial slots
+      for (i in 1:length(dat$trial)) {
+        names(dat$trial)[i] <- paste("trial", i, sep = ".")
+        # names(dat$trial)[i] <- paste("trial", dat$trial[[i]]$meta$itemid, sep = ".")
+        # NOTE: select by trialid or itemid?
+      }
+      
       # save in experiment slot
-      # ------------------------
-
       exp$subject[[nsub]] <- list(header = header, trial = dat$trial)
-
-
+      
+      # names for subject slot
+      names(exp$subject)[nsub] <- paste("subject", subid, sep = ".")
+      
+      
       # -----------------------
       # Modul 3: Aggregation
       # -----------------------
@@ -442,7 +458,7 @@ popEye <- function(datpath, stimpath,
   message("Aggregate trial")
 
   exp <- AggregateTrial(exp)
-
+  
 
   # compute overview file
   # ----------------------

@@ -20,65 +20,62 @@ PlotTargetX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) 
   
   # data
   fix <- tmp$fix
-  fix$ys2 <- (fix$ys - exp$setup$display$marginY) / exp$setup$font$size + 
-    exp$setup$display$marginY
   
   # basic plot
   plot(fix$xs, fix$ys, 
-       ylim = c(exp$setup$display$marginY - 1*exp$setup$font$size,
-                exp$setup$display$marginY + 1*exp$setup$font$size), 
+       ylim = c(max(tmp$meta$stimmat$ye) + 1*exp$setup$font$size,
+                min(tmp$meta$stimmat$ys) - 1*exp$setup$font$size), 
        xlim = c(0, exp$setup$display$resolutionX), type = "n", 
        pch = 16, xlab = "x Position (px)", ylab = "y Position (px)", 
        main = "X Plot")
   
-  points(fix$xs, fix$ys2, type = "b", pch = 16, col = "royalblue", 
+  # add letters
+  letters <- tmp$meta$stimmat$letter
+  y <- exp$setup$display$marginTop 
+  
+  for (i in 1:nrow(tmp$meta$stimmat)){
+    rect(tmp$meta$stimmat$xs[i], tmp$meta$stimmat$ye[i], 
+         tmp$meta$stimmat$xe[i], tmp$meta$stimmat$ys[i])  
+    
+    rect(tmp$meta$stimmat$xs[i], tmp$meta$stimmat$ys[i] + 0.5*exp$setup$font$size, 
+         tmp$meta$stimmat$xe[i], tmp$meta$stimmat$ye[i] - 0.5*exp$setup$font$size,
+         border = "navyblue", col = makeTransparent("cornflowerblue", alpha = .1))  
+    
+    text(tmp$meta$stimmat$xm[i], tmp$meta$stimmat$ym[i], 
+         tmp$meta$stimmat$letter[i], family = "Courier", cex = .9)
+  }
+  
+  # add fixations
+  points(fix$xn, fix$yn, type = "b", pch = 16, col = "royalblue", 
          cex = fix$dur / mean(fix$dur))
   
   # add blinks
   blink <- tmp$sac[tmp$sac$msg == "BLINK", ]
-  blink$ys2 <- (blink$ys - exp$setup$display$marginY) / exp$setup$font$size + 
-    exp$setup$display$marginY
-  points(blink$xs, blink$ys2, type = "b", pch = 16, col = "red", 
+  points(blink$xn, blink$yn, type = "b", pch = 16, col = "red", 
          cex = blink$dur / mean(blink$dur))
   
-  # add letters
-  letters <- unlist(strsplit(tmp$meta$text, ""))
-  y <- exp$setup$display$marginY 
-  
-  for (j in 1:(length(tmp$meta$letter.boundary) - 1)) {
-    rect(tmp$meta$letter.boundary[j], y - exp$setup$font$size / 2,
-         tmp$meta$letter.boundary[j + 1], y + exp$setup$font$size / 2, angle = NA)
-    if (is.element(letters[j], exp$setup$font$print$mi)){
-      text((tmp$meta$letter.boundary[j] + tmp$meta$letter.boundary[j + 1] - 1) / 2,
-           y + 0.25, labels = letters[j], family = exp$setup$font$family, cex = .9)
-    } else if (is.element(letters[j], exp$setup$font$print$up)){
-      text((tmp$meta$letter.boundary[j] + tmp$meta$letter.boundary[j + 1] - 1) / 2,
-           y + 0.25, labels = letters[j], family = exp$setup$font$family, cex = .9)
-    } else if (is.element(letters[j], exp$setup$font$print$de)){
-      text((tmp$meta$letter.boundary[j] + tmp$meta$letter.boundary[j + 1] - 1) / 2,
-           y + 0.15, labels = letters[j], family = exp$setup$font$family, cex = .9)
-    } else if (is.element(letters[j], exp$setup$font$print$pu)){
-      text((tmp$meta$letter.boundary[j] + tmp$meta$letter.boundary[j + 1] - 1) / 2,
-           y, labels = letters[j], family = exp$setup$font$family, cex = .9)
-    }
-  }
-  
   # add words
-  for (j in 1:(length(tmp$meta$word.boundary) - 1)) {
-    rect(tmp$meta$letter.boundary[tmp$meta$word.boundary[j] + 1], y - exp$setup$font$size / 2, 
-         tmp$meta$letter.boundary[tmp$meta$word.boundary[j + 1]], y + exp$setup$font$size / 2, angle = NA, lwd = 2)
+  words <- as.numeric(unlist(dimnames(table(tmp$meta$stimmat$word))))
+  for (j in 1:max(words)) {
+    rect(min(tmp$meta$stimmat$xs[tmp$meta$stimmat$word == words[j]]),
+         min(tmp$meta$stimmat$ys[tmp$meta$stimmat$word == words[j]]), 
+         max(tmp$meta$stimmat$xe[tmp$meta$stimmat$word == words[j]]),
+         max(tmp$meta$stimmat$ye[tmp$meta$stimmat$word == words[j]]), 
+         angle = NA, lwd = 2, border = "navyblue")
   }
   
   # add fixation number
   fix$num <- 1:nrow(fix)
   for (i in 1:nrow(fix)) {
-    text(fix$xs[i], (fix$ys2[i] - 1), fix$num[i], col = "navyblue", cex = .75)  
+    text(fix$xn[i], (fix$yn[i] - 3), fix$num[i], col = "navyblue", cex = .75)  
   }
 
   # add target word
   j <- tmp$meta$target
-  rect(tmp$meta$letter.boundary[tmp$meta$word.boundary[j] + 1], y - exp$setup$font$size / 2,
-       tmp$meta$letter.boundary[tmp$meta$word.boundary[j + 1]], y + exp$setup$font$size / 2, 
+  rect(min(tmp$meta$stimmat$xs[tmp$meta$stimmat$word == words[j]]),
+       min(tmp$meta$stimmat$ys[tmp$meta$stimmat$word == words[j]]), 
+       max(tmp$meta$stimmat$xe[tmp$meta$stimmat$word == words[j]]),
+       max(tmp$meta$stimmat$ye[tmp$meta$stimmat$word == words[j]]), 
        angle = NA, lwd = 2, col = makeTransparent("navyblue", alpha = .2))
   
   # turn off device  

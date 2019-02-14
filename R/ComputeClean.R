@@ -20,6 +20,7 @@ ComputeClean <- function(dat, env = parent.frame(n = 1)) {
   if (env$exp$setup$type == "target"  | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
     cleantmp$target.fix <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "target"), "[[", "fix"))
     cleantmp$target.blink <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "target"), "[[", "blink"))
+    cleantmp$target.first <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "target"), "[[", "first"))
     cleantmp$target.pre.sac <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "target"), "[[", "pre.sac"))
     cleantmp$target.pre.skip <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "target"), "[[", "pre.skip"))
     cleantmp$target.pre.launch <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "target"), "[[", "pre.launch"))

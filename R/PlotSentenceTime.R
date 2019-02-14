@@ -2,6 +2,7 @@
 PlotSentenceTime <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
 
   # TODO: Resize y dimension ?
+  # TODO: make contingent on number of lines
   
   # start pdf
   if (sub == F) {
@@ -57,27 +58,31 @@ PlotSentenceTime <- function(exp, subject, trial, pdf = F, interactive = F, sub 
 
   # TODO: add information about lines
   # NOTE: Plot letters on y axis does not make sense anymore
-  # NOTE: seperate plot for single and multiline?
   # NOTE: plot lines seperately?
   
-  # # add lines
-  # for (i in 1:length(tmp$meta$letter.boundary)) {
-  #   abline(h = tmp$meta$letter.boundary[i], cex = .5)
-  # }
-  # 
-  # # add letters
-  # letters <- unlist(strsplit(tmp$meta$text, ""))
-  # for (i in 1:(length(tmp$meta$letter.boundary) - 1)) {
-  #   text(-50, (tmp$meta$letter.boundary[i]  + tmp$meta$letter.boundary[i + 1]) / 2, letters[i],
-  #        family = exp$setup$font$family, cex = .75)
-  # }
-  # 
-  # # add words
-  # abline(h = tmp$meta$letter.boundary[1], col = "navyblue", lwd = 2)
-  # for (j in 2:length(tmp$meta$word.boundary)){
-  #   abline(h = tmp$meta$letter.boundary[tmp$meta$word.boundary[j]], col = "navyblue", lwd = 2)
-  # }
-
+  # add lines
+  for (i in 1:length(tmp$meta$stimmat$letter)) {
+    abline(h = tmp$meta$stimmat$xs[i], cex = .5)
+  }
+  
+  if (max(tmp$meta$stimmat$line) == 1) {
+    
+    # add letters
+    letters <- unlist(strsplit(tmp$meta$stimmat$letter, ""))
+    for (i in 1:(length(tmp$meta$stimmat$letter) - 1)) {
+      text(-50, (tmp$meta$stimmat$xs[i]  + tmp$meta$stimmat$xe[i + 1]) / 2, letters[i],
+           family = exp$setup$font$family, cex = .75)
+    }
+    
+    # add words
+    word <- tmp$meta$stimmat[duplicated(tmp$meta$stimmat$word) == F, ]
+    for (j in 2:length(word$xe)){
+      abline(h = word$xs[j], col = "navyblue", lwd = 2)
+    }
+    abline(h = min(tmp$meta$stimmat$xs), col = "navyblue", lwd = 2)
+    abline(h = max(tmp$meta$stimmat$xe), col = "navyblue", lwd = 2)
+  }
+  
   # turn off device
   if (sub == F) {
     if (pdf == T) {
