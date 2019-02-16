@@ -5,9 +5,10 @@ RetrieveSaccades <- function(dat, trial) {
   
   # setup output
   dat$trial[[trial]]$sac <- 
-    data.frame(matrix(NA, (nrow(dat$trial[[trial]]$fix) - 1), 8))
+    data.frame(matrix(NA, (nrow(dat$trial[[trial]]$fix) - 1), 12))
   colnames(dat$trial[[trial]]$sac) <- 
-    c("num", "start", "stop", "xs", "ys", "xe", "ye", "msg")
+    c("num", "start", "stop", "xs", "ys", "xe", "ye", "msg", "lines", "linee", 
+      "lets", "lete")
   
   # extract saccades
   for (i in 1:(nrow(dat$trial[[trial]]$fix) - 1)){
@@ -18,6 +19,10 @@ RetrieveSaccades <- function(dat, trial) {
     dat$trial[[trial]]$sac$ys[i] <- dat$trial[[trial]]$fix$ys[i]
     dat$trial[[trial]]$sac$xe[i] <- dat$trial[[trial]]$fix$xs[i + 1]
     dat$trial[[trial]]$sac$ye[i] <- dat$trial[[trial]]$fix$ys[i + 1]
+    dat$trial[[trial]]$sac$lines[i] <- dat$trial[[trial]]$fix$line[i]
+    dat$trial[[trial]]$sac$linee[i] <- dat$trial[[trial]]$fix$line[i + 1]
+    dat$trial[[trial]]$sac$lets[i] <- dat$trial[[trial]]$fix$line.let[i]
+    dat$trial[[trial]]$sac$lete[i] <- dat$trial[[trial]]$fix$line.let[i + 1]
     dat$trial[[trial]]$sac$msg <- "SAC"
   }
   

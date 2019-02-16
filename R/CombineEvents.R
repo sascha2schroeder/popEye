@@ -52,6 +52,27 @@ CombineEvents <- function(dat) {
     dat$trial[[trial]]$msg2 <- NULL
     
     
+    # create variables
+    # ---------------
+    
+    dat$trial[[trial]]$all$dur <- dat$trial[[trial]]$all$stop - dat$trial[[trial]]$all$start + 1
+    dat$trial[[trial]]$all$dur[is.na(dat$trial[[trial]]$all$stop) == T] <- NA
+    
+    dat$trial[[trial]]$all$type <- 3
+    dat$trial[[trial]]$all$type[dat$trial[[trial]]$all$msg == "FIX"] <- 1
+    dat$trial[[trial]]$all$type[dat$trial[[trial]]$all$msg == "SAC" | dat$trial[[trial]]$all$msg == "BLINK"] <- 2
+    dat$trial[[trial]]$all$typenum <- ave(dat$trial[[trial]]$all$num, dat$trial[[trial]]$all$type, FUN = rank)
+    dat$trial[[trial]]$all$fixnum <- NA
+    dat$trial[[trial]]$all$fixnum[dat$trial[[trial]]$all$msg == "FIX"] <- dat$trial[[trial]]$all$typenum[dat$trial[[trial]]$all$msg == "FIX"]
+    dat$trial[[trial]]$all$sacnum <- NA
+    dat$trial[[trial]]$all$sacnum[dat$trial[[trial]]$all$msg == "SAC" | dat$trial[[trial]]$all$msg == "BLINK"] <- dat$trial[[trial]]$all$typenum[dat$trial[[trial]]$all$msg == "SAC" | dat$trial[[trial]]$all$msg == "BLINK"]
+    dat$trial[[trial]]$all$msgnum <- NA
+    dat$trial[[trial]]$all$msgnum[dat$trial[[trial]]$all$msg != "FIX" & dat$trial[[trial]]$all$msg != "SAC" & dat$trial[[trial]]$all$msg != "BLINK"] <- dat$trial[[trial]]$all$typenum[dat$trial[[trial]]$all$msg != "FIX" & dat$trial[[trial]]$all$msg != "SAC" & dat$trial[[trial]]$all$msg != "BLINK"]
+    
+    names <- c("num", "msgnum", "fixnum", "sacnum", "msg", "start", "stop", "dur", "xs", "ys", "xe", "ye")
+    dat$trial[[trial]]$all <- dat$trial[[trial]]$all[names]
+    
+    
     # delete short last fixation
     # ---------------------------
     

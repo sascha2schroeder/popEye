@@ -35,7 +35,6 @@ CleanOutlier <- function(dat, trial) {
       }
     }
     
-    
     # n -> delete n
     if (nrow(out) >= 1) {
       if (out$type[out$num == max(out$num)] == "out") {

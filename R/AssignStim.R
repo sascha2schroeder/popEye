@@ -26,6 +26,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   } else {
     fix$yn <- fix$ys 
   }
+
   
   # define outlier
   # ----------------
@@ -100,6 +101,11 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     fix$line.let[i] <- stimmat$letline[which.min(out)]
     fix$word.land[i] <- stimmat$letword[which.min(out)]
     fix$ia.land[i] <- stimmat$letia[which.min(out)]
+    
+    if (env$exp$setup$analysis$alignY == "line") {
+      fix$yn[i] <- stimmat$ym[which.min(out)]
+    }
+    
   }
   
   

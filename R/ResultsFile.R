@@ -16,6 +16,7 @@ ResultsFile <- function(subid, datpath) {
   results$quest.resp <- as.numeric(results$quest.resp)
   results$quest.acc[is.na(results$quest.resp) == T] <- NA
   results$quest.rt[is.na(results$quest.resp) == T] <- NA
+  results$quest.rt[results$quest.rt < 0] <- NA
   results$quest.rt <- round(as.numeric(results$quest.rt))
   results$subid <- subid
 

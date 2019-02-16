@@ -74,8 +74,12 @@ PlotBoundaryX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F
   
   # add blinks
   blink <- tmp$sac[tmp$sac$msg == "BLINK", ]
-  points(blink$xn, blink$yn, type = "b", pch = 16, col = "red", 
-         cex = blink$dur / mean(blink$dur))
+  
+  if (nrow(blink) > 0) {
+    for (i in 1:nrow(blink)) {
+      arrows(blink$xs[i], blink$ys[i], blink$xe[i], blink$ye[i], col = "red", code = 0)
+    }
+  }
   
   # boundary change
   # ----------------

@@ -7,7 +7,9 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   
   if (env$tracker.model == "") env$tracker.model <- "eyelink"
   if (env$tracker.software == "") env$tracker.software <- "EB"
-  tracker <- list(model = env$tracker.model, software = env$tracker.software)
+  if (env$tracker.results == "") env$tracker.results <- T
+  tracker <- list(model = env$tracker.model, software = env$tracker.software,
+                  results = env$tracker.results)
   
   
   # setup experiment type

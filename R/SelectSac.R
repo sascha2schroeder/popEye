@@ -7,15 +7,8 @@ SelectSac <- function(dat, env = parent.frame(n = 1)) {
   
   # create output slot
   sac <- dat$trial[[1]]$sac[1, ]
-  names <- c("num", "xs", "xe", "peak.vel", "dur")
+  names <- c("num", "xs", "xe", "msg", "dist.px", "dist.let", "peak.vel", "dur")
   sac <- sac[names]
-  
-  # if (env$exp$setup$tracker$calibration != "H3") {
-  #   names <- c("num", "dx", "dy", "peak.vel", "dur")
-  # } else {
-  #   names <- c("num", "dx", "peak.vel", "dur")
-  # }
-  # sac <- sac[names]
   
   sac$subid <- NA
   sac$trialid <- NA
@@ -29,7 +22,7 @@ SelectSac <- function(dat, env = parent.frame(n = 1)) {
     
     # temporary fix frame
     sactmp <- dat$trial[[trial]]$sac
-    names <- c("num", "xs", "xe", "peak.vel", "dur")
+    names <- c("num", "xs", "xe", "msg", "dist.px", "dist.let", "peak.vel", "dur")
     sactmp <- sactmp[names]
     
     # if (env$exp$setup$tracker$calibration != "H3") {
@@ -57,7 +50,7 @@ SelectSac <- function(dat, env = parent.frame(n = 1)) {
   
   # select variables
   names <- c("subid", "trialid", "trialnum", "itemid", "cond", "sacid",
-             "xs", "xe", "peak.vel", "dur")
+             "msg", "xs", "xe", "dist.px", "dist.let", "peak.vel", "dur")
   sac <- sac[names]
   
   # # select variables

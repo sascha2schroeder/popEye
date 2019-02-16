@@ -36,7 +36,9 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
     tmp$msg$condition <- NULL # remove condition from msg object
     tmp$msg$dependency <- NULL # remove condition from msg object
     
+    
     if (sum(tmp$event$msg == "SFIX") >= 3) { # FIX: skip if there are less than three fixations in trial
+    # TODO: this only works for Eyelink -> FIX
       
       if (nrow(tmp$samp) == 0 | mean(is.na(tmp$samp$x)) > .75) { # FIX: if trial is (nearly) empty
         
@@ -57,7 +59,8 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
         # -------------
         
         if (env$exp$setup$analysis$eyelink == FALSE) {
-          out <- EventLong(ComputeEvents(xy, vxy))  
+          # out <- EventLong(ComputeEvents(xy, vxy)) 
+          out <- ComputeEvents(xy, vxy) 
         } else {
           out <- EventLong(TimestampToEvent(tmp))  
         }

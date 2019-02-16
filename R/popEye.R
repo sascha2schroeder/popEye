@@ -1,6 +1,8 @@
 
 popEye <- function(datpath, stimpath,
-                   tracker.model, tracker.software, type, 
+                   tracker.model, tracker.software, 
+                   tracker.results,
+                   type, 
                    message.start, message.stop,
                    message.boundary, message.prime, message.target,
                    variable.id, variable.cond,
@@ -161,8 +163,8 @@ popEye <- function(datpath, stimpath,
   # version loop
   # ----------------------------------
   
-  for (v in 1:length(version.list)) {
-  # for (v in 1:1) {
+  # for (v in 1:length(version.list)) {
+  for (v in 1:1) {
   # v <- 2
     
     # list of subjects
@@ -218,8 +220,8 @@ popEye <- function(datpath, stimpath,
       message(".. Remove data")
       
       dat <- Remove(dat) 
-
-            
+      
+                  
       # create trials
       # ---------------
       
@@ -276,7 +278,7 @@ popEye <- function(datpath, stimpath,
       message(".. Compute fixation measures")
 
       dat <- ComputeFixationMeasures(dat)
-
+      
 
       # retrieve saccades and blinks
       # -----------------------------
@@ -365,8 +367,9 @@ popEye <- function(datpath, stimpath,
       # -----------------
 
       message(".. Select saccades")
-
+      
       sactmp <- SelectSac(dat)
+      
       sactmp$subid <-  subid
       sac <- rbind(sac, sactmp)
       sac <- sac[order(sac$subid, sac$trialnum, sac$sacid), ]

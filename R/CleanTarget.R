@@ -40,7 +40,7 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
         blink.range <- seq(from = dat$trial[[trial]]$sac$xs[i], to = dat$trial[[trial]]$sac$xe[i])
         
         # blink before target
-        if (sum(blink.range <= min(target.range)) > 0) {
+        if (sum(blink.range %in% target.range) > 0) {
           dat$trial[[trial]]$clean$target$blink <- 1
         }
         

@@ -144,6 +144,10 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     }
     dat$trial[[trial]]$clean$boundary$change.sac[length(dat$trial[[trial]]$clean$boundary$change.sac) == 0] = -999
     
+    if (dat$trial[[trial]]$clean$boundary$change.sac > 80) {
+      dat$trial[[trial]]$clean$boundary$blink <- 1
+    }
+    
     # time between saccade onset and boundary
     dat$trial[[trial]]$clean$boundary$pre.time <- 
       boundary$start - pre.boundary$start[pre.boundary$msg == "SAC"]

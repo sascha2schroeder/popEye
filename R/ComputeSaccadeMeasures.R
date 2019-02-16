@@ -53,6 +53,7 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
       if (env$exp$setup$tracker$calibration != "H3") {
         sac$dY[s] <- round(sign(iy2 - iy1) * (maxy - miny))
       }
+      
       # saccade distance/angle
       if (env$exp$setup$tracker$calibration != "H3") {
         sac$dist.px[s] <- round(sqrt(sac$dx[s]^2 + sac$dy[s]^2))
@@ -65,6 +66,11 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
         sac$amp.angle[s] <- round(atan2(sac$dY[s], sac$dX[s]), 2)
       }
       
+      # saccade distance in letters
+      if (env$exp$setup$tracker$calibration != "H3") {
+        sac$dist.let[s] <- sac$lete[s] - sac$lets[s]
+      }
+      
     }
     
     # duration
@@ -72,7 +78,8 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
     
   }
   
-  dat$trial[[trial]]$sac <- sac
+  # dat$trial[[trial]]$sac <- sac[is.na(sac$trialid) == F, ]
+  dat$trial[[trial]]$sac <- sac[is.na(sac$start) == F, ]
   
   return(dat)  
   

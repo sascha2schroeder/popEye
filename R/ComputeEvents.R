@@ -24,44 +24,74 @@ ComputeEvents <- function(xy, vxy) {
   blink <- fix[is.na(fix$xs) == T, ]
   
   
-  # integrate blinks
+  # integrate events
   # -----------------
- 
-  # NOTE: Not sure whether this works with multiple blinks in a trial
   
-  out <- list(sac = sac, fix = fix, blink = blink)
+  sac$msg <- "SAC"
+  if (nrow(blink) > 0) {
+    blink$msg <- "BLINK"
+  }
+  fix$msg <- "FIX"
   
-  if (nrow(out$blink) > 0) {
-    for (i in 1:nrow(out$blink)) {
-      if (out$blink$num[i] > max(out$sac$num)){
-        out$sac$stop[max(out$sac$num)] <- out$blink$stop[which.max(out$blink$num)]
-        out$sac$xs[max(out$sac$num)] <- NA
-        out$sac$ys[max(out$sac$num)] <- NA
-        out$sac$xe[max(out$sac$num)] <- NA
-        out$sac$ye[max(out$sac$num)] <- NA
-      } else {
-        out$sac$stop[out$sac$num == (out$blink$num[i] - 1)] <- out$sac$stop[out$sac$num == out$blink$num[i]] 
-        out$sac$xe[out$sac$num == (out$blink$num[i] - 1)] <- out$sac$xe[sac$num == out$blink$num[i]] 
-        out$sac$ye[out$sac$num == (out$blink$num[i] - 1)] <- out$sac$ye[sac$num == out$blink$num[i]]   
-      }
+  out <- rbind(sac, fix, blink)
+  out <- out[order(out$start), ]
+  
+  out$del <- 0
+  for (i in 1:nrow(out)) {
+    if (out$msg[i] == "BLINK") {
+      out$del[i - 1] <- 1
     }
-    
-    out$sac <- out$sac[-out$blink$num, ]
-    out$fix <- out$fix[is.na(out$fix$xs) == F, ]
-    
-    out$fix <- out$fix[(out$fix$stop - out$fix$start) > 0,]
-    out$sac <- out$sac[(out$sac$stop - out$sac$start) > 0,]
-    out$blink <- out$blink[(out$blink$stop - out$blink$start) > 0,]
-    
-    out$fix$num <- 1:nrow(out$fix)
-    out$sac$num <- 1:nrow(out$sac)
-    out$blink$num <- 1:nrow(out$blink)
-    row.names(out$sac) <- NULL
-    row.names(out$fix) <- NULL
-    row.names(out$blink) <- NULL
-    
+  }
+  
+  out2 <- out[out$del == 0, ]
+  out2$before <- 0
+  out2$after <- 0
+  
+  for (i in 2:nrow(out2)) {
+    if (out2$msg[i] == "BLINK") {
+      out2$before[i - 1] <- 1
+    }
+  }
+  
+  for (i in 1:(nrow(out2) - 1)) {
+    if (out2$msg[i] == "BLINK") {
+      out2$after[i + 1] <- 1
+    }
+  }
+  
+  out2$del <- 0
+  for (i in 2:nrow(out2)) {
+    if (out2$before[i] == 1) {
+      out2$start[i + 1] <- out2$start[i]
+      out2$xs[i + 1] <- out2$xs[i]
+      out2$ys[i + 1] <- out2$ys[i]
+      out2$del[i] <- 1
+    }
+  }
+  
+  for (i in 1:(nrow(out2) - 1)) {
+    if (out2$after[i] == 1) {
+      out2$stop[i - 1] <- out2$stop[i]
+      out2$xe[i - 1] <- out2$xe[i]
+      out2$ye[i - 1] <- out2$ye[i]
+      out2$del[i] <- 1
+    }
+  }
+  
+  out3 <- out2[out2$del == 0, ]
+  out3$num <- 1:nrow(out3)
+  out3$del <- NULL
+  out3$before <- NULL
+  out3$after <- NULL
+  
+  out3$blink <- 0
+  for (i in 2:(nrow(out3) - 1)) {
+    if (out3$msg[i] == "BLINK") {
+      out3$blink[i - 1] <- 1
+      out3$blink[i + 1] <- 1
+    }
   }
 
-  return(out)
+  return(out3)
   
 }
