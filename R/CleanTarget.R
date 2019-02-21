@@ -24,6 +24,11 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
                     tmp$ia.run == 1 &
                     tmp$ia.run.fix == 1, ]
     
+    # target.time <- min(tmp$start[is.na(tmp$ianum) == F &
+    #                                tmp$ianum >= target.ia &
+    #                                tmp$ia.run == 1 &
+    #                                tmp$ia.run.fix == 1])
+    
     # target end
     target.end <- tmp[is.na(tmp$ianum) == F & 
                     tmp$ianum == target.ia & 
@@ -36,18 +41,22 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     
     for (i in 1:nrow(dat$trial[[trial]]$sac)) {
       # i <- 1
+      # if (dat$trial[[trial]]$sac$msg[i] == "BLINK" & dat$trial[[trial]]$sac$start[i] < target.time) {
       if (dat$trial[[trial]]$sac$msg[i] == "BLINK") {
-        blink.range <- seq(from = dat$trial[[trial]]$sac$xs[i], to = dat$trial[[trial]]$sac$xe[i])
+          
+          blink.range <- seq(from = dat$trial[[trial]]$sac$xs[i], to = dat$trial[[trial]]$sac$xe[i])
         
         # blink before target
-        if (sum(blink.range < min(target.range)) > 0) {
+        # if (sum(blink.range < min(target.range)) > 0) {
+        if (blink.range[1] < min(target.range) | sum(blink.range[1] %in% target.range) > 0) {
           dat$trial[[trial]]$clean$target$blink <- 1
         }
+        # NOTE: also include temporal criterion?
         
-        # blink involves target IA
-        if (sum(blink.range %in% target.range) > 0) {
-          dat$trial[[trial]]$clean$target$blink <- 1
-        }
+        # # blink involves target IA
+        # if (sum(blink.range %in% target.range) > 0) {
+        #   dat$trial[[trial]]$clean$target$blink <- 1
+        # }
         
       }
       # print(i)

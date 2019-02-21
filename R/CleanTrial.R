@@ -13,6 +13,7 @@ CleanTrial <- function(dat, env = parent.frame(n = 2)) {
     if (max(dat$trial[[trial]]$fix$num) <  env$exp$setup$exclude$nfix) {
       dat$trial[[trial]]$clean$trial$nfix <- 1
     }
+    # NOTE: maybe integrate this screening in earlier steps (after outliers are excluded) 
     
     # blink in trial
     if (sum(dat$trial[[trial]]$fix$blink == 1) > 0) {
@@ -23,6 +24,7 @@ CleanTrial <- function(dat, env = parent.frame(n = 2)) {
     if (max(dat$trial[[trial]]$sac$dur[dat$trial[[trial]]$sac$msg == "SAC"]) > env$exp$setup$exclude$sac) {
       dat$trial[[trial]]$clean$trial$sac <- 1
     } 
+    # NOTE: maybe integrate this screening in earlier steps  (where saccades are computed)
     
     # combine
     if (env$exp$setup$exclude$blink == T) {
