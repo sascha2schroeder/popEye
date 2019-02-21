@@ -40,7 +40,7 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
         blink.range <- seq(from = dat$trial[[trial]]$sac$xs[i], to = dat$trial[[trial]]$sac$xe[i])
         
         # blink before target
-        if (sum(blink.range %in% target.range) > 0) {
+        if (sum(blink.range < min(target.range)) > 0) {
           dat$trial[[trial]]$clean$target$blink <- 1
         }
         
@@ -147,7 +147,7 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
       # check whether there is a fixation after target IA
       if (length(tmp$num[tmp$num > target.end$num]) == 0) {
         dat$trial[[trial]]$clean$target$post.fix <- 1
-        # dat$trial[[trial]]$clean$target$crit <- 1
+        dat$trial[[trial]]$clean$target$crit <- 1
         next
       }
       
@@ -155,14 +155,14 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
       test <- tmp[is.na(tmp$ianum) == F & tmp$ianum == target.ia & tmp$ia.run == 1, ]
       if (is.na(head(tmp$ianum[tmp$num > test$num[nrow(test)]], n = 1)) == T) {
         dat$trial[[trial]]$clean$target$post.fix <- 1
-        # dat$trial[[trial]]$clean$target$crit <- 1
+        dat$trial[[trial]]$clean$target$crit <- 1
         next
       }
       
       # check whether there is a fixation on a IA after target IA
       if (sum(tmp$ianum[is.na(tmp$ianum) == F & tmp$num >= target.end$num] > target.ia) == 0)  {
         dat$trial[[trial]]$clean$target$post.fix <- 1
-        # dat$trial[[trial]]$clean$target$crit <- 1
+        dat$trial[[trial]]$clean$target$crit <- 1
         next
       }
       

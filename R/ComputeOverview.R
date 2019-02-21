@@ -73,9 +73,9 @@ ComputeOverview <- function(exp) {
   # results
   if (exp$setup$tracker$software == "EB") {
     sagg$quest.acc <- round(as.numeric(tapply(exp$out$results$quest$quest.acc, 
-                                              exp$out$results$quest$subid, mean)), 3)
+                                              exp$out$results$quest$subid, mean, na.rm = T)), 3)
     sagg$quest.rt <- round(as.numeric(tapply(exp$out$results$quest$quest.rt, 
-                                             exp$out$results$quest$subid, mean)))
+                                             exp$out$results$quest$subid, mean, na.rm = T)))
   }
   
   # merge and write out

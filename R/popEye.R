@@ -163,8 +163,8 @@ popEye <- function(datpath, stimpath,
   # version loop
   # ----------------------------------
   
-  # for (v in 1:length(version.list)) {
-  for (v in 1:1) {
+  for (v in 1:length(version.list)) {
+  # for (v in 1:1) {
   # v <- 2
     
     # list of subjects
