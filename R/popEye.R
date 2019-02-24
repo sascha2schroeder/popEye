@@ -86,56 +86,102 @@ popEye <- function(datpath, stimpath,
   } 
   
   if (type == "target") {
-    clean <- data.frame(matrix(NA, 1, 23))
-    colnames(clean) <- c("subid", "trialid", "trialnum", "itemid", "cond",
-                         "trial.fix", "trial.blink", "trial.sac",
-                         "trial.crit", "target.fix", "target.blink", 
+    clean <- data.frame(matrix(NA, 1, 20))
+    colnames(clean) <- c("subid", 
+                         "trialid", 
+                         "trialnum", 
+                         "itemid", 
+                         "cond",
+                         "trial.fix", 
+                         "trial.blink", 
+                         "trial.sac",
+                         "trial.crit", 
+                         "target.blink", 
                          "target.first",
-                         "target.pre.sac", "target.pre.skip",
-                         "target.pre.launch", "target.pre.refix",
-                         "target.pre.reg", "target.post.fix",
-                         "target.post.sac", "target.post.refix",
-                         "target.post.reg", "target.crit", "crit")
+                         "target.pre.sac", 
+                         "target.pre.launch", 
+                         "target.pre.refix",
+                         "target.pre.reg", 
+                         "target.post.fix",
+                         "target.post.sac", 
+                         "target.post.reg", 
+                         "target.crit", 
+                         "crit")
   }
   
   if (type == "boundary") {
-    clean <- data.frame(matrix(NA, 1, 35))
-    colnames(clean) <- c("subid", "trialid", "trialnum", "itemid", "cond",
-                         "trial.fix", "trial.blink", "trial.sac",
-                         "trial.crit", "target.fix", "target.blink",
+    clean <- data.frame(matrix(NA, 1, 32))
+    colnames(clean) <- c("subid", 
+                         "trialid", 
+                         "trialnum", 
+                         "itemid", 
+                         "cond",
+                         "trial.fix", 
+                         "trial.blink", 
+                         "trial.sac",
+                         "trial.crit", 
+                         "target.blink",
                          "target.first", 
-                         "target.pre.sac", "target.pre.skip",
-                         "target.pre.launch", "target.pre.refix",
-                         "target.pre.reg", "target.post.fix",
-                         "target.post.sac", "target.post.refix",
-                         "target.post.reg", "target.crit",
-                         "boundary.trigger", "boundary.seq", 
-                         "boundary.change.sac", "boundary.pre.time", 
-                         "boundary.target.time", "boundary.post.time", 
-                         "boundary.target.fix", "boundary.blink",
-                         "boundary.pattern", "boundary.time",
-                         "boundary.hook", "boundary.crit", "crit")
+                         "target.pre.sac",
+                         "target.pre.launch", 
+                         "target.pre.refix",
+                         "target.pre.reg", 
+                         "target.post.fix",
+                         "target.post.sac", 
+                         "target.post.reg", 
+                         "target.crit",
+                         "boundary.trigger", 
+                         "boundary.seq", 
+                         "boundary.change.sac", 
+                         "boundary.pre.time", 
+                         "boundary.target.time", 
+                         "boundary.post.time", 
+                         "boundary.target.fix", 
+                         "boundary.blink",
+                         "boundary.pattern", 
+                         "boundary.time",
+                         "boundary.hook", 
+                         "boundary.crit", 
+                         "crit")
   }
   
   if (type == "fast") {
-    clean <- data.frame(matrix(NA, 1, 36))
-    colnames(clean) <- c("subid", "trialid", "trialnum", "itemid", "cond",
-                         "trial.fix", "trial.blink", "trial.sac",
-                         "trial.crit", "target.fix", "target.blink",
+    clean <- data.frame(matrix(NA, 1, 33))
+    colnames(clean) <- c("subid", 
+                         "trialid", 
+                         "trialnum", 
+                         "itemid", 
+                         "cond",
+                         "trial.fix", 
+                         "trial.blink", 
+                         "trial.sac",
+                         "trial.crit", 
+                         "target.blink",
                          "target.first",
-                         "target.pre.sac", "target.pre.skip",
-                         "target.pre.launch", "target.pre.refix",
-                         "target.pre.reg", "target.post.fix",
-                         "target.post.sac", "target.post.refix",
-                         "target.post.reg", "target.crit",
-                         "fast.trigger", "fast.seq", 
-                         "fast.sac.dur", "fast.pre.time", 
-                         "fast.prime.time", "fast.post.prime", 
-                         "fast.fix.dur", "fast.fix.target", "fast.blink",
-                         "fast.pattern", "fast.time",
-                         "fast.hook", "fast.crit", "crit")
+                         "target.pre.sac",
+                         "target.pre.launch", 
+                         "target.pre.refix",
+                         "target.pre.reg", 
+                         "target.post.fix",
+                         "target.post.sac", 
+                         "target.post.reg", 
+                         "target.crit",
+                         "fast.trigger", 
+                         "fast.seq", 
+                         "fast.sac.dur", 
+                         "fast.pre.time", 
+                         "fast.prime.time", 
+                         "fast.post.prime", 
+                         "fast.fix.dur", 
+                         "fast.fix.target", 
+                         "fast.blink",
+                         "fast.pattern", 
+                         "fast.time",
+                         "fast.hook", 
+                         "fast.crit", 
+                         "crit")
   }
-  # TODO: adapt to fast priming paradigm
+  # TODO: fast priming outdated
 
   
   # create version list
@@ -184,7 +230,7 @@ popEye <- function(datpath, stimpath,
     
     for (s in 1:length(sub.list)) {
     # for (s in 24:length(sub.list)) {
-    # for (s in 2:2) {
+    # for (s in 4:4) {
       # increment number of subjects
       nsub <- nsub + 1
       

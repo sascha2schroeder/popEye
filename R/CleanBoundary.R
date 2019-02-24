@@ -36,27 +36,28 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     # cleaning criteria
     # ------------------
     
-    # 0. trigger problems (skips rest)
+    # 0. boundary.trigger: trigger problems (skips rest) (critical)
     
     # retrieve fixations    
     fix <- dat$trial[[trial]]$fix
     
-    # check if boundary has been triggered
+    # a) check whether boundary has been triggered
+    # check if boundary has been triggered (critical)
     if (nrow(boundary) == 0) {
       dat$trial[[trial]]$clean$boundary$trigger <- 1
       dat$trial[[trial]]$clean$boundary$crit <- 1
       next
     }
 
-    # check if boundary change occured before first fixation
-    # (not sure how this is possible, but it happened once)
+    # b) check if boundary change occured before first fixation
+    # (not sure how this is even possible, but it happened once)
     if (fix$start[1] > boundary$start) {
       dat$trial[[trial]]$clean$boundary$trigger <- 1
       dat$trial[[trial]]$clean$boundary$crit <- 1
       next
     }
     
-    # check if there is a fixation after boundary change 
+    # c) check if there is a fixation after boundary change 
     # (response button pressed too early)
     
     if (fix$start[nrow(fix)] < boundary$start) {
@@ -65,14 +66,16 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
       next
     }
 
-    # 1. check for blinks before/after boundary saccade
+    
+    # 1. boundary.blink (critical): 
+    # check for blinks before/after boundary saccade
     
     blink.before <- tail(fix$blink[fix$start <= boundary$start], n = 1)
     
     blink.after <- 1
-    tmp2 <- head(fix$blink[fix$start > boundary$start], n = 1)
-    if (length(tmp2) > 0) {
-      if (tmp2 == 0) {
+    test <- head(fix$blink[fix$start > boundary$start], n = 1)
+    if (length(test) > 0) {
+      if (test == 0) {
         blink.after <- 0  
       }
     }
@@ -82,7 +85,8 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     }
     
     
-    # 2. remove trials with non-standard pattern
+    # 2. boundary.pattern (critical): 
+    # remove trials with non-standard pattern
     
     find1 <- paste(c("SAC", boundary.label, target.label, "FIX"), collapse = "")
     find2 <- paste(c("SAC", boundary.label, "FIX", target.label), collapse = "")
@@ -104,13 +108,15 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
                                                      target$msg, post.target$msg, sep = "-")
     }
     
-    # 3. remove if display change occured after 10 ms in fixation (Slattery et al., 2011)
+    # 3. boundary.time (critical):
+    # remove if display change occured after 10 ms in fixation (Slattery et al., 2011)
     
     if (pre.target$msg == "FIX" & (target$start - pre.target$start) > 10) {
       dat$trial[[trial]]$clean$boundary$time <- 1
     }
     
-    # 4. check for J-hooks 
+    # 4. boundary.hook (critical):
+    # check for J-hooks 
     
     # retrieve fixation after boundary change
     for (j in tmp$num[tmp$msg == boundary.label]:nrow(tmp)) {
@@ -124,17 +130,8 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     if (fix.after$xs <= as.numeric(dat$trial[[trial]]$meta$boundary)) {
       dat$trial[[trial]]$clean$boundary$hook <-  1
     }   
-    
-    # combine
-    if (sum(c(dat$trial[[trial]]$clean$boundary$trigger, 
-              dat$trial[[trial]]$clean$boundary$blink, 
-              dat$trial[[trial]]$clean$boundary$pattern,
-              dat$trial[[trial]]$clean$boundary$time, 
-              dat$trial[[trial]]$clean$boundary$hook)) > 0) {
-      dat$trial[[trial]]$clean$boundary$crit <- 1   
-    }
-    
-    
+
+        
     # times
     # ------
     
@@ -144,9 +141,11 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     }
     dat$trial[[trial]]$clean$boundary$change.sac[length(dat$trial[[trial]]$clean$boundary$change.sac) == 0] = -999
     
+    # check if boundary saccade is too long
     if (dat$trial[[trial]]$clean$boundary$change.sac > 80) {
       dat$trial[[trial]]$clean$boundary$blink <- 1
     }
+    # TODO: include parameter in call function
     
     # time between saccade onset and boundary
     dat$trial[[trial]]$clean$boundary$pre.time <- 
@@ -173,6 +172,18 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
       dat$trial[[trial]]$clean$boundary$target.fix <- min(pre.target$stop - pre.target$start, na.rm = T) 
     } else {
       dat$trial[[trial]]$clean$boundary$target.fix <- min(post.target$stop - post.target$start, na.rm = T) 
+    }
+    
+    
+    # combine
+    # --------
+    
+    if (sum(c(dat$trial[[trial]]$clean$boundary$trigger, 
+              dat$trial[[trial]]$clean$boundary$blink, 
+              dat$trial[[trial]]$clean$boundary$pattern,
+              dat$trial[[trial]]$clean$boundary$time, 
+              dat$trial[[trial]]$clean$boundary$hook)) > 0) {
+      dat$trial[[trial]]$clean$boundary$crit <- 1   
     }
     
     # print(trial)

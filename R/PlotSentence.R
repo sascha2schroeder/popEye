@@ -16,11 +16,11 @@ PlotSentence <- function(exp, subject, trial, pdf = F, interactive = F) {
   
   # turn off device  
   if (pdf == T) {
-    title(paste("Trial", SelectSubjectTrial(exp, subject, trial)$meta$trialnum, 
+    title(paste("Trial", SelectSubjectTrial(exp, subject, trial)$meta$trialid, 
                 sep = " "), outer = T, cex.main = 1.75)
     dev.off()
   } else {
-    title(paste("Trial", SelectSubjectTrial(exp, subject, trial)$meta$trialnum, 
+    title(paste("Trial", SelectSubjectTrial(exp, subject, trial)$meta$trialid, 
                 sep = " "), outer = T, cex.main = 2)
     par(mfrow = c(1, 1), cex = 1, oma = c(0, 0, 0, 0))
     if (interactive == T) par(ask = F)

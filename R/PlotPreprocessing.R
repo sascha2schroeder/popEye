@@ -23,11 +23,11 @@ PlotPreprocessing <- function(exp, subject, trial, pdf = F, interactive = F) {
   # turn of device  
   if (pdf == T) {
     options(warn = 0)
-    title(paste("Trial", SelectSubject(exp, subject)$trial[[trial]]$meta$trialnum, 
+    title(paste("Trial", SelectSubject(exp, subject)$trial[[trial]]$meta$trialid, 
                 sep = " "), outer = T, cex.main = 1.75)
     dev.off()
   } else {
-    title(paste("Trial", SelectSubject(exp, subject)$trial[[trial]]$meta$trialnum, 
+    title(paste("Trial", SelectSubject(exp, subject)$trial[[trial]]$meta$trialid, 
                 sep = " "), outer = T, cex.main = 2)
     par(mfrow = c(1, 1), cex = 1, oma = c(0, 0, 0, 0))
     if (interactive == T) par(ask = F)
