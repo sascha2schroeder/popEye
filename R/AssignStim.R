@@ -21,10 +21,12 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # align fixations on y axis
   # --------------------------
   
+  if (env$exp$setup$analysis$alignY == "none" | env$exp$setup$analysis$alignY == "line") {
+    fix$yn <- fix$ys 
+  }
+  
   if (env$exp$setup$analysis$alignY == "drift") {
     fix$yn <- fix$ys + (env$exp$setup$display$marginTop - fix$ys[1])
-  } else {
-    fix$yn <- fix$ys 
   }
 
   
@@ -42,43 +44,40 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   fix$type[fix$yn > max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 0.5] <- "out"
   
   
-  # # cluster method
-  # # ---------------
-  # 
-  # if (env$exp$setup$analysis$alignY == "cluster") {
-  #   # NOTE: dependency library(fpc)
-  # 
-  #   fix$xn <- fix$xs
-  # 
-  #   if (max(stimmat$line) > 1) {
-  #     clu <- kmeans(fix$ys[fix$type == "in"],
-  #                   fpc::pamk(fix$ys[fix$type == "in"],
-  #                             criterion="asw",
-  #                             krange = 1:max(stimmat$line),
-  #                             alpha = .1)$nc)
-  #     if (max(clu$cluster) > 1) {
-  #       cl_mean <- sort(round(clu$center))
-  #       clu <- kmeans(fix$ys[fix$type == "in"], cl_mean)
-  #     }
-  # 
-  #     fix$cluster[fix$type == "out"] <- 0
-  #     fix$cluster[fix$type == "in"] <- clu$cluster
-  # 
-  #     fix$yn <- fix$ys
-  #     line_mean  <- tapply(stimmat$ym, stimmat$line, max)
-  #     for(i in 1:max(fix$cluster)) {
-  #       fix$yn[fix$cluster == i] <- line_mean[i]
-  #     }
-  # 
-  #   } else {
-  # 
-  #     fix$yn <- max(stimmat$ym)
-  # 
-  #   }
-  # 
-  # }
-
+  # cluster method
+  # ---------------
   
+  if (env$exp$setup$analysis$alignY == "cluster") {
+    
+    # NOTE: dependency library(fpc)
+    
+    if (max(stimmat$line) > 1) {
+      
+        clu <- kmeans(fix$ys[fix$type == "in"],
+                      fpc::pamk(fix$ys[fix$type == "in"],
+                                criterion="asw",
+                                krange = 1:max(stimmat$line),
+                                alpha = .1)$nc)
+        if (max(clu$cluster) > 1) {
+          cl_mean <- sort(round(clu$center))
+          clu <- kmeans(fix$ys[fix$type == "in"], cl_mean)
+        }
+
+        fix$cluster[fix$type == "out"] <- 0
+        fix$cluster[fix$type == "in"] <- clu$cluster
+
+        fix$yn <- fix$ys
+        # line_mean  <- tapply(stimmat$ym, stimmat$line, max)
+        # for(i in 1:max(fix$cluster)) {
+        #   fix$yn[fix$cluster == i] <- line_mean[i]
+        # }
+        # NOTE: maybe put into separate parameter
+        
+    }
+    
+  }
+
+    
   # TODO: FixAlign method (Cohen, 2013) 
   
   

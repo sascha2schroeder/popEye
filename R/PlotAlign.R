@@ -33,8 +33,8 @@ PlotAlign <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
   }
   
   # original and corrected fixations
-  # palette(topo.colors(max(stimmat$line)))
-  palette(topo.colors(3))
+  palette(topo.colors(max(stimmat$line)))
+  # palette(topo.colors(3))
   # palette(heat.colors(4))
   
   points(fix$xs[fix$type == "in"], fix$ys[fix$type == "in"], cex = .75, 
@@ -42,7 +42,11 @@ PlotAlign <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
   points(fix$xn[fix$type == "in"], 
          fix$yn[fix$type == "in"], 
          col = fix$line[fix$type == "in"], 
-         pch = 16, type = "b")
+         pch = 16, type = "p")
+  points(fix$xn[fix$type == "in"], 
+         fix$yn[fix$type == "in"], 
+         col = "black", 
+         pch = 16, type = "l")
   arrows(fix$xs[fix$type == "in"], fix$ys[fix$type == "in"], 
          fix$xn[fix$type == "in"], fix$yn[fix$type == "in"],
          code = 2, length = .07 )

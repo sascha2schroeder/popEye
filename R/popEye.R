@@ -8,6 +8,7 @@ popEye <- function(datpath, stimpath,
                    variable.id, variable.cond,
                    item.practice, item.trigger,
                    item.question, item.keep,
+                   item.pracnum,
                    stimulus.file, stimulus.id,
                    stimulus.cond, stimulus.preview,
                    stimulus.prime, stimulus.text, 
@@ -41,7 +42,7 @@ popEye <- function(datpath, stimpath,
   
   # retrieve setup infomation
   exp$setup <- SetupExperiment()
-
+  
   # TODO: think about workflow (directories, paths, subids, etc.)
   
   # Experiment Builder: assumes that complete experiment including
@@ -80,9 +81,16 @@ popEye <- function(datpath, stimpath,
   # clean
   if (type == "sentence") {
     clean <- data.frame(matrix(NA, 1, 10))
-    colnames(clean) <- c("subid", "trialid", "trialnum", "itemid", "cond",
-                         "trial.fix", "trial.blink", "trial.sac",
-                         "trial.crit", "crit")
+    colnames(clean) <- c("subid", 
+                         "trialid", 
+                         "trialnum", 
+                         "itemid", 
+                         "cond",
+                         "trial.fix", 
+                         "trial.blink", 
+                         "trial.sac",
+                         "trial.crit", 
+                         "crit")
   } 
   
   if (type == "target") {
@@ -251,6 +259,7 @@ popEye <- function(datpath, stimpath,
       
       # message(". Modul 1: Preprocessing")
       
+      
       # read data
       # -----------
       
@@ -267,7 +276,7 @@ popEye <- function(datpath, stimpath,
       
       dat <- Remove(dat) 
       
-                  
+      
       # create trials
       # ---------------
       
@@ -289,7 +298,7 @@ popEye <- function(datpath, stimpath,
       
       dat <- ReadStimulus(dat)
       
-     
+      
       # extract fixations
       # --------------------
       
@@ -317,6 +326,7 @@ popEye <- function(datpath, stimpath,
       # NOTE: stage3 cleaning is completely useless !
       # NOTE: stage4 cleaning is dangerous !
       # TODO: report deleted fixations
+      
 
       # compute fixation measures
       # --------------------------
@@ -426,7 +436,7 @@ popEye <- function(datpath, stimpath,
 
       # TODO: integration results file and experiment needs to be improved
 
-      if (exp$setup$tracker$software == "EB") {
+      if (exp$setup$tracker$software == "EB" & exp$setup$tracker$results == T) {
 
         message(".. Load results file")
 
@@ -469,7 +479,7 @@ popEye <- function(datpath, stimpath,
   exp$out$sac <- sac
   row.names(exp$out$sac) <- NULL
 
-  if (exp$setup$tracker$software == "EB") {
+  if (exp$setup$tracker$software == "EB" & exp$setup$tracker$results == T) {
     exp$out$results$text <- results$text[-1, ]
     row.names(exp$out$results$text) <- NULL
     exp$out$results$quest <- results$quest[-1, ]

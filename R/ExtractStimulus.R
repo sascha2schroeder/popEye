@@ -6,6 +6,7 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
     # create match variable (itemid)
     stimfile$match <- stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))]
   } else {
+    
     # create match variable (itemid:cond)
     stimfile$match <- paste(stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))],
                        stimfile[, match(env$exp$setup$stimulus$cond, colnames(stimfile))], sep = ":")

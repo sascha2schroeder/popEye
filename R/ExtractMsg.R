@@ -4,6 +4,7 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   # remove non-message events
   dat <- dat[grep("MSG", dat, useBytes = T)]
   
+  
   # extract information
   # --------------------
   
@@ -62,13 +63,29 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     itemid <- sapply(strsplit(tmp[ind == env$exp$setup$variable$id], " "), "[[", 5)
     
     # number of practice trials
-    env$exp$setup$clean$practice <- max(as.numeric(unlist(dimnames(table(table(itemid)))))) - 1
-
+    # env$exp$setup$clean$practice <- max(as.numeric(unlist(dimnames(table(table(itemid)))))) - 1
+    env$exp$setup$clean$practice <- env$exp$setup$item$pracnum
+    
     # condition
     if (is.na(env$exp$setup$variable$cond) == FALSE) {
-      tmp <- dat[grep("TRIAL_VAR", dat)]
-      ind <- sapply(strsplit(tmp, " "), "[[", 4)
-      condition <- sapply(strsplit(tmp[ind == env$exp$setup$variable$cond], " "), "[[", 5)
+      
+      if (length(env$exp$setup$variable$cond) == 1) {
+        
+        tmp <- dat[grep("TRIAL_VAR", dat)]
+        ind <- sapply(strsplit(tmp, " "), "[[", 4)
+        condition <- sapply(strsplit(tmp[ind == env$exp$setup$variable$cond], " "), "[[", 5)
+        
+      } else if (length(env$exp$setup$variable$cond) == 2) {
+        
+        tmp <- dat[grep("TRIAL_VAR", dat)]
+        
+        ind <- sapply(strsplit(tmp, " "), "[[", 4)
+        cond1 <- sapply(strsplit(tmp[ind == env$exp$setup$variable$cond[1]], " "), "[[", 5)
+        cond2 <- sapply(strsplit(tmp[ind == env$exp$setup$variable$cond[2]], " "), "[[", 5)
+        condition <- paste(cond1, cond2, sep = ":")
+        
+      }
+      
     } else {
       condition <- rep(1, length(itemid))
     }

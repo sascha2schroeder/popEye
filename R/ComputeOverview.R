@@ -71,7 +71,7 @@ ComputeOverview <- function(exp) {
   sagg$ntrial <- tapply(exp$out$trial$trialnum, exp$out$trial$subid, length)
   
   # results
-  if (exp$setup$tracker$software == "EB") {
+  if (exp$setup$tracker$software == "EB" & exp$setup$tracker$results == T) {
     sagg$quest.acc <- round(as.numeric(tapply(exp$out$results$quest$quest.acc, 
                                               exp$out$results$quest$subid, mean, na.rm = T)), 3)
     sagg$quest.rt <- round(as.numeric(tapply(exp$out$results$quest$quest.rt, 
@@ -81,7 +81,7 @@ ComputeOverview <- function(exp) {
   # merge and write out
   exp$out$overview <- merge(cagg, sagg, by = "subid")
   
-  if (exp$setup$tracker$software == "EB") {
+  if (exp$setup$tracker$software == "EB" & exp$setup$tracker$results == T) {
     names <- c("subid", "ntrial", "ncrit", "nblink", "nout", "nrun", "nfix", "skip", "sac", 
       "refix", "reg", "mfix", "total", "rate", "quest.acc", "quest.rt")
   } else {

@@ -38,10 +38,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   
   # variable
   # ---------
-  
   if (env$variable.id == "") env$variable.id <- "id"
   variable.id <- env$variable.id
   if (env$variable.cond == "") env$variable.cond <- NA
+  # if (length(env$variable.cond) > 1) env$variable.cond <- paste(env$variable.cond, collapse = ":")
   variable.cond <- env$variable.cond
 
   variable <- list(id = env$variable.id,
@@ -51,12 +51,14 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # item
   # -----
   
+  if (env$item.pracnum == "") env$item.pracnum <- 0
   if (env$item.practice == "") env$item.practice <- "^P"
   if (env$item.trigger == "") env$item.trigger <- "999"
   if (env$item.question == "") env$item.question <- 1000
   if (length(env$item.keep) == 1) env$item.keep <- ""
   
-  item <- list(practice = env$item.practice,
+  item <- list(pracnum = env$item.pracnum,
+               practice = env$item.practice,
                trigger = env$item.trigger,
                question = env$item.question,
                keep = env$item.keep)
@@ -67,6 +69,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
  
   if (env$stimulus.id == "") env$stimulus.id <- "id"
   if (env$stimulus.cond == "") env$stimulus.cond <- NA
+  # if (length(env$stimulus.cond) > 1) env$stimulus.cond <- paste(env$stimulus.cond, collapse = ":")
   if (env$stimulus.preview == "") env$stimulus.preview <- "preview"
   if (env$stimulus.prime == "") env$stimulus.prime <- "prime"
   if (env$stimulus.text == "") env$stimulus.text <- "text"
@@ -153,8 +156,24 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                 "1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
     pixel <- rep(13, length(letter))
     font$letpix <- data.frame(letter = letter, pixel = pixel)
-    font$height <- 17
+    font$height <- 18
     font$lead <- 4
+    
+  }
+  
+  # CourierNew, 18 pt
+  if (font$name == "CourierNew" & font$size == 18) {
+    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
+                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
+                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
+                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
+                " ", ",",".","?","!","–", "-","’","´", "%",":","‘","'","’"," ",
+                "ﬀ","ﬁ",
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
+    pixel <- rep(14, length(letter))
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    font$height <- 20
+    font$lead <- 5
     
   }
   
@@ -227,7 +246,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   if (env$analysis.drift == "") env$analysis.drift <- TRUE
   if (env$analysis.sparse == "") env$analysis.sparse <- TRUE
   if (env$analysis.alignX == "") env$analysis.alignX <- F
-  if (env$analysis.alignY == "") env$analysis.alignY <- F
+  if (env$analysis.alignY == "") env$analysis.alignY <- "none"
   
   analysis <- list(eyelink = env$analysis.eyelink, vfac = env$analysis.vfac,
                    mindur = env$analysis.mindur, postdur = env$analysis.postdur,

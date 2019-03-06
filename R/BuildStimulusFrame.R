@@ -78,6 +78,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$xe <- cumsum(stimmat$width) + x.offset
   # NOTE: seperate start and end positions necessary?
 
+  
   # compute lines
   # --------------
   
@@ -99,6 +100,8 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     
     # line loop
     for (n in 1:(nlines - 1)) {
+      
+      if (line.length[n] == 0) next 
       
       stimmat$line[stimmat$line == n  & stimmat$letno >= line.length[n]] <- stimmat$line[stimmat$line == n & stimmat$letno >= line.length[n]] + 1
       
@@ -134,8 +137,8 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
       stimmat$letno <- 1:nrow(stimmat)
       
       # recompute x positions
-      stimmat$xs[stimmat$line == n + 1] <- c(x.offset, cumsum(stimmat$width[stimmat$line == 2]) + x.offset)[1:length(stimmat$width[stimmat$line == 2])]
-      stimmat$xe[stimmat$line == n + 1] <- cumsum(stimmat$width[stimmat$line == 2]) + x.offset
+      stimmat$xs[stimmat$line == n + 1] <- c(x.offset, cumsum(stimmat$width[stimmat$line == n + 1]) + x.offset)[1:length(stimmat$width[stimmat$line == n + 1])]
+      stimmat$xe[stimmat$line == n + 1] <- cumsum(stimmat$width[stimmat$line == n + 1]) + x.offset
       
       # m <- m + 1
       
