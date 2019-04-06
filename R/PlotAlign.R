@@ -3,7 +3,7 @@ PlotAlign <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
   
   # TODO: resize y dimension?
   # TODO: align letters 
-  # TOtDO: make nice
+  # TODO: make nice
   
   # start pdf
   if (sub == F) {
@@ -33,7 +33,11 @@ PlotAlign <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
   }
   
   # original and corrected fixations
-  palette(topo.colors(max(stimmat$line)))
+  
+  if (max(stimmat$line) > 1) {
+    palette(topo.colors(max(stimmat$line)))
+  } 
+  
   # palette(topo.colors(3))
   # palette(heat.colors(4))
   
