@@ -73,6 +73,9 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
         # }
         # NOTE: maybe put into separate parameter
         
+    } else {
+      fix$yn <- fix$ys
+      fix$cluster <- 1
     }
     
   }

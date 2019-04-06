@@ -1,6 +1,8 @@
 
 BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
+  # TODO: line-wrap for hyphens
+  
   # retrieve stimulus
   stim <- dat$trial[[trial]]$meta$stim
   
@@ -11,6 +13,9 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   if (env$exp$setup$indicator$ia != " ") {
     tmp <- gsub(env$exp$setup$indicator$ia, "", tmp)
   }
+  # FIX: replace hyphen by blank
+  tmp <- gsub("-", " ", tmp)
+  
   letters <- unlist(strsplit(tmp, ""))
   
   # variables

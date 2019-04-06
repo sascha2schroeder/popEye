@@ -14,7 +14,7 @@ SelectFix <- function(dat, env = parent.frame(n = 1)) {
   fix$trialnum <- NA
   fix$itemid <- NA
   fix$cond <- NA
-
+  
   # trial loop
   for (trial in 1:length(dat$trial)) {
     # trial = 1
