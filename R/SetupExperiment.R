@@ -245,13 +245,15 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   if (env$analysis.postdur == "") env$analysis.postdur <- 30
   if (env$analysis.drift == "") env$analysis.drift <- TRUE
   if (env$analysis.sparse == "") env$analysis.sparse <- TRUE
-  if (env$analysis.alignX == "") env$analysis.alignX <- F
-  if (env$analysis.alignY == "") env$analysis.alignY <- "none"
+  if (env$analysis.driftX == "") env$analysis.driftX <- FALSE
+  if (env$analysis.driftY == "") env$analysis.driftY <- FALSE
+  if (env$analysis.lineMethod == "") env$analysis.lineMethod <- "match"
   
   analysis <- list(eyelink = env$analysis.eyelink, vfac = env$analysis.vfac,
                    mindur = env$analysis.mindur, postdur = env$analysis.postdur,
                    drift = env$analysis.drift, sparse = env$analysis.sparse,
-                   alignX = env$analysis.alignX, alignY = env$analysis.alignY)
+                   driftX = env$analysis.driftX, driftY = env$analysis.driftY,
+                   lineMethod = env$analysis.lineMethod)
 
     
   # cleaning

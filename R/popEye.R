@@ -18,7 +18,8 @@ popEye <- function(datpath, stimpath,
                    analysis.eyelink, analysis.vfac, 
                    analysis.mindur, analysis.postdur,
                    analysis.drift, analysis.sparse,
-                   analysis.alignX, analysis.alignY,
+                   analysis.driftX, analysis.driftY,
+                   analysis.lineMethod,
                    clean.stage1Dur, clean.stage1Dist,
                    clean.stage2Dur, clean.stage2Dist,
                    clean.stage3, clean.stage3Dur, 
@@ -236,9 +237,9 @@ popEye <- function(datpath, stimpath,
     # subject loop
     # ----------------------------------
     
-    for (s in 1:length(sub.list)) {
-    # for (s in 24:length(sub.list)) {
-    # for (s in 1:1) {
+      # for (s in 1:1) {
+      for (s in 1:length(sub.list)){
+    
       # increment number of subjects
       nsub <- nsub + 1
       
