@@ -119,7 +119,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # font type
   if (env$font.name == "") env$font.name <- "CourierNew"
   if (env$font.size == "") env$font.size <- 16
-  if (env$font.spacing == "") env$font.spacing <- "double"
+  if (env$font.spacing == "") env$font.spacing <- "2"
   font <- list(name = env$font.name, 
                size = env$font.size,
                spacing = env$font.spacing)
@@ -189,6 +189,22 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 22
     font$lead <- 6
+    
+  }
+  
+  # Consolas, 20 pt
+  if (font$name == "Consolas" & font$size == 20) {
+    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
+                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
+                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
+                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
+                " ", ",",".","?","!","–", "-","’","´","„","“",":","\"",";","”",
+                "(", ")","'",
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
+    pixel <- rep(15, length(letter))
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    font$height <- 24
+    font$lead <- 10
     
   }
   

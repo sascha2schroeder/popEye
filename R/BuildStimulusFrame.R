@@ -32,8 +32,9 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   x.cut <- x.res - right.limit
   
   # set spacing multiplier
-  space <- env$exp$setup$font$spacing
-  if (space == "double") mult <- 2
+  if (env$exp$setup$font$spacing == "1") mult <- 1
+  if (env$exp$setup$font$spacing == "1.5") mult <- 1.5
+  if (env$exp$setup$font$spacing == "2") mult <- 2
   # TODO: other spacing conditions
   
   # set up matrix
@@ -47,8 +48,8 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   stimmat$letter <- letters
   stimmat$letno <- 1:length(letters)
-  
-  
+
+    
   # compute word
   # -------------
   
@@ -169,8 +170,13 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   for (i in 1:max(stimmat$line)) {
     # i = 1
-    stimmat$ys[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height - 1) * mult * (i - 1) - font.height * 0.5
-    stimmat$ye[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height - 1) * mult * (i - 1) + font.height * 1.5
+    
+    # stimmat$ys[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height - 1) * mult * (i - 1) - font.height * 0.5
+    # stimmat$ye[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height - 1) * mult * (i - 1) + font.height * 1.5
+    
+    stimmat$ys[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height) * mult * (i - 1) - font.height * 0.5
+    stimmat$ye[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height) * mult * (i - 1) + font.height * 1.5
+    
     # print (i)
   }
   

@@ -138,6 +138,12 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   # tmp <- dat[grep(paste(unlist(env$exp$setup$message), collapse = "|"), dat)]
   # tmp <- dat[grep(paste(paste("^", unlist(env$exp$setup$message), "$", sep = ""), collapse = "|"), dat)]
   
+  # FIX: if start message is empty
+  if (env$exp$setup$message$start == "") {
+    env$exp$setup$message$start <- "DRAW_LIST"
+    dat <- gsub("!V DRAW_LIST", "DRAW_LIST", dat)
+  }
+  
   start <- dat[grep(paste("\\b", env$exp$setup$message$start, "\\b", sep = ""), dat)]
   stop <- dat[grep(paste("\\b", env$exp$setup$message$stop, "\\b", sep = ""), dat)]
   
