@@ -4,6 +4,7 @@ ComputeRefixation <- function(dat, trial) {
   # initialize
   dat$trial[[trial]]$fix$word.refix <- NA
   dat$trial[[trial]]$fix$ia.refix <- NA
+  dat$trial[[trial]]$fix$sent.refix <- NA
   
   for (j in 2:nrow(dat$trial[[trial]]$fix)){
     # j <- 2
@@ -25,6 +26,14 @@ ComputeRefixation <- function(dat, trial) {
     } else {
       dat$trial[[trial]]$fix$ia.refix[j] <- 0
     }
+    
+    # sent
+    if(dat$trial[[trial]]$fix$sentnum[j] == dat$trial[[trial]]$fix$sentnum[j - 1]) {
+      dat$trial[[trial]]$fix$sent.refix[j] <- 1
+    } else {
+      dat$trial[[trial]]$fix$sent.refix[j] <- 0
+    }
+    
   }
   
   return(dat)

@@ -8,7 +8,6 @@ ComputeSaccadeLength <- function(dat, trial) {
     
   # incoming
   dat$trial[[trial]]$fix$sac.in <- NA
-  # dat$trial[[trial]]$fix$sac.in[1] <- dat$trial[[trial]]$fix$letternum[1] 
   
   for (j in 2:nrow(dat$trial[[trial]]$fix)) {
     
@@ -23,14 +22,14 @@ ComputeSaccadeLength <- function(dat, trial) {
     # go to line ahead
     if (dat$trial[[trial]]$fix$line[j - 1] < dat$trial[[trial]]$fix$line[j]) {
       dat$trial[[trial]]$fix$sac.in[j] <- 
-        (dat$trial[[trial]]$fix$letternum[j] - min(dat$trial[[trial]]$meta$stimmat$letno[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j]])) - 
-        (dat$trial[[trial]]$fix$letternum[j - 1] - min(dat$trial[[trial]]$meta$stimmat$letno[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j - 1]]))
+        (dat$trial[[trial]]$fix$letternum[j] - min(dat$trial[[trial]]$meta$stimmat$letternum[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j]])) - 
+        (dat$trial[[trial]]$fix$letternum[j - 1] - min(dat$trial[[trial]]$meta$stimmat$letternum[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j - 1]]))
     }
     
     # return to line visited before
     if (dat$trial[[trial]]$fix$line[j - 1] > dat$trial[[trial]]$fix$line[j]) {
       dat$trial[[trial]]$fix$sac.in[j] <- 
-        (dat$trial[[trial]]$fix$letternum[j - 1] - min(dat$trial[[trial]]$meta$stimmat$letno[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j - 1]])) - 
+        (dat$trial[[trial]]$fix$letternum[j - 1] - min(dat$trial[[trial]]$meta$stimmat$letternum[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j - 1]])) - 
         (dat$trial[[trial]]$fix$letternum[j] - min(dat$trial[[trial]]$fix$letternum[dat$trial[[trial]]$fix$line == dat$trial[[trial]]$fix$line[j]]))
     }
     
@@ -52,15 +51,15 @@ ComputeSaccadeLength <- function(dat, trial) {
     # go to line ahead
     if (dat$trial[[trial]]$fix$line[j + 1] > dat$trial[[trial]]$fix$line[j]) {
       dat$trial[[trial]]$fix$sac.out[j] <- 
-        (dat$trial[[trial]]$fix$letternum[j + 1] - min(dat$trial[[trial]]$meta$stimmat$letno[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j + 1]])) - 
-        (dat$trial[[trial]]$fix$letternum[j] - min(dat$trial[[trial]]$meta$stimmat$letno[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j]]))
+        (dat$trial[[trial]]$fix$letternum[j + 1] - min(dat$trial[[trial]]$meta$stimmat$letternum[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j + 1]])) - 
+        (dat$trial[[trial]]$fix$letternum[j] - min(dat$trial[[trial]]$meta$stimmat$letternum[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j]]))
     }
     
     # return to line visited before
     if (dat$trial[[trial]]$fix$line[j + 1] < dat$trial[[trial]]$fix$line[j]) {
       dat$trial[[trial]]$fix$sac.out[j] <- 
-        (dat$trial[[trial]]$fix$letternum[j] - min(dat$trial[[trial]]$meta$stimmat$letno[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j]])) - 
-        (dat$trial[[trial]]$fix$letternum[j + 1] - min(dat$trial[[trial]]$meta$stimmat$letno[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j + 1]]))
+        (dat$trial[[trial]]$fix$letternum[j] - min(dat$trial[[trial]]$meta$stimmat$letternum[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j]])) - 
+        (dat$trial[[trial]]$fix$letternum[j + 1] - min(dat$trial[[trial]]$meta$stimmat$letternum[dat$trial[[trial]]$meta$stimmat$line == dat$trial[[trial]]$fix$line[j + 1]]))
     }
   }
   

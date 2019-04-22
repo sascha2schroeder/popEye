@@ -30,7 +30,7 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     post.target <- tmp[tmp$num[tmp$msg == target.label] + 1, ]
     
     # compute boundary position
-    dat$trial[[trial]]$meta$boundary <- dat$trial[[trial]]$meta$stimmat$xs[min(dat$trial[[trial]]$meta$stimmat$letno[dat$trial[[trial]]$meta$stimmat$word == dat$trial[[trial]]$meta$target])]
+    dat$trial[[trial]]$meta$boundary <- dat$trial[[trial]]$meta$stimmat$xs[min(dat$trial[[trial]]$meta$stimmat$letternum[dat$trial[[trial]]$meta$stimmat$word == dat$trial[[trial]]$meta$target])]
                                               
                                                                                
     # cleaning criteria

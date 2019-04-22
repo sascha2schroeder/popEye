@@ -6,8 +6,8 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # data
   fix <- dat$trial[[trial]]$fix
   stimmat <- dat$trial[[trial]]$meta$stimmat
-  
 
+  
   # drift correct 
   # ---------------
   
@@ -44,7 +44,6 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # ----------------
   
   fix$line <- NA
-  
   
   # default method: match single fixations
   if (env$exp$setup$analysis$lineMethod == "match") {
@@ -92,7 +91,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   
-  # experimental method
+  # chain method
   if (env$exp$setup$analysis$lineMethod == "chain") {
     
     fix$line[1] <- 1
@@ -148,13 +147,30 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
       out[j] <- sqrt((fix$xn[i] - mean(c(stimmat$xe[j], stimmat$xs[j])))^2)
     }
     
-    fix$letternum[i] <- stimmat$letno[stimmat$line == fix$line[i]][which.min(out)]
+    fix$subid[i] <- stimmat$subid[stimmat$line == fix$line[i]][which.min(out)]
+    fix$trialid[i] <- stimmat$trialid[stimmat$line == fix$line[i]][which.min(out)]
+    fix$trialnum[i] <- stimmat$trialnum[stimmat$line == fix$line[i]][which.min(out)]
+    fix$itemid[i] <- stimmat$itemid[stimmat$line == fix$line[i]][which.min(out)]
+    fix$cond[i] <- stimmat$cond[stimmat$line == fix$line[i]][which.min(out)]
+    
+    fix$letternum[i] <- stimmat$letternum[stimmat$line == fix$line[i]][which.min(out)]
     fix$letter[i] <- stimmat$letter[stimmat$line == fix$line[i]][which.min(out)]
-    fix$wordnum[i] <- stimmat$word[stimmat$line == fix$line[i]][which.min(out)]
-    fix$ianum[i] <- stimmat$ia[stimmat$line == fix$line[i]][which.min(out)]
+    fix$wordnum[i] <- stimmat$wordnum[stimmat$line == fix$line[i]][which.min(out)]
+    fix$word[i] <- stimmat$word[stimmat$line == fix$line[i]][which.min(out)]
+    fix$sentnum[i] <- stimmat$sentnum[stimmat$line == fix$line[i]][which.min(out)]
+    fix$sent[i] <- stimmat$sent[stimmat$line == fix$line[i]][which.min(out)]
+    fix$sent.nwords[i] <- stimmat$sent.nwords[stimmat$line == fix$line[i]][which.min(out)]
+    fix$ianum[i] <- stimmat$ianum[stimmat$line == fix$line[i]][which.min(out)]
+    fix$ia[i] <- stimmat$ia[stimmat$line == fix$line[i]][which.min(out)]
+    
     fix$line.let[i] <- stimmat$letline[stimmat$line == fix$line[i]][which.min(out)]
     fix$word.land[i] <- stimmat$letword[stimmat$line == fix$line[i]][which.min(out)]
     fix$ia.land[i] <- stimmat$letia[stimmat$line == fix$line[i]][which.min(out)]
+    fix$line.word[i] <- stimmat$wordline[stimmat$line == fix$line[i]][which.min(out)]
+    fix$sent.word[i] <- stimmat$wordsent[stimmat$line == fix$line[i]][which.min(out)]
+    
+    fix$trial.nwords[i] <- stimmat$trial.nwords[stimmat$line == fix$line[i]][which.min(out)]
+    fix$trial[i] <- stimmat$trial[stimmat$line == fix$line[i]][which.min(out)]
     
   }
   
@@ -166,6 +182,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   fix$letternum[fix$type == "out"] <- NA
   fix$letter[fix$type == "out"] <- NA
   fix$wordnum[fix$type == "out"] <- NA
+  fix$sentnum[fix$type == "out"] <- NA
   fix$ianum[fix$type == "out"] <- NA
   fix$line.let[fix$type == "out"] <- NA
   fix$word.land[fix$type == "out"] <- NA

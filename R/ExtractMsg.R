@@ -139,7 +139,7 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   # tmp <- dat[grep(paste(paste("^", unlist(env$exp$setup$message), "$", sep = ""), collapse = "|"), dat)]
   
   # FIX: if start message is empty
-  if (env$exp$setup$message$start == "") {
+  if (env$exp$setup$message$start == "" | env$exp$setup$message$start == "DRAW_LIST") {
     env$exp$setup$message$start <- "DRAW_LIST"
     dat <- gsub("!V DRAW_LIST", "DRAW_LIST", dat)
   }

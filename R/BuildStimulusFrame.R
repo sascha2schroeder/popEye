@@ -1,24 +1,12 @@
 
 BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
-  # TODO: line-wrap for hyphens
   
-  # retrieve stimulus
+  # retrieve variables
+  # ------------------
+  
   stim <- dat$trial[[trial]]$meta$stim
   
-  # parse out ia delimiter and target indicator and split into letters
-  tmp <- stim
-  tmp <- gsub(env$exp$setup$indicator$target, "", tmp)
-  tmp <- gsub(env$exp$setup$indicator$line, "", tmp)
-  if (env$exp$setup$indicator$ia != " ") {
-    tmp <- gsub(env$exp$setup$indicator$ia, "", tmp)
-  }
-  # FIX: replace hyphen by blank
-  tmp <- gsub("-", " ", tmp)
-  
-  letters <- unlist(strsplit(tmp, ""))
-  
-  # variables
   x.res <- env$exp$setup$display$resolutionX
   x.offset <- env$exp$setup$display$marginLeft
   y.offset <- env$exp$setup$display$marginTop
@@ -37,28 +25,98 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   if (env$exp$setup$font$spacing == "2") mult <- 2
   # TODO: other spacing conditions
   
-  # set up matrix
-  stimmat <- data.frame(matrix(NA, length(letters), 10))
-  colnames(stimmat) <- c("letter", "letno", "word", "ia", "line", "width",
-                         "xs", "xe", "ys", "ye")
-  
   
   # compute letter
   # ---------------
   
+  # parse out ia delimiter and target indicator and split into letters
+  tmp <- stim
+  tmp <- gsub(env$exp$setup$indicator$target, "", tmp)
+  tmp <- gsub(env$exp$setup$indicator$line, "", tmp)
+  if (env$exp$setup$indicator$ia != " ") {
+    tmp <- gsub(env$exp$setup$indicator$ia, "", tmp)
+  }
+  
+  letters <- unlist(strsplit(tmp, ""))
+  
+  
+  # set up stimmat matrix
+  # ----------------------
+  
+  stimmat <- data.frame(matrix(NA, length(letters), 1))
+  colnames(stimmat) <- c("subid")
+  # TODO: assign screen, assign text
+  # TODO: only one letter loop?
+  
+  stimmat$letternum <- 1:length(letters)
   stimmat$letter <- letters
-  stimmat$letno <- 1:length(letters)
-
+  
+  
+  # add other variables
+  # -------------------
+  
+  stimmat$subid <- env$subid
+  stimmat$trialid <- dat$trial[[trial]]$meta$trialid
+  stimmat$trialnum <- dat$trial[[trial]]$meta$trialnum
+  stimmat$itemid <- dat$trial[[trial]]$meta$itemid
+  stimmat$cond <- dat$trial[[trial]]$meta$cond
+  
+  
+  # replace hyphens
+  # ----------------
+  
+  # NOTE: hyphens work as word seperator
+  hyph <- grep("-", stimmat$letter)
+  if (length(hyph) > 0) {
+    stimmat$letter[hyph] <- " "
+    tmp <- gsub("-", " ", tmp)
+  }
+  
     
   # compute word
   # -------------
   
-  word <- 1
-  stimmat$width <- rep(NA, length = length(stimmat$letter))
+  word.delim <- "[ -]"
+  # TODO: word.delim as parameter
+  # TODO: punctuation part of word?
+  
+  words <- unlist(strsplit(tmp, word.delim))
+  wordnum <- 1
   for (i in 1:length(letters)) {
-    if (stimmat$letter[i] == " ") word <- word + 1
-    stimmat$word[i] <- word
+    if (stimmat$letter[i] == " ") wordnum <- wordnum + 1
+    stimmat$wordnum[i] <- wordnum
+    stimmat$word[i] <- words[stimmat$wordnum[i]]
     stimmat$width[i] <- letpix$pixel[letpix$letter == stimmat$letter[i]]
+    # print(i)
+  }
+  
+  
+  # sentence
+  # ---------
+  
+  sent.sep <- ".?!"
+  # TODO: as parameter?
+  
+  delim <- unlist(strsplit(sent.sep, ""))
+  sent.delim <- " "
+  for (i in 1:length(delim)) {
+    sent.delim <- c(sent.delim, paste(delim[i], " ", sep = ""))
+  }
+  sent.delim <- sent.delim[-1]
+  sent.bound <- unlist(strsplit(sent.sep, ""))
+  
+  sentnum <- 1
+  stimmat$sentnum[1] <- 1
+  sent <- unlist(strsplit(tmp, paste(paste("[", sent.sep, "]", sep = ""), " ", sep = "")))
+  
+  for (i in 1:(length(letters) - 1)) {
+    if (is.element(stimmat$letter[i], sent.bound) & stimmat$letter[i + 1] == " ") {
+      sentnum <- sentnum + 1
+    }
+    stimmat$sentnum[i + 1] <- sentnum
+    stimmat$sent[i] <- paste(unlist(strsplit(sent[stimmat$sentnum[i]], ""))[1:20], collapse = "")
+    stimmat$sent.nwords[i] <- sapply(strsplit(sent[stimmat$sentnum[i]], " "), length)
+    stimmat$sent.nletters[i] <- sapply(strsplit(sent[stimmat$sentnum[i]], ""), length)
     # print(i)
   }
   
@@ -66,17 +124,35 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   # compute IA
   # -----------
   
-  if (env$exp$setup$indicator$ia == " ") {
+  ia.delim <- env$exp$setup$indicator$ia
+  
+  if (ia.delim == " ") {
+    
+    stimmat$ianum <- stimmat$wordnum
     stimmat$ia <- stimmat$word
+    
   } else {
+    
     tmp <- stim
+    tmp <- gsub("-", " ", tmp)
     tmp <- gsub(env$exp$setup$indicator$target, "", tmp)
     tmp <- gsub(env$exp$setup$indicator$line, "", tmp)
-    ia.length <- sapply(unlist(strsplit(stim, ia.delim)), nchar)
-    stimmat$ia <- rep(1:length(ia.length), each = ia.length)
+    
+    ias <- unlist(strsplit(tmp, ia.delim))
+    ianum <- 1
+    
+    for (i in 1:nrow(stimmat)) {
+      if (stimmat$letter[i] == ia.delim) ianum <- ianum + 1
+      stimmat$ianum[i] <- ianum
+      ia.let <- unlist(strsplit(ias[stimmat$ianum[i]], ""))
+      ia.n <- length(ia.let)
+      if (ia.n > 20) ia.n <- 20
+      stimmat$ia[i] <- paste(ia.let[1:ia.n], collapse = "")
+      # print(i)
+    }
+    
   }
-  # NOTE: check if this is correct
-  
+
   
   # compute initial x positions
   # ----------------------------
@@ -99,8 +175,11 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   if (length(grep(line.delim, stim)) > 0) {
     
-    # TODO: parse out target and IA indicator
-    line.length <- sapply(unlist(strsplit(stim, line.delim)), nchar)
+    tmp <- stim
+    tmp <- gsub(env$exp$setup$indicator$target, "", tmp)
+    tmp <- gsub(env$exp$setup$indicator$ia, "", tmp)
+    
+    line.length <- sapply(unlist(strsplit(tmp, line.delim)), nchar)
     
     nlines <- length(line.length)
     
@@ -109,13 +188,13 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
       
       if (line.length[n] == 0) next 
       
-      stimmat$line[stimmat$line == n  & stimmat$letno >= line.length[n]] <- stimmat$line[stimmat$line == n & stimmat$letno >= line.length[n]] + 1
+      stimmat$line[stimmat$line == n  & stimmat$letternum >= line.length[n]] <- stimmat$line[stimmat$line == n & stimmat$letternum >= line.length[n]] + 1
       
       # delete blank before line break
-      stimmat <- stimmat[-min(stimmat$letno[stimmat$line == n + 1]), ]
+      stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
       
       # recompute letter number
-      stimmat$letno <- 1:nrow(stimmat)
+      stimmat$letternum <- 1:nrow(stimmat)
       
       # recompute x positions
       stimmat$xs[stimmat$line == n + 1] <- c(x.offset, cumsum(stimmat$width[stimmat$line == 2]) + x.offset)[1:length(stimmat$width[stimmat$line == 2])]
@@ -130,17 +209,17 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   while (n == m) {
     
     # set line break
-    line.cut <- max(stimmat$word[stimmat$line == n & stimmat$xe < x.cut])
+    line.cut <- max(stimmat$wordnum[stimmat$line == n & stimmat$xe < x.cut])
     if (max(stimmat$xe[stimmat$line == n]) > x.cut) {
       
       # set new line
-      stimmat$line[stimmat$line == n & stimmat$word >= line.cut] <- stimmat$line[stimmat$line == n & stimmat$word >= line.cut] + 1
+      stimmat$line[stimmat$line == n & stimmat$wordnum >= line.cut] <- stimmat$line[stimmat$line == n & stimmat$wordnum >= line.cut] + 1
       
       # delete blank before line break
-      stimmat <- stimmat[-min(stimmat$letno[stimmat$line == n + 1]), ]
+      stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
       
       # recompute letter number
-      stimmat$letno <- 1:nrow(stimmat)
+      stimmat$letternum <- 1:nrow(stimmat)
       
       # recompute x positions
       stimmat$xs[stimmat$line == n + 1] <- c(x.offset, cumsum(stimmat$width[stimmat$line == n + 1]) + x.offset)[1:length(stimmat$width[stimmat$line == n + 1])]
@@ -161,18 +240,8 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   # compute y positions
   # --------------------
   
-  # for (i in 1:max(stimmat$line)) {
-  #   # i = 1
-  #   stimmat$ys[stimmat$line == i] <- y.offset + font.height*((i - 1) * (1 + mult) - 1) + font.lead*(2 * (i - 1))
-  #   stimmat$ye[stimmat$line == i] <- y.offset + font.height*(i * (1 + mult) - 1) + font.lead*(2 * i)
-  #   # print (i)
-  # }
-  
   for (i in 1:max(stimmat$line)) {
     # i = 1
-    
-    # stimmat$ys[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height - 1) * mult * (i - 1) - font.height * 0.5
-    # stimmat$ye[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height - 1) * mult * (i - 1) + font.height * 1.5
     
     stimmat$ys[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height) * mult * (i - 1) - font.height * 0.5
     stimmat$ye[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height) * mult * (i - 1) + font.height * 1.5
@@ -186,26 +255,50 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   stimmat$xm <- (stimmat$xs + stimmat$xe) / 2
   stimmat$ym <- (stimmat$ys + stimmat$ye) / 2
-  # stimmat$ym <- stimmat$ys + font.height/2
+
   
+  
+  # reconstruct hyphens
+  # --------------------
+  
+  if (length(hyph) > 0) {
+    stimmat$letter[hyph] <- "-"
+  }
+  
+    
   # determine target IA
   # --------------------
   
   if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
+    
+    stimmat$target <- NA
+    
     dat$trial[[trial]]$meta$target <- 
       grep(env$exp$setup$indicator$target, unlist(strsplit(stim, env$exp$setup$indicator$ia)))
+    
+    stimmat[stimmat$ianum == dat$trial[[trial]]$meta$target] <- "n"
+    stimmat[stimmat$ianum == dat$trial[[trial]]$meta$target - 1] <- "n-1"
+    stimmat[stimmat$ianum == dat$trial[[trial]]$meta$target + 1] <- "n+1"
+    
   }
-  # TODO: save in stimmat?
+  
+  
+  # number of words
+  # ----------------
+  
+  stimmat$trial.nwords <- length(words)
+  stimmat$trial.nletters <- nrow(stimmat)
+  stimmat$trial <- paste(words[1:5], collapse = " ")
   
   
   # letter positions
   # ----------------
   
   # letter in line
-  stimmat$letline <- ave(stimmat$letno, stimmat$line, FUN = rank)
+  stimmat$letline <- ave(stimmat$letternum, stimmat$line, FUN = rank)
   
   # letter in word
-  stimmat$letword <- ave(stimmat$letno, stimmat$word, FUN = rank) - 1
+  stimmat$letword <- ave(stimmat$letternum, stimmat$wordnum, FUN = rank) - 1
   
   first <- tapply(stimmat$word, stimmat$line, min)
   for (i in 1:length(first)) {
@@ -213,7 +306,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   # letter in IA
-  stimmat$letia <- ave(stimmat$letno, stimmat$ia, FUN = rank) - 1
+  stimmat$letia <- ave(stimmat$letternum, stimmat$ianum, FUN = rank) - 1
   
   first <- tapply(stimmat$ia, stimmat$line, min)
   for (i in 1:length(first)) {
@@ -221,8 +314,39 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   
+  # word positions
+  # ---------------
+  
+  wordmat <- stimmat[duplicated(stimmat$wordnum) == F, ]
+  
+  # word in line
+  wordmat$wordline <- ave(wordmat$wordnum, wordmat$line, FUN = rank)
+  
+  # word in sentence
+  wordmat$wordsent <- ave(wordmat$wordnum, wordmat$sentnum, FUN = rank)
+  
+  names <- c("wordnum", "wordline", "wordsent")
+  stimmat <- merge(stimmat, wordmat[names])
+  
+  
   # return
   # -------
+  
+  if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
+    
+    names <- c("subid", "trialid", "trialnum", "itemid", "cond", "trial", "trial.nwords",
+               "letternum", "letter", "wordnum", "word", "sentnum", "sent", "sent.nwords",
+               "ianum", "ia", "target", "width", "line", 
+               "xs", "xe", "ys", "ye", "xm", "ym",
+               "letline", "letword", "letia", "wordline", "wordsent")
+  } else {
+    
+    names <- c("subid", "trialid", "trialnum", "itemid", "cond", "trial", "trial.nwords",
+               "letternum", "letter", "wordnum", "word", "sentnum", "sent", "sent.nwords",
+               "ianum", "ia", "width", "line", 
+               "xs", "xe", "ys", "ye", "xm", "ym",
+               "letline", "letword", "letia", "wordline", "wordsent")
+  }
   
   dat$trial[[trial]]$meta$stimmat <- stimmat
   

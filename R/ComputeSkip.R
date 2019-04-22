@@ -1,7 +1,11 @@
 
-ComputeFirstskip <- function(dat, trial) {
+ComputeSkip <- function(dat, trial) {
   
   # trial <- 2
+  
+  
+  # firstskip
+  # ----------
   
   # initialize
   dat$trial[[trial]]$fix$word.firstskip <- 0
@@ -57,6 +61,15 @@ ComputeFirstskip <- function(dat, trial) {
   # word
   dat$trial[[trial]]$fix$word.skip <- 0
   dat$trial[[trial]]$fix$word.skip[is.element(dat$trial[[trial]]$fix$wordnum, dat$trial[[trial]]$meta$stimmat$wordnum) == F] <- 1
+  
+  # IA
+  dat$trial[[trial]]$fix$ia.skip <- 0
+  dat$trial[[trial]]$fix$ia.skip[is.element(dat$trial[[trial]]$fix$ianum, dat$trial[[trial]]$meta$stimmat$ianum) == F] <- 1
+  
+  # sentence
+  dat$trial[[trial]]$fix$sent.skip <- 0
+  dat$trial[[trial]]$fix$sent.skip[is.element(dat$trial[[trial]]$fix$sentnum, dat$trial[[trial]]$meta$stimmat$sentnum) == F] <- 1
+  
   
   return(dat)
   

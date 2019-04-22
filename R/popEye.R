@@ -58,17 +58,36 @@ popEye <- function(datpath, stimpath,
   # create output files
   # --------------------
   
-  # item
+  word.item <- data.frame(matrix(NA, 1, 7))
+  colnames(word.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "wordnum", "word")
+  
+  sent.item <- data.frame(matrix(NA, 1, 6))
+  colnames(sent.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum")
+  
+  if (exp$setup$type == "text") {
+    ia.item <- data.frame(matrix(NA, 1, 7))
+    colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia")
+  }
+  
   if (exp$setup$type == "sentence") {
     ia.item <- data.frame(matrix(NA, 1, 7))
     colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia")
-  } else {
+  } 
+  
+  if (exp$setup$type == "target") {
+    ia.item <- data.frame(matrix(NA, 1, 8))
+    colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", "target")
+  } 
+  
+  if (exp$setup$type == "boundary") {
     ia.item <- data.frame(matrix(NA, 1, 8))
     colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", "target")
   }
   
-  word.item <- data.frame(matrix(NA, 1, 7))
-  colnames(word.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "wordnum", "word")
+  if (exp$setup$type == "fast") {
+    ia.item <- data.frame(matrix(NA, 1, 8))
+    colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", "target")
+  }
   
   # fix
   fix <- NULL
@@ -80,6 +99,21 @@ popEye <- function(datpath, stimpath,
   results <- list(text = NA, quest = NA)
   
   # clean
+  
+  if (type == "text") {
+    clean <- data.frame(matrix(NA, 1, 10))
+    colnames(clean) <- c("subid", 
+                         "trialid", 
+                         "trialnum", 
+                         "itemid", 
+                         "cond",
+                         "trial.fix", 
+                         "trial.blink", 
+                         "trial.sac",
+                         "trial.crit", 
+                         "crit")
+  } 
+  
   if (type == "sentence") {
     clean <- data.frame(matrix(NA, 1, 10))
     colnames(clean) <- c("subid", 
@@ -237,7 +271,7 @@ popEye <- function(datpath, stimpath,
     # subject loop
     # ----------------------------------
     
-      # for (s in 1:1) {
+      # for (s in 2:2) {
       for (s in 1:length(sub.list)){
     
       # increment number of subjects
@@ -369,18 +403,22 @@ popEye <- function(datpath, stimpath,
       if (exp$setup$analysis$sparse == TRUE) {
         dat <- Sparse(dat)
       }
-      
+
 
       # finalize
       # ---------
 
       # names for trial slots
       for (i in 1:length(dat$trial)) {
+        
         names(dat$trial)[i] <- paste("trial", i, sep = ".")
-        # names(dat$trial)[i] <- paste("trial", dat$trial[[i]]$meta$itemid, sep = ".")
         # NOTE: select by trialid or itemid?
+        
+        fix <- rbind(fix, dat$trial[[i]]$fix)
+        sac <- rbind(sac, dat$trial[[i]]$sac)
+        
       }
-      
+
       # save in experiment slot
       exp$subject[[nsub]] <- list(header = header, trial = dat$trial)
       
@@ -395,41 +433,27 @@ popEye <- function(datpath, stimpath,
       # message(". Modul 3: Aggregation")
 
 
-      # item file
-      # -----------
-
-      message(".. Load item file")
-
-      ia.itemtmp <- ItemFileIA(dat)
-      ia.itemtmp$subid <- subid
-      ia.item <- rbind(ia.item, ia.itemtmp)
-
-      word.itemtmp <- ItemFileWord(dat)
-      word.itemtmp$subid <- subid
-      word.item <- rbind(word.item, word.itemtmp)
-
-
       # select fixations
       # -----------------
 
-      message(".. Select fixations")
+      # message(".. Collect fixations")
+      # 
+      # fixtmp <- SelectFix(dat)
+      # # fixtmp$subid <-  subid
+      # fix <- rbind(fix, fixtmp)
+      # fix <- fix[order(fix$subid, fix$trialnum, fix$fixid), ]
 
-      fixtmp <- SelectFix(dat)
-      fixtmp$subid <-  subid
-      fix <- rbind(fix, fixtmp)
-      fix <- fix[order(fix$subid, fix$trialnum, fix$fixid), ]
 
-
-      # select saccades
-      # -----------------
-
-      message(".. Select saccades")
-      
-      sactmp <- SelectSac(dat)
-      
-      sactmp$subid <-  subid
-      sac <- rbind(sac, sactmp)
-      sac <- sac[order(sac$subid, sac$trialnum, sac$sacid), ]
+      # # select saccades
+      # # -----------------
+      # 
+      # message(".. Select saccades")
+      # 
+      # sactmp <- SelectSac(dat)
+      # 
+      # sactmp$subid <-  subid
+      # sac <- rbind(sac, sactmp)
+      # sac <- sac[order(sac$subid, sac$trialnum, sac$sacid), ]
 
 
       # results file
@@ -449,6 +473,7 @@ popEye <- function(datpath, stimpath,
                         quest = rbind(results$quest, resultstmp$quest))
       }
 
+      
       # clean file
       # -------------
 
@@ -468,12 +493,6 @@ popEye <- function(datpath, stimpath,
   # collect output files
   # ---------------------
 
-  exp$out$ia.item <- ia.item[-1, ]
-  row.names(exp$out$ia.item) <- NULL
-
-  exp$out$word.item <- word.item[-1, ]
-  row.names(exp$out$word.item) <- NULL
-
   exp$out$fix <- fix
   row.names(exp$out$fix) <- NULL
 
@@ -490,7 +509,7 @@ popEye <- function(datpath, stimpath,
   # out
   exp$out$clean <- clean[-1, ]
   row.names(exp$out$clean) <- NULL
-
+  
 
   # aggregate word
   # ---------------
@@ -500,24 +519,35 @@ popEye <- function(datpath, stimpath,
   exp$out$wordfirst <- AggregateWordFirstrun(exp)
   exp$out$wordtmp <- AggregateWord(exp)
   exp <- CombineWord(exp)
-
-
+  
+    
   # aggregate IA
   # -------------
 
   message("Aggregate IA")
 
-  exp$out$first <- AggregateIAFirstrun(exp)
+  exp$out$iafirst <- AggregateIAFirstrun(exp)
   exp$out$iatmp <- AggregateIA(exp)
   exp <- CombineIA(exp)
+  
+  
+  # aggregate sentence
+  # -------------------
+  
+  message("Aggregate sentence")
+  
+  exp$out$sentfirst <- AggregateSentenceFirstrun(exp)
+  exp$out$senttmp <- AggregateSentence(exp)
+  exp <- CombineSentence(exp)
 
-
+  
   # aggregate trial
   # ----------------
 
   message("Aggregate trial")
 
   exp <- AggregateTrial(exp)
+  
   
 
   # compute overview file

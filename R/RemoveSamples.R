@@ -2,7 +2,7 @@
 # NOTE: assumes that all trials have the same start and stop message
 
 RemoveSamples <- function(dat, env = parent.frame(n = 2)) {
- 
+  
   samp <- data.frame(matrix(data = NA, nrow = 1, ncol = 4)) 
   names(samp) <- c('time', 'x',  'y', 'pupil')
   

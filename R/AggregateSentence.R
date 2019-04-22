@@ -1,0 +1,42 @@
+
+AggregateSentence <- function(exp) {
+  
+  # create outfile  
+  senttmp <- exp$out$fix
+  senttmp <- senttmp[senttmp$type == "in", ]
+  senttmp$id <- as.character(paste(senttmp$subid, senttmp$trialnum, 
+                                   senttmp$sentnum, sep = ":"))
+  senttmp <- senttmp[order(senttmp$id), ]
+  
+  sent <- senttmp[duplicated(senttmp$id) == F, ]
+  names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "sentnum", 
+             "sent", "sent.nwords")
+  sent <- sent[names]  
+  
+  # compute gopast time
+  senttmp <- ComputeGopastSentence(senttmp)
+  
+  # compute measures
+  sent$blink <- as.numeric(tapply(senttmp$blink, list(senttmp$id), max))
+  sent$nrun <- as.numeric(tapply(senttmp$sent.run, list(senttmp$id), max))
+  sent$reread <- ifelse(sent$nrun > 1, 1, 0)
+  sent$skip <- as.numeric(tapply(senttmp$sent.skip, list(senttmp$id), max, na.rm = T))
+  sent$nfix <- as.numeric(tapply(senttmp$fixid, list(senttmp$id), length))
+  sent$refix <- as.numeric(tapply(senttmp$sent.refix, list(senttmp$id), max, na.rm = T))
+  sent$reg.in <- as.numeric(tapply(senttmp$sent.reg.in, list(senttmp$id), max))
+  sent$reg.out <- as.numeric(tapply(senttmp$sent.reg.out, list(senttmp$id), max))
+  sent$dur <- as.numeric(tapply(senttmp$dur, list(senttmp$id), sum))
+  sent$gopast <- as.numeric(tapply(senttmp$gopast, list(senttmp$id), max))
+  sent$gopast.sel <- as.numeric(tapply(senttmp$selgopast, list(senttmp$id), max))
+  sent$rate <- round(sent$dur / sent$sent.nwords)
+
+  # save
+  sent <- sent[order(sent$subid, sent$trialnum, sent$sentnum), ]
+  names <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent",
+             "sent.nwords", "blink", "skip", "nrun", "reread", "nfix", "refix", 
+             "reg.in", "reg.out", "dur", "gopast", "gopast.sel", "rate")
+  sent <- sent[names]
+  
+  return(sent)
+  
+}

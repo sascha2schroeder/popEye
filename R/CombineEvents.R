@@ -18,12 +18,14 @@ CombineEvents <- function(dat) {
     dat$trial[[trial]]$fix2$ys <- dat$trial[[trial]]$fix$ys
     dat$trial[[trial]]$fix2$msg <- "FIX"
     
+    
     # saccades
     # ---------
     
     dat$trial[[trial]]$sac2 <- dat$trial[[trial]]$sac
-    names = c("num", "start", "stop", "xs", "ys", "xe", "ye", "msg")
+    names = c("sacid", "start", "stop", "xs", "ys", "xe", "ye", "msg")
     dat$trial[[trial]]$sac2 <- dat$trial[[trial]]$sac2[, match(names, colnames(dat$trial[[trial]]$sac2))]
+    colnames(dat$trial[[trial]]$sac2) <- c("num", "start", "stop", "xs", "ys", "xe", "ye", "msg")
     
     # msg
     # ----

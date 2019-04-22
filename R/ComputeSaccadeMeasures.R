@@ -4,6 +4,13 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
   # trial <- 1
   
   sac <- dat$trial[[trial]]$sac
+  
+  sac$subid <- env$subid
+  sac$trialid <- dat$trial[[trial]]$meta$trialid
+  sac$trialnum <- dat$trial[[trial]]$meta$trialnum
+  sac$itemid <- dat$trial[[trial]]$meta$itemid
+  sac$cond <- dat$trial[[trial]]$meta$cond
+  
   sac$peak.vel <- NA
   
   for (s in 1:nrow(sac)) {
@@ -78,8 +85,17 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
     
   }
   
-  # dat$trial[[trial]]$sac <- sac[is.na(sac$trialid) == F, ]
+  # # rename fixid
+  sac$sacid <- sac$num
+  
+  # names and return
+  names <- c("subid", "trialid", "trialnum", "itemid", "cond", "sacid", "msg", 
+             "xs", "xe", "ys", "ye", "start", "stop", 
+             "dist.px", "dist.let", "peak.vel", "dur")
+  sac <- sac[names]
+  
   dat$trial[[trial]]$sac <- sac[is.na(sac$start) == F, ]
+  
   
   return(dat)  
   

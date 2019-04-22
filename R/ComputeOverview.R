@@ -1,6 +1,14 @@
 
 ComputeOverview <- function(exp) {
   
+  if (exp$setup$type == "text") {
+    cagg=aggregate(cbind(exp$out$clean$trial.crit, exp$out$clean$crit),
+                   list(exp$out$clean$subid), mean, na.rm = T)
+    colnames(cagg) <- c("subid", "prob.trial", "prob.all")
+    cagg$ncrit.trial <- round(cagg$prob.trial, 3)
+    cagg$ncrit <- round(cagg$prob.all, 3)  
+  }
+  
   if (exp$setup$type == "sentence") {
     cagg=aggregate(cbind(exp$out$clean$trial.crit, exp$out$clean$crit),
                    list(exp$out$clean$subid), mean, na.rm = T)
