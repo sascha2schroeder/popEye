@@ -163,6 +163,10 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     fix$ianum[i] <- stimmat$ianum[stimmat$line == fix$line[i]][which.min(out)]
     fix$ia[i] <- stimmat$ia[stimmat$line == fix$line[i]][which.min(out)]
     
+    if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
+      fix$target[i] <- stimmat$target[stimmat$line == fix$line[i]][which.min(out)]
+    }
+    
     fix$line.let[i] <- stimmat$letline[stimmat$line == fix$line[i]][which.min(out)]
     fix$word.land[i] <- stimmat$letword[stimmat$line == fix$line[i]][which.min(out)]
     fix$ia.land[i] <- stimmat$letia[stimmat$line == fix$line[i]][which.min(out)]

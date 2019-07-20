@@ -24,6 +24,7 @@ RemoveSamples <- function(dat, env = parent.frame(n = 2)) {
     tmpmsg <- dat$msg[dat$msg$time>= start & dat$msg$time <= stop, ] 
     tmpevent <- dat$event[dat$event$time>= start & dat$event$time <= stop, ] 
     
+    
     # add to output
     samp <- rbind(samp, tmpsamp)
     msg <- rbind(msg, tmpmsg)

@@ -45,21 +45,21 @@ PlotBoundaryX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F
   }
   
   # add words
-  words <- as.numeric(unlist(dimnames(table(tmp$meta$stimmat$word))))
+  words <- as.numeric(unlist(dimnames(table(tmp$meta$stimmat$wordnum))))
   for (j in 1:max(words)) {
-    rect(min(tmp$meta$stimmat$xs[tmp$meta$stimmat$word == words[j]]),
-         min(tmp$meta$stimmat$ys[tmp$meta$stimmat$word == words[j]]), 
-         max(tmp$meta$stimmat$xe[tmp$meta$stimmat$word == words[j]]),
-         max(tmp$meta$stimmat$ye[tmp$meta$stimmat$word == words[j]]), 
+    rect(min(tmp$meta$stimmat$xs[tmp$meta$stimmat$wordnum == words[j]]),
+         min(tmp$meta$stimmat$ys[tmp$meta$stimmat$wordnum == words[j]]), 
+         max(tmp$meta$stimmat$xe[tmp$meta$stimmat$wordnum == words[j]]),
+         max(tmp$meta$stimmat$ye[tmp$meta$stimmat$wordnum == words[j]]), 
          angle = NA, lwd = 2, border = "navyblue")
   }
   
   # add target word
   j <- tmp$meta$target
-  rect(min(tmp$meta$stimmat$xs[tmp$meta$stimmat$word == words[j]]),
-       min(tmp$meta$stimmat$ys[tmp$meta$stimmat$word == words[j]]), 
-       max(tmp$meta$stimmat$xe[tmp$meta$stimmat$word == words[j]]),
-       max(tmp$meta$stimmat$ye[tmp$meta$stimmat$word == words[j]]), 
+  rect(min(tmp$meta$stimmat$xs[tmp$meta$stimmat$wordnum == words[j]]),
+       min(tmp$meta$stimmat$ys[tmp$meta$stimmat$wordnum == words[j]]), 
+       max(tmp$meta$stimmat$xe[tmp$meta$stimmat$wordnum == words[j]]),
+       max(tmp$meta$stimmat$ye[tmp$meta$stimmat$wordnum == words[j]]), 
        angle = NA, lwd = 2, col = makeTransparent("navyblue", alpha = .2))
   
   # add boundary

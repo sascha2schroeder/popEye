@@ -44,12 +44,12 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     # --------
     
     # target.blink: check whether blink occured prior to target IA (critical)
-    target.range <- seq(from = min(dat$trial[[trial]]$meta$stimmat$xs[dat$trial[[trial]]$meta$stimmat$ia == target.ia]),
-                        to = max(dat$trial[[trial]]$meta$stimmat$xe[dat$trial[[trial]]$meta$stimmat$ia == target.ia]))
+    target.range <- seq(from = min(dat$trial[[trial]]$meta$stimmat$xs[dat$trial[[trial]]$meta$stimmat$ianum == target.ia]),
+                        to = max(dat$trial[[trial]]$meta$stimmat$xe[dat$trial[[trial]]$meta$stimmat$ianum == target.ia]))
     
     if (is.na(target.min) == F) {
-      min.range <- seq(from = min(dat$trial[[trial]]$meta$stimmat$xs[dat$trial[[trial]]$meta$stimmat$ia == target.min]),
-                       to = max(dat$trial[[trial]]$meta$stimmat$xe[dat$trial[[trial]]$meta$stimmat$ia == target.min]))
+      min.range <- seq(from = min(dat$trial[[trial]]$meta$stimmat$xs[dat$trial[[trial]]$meta$stimmat$ianum == target.min]),
+                       to = max(dat$trial[[trial]]$meta$stimmat$xe[dat$trial[[trial]]$meta$stimmat$ianum == target.min]))
     } else {
       # target.post.fix: eheck whether there is a fixation after target IA
       dat$trial[[trial]]$clean$target$post.fix <- 1

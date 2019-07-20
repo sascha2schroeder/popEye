@@ -5,7 +5,13 @@ AggregateIA <- function(exp) {
   iatmp <- exp$out$fix
   iatmp$id <- as.character(paste(iatmp$subid, iatmp$trialnum, iatmp$ianum, sep = ":"))
   ia <- iatmp[duplicated(iatmp$id) == F, ]
-  names <- c("id", "subid", "trialid", "itemid", "cond", "trialnum", "ianum", "ia")
+  
+  if (exp$setup$type == "target" | exp$setup$type == "boundary" | exp$setup$type == "fast") {
+    names <- c("id", "subid", "trialid", "itemid", "cond", "trialnum", "ianum", "ia", "target")
+  } else {
+    names <- c("id", "subid", "trialid", "itemid", "cond", "trialnum", "ianum", "ia")
+  }
+  
   ia <- ia[names]  
   ia <- ia[order(ia$id), ]
   
@@ -25,34 +31,17 @@ AggregateIA <- function(exp) {
   ia$gopast <- as.numeric(tapply(iatmp$gopast, list(iatmp$id), max, na.rm = T))
   ia$gopast.sel <- as.numeric(tapply(iatmp$selgopast, list(iatmp$id), max, na.rm = T))
   
+  
   # save
   ia <- ia[order(ia$trialnum, ia$ianum), ]
   
-  if (exp$setup$type == "text") {
+  if (exp$setup$type == "text" | exp$setup$type == "sentence") {
     names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", 
                "blink", "skip", "nrun", "reread", "nfix", "refix", "reg.in", 
                "reg.out", "dur", "gopast", "gopast.sel")
   }
   
-  if (exp$setup$type == "sentence") {
-    names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", 
-               "blink", "skip", "nrun", "reread", "nfix", "refix", "reg.in", 
-               "reg.out", "dur", "gopast", "gopast.sel")
-  } 
-  
-  if (exp$setup$type == "target") {
-    names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia",
-               "target", "blink", "skip", "nrun", "reread", "nfix", "refix", 
-               "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
-  }
-  
-  if (exp$setup$type == "boundary") {
-    names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia",
-               "target", "blink", "skip", "nrun", "reread", "nfix", "refix", 
-               "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
-  }
-  
-  if (exp$setup$type == "fast") {
+  if (exp$setup$type == "target" | exp$setup$type == "boundary" | exp$setup$type == "fast") {
     names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia",
                "target", "blink", "skip", "nrun", "reread", "nfix", "refix", 
                "reg.in", "reg.out", "dur", "gopast", "gopast.sel")

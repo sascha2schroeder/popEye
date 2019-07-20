@@ -276,9 +276,9 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     dat$trial[[trial]]$meta$target <- 
       grep(env$exp$setup$indicator$target, unlist(strsplit(stim, env$exp$setup$indicator$ia)))
     
-    stimmat[stimmat$ianum == dat$trial[[trial]]$meta$target] <- "n"
-    stimmat[stimmat$ianum == dat$trial[[trial]]$meta$target - 1] <- "n-1"
-    stimmat[stimmat$ianum == dat$trial[[trial]]$meta$target + 1] <- "n+1"
+    stimmat$target[stimmat$ianum == dat$trial[[trial]]$meta$target] <- "n"
+    stimmat$target[stimmat$ianum == dat$trial[[trial]]$meta$target - 1] <- "n-1"
+    stimmat$target[stimmat$ianum == dat$trial[[trial]]$meta$target + 1] <- "n+1"
     
   }
   

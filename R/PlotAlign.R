@@ -26,7 +26,7 @@ PlotAlign <- function(exp, subject, trial, pdf = F, interactive = F, sub = F, al
        ylim = c(max(tmp$meta$stimmat$ye) + 1*exp$setup$font$size,
                 min(tmp$meta$stimmat$ys) - 1*exp$setup$font$size), 
        type = "n",
-       main = "Aligned Fixations", xlab = "x Position (px)", ylab = "y Position (py)")
+       main = paste("Trial", trial), xlab = "x Position (px)", ylab = "y Position (py)")
   for (i in 1:nrow(stimmat)){
     rect(stimmat$xs[i], stimmat$ye[i], stimmat$xe[i], stimmat$ys[i])  
     text(stimmat$xm[i], stimmat$ym[i], stimmat$letter[i], family = "Courier", cex = .9)

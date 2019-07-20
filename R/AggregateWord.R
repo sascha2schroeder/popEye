@@ -27,7 +27,6 @@ AggregateWord <- function(exp) {
   word$gopast <- as.numeric(tapply(wordtmp$gopast, list(wordtmp$id), max))
   word$gopast.sel <- as.numeric(tapply(wordtmp$selgopast, list(wordtmp$id), max))
   
-  
   # # delete variables
   # word <- word[, -match(c("subid", "trialid", "trialnum", "wordnum"), colnames(word))]
   # 
