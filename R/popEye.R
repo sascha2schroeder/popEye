@@ -26,7 +26,8 @@ popEye <- function(datpath, stimpath,
                    clean.stage4, clean.stage4Min,
                    clean.stage4Max, clean.delete, clean.outlier,
                    exclude.blink, exclude.nfix, exclude.sac,
-                   outpath = "", outname = "") {
+                   outpath = "", outname = ""
+                   ) {
   
   
   # ----------------------------------
@@ -36,7 +37,7 @@ popEye <- function(datpath, stimpath,
   message("Initialize experiment")
   
   # create output file
-  exp <- list(setup = NA, subject = list())
+  exp <- list(setup = NA, subjects = list())
   
   # exp <- list(setup = NA, subject = NA)
   # subject <- list()
@@ -252,9 +253,10 @@ popEye <- function(datpath, stimpath,
   # version loop
   # ----------------------------------
   
-  for (v in 1:length(version.list)) {
-  # for (v in 1:1) {
-  # v <- 2
+  # for (v in 1:length(version.list)) {
+  for (v in 1:1) {
+      
+    # v <- 2
     
     # list of subjects
     if (tracker.software == "EB") {
@@ -271,8 +273,8 @@ popEye <- function(datpath, stimpath,
     # subject loop
     # ----------------------------------
     
-    for (s in 1:length(sub.list)){
-    # for (s in 2:2) {
+    # for (s in 1:length(sub.list)){
+    for (s in 1:1) {
       
       # increment number of subjects
       nsub <- nsub + 1
@@ -420,10 +422,10 @@ popEye <- function(datpath, stimpath,
       }
 
       # save in experiment slot
-      exp$subject[[nsub]] <- list(header = header, trial = dat$trial)
+      exp$subjects[[nsub]] <- list(header = header, trials = dat$trial)
       
       # names for subject slot
-      names(exp$subject)[nsub] <- paste("subject", subid, sep = ".")
+      names(exp$subjects)[nsub] <- paste("subject", subid, sep = ".")
       
       
       # -----------------------

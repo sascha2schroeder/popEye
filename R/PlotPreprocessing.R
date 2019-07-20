@@ -1,14 +1,14 @@
 
-PlotPreprocessing <- function(exp, subject, trial, pdf = F, interactive = F) {
+PlotPreprocessing <- function(exp, subject, trial, pdf = NULL, interactive = F) {
   
   # start pdf
-  if (pdf == T) {
-    options(warn = -1)
-    pdf("Test.pdf", width = 16, height = 8.5)
-    par(mfrow = c(2, 2), cex = .9, oma = c(0, 0, 2, 0))
-  } else {
+  if (missing(pdf) == T) {
     par(mfrow = c(2, 2), cex = 1.2, oma = c(0, 0, 3, 0))
     if (interactive == T) par(ask = T)
+  } else {
+    options(warn = -1)
+    pdf(pdf, width = 16, height = 8.5)
+    par(mfrow = c(2, 2), cex = .9, oma = c(0, 0, 2, 0))
   }
   
   PlotXY(exp, subject, trial)
@@ -21,16 +21,16 @@ PlotPreprocessing <- function(exp, subject, trial, pdf = F, interactive = F) {
   PlotY(exp, subject, trial)
   
   # turn of device  
-  if (pdf == T) {
-    options(warn = 0)
-    title(paste("Trial", SelectSubject(exp, subject)$trial[[trial]]$meta$trialid, 
-                sep = " "), outer = T, cex.main = 1.75)
-    dev.off()
-  } else {
+  if (missing(pdf) == T) {
     title(paste("Trial", SelectSubject(exp, subject)$trial[[trial]]$meta$trialid, 
                 sep = " "), outer = T, cex.main = 2)
     par(mfrow = c(1, 1), cex = 1, oma = c(0, 0, 0, 0))
     if (interactive == T) par(ask = F)
+  } else {
+    options(warn = 0)
+    title(paste("Trial", SelectSubject(exp, subject)$trial[[trial]]$meta$trialid, 
+                sep = " "), outer = T, cex.main = 1.75)
+    dev.off()
   }
   
 }

@@ -1,17 +1,17 @@
 
-PlotSentenceX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
+PlotSentenceX <- function(exp, subject, trial, pdf = NULL, interactive = F, sub = F) {
   
   # TODO: resize y dimension?
   # TODO: align letters 
   
   # start pdf
   if (sub == F) {
-    if (pdf == T) {
-      pdf("Test.pdf", width = 16, height = 8.5)
-      par(mfrow = c(1, 1), cex = .9, oma = c(0, 0, 2, 0))
-    } else {
+    if (missing(pdf) == T) {
       par(mfrow = c(1, 1), cex = 1.25, oma = c(0, 0, 3, 0))
       if (interactive == T) par(ask = T)
+    } else {
+      pdf(pdf, width = 16, height = 8.5)
+      par(mfrow = c(1, 1), cex = .9, oma = c(0, 0, 2, 0))
     }
   }
   
@@ -58,7 +58,7 @@ PlotSentenceX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F
   }
   
   # add words
-  words <- as.numeric(unlist(dimnames(table(tmp$meta$stimmat$word))))
+  words <- as.numeric(unlist(dimnames(table(tmp$meta$stimmat$wordnum))))
   for (j in 1:max(words)) {
     rect(min(tmp$meta$stimmat$xs[tmp$meta$stimmat$word == words[j]]),
          min(tmp$meta$stimmat$ys[tmp$meta$stimmat$word == words[j]]), 
@@ -75,15 +75,15 @@ PlotSentenceX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F
   
   # turn off device  
   if (sub == F) {
-    if (pdf == T) {
-      title(paste("Trial", tmp$meta$trialnum, sep = " "), 
-            outer = T, cex.main = 1.75)
-      dev.off()
-    } else {
-      title(paste("Trial", tmp$meta$trialnum, sep = " "), 
+    if (missing(pdf) == T) {
+      title(paste("Trial", tmp$meta$trialid, sep = " "), 
             outer = T, cex.main = 2)
       par(mfrow = c(1, 1), cex = 1, oma = c(0, 0, 0, 0))
       if (interactive == T) par(ask = F)
+    } else {
+      title(paste("Trial", tmp$meta$trialid, sep = " "), 
+            outer = T, cex.main = 1.75)
+      dev.off()
     }
   }
 }

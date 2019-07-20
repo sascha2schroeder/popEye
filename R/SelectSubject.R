@@ -1,5 +1,5 @@
 
 SelectSubject <- function(dat, subname) {
-  sub <- dat$subject[[which(unlist(lapply(lapply(dat$subject, "[[", "header"), "[[", "subid") == subname))]]
+  sub <- dat$subjects[[which(unlist(lapply(lapply(dat$subjects, "[[", "header"), "[[", "subid") == subname))]]
   return(sub)
 }
