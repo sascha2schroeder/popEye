@@ -1,6 +1,17 @@
 
-PlotXY <- function(exp, subject, trial) {
-
+PlotXY <- function(exp, subject, trial, sub = F, pdf = NULL) {
+    
+  # start pdf
+  if (sub == F) {
+    if (missing(pdf) == T) {
+      par(mfrow = c(1, 1), cex = 1.25, oma = c(0, 0, 3, 0))
+      if (interactive == T) par(ask = T)
+    } else {
+      pdf(pdf, width = 16, height = 8.5)
+      par(mfrow = c(1, 1), cex = .9, oma = c(0, 0, 2, 0))
+    }
+  }
+ 
   tmp <- SelectSubjectTrial(exp, subject, trial)
  
   # smooth again
@@ -45,4 +56,18 @@ PlotXY <- function(exp, subject, trial) {
     text(fix$xs[s], fix$ys[s] + 30, fix$dur[s], col = 'black', cex = .6)
   }
   
+  # turn off device  
+  if (sub == F) {
+    if (missing(pdf) == T) {
+      title(paste("Trial", tmp$meta$trialid, sep = " "), 
+            outer = T, cex.main = 2)
+      par(mfrow = c(1, 1), cex = 1, oma = c(0, 0, 0, 0))
+      if (interactive == T) par(ask = F)
+    } else {
+      title(paste("Trial", tmp$meta$trialid, sep = " "), 
+            outer = T, cex.main = 1.75)
+      dev.off()
+    }
+  }
+
 }

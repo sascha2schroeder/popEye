@@ -11,14 +11,14 @@ PlotPreprocessing <- function(exp, subject, trial, pdf = NULL, interactive = F) 
     par(mfrow = c(2, 2), cex = .9, oma = c(0, 0, 2, 0))
   }
   
-  PlotXY(exp, subject, trial)
+  PlotXY(exp, subject, trial, sub = T)
   
   # NOTE: 2D velocity plot does not really make sense for H3 calibration 
-  PlotVelocity(exp, subject, trial)
-  PlotX(exp, subject, trial)
+  PlotVelocity(exp, subject, trial, sub = T)
+  PlotX(exp, subject, trial, sub = T)
   
   # NOTE: y position plot does not make sense for H3 calibration 
-  PlotY(exp, subject, trial)
+  PlotY(exp, subject, trial, sub = T)
   
   # turn of device  
   if (missing(pdf) == T) {

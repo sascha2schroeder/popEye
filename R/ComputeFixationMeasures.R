@@ -12,7 +12,7 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
     dat <- ComputeLaunchDistance(dat, trial)
     dat <- ComputeRefixation(dat, trial)
     dat <- ComputeRegression(dat, trial)
-    dat <- ComputeSkip(dat, trial)
+    dat <- ComputeFirstskip(dat, trial)
     dat <- ComputeRun(dat, trial)
     dat <- ComputeLandingPosition(dat, trial)
     
@@ -60,7 +60,6 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "word.run",
                  "word.runid",
                  "word.run.fix",
-                 "word.skip",
                  "word.firstskip",
                  "word.refix",
                  "word.launch",
@@ -73,7 +72,6 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "ia.run", 
                  "ia.runid",
                  "ia.run.fix",
-                 "ia.skip",
                  "ia.firstskip",
                  "ia.refix",
                  "ia.launch",
@@ -86,7 +84,6 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "sent.run",
                  "sent.runid",
                  "sent.run.fix",
-                 "sent.skip",
                  "sent.firstskip",
                  "sent.refix",
                  "sent.reg.out", 
@@ -113,6 +110,8 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "blink",            
                  "line", 
                  "line.change",
+                 "line.let",
+                 "line.word",
                  "letternum", 
                  "letter", 
                  "wordnum", 
@@ -124,15 +123,11 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "sent.nwords", 
                  "trial", 
                  "trial.nwords", 
-                 "line.let",
-                 "line.word",
-                 "sent.word",
                  
                  "word.fix",
                  "word.run",
                  "word.runid",
                  "word.run.fix",
-                 "word.skip",
                  "word.firstskip",
                  "word.refix",
                  "word.launch",
@@ -145,7 +140,6 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "ia.run", 
                  "ia.runid",
                  "ia.run.fix",
-                 "ia.skip",
                  "ia.firstskip",
                  "ia.refix",
                  "ia.launch",
@@ -154,11 +148,11 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "ia.reg.out", 
                  "ia.reg.in", 
                  
+                 "sent.word",
                  "sent.fix",
                  "sent.run",
                  "sent.runid",
                  "sent.run.fix",
-                 "sent.skip",
                  "sent.firstskip",
                  "sent.refix",
                  "sent.reg.out", 
@@ -171,7 +165,6 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
     # print(trial)
     
   }
-  
   
   return(dat)
   

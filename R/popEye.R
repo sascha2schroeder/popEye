@@ -26,7 +26,9 @@ popEye <- function(datpath, stimpath,
                    clean.stage4, clean.stage4Min,
                    clean.stage4Max, clean.delete, clean.outlier,
                    exclude.blink, exclude.nfix, exclude.sac,
-                   outpath = "", outname = ""
+                   outpath = "", outname = "",
+                   debug.version = NULL,
+                   debug.subject = NULL
                    ) {
   
   
@@ -253,9 +255,16 @@ popEye <- function(datpath, stimpath,
   # version loop
   # ----------------------------------
   
-  # for (v in 1:length(version.list)) {
-  for (v in 1:1) {
-      
+    if (missing(debug.version) == T) {
+      version.arg1 <- 1
+      version.arg2 <- length(version.list)
+    } else {
+      version.arg1 <- debug.version
+      version.arg2 <- debug.version
+    }
+          
+    for (v in version.arg1:version.arg2) {
+  
     # v <- 2
     
     # list of subjects
@@ -273,8 +282,15 @@ popEye <- function(datpath, stimpath,
     # subject loop
     # ----------------------------------
     
-    # for (s in 1:length(sub.list)){
-    for (s in 1:1) {
+    if (missing(debug.subject) == T) {
+      subject.arg1 <- 1
+      subject.arg2 <- length(sub.list)
+    } else {
+      subject.arg1 <- debug.subject
+      subject.arg2 <- debug.subject
+    }
+    
+    for (s in subject.arg1:subject.arg2) {
       
       # increment number of subjects
       nsub <- nsub + 1
@@ -512,14 +528,17 @@ popEye <- function(datpath, stimpath,
   exp$out$clean <- clean[-1, ]
   row.names(exp$out$clean) <- NULL
   
-
+  return(exp)
+  
   # aggregate word
   # ---------------
 
   message("Aggregate word")
 
   exp$out$wordfirst <- AggregateWordFirstrun(exp)
+  print("check1")
   exp$out$wordtmp <- AggregateWord(exp)
+  print("check2")
   exp <- CombineWord(exp)
   
     

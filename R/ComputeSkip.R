@@ -55,21 +55,20 @@ ComputeSkip <- function(dat, trial) {
   # NOTE: delete if outliers are excluded earlier
   
   
-  # skipping
-  # --------
-  
-  # word
-  dat$trial[[trial]]$fix$word.skip <- 0
-  dat$trial[[trial]]$fix$word.skip[is.element(dat$trial[[trial]]$fix$wordnum, dat$trial[[trial]]$meta$stimmat$wordnum) == F] <- 1
-  
-  # IA
-  dat$trial[[trial]]$fix$ia.skip <- 0
-  dat$trial[[trial]]$fix$ia.skip[is.element(dat$trial[[trial]]$fix$ianum, dat$trial[[trial]]$meta$stimmat$ianum) == F] <- 1
-  
-  # sentence
-  dat$trial[[trial]]$fix$sent.skip <- 0
-  dat$trial[[trial]]$fix$sent.skip[is.element(dat$trial[[trial]]$fix$sentnum, dat$trial[[trial]]$meta$stimmat$sentnum) == F] <- 1
-  
+  # # skipping
+  # # --------
+  # 
+  # # word
+  # dat$trial[[trial]]$fix$word.skip <- 0
+  # dat$trial[[trial]]$fix$word.skip[is.element(dat$trial[[trial]]$fix$wordnum, dat$trial[[trial]]$meta$stimmat$wordnum) == F] <- 1
+  # 
+  # # IA
+  # dat$trial[[trial]]$fix$ia.skip <- 0
+  # dat$trial[[trial]]$fix$ia.skip[is.element(dat$trial[[trial]]$fix$ianum, dat$trial[[trial]]$meta$stimmat$ianum) == F] <- 1
+  # 
+  # # sentence
+  # dat$trial[[trial]]$fix$sent.skip <- 0
+  # dat$trial[[trial]]$fix$sent.skip[is.element(dat$trial[[trial]]$fix$sentnum, dat$trial[[trial]]$meta$stimmat$sentnum) == F] <- 1
   
   return(dat)
   

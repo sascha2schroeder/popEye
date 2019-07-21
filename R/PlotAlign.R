@@ -1,5 +1,5 @@
 
-PlotAlign <- function(exp, subject, trial, pdf = F, interactive = F, sub = F, align = F) {
+PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F, sub = F, align = F) {
   
   # TODO: resize y dimension?
   # TODO: align letters 
@@ -7,12 +7,12 @@ PlotAlign <- function(exp, subject, trial, pdf = F, interactive = F, sub = F, al
   
   # start pdf
   if (sub == F) {
-    if (pdf == T) {
-      pdf("Test.pdf", width = 16, height = 8.5)
-      par(mfrow = c(1, 1), cex = .9, oma = c(0, 0, 2, 0))
-    } else {
+    if (missing(pdf) == T) {
       par(mfrow = c(1, 1), cex = 1.25, oma = c(0, 0, 0, 0))
       if (interactive == T) par(ask = T)
+    } else {
+      pdf(pdf, width = 16, height = 8.5)
+      par(mfrow = c(1, 1), cex = .9, oma = c(0, 0, 2, 0))
     }
   }
   
@@ -27,6 +27,8 @@ PlotAlign <- function(exp, subject, trial, pdf = F, interactive = F, sub = F, al
                 min(tmp$meta$stimmat$ys) - 1*exp$setup$font$size), 
        type = "n",
        main = paste("Trial", trial), xlab = "x Position (px)", ylab = "y Position (py)")
+  
+  # add letters
   for (i in 1:nrow(stimmat)){
     rect(stimmat$xs[i], stimmat$ye[i], stimmat$xe[i], stimmat$ys[i])  
     text(stimmat$xm[i], stimmat$ym[i], stimmat$letter[i], family = "Courier", cex = .9)
@@ -39,19 +41,16 @@ PlotAlign <- function(exp, subject, trial, pdf = F, interactive = F, sub = F, al
   } 
   
   if (align == F) {
-    points(fix$xs[fix$type == "in"], fix$ys[fix$type == "in"], cex = .75, 
-           type = "p", col = "black", pch = 16)
-    points(fix$xn[fix$type == "in"], 
-           fix$yn[fix$type == "in"], 
-           col = fix$line[fix$type == "in"], 
-           pch = 16, type = "p")
-    points(fix$xn[fix$type == "in"], 
-           fix$yn[fix$type == "in"], 
-           col = "black", 
-           pch = 16, type = "l")
-    arrows(fix$xs[fix$type == "in"], fix$ys[fix$type == "in"], 
-           fix$xn[fix$type == "in"], fix$yn[fix$type == "in"],
-           code = 2, length = .07 )
+    # points(fix$xs[fix$type == "in"], fix$ys[fix$type == "in"], cex = .75, 
+    #        type = "p", col = "black", pch = 16)
+      points(fix$xn[fix$type == "in"],
+           fix$yn[fix$type == "in"],
+           col = "black",
+           pch = 16, type = "b")
+    # arrows(fix$xs[fix$type == "in"], fix$ys[fix$type == "in"], 
+    #        fix$xn[fix$type == "in"], fix$yn[fix$type == "in"],
+    #        code = 2, length = .07 )
+    
   } else {
     
     fix$ytmp <- NA
@@ -75,14 +74,14 @@ PlotAlign <- function(exp, subject, trial, pdf = F, interactive = F, sub = F, al
   
   # add fixation number
   for (i in 1:nrow(fix)) {
-    text(fix$xn[i], fix$yn[i] - 7, labels = fix$num[i],
-         col = "royalblue", cex = .75)
+    text(fix$xn[i], fix$yn[i] - 3, labels = fix$fixid[i],
+         col = "black", cex = .75)
   }
   
   # turn off device  
-  if (pdf == T) {
+  if (missing(pdf) == F) {
     # title(paste("Trial", SelectSubjectTrial(exp, subject, trial)$meta$trialnum, 
-                # sep = " "), outer = T, cex.main = 1.75)
+                # sep = " "), outer = T, cex.main = 3.75)
     dev.off()
   } else {
     # title(paste("Trial", SelectSubjectTrial(exp, subject, trial)$meta$trialnum, 

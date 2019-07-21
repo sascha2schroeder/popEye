@@ -50,14 +50,6 @@ ComputeFirstskip <- function(dat, trial) {
   dat$trial[[trial]]$fix$sent.firstskip[is.na(dat$trial[[trial]]$fix$line) == T] <- NA
   # NOTE: delete if outliers are excluded earlier
   
-  
-  # skipping
-  # --------
-  
-  # word
-  dat$trial[[trial]]$fix$word.skip <- 0
-  dat$trial[[trial]]$fix$word.skip[is.element(dat$trial[[trial]]$fix$wordnum, dat$trial[[trial]]$meta$stimmat$wordnum) == F] <- 1
-  
   return(dat)
   
 }
