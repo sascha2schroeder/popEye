@@ -47,50 +47,21 @@ popEye <- function(datpath, stimpath,
   # retrieve setup infomation
   exp$setup <- SetupExperiment()
   
-  # TODO: think about workflow (directories, paths, subids, etc.)
-  
-  # Experiment Builder: assumes that complete experiment including
-  # all subfolders are in datpath; in particular, each subject is assumed
-  # to have its own results folder including the edf file, the stimulus file,
-  # and the results file
-  
-  # EyeTrack: assumes one folder in which all EDF files are included without
-  # any substructure (to be implemented)
+  # retrieve setup i  # any substructure (to be implemented)
   
   
   # create output files
   # --------------------
   
+  # item files
   word.item <- data.frame(matrix(NA, 1, 7))
   colnames(word.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "wordnum", "word")
   
-  sent.item <- data.frame(matrix(NA, 1, 6))
-  colnames(sent.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum")
+  ia.item <- data.frame(matrix(NA, 1, 7))
+  colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia")
   
-  if (exp$setup$type == "text") {
-    ia.item <- data.frame(matrix(NA, 1, 7))
-    colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia")
-  }
-  
-  if (exp$setup$type == "sentence") {
-    ia.item <- data.frame(matrix(NA, 1, 7))
-    colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia")
-  } 
-  
-  if (exp$setup$type == "target") {
-    ia.item <- data.frame(matrix(NA, 1, 8))
-    colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", "target")
-  } 
-  
-  if (exp$setup$type == "boundary") {
-    ia.item <- data.frame(matrix(NA, 1, 8))
-    colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", "target")
-  }
-  
-  if (exp$setup$type == "fast") {
-    ia.item <- data.frame(matrix(NA, 1, 8))
-    colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", "target")
-  }
+  sent.item <- data.frame(matrix(NA, 1, 7))
+  colnames(sent.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent")
   
   # fix
   fix <- NULL
@@ -102,7 +73,6 @@ popEye <- function(datpath, stimpath,
   results <- list(text = NA, quest = NA)
   
   # clean
-  
   if (type == "text") {
     clean <- data.frame(matrix(NA, 1, 10))
     colnames(clean) <- c("subid", 
@@ -228,7 +198,7 @@ popEye <- function(datpath, stimpath,
                          "crit")
   }
   # TODO: fast priming outdated
-
+  
   
   # create version list
   # --------------------
@@ -247,24 +217,22 @@ popEye <- function(datpath, stimpath,
   
   # initialize number of subjects
   nsub <- 0
-
-  # TODO: save version in subject header
   
   
   # ----------------------------------
   # version loop
   # ----------------------------------
   
-    if (missing(debug.version) == T) {
-      version.arg1 <- 1
-      version.arg2 <- length(version.list)
-    } else {
-      version.arg1 <- debug.version
-      version.arg2 <- debug.version
-    }
-          
-    for (v in version.arg1:version.arg2) {
+  if (missing(debug.version) == T) {
+    version.arg1 <- 1
+    version.arg2 <- length(version.list)
+  } else {
+    version.arg1 <- debug.version
+    version.arg2 <- debug.version
+  }
   
+  for (v in version.arg1:version.arg2) {
+    
     # v <- 2
     
     # list of subjects
@@ -276,7 +244,7 @@ popEye <- function(datpath, stimpath,
       sub.list <- list.files(filepath)
       sub.list <- sub.list[grep("asc", sub.list)]
     }
-
+    
     
     # ----------------------------------
     # subject loop
@@ -299,13 +267,13 @@ popEye <- function(datpath, stimpath,
       
       # message subject
       message(paste(". Subject: ", subid, paste = ""))
-    
+      
       # generate header slot
       header <- list(subid = subid)
-
+      
       # TODO: store other information about subject (e.g., version)
       
-
+      
       # --------------------------------------------
       # Modul 1: Preprocessing
       # --------------------------------------------
@@ -320,8 +288,8 @@ popEye <- function(datpath, stimpath,
       
       # TODO: reading asc data rather slow
       # TODO: do not convert to asc, but read edf directly (-> external packages)
-
-            
+      
+      
       # remove data
       # --------------
       
@@ -334,7 +302,7 @@ popEye <- function(datpath, stimpath,
       # ---------------
       
       message(".. Create trials")
-
+      
       dat <- Preprocessing(dat)
       
       
@@ -380,52 +348,52 @@ popEye <- function(datpath, stimpath,
       # NOTE: stage4 cleaning is dangerous !
       # TODO: report deleted fixations
       
-
+      
       # compute fixation measures
       # --------------------------
-
+      
       message(".. Compute fixation measures")
-
+      
       dat <- ComputeFixationMeasures(dat)
       
-
+      
       # retrieve saccades and blinks
       # -----------------------------
-
+      
       message(".. Compute saccade measures")
-
+      
       dat <- ProcessSaccades(dat)
-
-
+      
+      
       # combine events
       # ----------------
-
+      
       message(".. Combine events")
-
+      
       dat <- CombineEvents(dat)
       
       
       # cleaning
       # ---------
-
+      
       message(".. Cleaning trial")
-
+      
       dat <- CleanAll(dat)
-
+      
       # NOTE: think about relationship between cleaning here and in main analysis
-
-
+      
+      
       # clean trials
       # -------------
-
+      
       if (exp$setup$analysis$sparse == TRUE) {
         dat <- Sparse(dat)
       }
-
-
+      
+      
       # finalize
       # ---------
-
+      
       # names for trial slots
       for (i in 1:length(dat$trial)) {
         
@@ -436,7 +404,7 @@ popEye <- function(datpath, stimpath,
         sac <- rbind(sac, dat$trial[[i]]$sac)
         
       }
-
+      
       # save in experiment slot
       exp$subjects[[nsub]] <- list(header = header, trials = dat$trial)
       
@@ -447,34 +415,35 @@ popEye <- function(datpath, stimpath,
       # -----------------------
       # Modul 3: Aggregation
       # -----------------------
-
+      
       # message(". Modul 3: Aggregation")
-
-      # # item file
-      # # -----------
-      # 
-      # message(".. Load item file")
-      # 
-      # ia.itemtmp <- ItemFileIA(dat)
-      # ia.itemtmp$subid <- subid
-      # ia.item <- rbind(ia.item, ia.itemtmp)
-      # 
-      # word.itemtmp <- ItemFileWord(dat)
-      # word.itemtmp$subid <- subid
-      # word.item <- rbind(word.item, word.itemtmp)
-
+      
+      # item file
+      # -----------
+      
+      message(".. Load item file")
+      
+      word.itemtmp <- ItemFileWord(dat)
+      word.item <- rbind(word.item, word.itemtmp)
+      
+      ia.itemtmp <- ItemFileIA(dat)
+      ia.item <- rbind(ia.item, ia.itemtmp)
+      
+      sent.itemtmp <- ItemFileSent(dat)
+      sent.item <- rbind(sent.item, sent.itemtmp)
+      
       
       # select fixations
       # -----------------
-
+      
       # message(".. Collect fixations")
       # 
       # fixtmp <- SelectFix(dat)
       # # fixtmp$subid <-  subid
       # fix <- rbind(fix, fixtmp)
       # fix <- fix[order(fix$subid, fix$trialnum, fix$fixid), ]
-
-
+      
+      
       # # select saccades
       # # -----------------
       # 
@@ -485,17 +454,17 @@ popEye <- function(datpath, stimpath,
       # sactmp$subid <-  subid
       # sac <- rbind(sac, sactmp)
       # sac <- sac[order(sac$subid, sac$trialnum, sac$sacid), ]
-
-
+      
+      
       # results file
       # -------------
-
+      
       # TODO: integration results file and experiment needs to be improved
-
+      
       if (exp$setup$tracker$software == "EB" & exp$setup$tracker$results == T) {
-
+        
         message(".. Load results file")
-
+        
         resultstmp <- ResultsFile(subid,
                                   filepath)
         resultstmp$text$subid <-  subid
@@ -503,67 +472,76 @@ popEye <- function(datpath, stimpath,
         results <- list(text = rbind(results$text, resultstmp$text),
                         quest = rbind(results$quest, resultstmp$quest))
       }
-
+      
       
       # clean file
       # -------------
-
+      
       message(".. Create clean file")
-
+      
       cleantmp <- ComputeClean(dat)
       cleantmp$subid <- subid
       clean <- rbind(clean, cleantmp)
-
+      
     }
-
+    
   }
-
+  
   # NOTE: save number of subjects in setup slot?
-
-
+  
+  
   # collect output files
   # ---------------------
-
+  
+  # item files
+  exp$out$word.item <- word.item[-1, ]
+  row.names(exp$out$word.item) <- NULL
+  
+  exp$out$ia.item <- ia.item[-1, ]
+  row.names(exp$out$ia.item) <- NULL
+  
+  exp$out$sent.item <- sent.item[-1, ]
+  row.names(exp$out$sent.item) <- NULL
+  
+  # fixations and saccades
   exp$out$fix <- fix
   row.names(exp$out$fix) <- NULL
-
+  
   exp$out$sac <- sac
   row.names(exp$out$sac) <- NULL
-
+  
+  # results
   if (exp$setup$tracker$software == "EB" & exp$setup$tracker$results == T) {
     exp$out$results$text <- results$text[-1, ]
     row.names(exp$out$results$text) <- NULL
     exp$out$results$quest <- results$quest[-1, ]
     row.names(exp$out$results$quest) <- NULL
   }
-
+  
   # out
   exp$out$clean <- clean[-1, ]
   row.names(exp$out$clean) <- NULL
   
-  return(exp)
   
   # aggregate word
   # ---------------
-
+  
   message("Aggregate word")
-
+  
   exp$out$wordfirst <- AggregateWordFirstrun(exp)
-  print("check1")
   exp$out$wordtmp <- AggregateWord(exp)
-  print("check2")
   exp <- CombineWord(exp)
   
-    
+  
+  
   # aggregate IA
   # -------------
-
+  
   message("Aggregate IA")
-
+  
   exp$out$iafirst <- AggregateIAFirstrun(exp)
   exp$out$iatmp <- AggregateIA(exp)
   exp <- CombineIA(exp)
-  
   
   # aggregate sentence
   # -------------------
@@ -573,8 +551,8 @@ popEye <- function(datpath, stimpath,
   exp$out$sentfirst <- AggregateSentenceFirstrun(exp)
   exp$out$senttmp <- AggregateSentence(exp)
   exp <- CombineSentence(exp)
-
-  
+ 
+   
   # aggregate trial
   # ----------------
 
@@ -583,7 +561,6 @@ popEye <- function(datpath, stimpath,
   exp <- AggregateTrial(exp)
   
   
-
   # compute overview file
   # ----------------------
 
@@ -595,16 +572,13 @@ popEye <- function(datpath, stimpath,
   # clean up
   # ----------
 
-  # exp$out$ia.item <- NULL
-  # exp$out$word.item <- NULL
+  exp$out$ia.item <- NULL
+  exp$out$word.item <- NULL
+  exp$out$sent.item <- NULL
 
-
+  
   # save
   # -----
-
-  # NOTE: save one RDS file for complete experiment in directory from which
-  #       function has been called; name is the same as the last directory in
-  #       datpath (not sure whether this generally makes sense -> argument?)
 
   message("Save")
 

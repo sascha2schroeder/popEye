@@ -20,7 +20,6 @@ AggregateSentence <- function(exp) {
   sent$blink <- as.numeric(tapply(senttmp$blink, list(senttmp$id), max))
   sent$nrun <- as.numeric(tapply(senttmp$sent.run, list(senttmp$id), max))
   sent$reread <- ifelse(sent$nrun > 1, 1, 0)
-  sent$skip <- as.numeric(tapply(senttmp$sent.skip, list(senttmp$id), max, na.rm = T))
   sent$nfix <- as.numeric(tapply(senttmp$fixid, list(senttmp$id), length))
   sent$refix <- as.numeric(tapply(senttmp$sent.refix, list(senttmp$id), max, na.rm = T))
   sent$reg.in <- as.numeric(tapply(senttmp$sent.reg.in, list(senttmp$id), max))
@@ -30,12 +29,31 @@ AggregateSentence <- function(exp) {
   sent$gopast.sel <- as.numeric(tapply(senttmp$selgopast, list(senttmp$id), max))
   sent$rate <- round(sent$dur / sent$sent.nwords)
 
+  # compute skippings
+  # ------------------
+  
+  # delete variables
+  sent <- sent[, -match(c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent"), colnames(sent))]
+  
+  item <- exp$out$sent.item
+  item$id <- as.character(paste(item$subid, item$trialnum, item$sentnum, sep = ":"))
+  sent <- merge(sent, item, by = "id", all.y = T)
+  sent$skip <- 0
+  sent$skip[is.na(sent$blink) == T] <- 1
+  
+  # recompute blinks
+  sent$blink[is.na(sent$dur)] <- 0
+  
+  
   # save
-  sent <- sent[order(sent$subid, sent$trialnum, sent$sentnum), ]
+  # -----
+  
   names <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent",
              "sent.nwords", "blink", "skip", "nrun", "reread", "nfix", "refix", 
              "reg.in", "reg.out", "dur", "gopast", "gopast.sel", "rate")
+  
   sent <- sent[names]
+  sent <- sent[order(sent$subid, sent$trialnum, sent$sentnum), ]
   
   return(sent)
   
