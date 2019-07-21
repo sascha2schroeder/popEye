@@ -450,7 +450,20 @@ popEye <- function(datpath, stimpath,
 
       # message(". Modul 3: Aggregation")
 
+      # # item file
+      # # -----------
+      # 
+      # message(".. Load item file")
+      # 
+      # ia.itemtmp <- ItemFileIA(dat)
+      # ia.itemtmp$subid <- subid
+      # ia.item <- rbind(ia.item, ia.itemtmp)
+      # 
+      # word.itemtmp <- ItemFileWord(dat)
+      # word.itemtmp$subid <- subid
+      # word.item <- rbind(word.item, word.itemtmp)
 
+      
       # select fixations
       # -----------------
 
