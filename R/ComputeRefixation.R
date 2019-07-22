@@ -9,6 +9,10 @@ ComputeRefixation <- function(dat, trial) {
   for (j in 2:nrow(dat$trial[[trial]]$fix)){
     # j <- 2
     
+    dat$trial[[trial]]$fix$word.refix[1] <- 0
+    dat$trial[[trial]]$fix$ia.refix[1] <- 0
+    dat$trial[[trial]]$fix$sent.refix[1] <- 0
+    
     # skip outliers
     if(is.na(dat$trial[[trial]]$fix$wordnum[j]) | is.na(dat$trial[[trial]]$fix$wordnum[j - 1])) next
     # NOTE: delete if outliers are excluded earlier

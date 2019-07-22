@@ -29,7 +29,7 @@ popEye <- function(datpath, stimpath,
                    outpath = "", outname = "",
                    debug.version = NULL,
                    debug.subject = NULL
-                   ) {
+) {
   
   
   # ----------------------------------
@@ -531,7 +531,6 @@ popEye <- function(datpath, stimpath,
   exp$out$wordfirst <- AggregateWordFirstrun(exp)
   exp$out$wordtmp <- AggregateWord(exp)
   exp <- CombineWord(exp)
-  
   
   
   # aggregate IA

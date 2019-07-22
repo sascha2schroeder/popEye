@@ -52,13 +52,13 @@ AggregateIA <- function(exp) {
   
   if (exp$setup$type == "text" | exp$setup$type == "sentence") {
     names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", 
-               "blink", "skip", "nrun", "reread", "nfix", "refix", "reg.in", 
-               "reg.out", "dur", "gopast", "gopast.sel")
+               "blink", "skip", "nrun", "reread", "nfix", "refix", 
+               "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
   }
   
   if (exp$setup$type == "target" | exp$setup$type == "boundary" | exp$setup$type == "fast") {
     names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia",
-               "target", "blink", "skip", "nrun", "reread", "nfix", "refix", 
+               "target", "blink", "skip", "nrun", "reread", "nfix", "refix",
                "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
   }
   

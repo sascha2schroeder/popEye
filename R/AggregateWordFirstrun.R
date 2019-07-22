@@ -21,10 +21,9 @@ AggregateWordFirstrun <- function(exp) {
   firstrun$firstrun.reg.in <- as.numeric(tapply(firstruntmp$word.reg.in, list(firstruntmp$id), max))
   firstrun$firstrun.reg.out <- as.numeric(tapply(firstruntmp$word.reg.out, list(firstruntmp$id), max))
   firstrun$firstrun.dur <- as.numeric(tapply(firstruntmp$dur, list(firstruntmp$id), sum))
-
-    
-  # save
   
+  
+  # save
   firstrun <- firstrun[order(firstrun$trialnum, firstrun$wordnum), ]
   names <- c("subid", "trialid", "trialnum", "itemid", "cond", "wordnum", "word", 
              "firstrun.blink", "firstrun.skip", "firstrun.nfix", "firstrun.refix", 

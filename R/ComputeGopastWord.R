@@ -35,7 +35,7 @@ ComputeGopastWord <- function(dat) {
     # for (j in 2:2){
       # j = 1
       
-        dat$gopast[id == ids[i]][dat$wordnum[id == ids[i]]== ias[j]] <- 
+        dat$gopast[id == ids[i]][dat$wordnum[id == ids[i]] == ias[j]] <- 
           sum(
             dat$dur[id == ids[i]][
               dat$fixid[id == ids[i]] >= min(dat$fixid[id == ids[i]][dat$wordnum[id == ids[i]] == ias[j]], na.rm = T) 

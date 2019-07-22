@@ -27,10 +27,10 @@ CombineIA <- function(exp) {
   exp$out$fix$id <- 
     factor(exp$out$fix$subid):factor(exp$out$fix$trialnum):factor(exp$out$fix$ianum)
   fixtmp <- exp$out$fix[exp$out$fix$ia.run == 1 & exp$out$fix$ia.run.fix == 1, ]
-  names <- c("id", "ia.launch", "ia.land", "ia.cland", "dur")
+  names <- c("id", "sac.in", "sac.out", "ia.launch", "ia.land", "ia.cland", "dur")
   fixtmp <- fixtmp[names]
-  colnames(fixtmp) <- c("id", "firstfix.launch", "firstfix.land", 
-                        "firstfix.cland", "firstfix.dur")
+  colnames(fixtmp) <- c("id", "firstfix.sac.in", "firstfix.sac.out", "firstfix.launch", 
+                        "firstfix.land", "firstfix.cland", "firstfix.dur")
 
   # merge 
   comb <- merge(merge(iatmp, firsttmp, all.x = T), fixtmp, all.x = T)
@@ -48,12 +48,22 @@ CombineIA <- function(exp) {
   # recompute firstrun skip (skips also firstkips)
   exp$out$ia$firstrun.skip[exp$out$ia$skip == 1] <- 1
   
-  # compute single measures
   
-  # single
+  # compute single fixation measures
+  # ---------------------------------
+  
+  # single indicator
   exp$out$ia$singlefix <- 0
   exp$out$ia$singlefix[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- 1
   exp$out$ia$singlefix[exp$out$ia$skip == 1] <- NA
+  
+  # sac.in
+  exp$out$ia$singlefix.sac.in <- NA
+  exp$out$ia$singlefix.sac.in[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- exp$out$ia$firstfix.sac.in[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1]
+  
+  # sac.out
+  exp$out$ia$singlefix.sac.out <- NA
+  exp$out$ia$singlefix.sac.out[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- exp$out$ia$firstfix.sac.out[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1]
   
   # launch
   exp$out$ia$singlefix.launch <- NA
@@ -70,6 +80,31 @@ CombineIA <- function(exp) {
   # duration
   exp$out$ia$singlefix.dur <- NA
   exp$out$ia$singlefix.dur[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1] <- exp$out$ia$firstfix.dur[is.na(exp$out$ia$firstrun.nfix) == F & exp$out$ia$firstrun.nfix == 1]
+  
+  
+  # delete firstrun and singlefix variables for firstskips
+  # ------------------------------------------------------
+  
+  exp$out$ia$firstrun.nfix[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$firstrun.refix[exp$out$ia$firstrun.skip == 1] <- NA
+  
+  exp$out$ia$firstrun.reg.in[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$firstrun.reg.out[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$firstrun.dur[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$firstfix.sac.in[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$firstfix.sac.out[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$firstfix.launch[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$firstfix.land[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$firstfix.cland[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$firstfix.dur[exp$out$ia$firstrun.skip == 1] <- NA
+  
+  exp$out$ia$singlefix[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$singlefix.sac.in[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$singlefix.sac.out[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$singlefix.launch[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$singlefix.land[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$singlefix.cland[exp$out$ia$firstrun.skip == 1] <- NA
+  exp$out$ia$singlefix.dur[exp$out$ia$firstrun.skip == 1] <- NA
   
   return(exp)
   

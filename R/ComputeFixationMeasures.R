@@ -15,10 +15,12 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
     dat <- ComputeFirstskip(dat, trial)
     dat <- ComputeRun(dat, trial)
     dat <- ComputeLandingPosition(dat, trial)
+
     
     # rename fixid
     dat$trial[[trial]]$fix$fixid <- dat$trial[[trial]]$fix$num
     dat$trial[[trial]]$fix$num <- NULL
+    
     if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
       names <- c("subid", 
                  "trialid", 

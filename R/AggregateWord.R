@@ -51,7 +51,7 @@ AggregateWord <- function(exp) {
   
   word <- word[names]
   word <- word[order(word$subid, word$trialid, word$wordnum), ]
-  
+ 
   return(word)
   
 }
