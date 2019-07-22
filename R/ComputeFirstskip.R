@@ -39,9 +39,9 @@ ComputeFirstskip <- function(dat, trial) {
       dat$trial[[trial]]$fix$sent.firstskip[j] <- 1 
     }
     
-    ia.mem <- c(ia.mem, dat$trial[[trial]]$fix$ianum[j])
     word.mem <- c(word.mem, dat$trial[[trial]]$fix$wordnum[j])
-    sent.mem <- c(sent.mem, dat$trial[[trial]]$fix$wordnum[j])
+    ia.mem <- c(ia.mem, dat$trial[[trial]]$fix$ianum[j])
+    sent.mem <- c(sent.mem, dat$trial[[trial]]$fix$sentnum[j])
     # print(j)
   }  
   
