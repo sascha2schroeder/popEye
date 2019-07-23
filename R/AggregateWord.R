@@ -7,7 +7,8 @@ AggregateWord <- function(exp) {
                                    wordtmp$wordnum, sep = ":"))
   
   word <- wordtmp[duplicated(wordtmp$id) == F, ]
-  names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "wordnum", "word")
+  names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", 
+             "sentnum", "wordnum", "word")
   word <- word[names]  
   word <- word[order(word$id), ]
   
@@ -26,12 +27,9 @@ AggregateWord <- function(exp) {
   word$gopast <- as.numeric(tapply(wordtmp$gopast, list(wordtmp$id), max))
   word$gopast.sel <- as.numeric(tapply(wordtmp$selgopast, list(wordtmp$id), max))
   
-  
   # compute skippings
-  # ------------------
-  
-  # delete variables
-  word <- word[, -match(c("subid", "trialid", "trialnum", "itemid", "cond", "wordnum", "word"), colnames(word))]
+  word <- word[, -match(c("subid", "trialid", "trialnum", "itemid", "cond", 
+                          "sentnum", "wordnum", "word"), colnames(word))]
   
   item <- exp$out$word.item
   item$id <- as.character(paste(item$subid, item$trialnum, item$wordnum, sep = ":"))
@@ -39,19 +37,21 @@ AggregateWord <- function(exp) {
   word$skip <- 0
   word$skip[is.na(word$blink) == T] <- 1
   
+  # NOTE: Maybe delete gopast for last word in sentence(?)
+  
   # recompute blinks
   word$blink[is.na(word$dur)] <- 0
   
   # save
   word <- word[order(word$trialnum, word$wordnum), ]
   names <- c("subid", "trialid", "trialnum", "itemid", "cond",
-             "wordnum", "word", "blink", "skip", "nrun", "reread", 
+             "sentnum", "wordnum", "word", "blink", "skip", "nrun", "reread", 
              "nfix", "refix", "reg.in", "reg.out", "dur", 
              "gopast", "gopast.sel")
   
   word <- word[names]
   word <- word[order(word$subid, word$trialid, word$wordnum), ]
- 
+  
   return(word)
   
 }

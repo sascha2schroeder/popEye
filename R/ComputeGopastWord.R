@@ -53,6 +53,12 @@ ComputeGopastWord <- function(dat) {
                 & is.na(dat$wordnum[id == ids[i]]) == F
                 ]
               , na.rm = T)
+        
+        # # delete gopast for last word (visited)
+        # dat$gopast[id == ids[i]][dat$wordnum[id == ids[i]] == dat$wordnum[id == ids[i]][length(dat$wordnum[id == ids[i]])]] <- NA
+        # dat$selgopast[id == ids[i]][dat$wordnum[id == ids[i]] == dat$wordnum[id == ids[i]][length(dat$wordnum[id == ids[i]])]] <- NA
+        # # NOTE: Do we really want that?
+        
         # print(j)
     }
     # print(i)

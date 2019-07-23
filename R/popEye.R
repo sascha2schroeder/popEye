@@ -54,11 +54,11 @@ popEye <- function(datpath, stimpath,
   # --------------------
   
   # item files
-  word.item <- data.frame(matrix(NA, 1, 7))
-  colnames(word.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "wordnum", "word")
+  word.item <- data.frame(matrix(NA, 1, 8))
+  colnames(word.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "wordnum", "word")
   
-  ia.item <- data.frame(matrix(NA, 1, 7))
-  colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia")
+  ia.item <- data.frame(matrix(NA, 1, 8))
+  colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "ianum", "ia")
   
   sent.item <- data.frame(matrix(NA, 1, 7))
   colnames(sent.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent")
@@ -550,37 +550,37 @@ popEye <- function(datpath, stimpath,
   exp$out$sentfirst <- AggregateSentenceFirstrun(exp)
   exp$out$senttmp <- AggregateSentence(exp)
   exp <- CombineSentence(exp)
- 
-   
+  
+  
   # aggregate trial
   # ----------------
-
+  
   message("Aggregate trial")
-
+  
   exp <- AggregateTrial(exp)
   
   
   # compute overview file
   # ----------------------
-
+  
   message("Compute overview")
-
+  
   exp <- ComputeOverview(exp)
-
-
+  
+  
   # clean up
   # ----------
-
-  exp$out$ia.item <- NULL
-  exp$out$word.item <- NULL
-  exp$out$sent.item <- NULL
-
+  
+  # exp$out$ia.item <- NULL
+  # exp$out$word.item <- NULL
+  # exp$out$sent.item <- NULL
+  
   
   # save
   # -----
-
+  
   message("Save")
-
+  
   # set outpath
   if (outpath == "") {
     outpath <- getwd()

@@ -13,7 +13,7 @@ CombineSentence <- function(exp) {
   exp$out$sentfirst$id <- 
     factor(exp$out$sentfirst$subid):factor(exp$out$sentfirst$trialnum):factor(exp$out$sentfirst$sentnum)
   names <- c("id", "firstrun.nfix", "firstrun.refix", "firstrun.reg.in", 
-             "firstrun.reg.out", "firstrun.dur")
+             "firstrun.reg.out", "firstrun.dur", "firstrun.gopast", "firstrun.gopast.sel")
   firsttmp <- exp$out$sentfirst[names]
   
   # merge 
@@ -27,6 +27,12 @@ CombineSentence <- function(exp) {
   exp$out$sent <- comb
   exp$out$sent <- exp$out$sent[order(exp$out$sent$subid, exp$out$sent$trialnum, exp$out$sent$sentnum), ]
   row.names(exp$out$sent) <- NULL
+  
+  # gopast time in firstrun
+  exp$out$sent$firstrun.gopast <- exp$out$sent$gopast
+  exp$out$sent$firstrun.gopast.sel <- exp$out$sent$gopast.sel
+  exp$out$sent$gopast <- NULL
+  exp$out$sent$gopast.sel <- NULL
   
   return(exp)
   

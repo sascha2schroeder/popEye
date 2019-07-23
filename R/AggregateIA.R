@@ -7,9 +7,11 @@ AggregateIA <- function(exp) {
   ia <- iatmp[duplicated(iatmp$id) == F, ]
   
   if (exp$setup$type == "target" | exp$setup$type == "boundary" | exp$setup$type == "fast") {
-    names <- c("id", "subid", "trialid", "itemid", "cond", "trialnum", "ianum", "ia", "target")
+    names <- c("id", "subid", "trialid", "itemid", "cond", "trialnum", 
+               "sentnum", "ianum", "ia", "target")
   } else {
-    names <- c("id", "subid", "trialid", "itemid", "cond", "trialnum", "ianum", "ia")
+    names <- c("id", "subid", "trialid", "itemid", "cond", "trialnum", 
+               "sentnum", "ianum", "ia")
   }
   
   ia <- ia[names]  
@@ -35,7 +37,8 @@ AggregateIA <- function(exp) {
   # ------------------
   
   # delete variables
-  ia <- ia[, -match(c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia"), colnames(ia))]
+  ia <- ia[, -match(c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum",
+                      "ianum", "ia"), colnames(ia))]
   
   item <- exp$out$ia.item
   item$id <- as.character(paste(item$subid, item$trialnum, item$ianum, sep = ":"))
@@ -51,13 +54,15 @@ AggregateIA <- function(exp) {
   # -----
   
   if (exp$setup$type == "text" | exp$setup$type == "sentence") {
-    names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia", 
+    names <- c("subid", "trialid", "trialnum", "itemid", "cond", 
+               "sentnum", "ianum", "ia", 
                "blink", "skip", "nrun", "reread", "nfix", "refix", 
                "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
   }
   
   if (exp$setup$type == "target" | exp$setup$type == "boundary" | exp$setup$type == "fast") {
-    names <- c("subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia",
+    names <- c("subid", "trialid", "trialnum", "itemid", "cond", 
+               "sentnum", "ianum", "ia",
                "target", "blink", "skip", "nrun", "reread", "nfix", "refix",
                "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
   }
