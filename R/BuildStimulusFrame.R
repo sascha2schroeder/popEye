@@ -140,15 +140,22 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     
     ias <- unlist(strsplit(tmp, ia.delim))
     ianum <- 1
+    mem <- nchar(ias[ianum])
     
     for (i in 1:nrow(stimmat)) {
-      if (stimmat$letter[i] == ia.delim) ianum <- ianum + 1
+      
+      if (stimmat$letternum[i] > mem) {
+        ianum <- ianum + 1
+        mem <- mem + nchar(ias[ianum])
+      }
+      
       stimmat$ianum[i] <- ianum
       ia.let <- unlist(strsplit(ias[stimmat$ianum[i]], ""))
       ia.n <- length(ia.let)
       if (ia.n > 20) ia.n <- 20
       stimmat$ia[i] <- paste(ia.let[1:ia.n], collapse = "")
       # print(i)
+      
     }
     
   }

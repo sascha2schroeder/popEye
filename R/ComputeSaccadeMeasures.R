@@ -12,6 +12,15 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
   sac$cond <- dat$trial[[trial]]$meta$cond
   
   sac$peak.vel <- NA
+  sac$dx <- NA
+  sac$dy <- NA
+  sac$dX <- NA
+  sac$dY <- NA
+  sac$dist.px <- NA
+  sac$dist.angle <- NA
+  sac$amp.px <- NA
+  sac$amp.angle <- NA
+  
   
   for (s in 1:nrow(sac)) {
     # s = 1
@@ -65,20 +74,24 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
       if (env$exp$setup$tracker$calibration != "H3") {
         sac$dist.px[s] <- round(sqrt(sac$dx[s]^2 + sac$dy[s]^2))
         sac$dist.angle[s] <- round(atan2(sac$dy[s], sac$dx[s]), 2)
+      } else {
+        sac$dist.px[s] <- NA
+        sac$dist.angle[s] <- NA
       }
       
       # saccade amplitude/angle
       if (env$exp$setup$tracker$calibration != "H3") {
         sac$amp.px[s] <- round(sqrt(sac$dX[s]^2 + sac$dY[s]^2))
         sac$amp.angle[s] <- round(atan2(sac$dY[s], sac$dX[s]), 2)
-      }
-      
-      # saccade distance in letters
-      if (env$exp$setup$tracker$calibration != "H3") {
-        sac$dist.let[s] <- sac$lete[s] - sac$lets[s]
+      } else {
+        sac$amp.px[s] <- NA
+        sac$amp.angle[s] <- NA
       }
       
     }
+    
+    # saccade distance in letters
+    sac$dist.let[s] <- sac$lete[s] - sac$lets[s]
     
     # duration
     sac$dur[s] <- round((b - a + 1) * 1000 / env$exp$setup$tracker$samp)
@@ -89,9 +102,9 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
   sac$sacid <- sac$num
   
   # names and return
-  names <- c("subid", "trialid", "trialnum", "itemid", "cond", "sacid", "msg", 
-             "xs", "xe", "ys", "ye", "start", "stop", 
-             "dist.px", "dist.let", "peak.vel", "dur")
+    names <- c("subid", "trialid", "trialnum", "itemid", "cond", "sacid", "msg", 
+               "xs", "xe", "ys", "ye", "start", "stop", 
+               "dist.px", "dist.let", "peak.vel", "dur")
   sac <- sac[names]
   
   dat$trial[[trial]]$sac <- sac[is.na(sac$start) == F, ]

@@ -10,7 +10,7 @@ CleanTrial <- function(dat, env = parent.frame(n = 2)) {
     dat$trial[[trial]]$clean$trial <- list(nfix = 0, blink = 0, sac = 0, crit = 0)
     
     # number of fixations
-    if (max(dat$trial[[trial]]$fix$num) <  env$exp$setup$exclude$nfix) {
+    if (max(dat$trial[[trial]]$fix$fixid) <  env$exp$setup$exclude$nfix) {
       dat$trial[[trial]]$clean$trial$nfix <- 1
     }
     # NOTE: maybe integrate this screening in earlier steps (after outliers are excluded) 
