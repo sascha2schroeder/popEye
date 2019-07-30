@@ -25,6 +25,12 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     # select data
     tmp <- dat$trial[[trial]]$fix
     
+    if (nrow(tmp[tmp$type == "in", ])) {
+      dat$trial[[trial]]$clean$target$crit <- 1
+      next
+    }
+    
+    
     target.min <- tmp$ianum[is.na(tmp$ianum) == F & tmp$ianum >= target.ia][1]
     
     # target start

@@ -30,14 +30,9 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # ----------------
   
   fix$type <- "in"
-  
-  # # lose outlier definition
-  # fix$type[fix$yn > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
-  # fix$type[fix$yn < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
-  
-  # strict outlier definition
-  fix$type[fix$yn < min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 0.5] <- "out"
-  fix$type[fix$yn > max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 0.5] <- "out"
+
+  # fix$type[fix$yn > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2] <- "out"
+  # fix$type[fix$yn < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2] <- "out"
   
   
   # line assignment 
@@ -51,45 +46,45 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     for (i in 1:nrow(fix)) {
       # i <- 2
       
-      out <- vector(length = nrow(stimmat))
-      for (j in 1:nrow(stimmat)) {
-        # j <- 1
-        out[j] <- (fix$yn[i] - mean(c(stimmat$ye[j], stimmat$ys[j])))^2
+      out <- abs(fix$yn[i] - stimmat$ym)
+      
+      if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlier.y) {
+        fix$type[i] <- "out"
+        fix$line[i] <- NA
+      } else {
+        fix$line[i] <- stimmat$line[which.min(out)]
       }
       
-      fix$line[i] <- stimmat$line[which.min(out)]
-      
     }
     
   }
   
-  
-  # cluster method
-  if (env$exp$setup$analysis$lineMethod == "cluster") {
-
-    # NOTE: dependency library(fpc)
-
-    if (max(stimmat$line) > 1) {
-
-        clu <- kmeans(fix$yn[fix$type == "in"],
-                      fpc::pamk(fix$yn[fix$type == "in"],
-                                criterion="asw",
-                                krange = 1:max(stimmat$line),
-                                alpha = .1)$nc)
-        if (max(clu$cluster) > 1) {
-          cl_mean <- sort(round(clu$center))
-          clu <- kmeans(fix$yn[fix$type == "in"], cl_mean)
-        }
-
-        fix$line[fix$type == "in"] <- clu$cluster
-
-    } else {
-      
-      fix$line <- 1
-    }
-    
-  }
-  
+  # # cluster method
+  # if (env$exp$setup$analysis$lineMethod == "cluster") {
+  # 
+  #   # NOTE: dependency library(fpc)
+  # 
+  #   if (max(stimmat$line) > 1) {
+  # 
+  #       clu <- kmeans(fix$yn[fix$type == "in"],
+  #                     fpc::pamk(fix$yn[fix$type == "in"],
+  #                               criterion="asw",
+  #                               krange = 1:max(stimmat$line),
+  #                               alpha = .1)$nc)
+  #       if (max(clu$cluster) > 1) {
+  #         cl_mean <- sort(round(clu$center))
+  #         clu <- kmeans(fix$yn[fix$type == "in"], cl_mean)
+  #       }
+  # 
+  #       fix$line[fix$type == "in"] <- clu$cluster
+  # 
+  #   } else {
+  #     
+  #     fix$line <- 1
+  #     
+  #   }
+  #   
+  # }
   
   # chain method
   if (env$exp$setup$analysis$lineMethod == "chain") {
@@ -104,11 +99,21 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
       fix$distx[i] <- fix$xs[i] - fix$xs[i - 1]
       fix$disty[i] <- fix$ys[i] - fix$ys[i - 1]
       fix$dist[i] <- sqrt(fix$distx[i]^2 + fix$disty[i]^2)
+      
+      # determine line break
       if (abs(fix$disty[i]) > env$exp$setup$font$height | fix$dist[i] > 20*env$exp$setup$font$height) {
         fix$line[i] <- fix$line[i - 1] + 1
       } else {
         fix$line[i] <- fix$line[i - 1]
       }
+      
+      # define y outlier
+      out <- abs(fix$yn[i] - stimmat$ym)
+      
+      if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlier.y) {
+        fix$type[i] <- "out"
+      }
+      
     }
     
     # align with line number in stimmat
@@ -125,10 +130,9 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
       fix$line[fix$line == num[i] & is.na(fix$line) == F] <- which.min(out) 
     }
     
-    fix$distx <- NULL
-    fix$disty <- NULL
-    fix$dist <- NULL
-    
+    # fix$distx <- NULL
+    # fix$disty <- NULL
+    # fix$dist <- NULL
     
   }
   
@@ -141,10 +145,17 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   for (i in 1:nrow(fix)) {
     # i <- 1
     
-    out <- vector(length = nrow(stimmat[stimmat$line == fix$line[i], ]))
-    for (j in 1:nrow(stimmat[stimmat$line == fix$line[i], ])) {
-      # j <- 1
-      out[j] <- sqrt((fix$xn[i] - mean(c(stimmat$xe[j], stimmat$xs[j])))^2)
+    # out <- vector(length = nrow(stimmat[stimmat$line == fix$line[i], ]))
+    # for (j in 1:nrow(stimmat[stimmat$line == fix$line[i], ])) {
+    #   # j <- 1
+    #   out[j] <- sqrt((fix$xn[i] - mean(c(stimmat$xe[j], stimmat$xs[j])))^2)
+    # }
+    
+    # determine x outlier
+    out <- abs(fix$xn[i] - stimmat$xm[stimmat$line == fix$line[i]])
+    
+    if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlier.x) {
+      fix$type[i] <- "out"
     }
     
     fix$subid[i] <- stimmat$subid[stimmat$line == fix$line[i]][which.min(out)]

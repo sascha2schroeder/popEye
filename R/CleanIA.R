@@ -16,11 +16,11 @@ CleanIA <- function(dat, env = parent.frame(n = 1)) {
     # if (env$exp$setup$clean$stage4 == T) {
     #   dat <- CleanStage4(dat, trial)
     # }
-    # 
-    # if (env$exp$setup$clean$outlier == T) {
+
+    if (env$exp$setup$clean$outlier == T) {
       dat <- CleanOutlier(dat, trial)  
-    # }
-    # 
+    }
+
     # if (env$exp$setup$clean$delete == T) {
     #   dat <- DeleteFixations(dat, trial)
     # }

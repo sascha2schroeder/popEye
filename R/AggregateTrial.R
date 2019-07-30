@@ -30,6 +30,7 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   nout <- aggregate(trialtmp$type == "out", list(trialtmp$id), sum)
   colnames(nout) <- c("id", "nout")
   trial <- merge(trial, nout, all.x = T)
+  trial$pout <- round(trial$nout / (trial$nfix + trial$nout), 3)
   
   # compute forward saccade length (in letters)
   trialtmp$sac <- (trialtmp$word.land + trialtmp$word.launch)
@@ -68,8 +69,8 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   
   # return
   names <- c("subid", "trialid", "trialnum", "itemid", "cond", "trial", "trial.nwords", 
-             "nblink", "nrun", "nfix", "nout", "sac", "skip", "refix", "reg", "mfix", 
-             "firstpass", "rereading", "total", "rate")
+             "nblink", "nrun", "nfix", "nout", "pout", "sac", "skip", "refix", 
+             "reg", "mfix", "firstpass", "rereading", "total", "rate")
   exp$out$trial <- trial[order(trial$subid, trial$trialnum), names]
   trial$id <- NULL
   row.names(exp$out$trial) <- NULL

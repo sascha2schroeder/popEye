@@ -167,7 +167,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$xe <- cumsum(stimmat$width) + x.offset
   # NOTE: seperate start and end positions necessary?
 
-  
   # compute lines
   # --------------
   
@@ -180,7 +179,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # Stage 1: compute wrap-up line breaks
   
-  if (length(grep(line.delim, stim)) > 0) {
+  if (grepl(line.delim, stim)) {
     
     tmp <- stim
     tmp <- gsub(env$exp$setup$indicator$target, "", tmp)
@@ -263,7 +262,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$xm <- (stimmat$xs + stimmat$xe) / 2
   stimmat$ym <- (stimmat$ys + stimmat$ye) / 2
 
-  
   
   # reconstruct hyphens
   # --------------------

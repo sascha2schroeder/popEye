@@ -87,13 +87,13 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
       }
       
     } else {
+      
       condition <- rep(1, length(itemid))
     }
     
     # dependency
     dependency <- as.numeric(rep(0, length(itemid)))
     # NOTE: does not make much sense; store to be parallel with ET
-    
   }
   
   # ET

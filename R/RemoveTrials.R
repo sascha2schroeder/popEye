@@ -55,7 +55,7 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
     
     # remove repeated trials
     tmp <- dat$msg$itemid[dat$msg$msg == env$exp$setup$message$start]
-    exc <- unlist(dimnames(table(tmp)[table(tmp) > 1]))
+    exc <- unlist(names(table(tmp)[table(tmp) > 1]))
     if (is.null(exc) == FALSE) {
       dat$msg <- dat$msg[(dat$msg$itemid %in% exc) == FALSE, ]
     }

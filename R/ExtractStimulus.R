@@ -3,8 +3,10 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
   
   # compute condition variable (if not provided)
   if (is.na(env$exp$setup$stimulus$cond) == TRUE) {
+    
     # create match variable (itemid)
     stimfile$match <- stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))]
+    
   } else {
     
     # create match variable (itemid:cond)
