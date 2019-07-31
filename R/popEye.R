@@ -104,7 +104,7 @@ popEye <- function(datpath, stimpath,
   } 
   
   if (type == "target") {
-    clean <- data.frame(matrix(NA, 1, 20))
+    clean <- data.frame(matrix(NA, 1, 21))
     colnames(clean) <- c("subid", 
                          "trialid", 
                          "trialnum", 
@@ -115,6 +115,7 @@ popEye <- function(datpath, stimpath,
                          "trial.sac",
                          "trial.crit", 
                          "target.blink", 
+                         "target.out",
                          "target.first",
                          "target.pre.sac", 
                          "target.pre.launch", 
@@ -128,7 +129,7 @@ popEye <- function(datpath, stimpath,
   }
   
   if (type == "boundary") {
-    clean <- data.frame(matrix(NA, 1, 32))
+    clean <- data.frame(matrix(NA, 1, 33))
     colnames(clean) <- c("subid", 
                          "trialid", 
                          "trialnum", 
@@ -139,6 +140,7 @@ popEye <- function(datpath, stimpath,
                          "trial.sac",
                          "trial.crit", 
                          "target.blink",
+                         "target.out",
                          "target.first", 
                          "target.pre.sac",
                          "target.pre.launch", 
@@ -164,7 +166,7 @@ popEye <- function(datpath, stimpath,
   }
   
   if (type == "fast") {
-    clean <- data.frame(matrix(NA, 1, 33))
+    clean <- data.frame(matrix(NA, 1, 34))
     colnames(clean) <- c("subid", 
                          "trialid", 
                          "trialnum", 
@@ -175,6 +177,7 @@ popEye <- function(datpath, stimpath,
                          "trial.sac",
                          "trial.crit", 
                          "target.blink",
+                         "target.out",
                          "target.first",
                          "target.pre.sac",
                          "target.pre.launch", 

@@ -183,7 +183,10 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     
     tmp <- stim
     tmp <- gsub(env$exp$setup$indicator$target, "", tmp)
-    tmp <- gsub(env$exp$setup$indicator$ia, "", tmp)
+    
+    if (env$exp$setup$indicator$ia != " ") {
+      tmp <- gsub(env$exp$setup$indicator$ia, "", tmp)
+    }
     
     line.length <- sapply(unlist(strsplit(tmp, line.delim)), nchar)
     

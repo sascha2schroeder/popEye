@@ -34,18 +34,30 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F, sub = F,
     text(stimmat$xm[i], stimmat$ym[i], stimmat$letter[i], family = "Courier", cex = .9)
   }
   
+  # add words
+  words <- as.numeric(unlist(dimnames(table(tmp$meta$stimmat$wordnum))))
+  for (j in 1:max(words)) {
+    rect(min(tmp$meta$stimmat$xs[tmp$meta$stimmat$wordnum == words[j]]),
+         min(tmp$meta$stimmat$ys[tmp$meta$stimmat$wordnum == words[j]]), 
+         max(tmp$meta$stimmat$xe[tmp$meta$stimmat$wordnum == words[j]]),
+         max(tmp$meta$stimmat$ye[tmp$meta$stimmat$wordnum == words[j]]), 
+         angle = NA, lwd = 2, border = "navyblue")
+  }
+  
   # original and corrected fixations
   
   if (max(stimmat$line) > 1) {
     palette(topo.colors(max(stimmat$line)))
-  } 
+  } else {
+    palette(topo.colors(2))
+  }
   
   if (align == F) {
     # points(fix$xs[fix$type == "in"], fix$ys[fix$type == "in"], cex = .75, 
     #        type = "p", col = "black", pch = 16)
-      points(fix$xn[fix$type == "in"],
+    points(fix$xn[fix$type == "in"],
            fix$yn[fix$type == "in"],
-           col = "black",
+           col = fix$line[fix$type == "in"],
            pch = 16, type = "b")
     # arrows(fix$xs[fix$type == "in"], fix$ys[fix$type == "in"], 
     #        fix$xn[fix$type == "in"], fix$yn[fix$type == "in"],
@@ -78,14 +90,23 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F, sub = F,
          col = "black", cex = .75)
   }
   
+  # add blinks
+  blink <- tmp$sac[tmp$sac$msg == "BLINK", ]
+  
+  if (nrow(blink) > 0) {
+    for (i in 1:nrow(blink)) {
+      arrows(blink$xs[i], blink$ys[i], blink$xe[i], blink$ye[i], col = "red", code = 0)
+    }
+  }
+  
   # turn off device  
   if (missing(pdf) == F) {
     # title(paste("Trial", SelectSubjectTrial(exp, subject, trial)$meta$trialnum, 
-                # sep = " "), outer = T, cex.main = 3.75)
+    # sep = " "), outer = T, cex.main = 3.75)
     dev.off()
   } else {
     # title(paste("Trial", SelectSubjectTrial(exp, subject, trial)$meta$trialnum, 
-                # sep = " "), outer = T, cex.main = 2)
+    # sep = " "), outer = T, cex.main = 2)
     par(mfrow = c(1, 1), cex = 1, oma = c(0, 0, 0, 0))
     if (interactive == T) par(ask = F)
   }
