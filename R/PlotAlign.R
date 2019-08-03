@@ -60,8 +60,8 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F,
   
   # set colors
   if (max(stimmat$line) > 1) {
-    # palette(topo.colors(max(stimmat$line)))
-    palette(rainbow(max(stimmat$line)))
+    palette(topo.colors(max(stimmat$line)))
+    # palette(rainbow(max(stimmat$line)))
   } else {
     palette(topo.colors(2))
   }
