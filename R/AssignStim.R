@@ -2,12 +2,13 @@
 AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # trial <- 2
+  print(trial)
   
   # data
   fix <- dat$trial[[trial]]$fix
   stimmat <- dat$trial[[trial]]$meta$stimmat
-
   
+
   # drift correct 
   # ---------------
   
@@ -89,29 +90,59 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # chain method
   if (env$exp$setup$analysis$lineMethod == "chain") {
     
-    fix$line[1] <- 1
+    # check first fixation
+    i <- 1
+    stop <- 1
+    while (stop == 1) {
+      fix$line[i] <- 1
+      out <- abs(fix$yn[i] - max(stimmat$ym[stimmat$line == fix$line[i]]))
+      if (out > env$exp$setup$font$height * env$exp$setup$analysis$outlier.y) {
+        fix$type[i] <- "out"
+        fix$line[i] <- NA
+        i <- i + 1
+        next
+      }
+      start <- i
+      stop <- 0
+    }
+    
+    fix$line[start] <- 1
     fix$distx <- NA
     fix$disty <- NA
     fix$dist <- NA
-   
+    
     # assign line number
-    for (i in 2:nrow(fix)) {
-      fix$distx[i] <- fix$xs[i] - fix$xs[i - 1]
-      fix$disty[i] <- fix$ys[i] - fix$ys[i - 1]
-      fix$dist[i] <- sqrt(fix$distx[i]^2 + fix$disty[i]^2)
-      
-      # determine line break
-      if (abs(fix$disty[i]) > env$exp$setup$font$height | fix$dist[i] > 20*env$exp$setup$font$height) {
-        fix$line[i] <- fix$line[i - 1] + 1
+    for (i in (start + 1):nrow(fix)) {
+      if (fix$type[i - 1] == "in") {
+        fix$distx[i] <- fix$xs[i] - fix$xs[i - 1]
+        fix$disty[i] <- fix$ys[i] - fix$ys[i - 1]
+        fix$dist[i] <- sqrt(fix$distx[i]^2 + fix$disty[i]^2)
+        
+        # determine line break
+        if (abs(fix$disty[i]) > env$exp$setup$font$height | fix$dist[i] > 20*env$exp$setup$font$height) {
+          fix$line[i] <- fix$line[i - 1] + 1
+        } else {
+          fix$line[i] <- fix$line[i - 1]
+        }
+        
+        # define y outlier
+        out <- abs(fix$yn[i] - max(stimmat$ym[stimmat$line == fix$line[i]]))
+        if (out > env$exp$setup$font$height * env$exp$setup$analysis$outlier.y) {
+          fix$type[i] <- "out"
+          fix$line[i] <- NA
+        }
+        
       } else {
-        fix$line[i] <- fix$line[i - 1]
-      }
-      
-      # define y outlier
-      out <- abs(fix$yn[i] - stimmat$ym)
-      
-      if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlier.y) {
-        fix$type[i] <- "out"
+        
+        out <- abs(fix$yn[i] - stimmat$ym)
+        
+        if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlier.y) {
+          fix$type[i] <- "out"
+          fix$line[i] <- NA
+        } else {
+          fix$line[i] <- stimmat$line[which.min(out)]
+        }
+        
       }
       
     }
@@ -142,66 +173,75 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # map letter and IA
   # ------------------
   
+  fix$subid <- stimmat$subid[1]
+  fix$trialid <- stimmat$trialid[1]
+  fix$trialnum <- stimmat$trialnum[1]
+  fix$itemid <- stimmat$itemid[1]
+  fix$cond <- stimmat$cond[1]
+  
+  fix$letternum <- NA
+  fix$letter <- NA
+  fix$wordnum <- NA
+  fix$word <- NA
+  fix$sentnum <- NA
+  fix$sent <- NA
+  fix$sent.nwords <- NA
+  fix$ianum <- NA
+  fix$ia <- NA
+  
+  if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
+    fix$target <- NA
+  }
+  
+  fix$line.let <- NA
+  fix$word.land <- NA
+  fix$ia.land <- NA
+  fix$line.word <- NA
+  fix$sent.word <- NA
+  
+  fix$trial.nwords <- NA
+  fix$trial <- NA
+  
   for (i in 1:nrow(fix)) {
     # i <- 1
     
-    # out <- vector(length = nrow(stimmat[stimmat$line == fix$line[i], ]))
-    # for (j in 1:nrow(stimmat[stimmat$line == fix$line[i], ])) {
-    #   # j <- 1
-    #   out[j] <- sqrt((fix$xn[i] - mean(c(stimmat$xe[j], stimmat$xs[j])))^2)
-    # }
-    
     # determine x outlier
-    out <- abs(fix$xn[i] - stimmat$xm[stimmat$line == fix$line[i]])
     
-    if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlier.x) {
-      fix$type[i] <- "out"
+    if (fix$type[i] == "in") {
+      
+      out <- abs(fix$xn[i] - stimmat$xm[stimmat$line == fix$line[i]])
+      
+      if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlier.x) {
+        fix$type[i] <- "out"
+        next
+      }
+      
+      fix$letternum[i] <- stimmat$letternum[stimmat$line == fix$line[i]][which.min(out)]
+      fix$letter[i] <- stimmat$letter[stimmat$line == fix$line[i]][which.min(out)]
+      fix$wordnum[i] <- stimmat$wordnum[stimmat$line == fix$line[i]][which.min(out)]
+      fix$word[i] <- stimmat$word[stimmat$line == fix$line[i]][which.min(out)]
+      fix$sentnum[i] <- stimmat$sentnum[stimmat$line == fix$line[i]][which.min(out)]
+      fix$sent[i] <- stimmat$sent[stimmat$line == fix$line[i]][which.min(out)]
+      fix$sent.nwords[i] <- stimmat$sent.nwords[stimmat$line == fix$line[i]][which.min(out)]
+      fix$ianum[i] <- stimmat$ianum[stimmat$line == fix$line[i]][which.min(out)]
+      fix$ia[i] <- stimmat$ia[stimmat$line == fix$line[i]][which.min(out)]
+      
+      if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
+        fix$target[i] <- stimmat$target[stimmat$line == fix$line[i]][which.min(out)]
+      }
+      
+      fix$line.let[i] <- stimmat$letline[stimmat$line == fix$line[i]][which.min(out)]
+      fix$word.land[i] <- stimmat$letword[stimmat$line == fix$line[i]][which.min(out)]
+      fix$ia.land[i] <- stimmat$letia[stimmat$line == fix$line[i]][which.min(out)]
+      fix$line.word[i] <- stimmat$wordline[stimmat$line == fix$line[i]][which.min(out)]
+      fix$sent.word[i] <- stimmat$wordsent[stimmat$line == fix$line[i]][which.min(out)]
+      
+      fix$trial.nwords[i] <- stimmat$trial.nwords[stimmat$line == fix$line[i]][which.min(out)]
+      fix$trial[i] <- stimmat$trial[stimmat$line == fix$line[i]][which.min(out)]
+      
     }
-    
-    fix$subid[i] <- stimmat$subid[stimmat$line == fix$line[i]][which.min(out)]
-    fix$trialid[i] <- stimmat$trialid[stimmat$line == fix$line[i]][which.min(out)]
-    fix$trialnum[i] <- stimmat$trialnum[stimmat$line == fix$line[i]][which.min(out)]
-    fix$itemid[i] <- stimmat$itemid[stimmat$line == fix$line[i]][which.min(out)]
-    fix$cond[i] <- stimmat$cond[stimmat$line == fix$line[i]][which.min(out)]
-    
-    fix$letternum[i] <- stimmat$letternum[stimmat$line == fix$line[i]][which.min(out)]
-    fix$letter[i] <- stimmat$letter[stimmat$line == fix$line[i]][which.min(out)]
-    fix$wordnum[i] <- stimmat$wordnum[stimmat$line == fix$line[i]][which.min(out)]
-    fix$word[i] <- stimmat$word[stimmat$line == fix$line[i]][which.min(out)]
-    fix$sentnum[i] <- stimmat$sentnum[stimmat$line == fix$line[i]][which.min(out)]
-    fix$sent[i] <- stimmat$sent[stimmat$line == fix$line[i]][which.min(out)]
-    fix$sent.nwords[i] <- stimmat$sent.nwords[stimmat$line == fix$line[i]][which.min(out)]
-    fix$ianum[i] <- stimmat$ianum[stimmat$line == fix$line[i]][which.min(out)]
-    fix$ia[i] <- stimmat$ia[stimmat$line == fix$line[i]][which.min(out)]
-    
-    if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
-      fix$target[i] <- stimmat$target[stimmat$line == fix$line[i]][which.min(out)]
-    }
-    
-    fix$line.let[i] <- stimmat$letline[stimmat$line == fix$line[i]][which.min(out)]
-    fix$word.land[i] <- stimmat$letword[stimmat$line == fix$line[i]][which.min(out)]
-    fix$ia.land[i] <- stimmat$letia[stimmat$line == fix$line[i]][which.min(out)]
-    fix$line.word[i] <- stimmat$wordline[stimmat$line == fix$line[i]][which.min(out)]
-    fix$sent.word[i] <- stimmat$wordsent[stimmat$line == fix$line[i]][which.min(out)]
-    
-    fix$trial.nwords[i] <- stimmat$trial.nwords[stimmat$line == fix$line[i]][which.min(out)]
-    fix$trial[i] <- stimmat$trial[stimmat$line == fix$line[i]][which.min(out)]
     
   }
-  
-  
-  # recompute outlier
-  # ------------------
-  
-  fix$line[fix$type == "out"] <- NA
-  fix$letternum[fix$type == "out"] <- NA
-  fix$letter[fix$type == "out"] <- NA
-  fix$wordnum[fix$type == "out"] <- NA
-  fix$sentnum[fix$type == "out"] <- NA
-  fix$ianum[fix$type == "out"] <- NA
-  fix$line.let[fix$type == "out"] <- NA
-  fix$word.land[fix$type == "out"] <- NA
-  fix$ia.land[fix$type == "out"] <- NA
   
   
   # align fixations on y axis

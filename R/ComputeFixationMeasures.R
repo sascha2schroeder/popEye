@@ -7,6 +7,8 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
     # dat <- OutlierAsBlinks(dat, trial) 
     # NOTE: not sure whether this function makes sense
     
+    print(trial)
+    
     dat <- ComputeLineChange(dat, trial)
     dat <- ComputeSaccadeLength(dat, trial) 
     dat <- ComputeLaunchDistance(dat, trial)
@@ -15,7 +17,7 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
     dat <- ComputeFirstskip(dat, trial)
     dat <- ComputeRun(dat, trial)
     dat <- ComputeLandingPosition(dat, trial)
-
+    
     
     # rename fixid
     dat$trial[[trial]]$fix$fixid <- dat$trial[[trial]]$fix$num
