@@ -60,10 +60,12 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F,
   
   # set colors
   if (max(stimmat$line) > 1) {
-    palette(topo.colors(max(stimmat$line)))
+    # palette(topo.colors(max(stimmat$line)))
+    palette(rainbow(max(stimmat$line)))
   } else {
     palette(topo.colors(2))
   }
+  
   
   # add fixations
   if (outlier == F) {
@@ -94,14 +96,14 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F,
       inc$ytmp <- jitter(inc$ym, .5)
       
       points(inc$xs, inc$ys, cex = .75, 
-             type = "p", col = "black", pch = 16)
+             type = "l", col = "black", pch = 16)
       points(inc$xn, 
              inc$ytmp, 
              col = "black", 
              pch = 16, type = "l")
       points(inc$xn, 
              inc$ytmp, 
-             col = inc$line, 
+             col = inc$line,
              pch = 16, type = "p")
       arrows(inc$xs, inc$ys, 
              inc$xn, inc$ytmp,

@@ -101,7 +101,12 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
     }
   }
   
-  dat$trial <- ret
+  if (is.null(env$debug.trial) == T) {
+    dat$trial <- ret
+  } else {
+    dat$trial[[1]] <- ret[[env$debug.trial]]
+  }
+  
   dat$msg <- NULL
   dat$samp <- NULL
   dat$event <- NULL

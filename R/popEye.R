@@ -20,8 +20,8 @@ popEye <- function(datpath, stimpath,
                    analysis.drift, analysis.sparse,
                    analysis.driftX, analysis.driftY,
                    analysis.lineMethod,
-                   analysis.outlier.x,
-                   analysis.outlier.y,
+                   analysis.outlierX,
+                   analysis.outlierY,
                    clean.stage1Dur, clean.stage1Dist,
                    clean.stage2Dur, clean.stage2Dist,
                    clean.stage3, clean.stage3Dur, 
@@ -30,7 +30,8 @@ popEye <- function(datpath, stimpath,
                    exclude.blink, exclude.nfix, exclude.sac,
                    outpath = "", outname = "",
                    debug.version = NULL,
-                   debug.subject = NULL
+                   debug.subject = NULL,
+                   debug.trial = NULL
 ) {
   
   

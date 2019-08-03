@@ -264,16 +264,16 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   if (env$analysis.driftX == "") env$analysis.driftX <- FALSE
   if (env$analysis.driftY == "") env$analysis.driftY <- FALSE
   if (env$analysis.lineMethod == "") env$analysis.lineMethod <- "match"
-  if (env$analysis.outlier.x == "") env$analysis.outlier.x <- 2
-  if (env$analysis.outlier.y == "") env$analysis.outlier.y <- 2
+  if (env$analysis.outlierX == "") env$analysis.outlierX <- 2
+  if (env$analysis.outlierY == "") env$analysis.outlierY <- 2
   
   analysis <- list(eyelink = env$analysis.eyelink, vfac = env$analysis.vfac,
                    mindur = env$analysis.mindur, postdur = env$analysis.postdur,
                    drift = env$analysis.drift, sparse = env$analysis.sparse,
                    driftX = env$analysis.driftX, driftY = env$analysis.driftY,
                    lineMethod = env$analysis.lineMethod,
-                   outlier.x = env$analysis.outlier.x,
-                   outlier.y = env$analysis.outlier.y)
+                   outlierX = env$analysis.outlierX,
+                   outlierY = env$analysis.outlierY)
 
     
   # cleaning
