@@ -96,7 +96,7 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F,
       inc$ytmp <- jitter(inc$ym, .5)
       
       points(inc$xs, inc$ys, cex = .75, 
-             type = "l", col = "black", pch = 16)
+             type = "p", col = "black", pch = 16)
       points(inc$xn, 
              inc$ytmp, 
              col = "black", 
