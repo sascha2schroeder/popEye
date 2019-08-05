@@ -35,9 +35,9 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # ----------------
   
   fix$type <- "in"
-
-  # fix$type[fix$yn > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2] <- "out"
-  # fix$type[fix$yn < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2] <- "out"
+  
+  fix$type[fix$yn > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
+  fix$type[fix$yn < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
   
   
   # line assignment 
@@ -90,7 +90,8 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   #   }
   #   
   # }
-  
+ 
+   
   # chain method
   if (env$exp$setup$analysis$lineMethod == "chain") {
     
@@ -141,60 +142,61 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
         # fix$dist[i] <- sqrt(fix$distx[i]^2 + fix$disty[i]^2)
         
         # determine line change
-        # if (fix$disty[i] > env$exp$setup$font$height & abs(fix$distx[i]) > 20*env$exp$setup$font$height) {
-        if (fix$disty[i] > env$exp$setup$font$height * 1.5) {
+        if (abs(fix$disty[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineY | 
+            abs(fix$distx[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineX) {
+        # if (fix$disty[i] > env$exp$setup$font$height * 1.5) {
           fix$line[i] <- fix$line[i - 1] + 1
-        # } else if (fix$disty[i] < -env$exp$setup$font$height & abs(fix$distx[i]) > 20*env$exp$setup$font$height) {
-        } else if (fix$disty[i] < -env$exp$setup$font$height * 1.5) {
-          fix$line[i] <- fix$line[i - 1] - 1
+        # } else if (fix$disty[i] < -env$exp$setup$font$height * 2 | abs(fix$distx[i]) > 20*env$exp$setup$font$height) {
+        # } else if (fix$disty[i] < -env$exp$setup$font$height * 1.5) {
+          # fix$line[i] <- fix$line[i - 1] - 1
         } else {
           fix$line[i] <- fix$line[i - 1]
         }
         
-        # define y outlier
-        if (sum(stimmat$line == fix$line[i]) > 0) {
-          
-          out <- abs(fix$yn[i] - max(stimmat$ym[stimmat$line == fix$line[i]]))
-          if (out > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
-            
-            out <- abs(fix$yn[i] - stimmat$ym)
-            
-            if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
-              fix$type[i] <- "out"
-              fix$line[i] <- NA
-            } else {
-              fix$line[i] <- stimmat$line[which.min(out)]
-            }
-            
-          }
-          
-        } else {
-          
-          out <- abs(fix$yn[i] - stimmat$ym)
-          
-          if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
-            fix$type[i] <- "out"
-            fix$line[i] <- NA
-          } else {
-            fix$line[i] <- stimmat$line[which.min(out)]
-          }
-          
-        }
-        
-        
+        # # define y outlier
+        # if (sum(stimmat$line == fix$line[i]) > 0) {
+        # 
+        #   out <- abs(fix$yn[i] - max(stimmat$ym[stimmat$line == fix$line[i]]))
+        #   if (out > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
+        # 
+        #     out <- abs(fix$yn[i] - stimmat$ym)
+        # 
+        #     if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
+        #       fix$type[i] <- "out"
+        #       fix$line[i] <- NA
+        #     } else {
+        #       fix$line[i] <- stimmat$line[which.min(out)]
+        #     }
+        # 
+        #   }
+        # 
+        # } else {
+        # 
+        #   out <- abs(fix$yn[i] - stimmat$ym)
+        # 
+        #   if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
+        #     fix$type[i] <- "out"
+        #     fix$line[i] <- NA
+        #   } else {
+        #     fix$line[i] <- stimmat$line[which.min(out)]
+        #   }
+        # 
+        # }
+
+
       } else {
-        
+
         out <- abs(fix$yn[i] - stimmat$ym)
-        
+
         if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
           fix$type[i] <- "out"
           fix$line[i] <- NA
         } else {
           fix$line[i] <- stimmat$line[which.min(out)]
         }
-        
+
       }
-      
+
     }
     
     # align with line number in stimmat
@@ -203,12 +205,17 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     
     for (i in 1:length(num)) {
       
-      out <- vector(length = length(linem))
+      mean.y <- mean(fix$yn[fix$line == num[i]], na.rm = T)
+      
+      out <- NULL
       for (j in 1:length(linem)) {
-        out[j] <- mean((fix$yn[fix$line == num[i]] - linem[j])^2, na.rm = T)
+        out[j] <- (mean.y - linem[j])^2
+        # out[j] <- mean((fix$yn[fix$line == num[i]] - linem[j])^2, na.rm = T)
       }
       
       fix$line[fix$line == num[i] & is.na(fix$line) == F] <- which.min(out) 
+      # linem[which.min(out)] <- round(mean.y)
+      
     }
     
     # fix$distx <- NULL

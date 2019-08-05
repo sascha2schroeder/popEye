@@ -7,6 +7,7 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F,
   # TODO: make nice
   
   # start pdf
+  
   if (sub == F) {
     if (missing(pdf) == T) {
       par(mfrow = c(1, 1), cex = 1.25, oma = c(0, 0, 0, 0))
@@ -26,8 +27,8 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F,
     
     plot(fix$xs, fix$ys, 
          xlim = c(0, exp$setup$display$resolutionX), 
-         ylim = c(max(tmp$meta$stimmat$ye) + 1*exp$setup$font$size,
-                  min(tmp$meta$stimmat$ys) - 1*exp$setup$font$size),
+         ylim = c(max(tmp$meta$stimmat$ye) + 1 * exp$setup$font$size,
+                  min(tmp$meta$stimmat$ys) - 1 * exp$setup$font$size),
          type = "n",
          main = paste("Trial", trial), xlab = "x Position (px)", ylab = "y Position (py)")
     
@@ -35,8 +36,8 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F,
     
     plot(fix$xs, fix$ys, 
          xlim = c(0, exp$setup$display$resolutionX), 
-         ylim = c(max(fix$ys) + 2*exp$setup$font$size,
-                  min(fix$ys) - 1*exp$setup$font$size), 
+         ylim = c(max(fix$ys) + 2 * exp$setup$font$size,
+                  min(fix$ys) - 1 * exp$setup$font$size), 
          type = "n",
          main = paste("Trial", trial), xlab = "x Position (px)", ylab = "y Position (py)")
     
@@ -60,8 +61,8 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F,
   
   # set colors
   if (max(stimmat$line) > 1) {
-    palette(topo.colors(max(stimmat$line)))
-    # palette(rainbow(max(stimmat$line)))
+    # palette(topo.colors(max(stimmat$line)))
+    palette(rainbow(max(stimmat$line)))
   } else {
     palette(topo.colors(2))
   }
@@ -151,7 +152,6 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F,
       arrows(blink$xs[i], blink$ys[i], blink$xe[i], blink$ye[i], col = "red", code = 0)
     }
   }
-
   
   # turn off device  
   if (missing(pdf) == F) {

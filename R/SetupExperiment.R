@@ -266,6 +266,8 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   if (env$analysis.lineMethod == "") env$analysis.lineMethod <- "match"
   if (env$analysis.outlierX == "") env$analysis.outlierX <- 2
   if (env$analysis.outlierY == "") env$analysis.outlierY <- 2
+  if (env$analysis.lineX == "") env$analysis.lineX <- 2
+  if (env$analysis.lineY == "") env$analysis.lineY <- 2
   
   analysis <- list(eyelink = env$analysis.eyelink, vfac = env$analysis.vfac,
                    mindur = env$analysis.mindur, postdur = env$analysis.postdur,
@@ -273,7 +275,9 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                    driftX = env$analysis.driftX, driftY = env$analysis.driftY,
                    lineMethod = env$analysis.lineMethod,
                    outlierX = env$analysis.outlierX,
-                   outlierY = env$analysis.outlierY)
+                   outlierY = env$analysis.outlierY,
+                   lineX = env$analysis.lineX,
+                   lineY= env$analysis.lineY)
 
     
   # cleaning
