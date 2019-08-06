@@ -31,22 +31,22 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   }
 
   
-  # define outlier
-  # ----------------
-  
-  fix$type <- "in"
-  
-  fix$type[fix$yn > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
-  fix$type[fix$yn < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
+  # # define outlier
+  # # ----------------
+  # 
+  # fix$type <- "in"
+  # 
+  # fix$type[fix$yn > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
+  # fix$type[fix$yn < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
   
   
   # line assignment 
   # ----------------
   
-  fix$line <- NA
-  
   # default method: match single fixations
   if (env$exp$setup$analysis$lineMethod == "match") {
+    
+    fix$line <- NA
     
     for (i in 1:nrow(fix)) {
       # i <- 2
@@ -64,158 +64,128 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     
   }
   
-  # # cluster method
-  # if (env$exp$setup$analysis$lineMethod == "cluster") {
-  # 
-  #   # NOTE: dependency library(fpc)
-  # 
-  #   if (max(stimmat$line) > 1) {
-  # 
-  #       clu <- kmeans(fix$yn[fix$type == "in"],
-  #                     fpc::pamk(fix$yn[fix$type == "in"],
-  #                               criterion="asw",
-  #                               krange = 1:max(stimmat$line),
-  #                               alpha = .1)$nc)
-  #       if (max(clu$cluster) > 1) {
-  #         cl_mean <- sort(round(clu$center))
-  #         clu <- kmeans(fix$yn[fix$type == "in"], cl_mean)
-  #       }
-  # 
-  #       fix$line[fix$type == "in"] <- clu$cluster
-  # 
-  #   } else {
-  #     
-  #     fix$line <- 1
-  #     
-  #   }
-  #   
-  # }
+  # cluster method
+  if (env$exp$setup$analysis$lineMethod == "cluster") {
+
+    # NOTE: dependency library(fpc)
+
+    if (max(stimmat$line) > 1) {
+
+        clu <- kmeans(fix$yn[fix$type == "in"],
+                      fpc::pamk(fix$yn[fix$type == "in"],
+                                criterion="asw",
+                                krange = 1:max(stimmat$line),
+                                alpha = .1)$nc)
+        if (max(clu$cluster) > 1) {
+          cl_mean <- sort(round(clu$center))
+          clu <- kmeans(fix$yn[fix$type == "in"], cl_mean)
+        }
+
+        fix$line[fix$type == "in"] <- clu$cluster
+
+    } else {
+
+      fix$line <- 1
+
+    }
+
+  }
  
    
   # chain method
   if (env$exp$setup$analysis$lineMethod == "chain") {
     
-    # check first fixation
-    i <- 1
-    stop <- 1
-    while (stop == 1) {
-      
-      fix$line[i] <- 1
-      out <- abs(fix$yn[i] - max(stimmat$ym[stimmat$line == fix$line[i]]))
-      
-      if (out > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
-        
-        out <- abs(fix$yn[i] - stimmat$ym)
-      
-        if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
-          fix$type[i] <- "out"
-          fix$line[i] <- NA
-          i <- i + 1
-          next
-          
-        } else {
-          
-          fix$line[i] <- stimmat$line[which.min(out)]
-          start <- i
-          stop <- 0
-          next
-          
-        }
-        
-      }
-      
-      start <- i
-      stop <- 0
-      
-    }
+    # fix$line <- NA
+    # fix$linerun <- NA
+    # 
+    # # first fixation
+    # i <- 1
+    # stop <- 1
+    # while (stop == 1) {
+    #   
+    #   fix$line[i] <- 1
+    #   out <- abs(fix$yn[i] - max(stimmat$ym[stimmat$line == fix$line[i]]))
+    #   
+    #   if (out > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
+    #     
+    #     out <- abs(fix$yn[i] - stimmat$ym)
+    #   
+    #     if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
+    #       fix$type[i] <- "out"
+    #       fix$line[i] <- NA
+    #       i <- i + 1
+    #       next
+    #       
+    #     } else {
+    #       
+    #       fix$line[i] <- stimmat$line[which.min(out)]
+    #       start <- i
+    #       stop <- 0
+    #       next
+    #       
+    #     }
+    #     
+    #   } else {
+    #     
+    #     start <- i
+    #     stop <- 0
+    #     
+    #   }
+    #   
+    # }
     
     # fix$line[start] <- 1
+    
+    fix$type <- "in"
+    fix$linerun <- NA
+    fix$linerun[1] <- 1
+    fix$line <- NA
     fix$distx <- NA
     fix$disty <- NA
-    # fix$dist <- NA
     
-    # assign line number
-    for (i in (start + 1):nrow(fix)) {
-      if (fix$type[i - 1] == "in") {
-        fix$distx[i] <- fix$xs[i] - fix$xs[i - 1]
-        fix$disty[i] <- fix$ys[i] - fix$ys[i - 1]
-        # fix$dist[i] <- sqrt(fix$distx[i]^2 + fix$disty[i]^2)
-        
-        # determine line change
-        if (abs(fix$disty[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineY | 
-            abs(fix$distx[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineX) {
-        # if (fix$disty[i] > env$exp$setup$font$height * 1.5) {
-          fix$line[i] <- fix$line[i - 1] + 1
-        # } else if (fix$disty[i] < -env$exp$setup$font$height * 2 | abs(fix$distx[i]) > 20*env$exp$setup$font$height) {
-        # } else if (fix$disty[i] < -env$exp$setup$font$height * 1.5) {
-          # fix$line[i] <- fix$line[i - 1] - 1
-        } else {
-          fix$line[i] <- fix$line[i - 1]
-        }
-        
-        # # define y outlier
-        # if (sum(stimmat$line == fix$line[i]) > 0) {
-        # 
-        #   out <- abs(fix$yn[i] - max(stimmat$ym[stimmat$line == fix$line[i]]))
-        #   if (out > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
-        # 
-        #     out <- abs(fix$yn[i] - stimmat$ym)
-        # 
-        #     if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
-        #       fix$type[i] <- "out"
-        #       fix$line[i] <- NA
-        #     } else {
-        #       fix$line[i] <- stimmat$line[which.min(out)]
-        #     }
-        # 
-        #   }
-        # 
-        # } else {
-        # 
-        #   out <- abs(fix$yn[i] - stimmat$ym)
-        # 
-        #   if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
-        #     fix$type[i] <- "out"
-        #     fix$line[i] <- NA
-        #   } else {
-        #     fix$line[i] <- stimmat$line[which.min(out)]
-        #   }
-        # 
-        # }
-
-
+    # segment into runs
+    # NOTE: loop necessary?
+    
+    for (i in 2:nrow(fix)) {
+      
+      fix$distx[i] <- fix$xs[i] - fix$xs[i - 1]
+      fix$disty[i] <- fix$ys[i] - fix$ys[i - 1]
+      
+      # determine line change
+      if (abs(fix$disty[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineY | 
+          abs(fix$distx[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineX) {
+        fix$linerun[i] <- fix$linerun[i - 1] + 1
       } else {
-
-        out <- abs(fix$yn[i] - stimmat$ym)
-
-        if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
-          fix$type[i] <- "out"
-          fix$line[i] <- NA
-        } else {
-          fix$line[i] <- stimmat$line[which.min(out)]
-        }
-
+        fix$linerun[i] <- fix$linerun[i - 1]
       }
-
+      
     }
     
     # align with line number in stimmat
     linem <- tapply(stimmat$ym, stimmat$line, mean)
-    num <- as.numeric(unlist(dimnames(table(fix$line))))
+    num <- as.numeric(unlist(dimnames(table(fix$linerun))))
     
     for (i in 1:length(num)) {
       
-      mean.y <- mean(fix$yn[fix$line == num[i]], na.rm = T)
+      mean.y <- mean(fix$yn[fix$linerun == num[i]], na.rm = T)
       
-      out <- NULL
-      for (j in 1:length(linem)) {
-        out[j] <- (mean.y - linem[j])^2
-        # out[j] <- mean((fix$yn[fix$line == num[i]] - linem[j])^2, na.rm = T)
+      if (mean.y > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2) | 
+          mean.y < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)) {
+        
+        fix$type[fix$linerun == num[i]] <- "out"
+        
+      } else {
+        
+        out <- NULL
+        
+        for (j in 1:length(linem)) {
+          out[j] <- (mean.y - linem[j])^2
+        }
+        
+        fix$line[fix$linerun == num[i] & is.na(fix$linerun) == F] <- which.min(out) 
+        
       }
-      
-      fix$line[fix$line == num[i] & is.na(fix$line) == F] <- which.min(out) 
-      # linem[which.min(out)] <- round(mean.y)
-      
+        
     }
     
     # fix$distx <- NULL

@@ -266,7 +266,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   if (env$analysis.lineMethod == "") env$analysis.lineMethod <- "match"
   if (env$analysis.outlierX == "") env$analysis.outlierX <- 2
   if (env$analysis.outlierY == "") env$analysis.outlierY <- 2
-  if (env$analysis.lineX == "") env$analysis.lineX <- 2
+  if (env$analysis.lineX == "") env$analysis.lineX <- 20
   if (env$analysis.lineY == "") env$analysis.lineY <- 2
   
   analysis <- list(eyelink = env$analysis.eyelink, vfac = env$analysis.vfac,
