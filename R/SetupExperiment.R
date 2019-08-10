@@ -263,7 +263,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   if (env$analysis.sparse == "") env$analysis.sparse <- TRUE
   if (env$analysis.driftX == "") env$analysis.driftX <- FALSE
   if (env$analysis.driftY == "") env$analysis.driftY <- FALSE
-  if (env$analysis.lineMethod == "") env$analysis.lineMethod <- "match"
+  if (env$analysis.lineMethod == "") env$analysis.lineMethod <- "chain"
   if (env$analysis.outlierX == "") env$analysis.outlierX <- 2
   if (env$analysis.outlierY == "") env$analysis.outlierY <- 2
   if (env$analysis.lineX == "") env$analysis.lineX <- 20
