@@ -109,7 +109,7 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "sac.in",
                  "sac.out",
                  "type", 
-                 "blink",            
+                 "blink",
                  "line", 
                  "line.change",
                  "line.let",

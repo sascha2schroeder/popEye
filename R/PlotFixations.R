@@ -1,22 +1,26 @@
 
-PlotFixations <- function(exp, subject, trial, start = 1, stop = NULL, 
+PlotFixations <- function(exp, subject, trial, start = 1,
                           pdf = NULL, interactive = F) {
   
   fix <- SelectSubjectTrial(exp, subject, trial)$fix
   
   # set colors
   if (max(fix$line, na.rm = T) > 1) {
+    palette("default")
     # palette(topo.colors(max(fix$line)))
-    palette(rainbow(max(fix$line, na.rm = T)))
+    # palette(rainbow(max(fix$line, na.rm = T)))
   } else {
-    palette(topo.colors(2))
+    # palette(topo.colors(2))
+    palette("default")
   }
   
-  if (missing(stop)) {
-    end <- 1
-  } else {
-    end <- stop
-  }
+  # if (missing(stop)) {
+  #   end <- nrow(fix)
+  # } else {
+  #   end <- stop
+  # }
+  
+  end <- start
   
   while(end <= max(fix$fixid)) {
     

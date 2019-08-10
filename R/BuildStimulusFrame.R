@@ -37,7 +37,21 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     tmp <- gsub(env$exp$setup$indicator$ia, "", tmp)
   }
   
+  # replace hyphen within word with different character
+  tmp2 <- unlist(strsplit(tmp, " "))
+  sel <- grep("[a-zA-Z]-[a-zA-Z]", tmp2)
+  tmp2[sel] <- gsub("-", "\u2219", tmp2[sel])
+  tmp3 <- paste(tmp2, collapse = " ")
+  
+  # replace hyphen within words with blank
+  tmp2 <- unlist(strsplit(tmp, " "))
+  sel <- grep("[a-zA-Z]-[a-zA-Z]", tmp2)
+  tmp2[sel] <- gsub("-", "- ", tmp2[sel])
+  tmp4 <- paste(tmp2, collapse = " ")
+  
+  # compute letters
   letters <- unlist(strsplit(tmp, ""))
+  letters2 <- unlist(strsplit(tmp3, ""))
   
   
   # set up stimmat matrix
@@ -62,28 +76,35 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$cond <- dat$trial[[trial]]$meta$cond
   
   
-  # replace hyphens
-  # ----------------
-  
-  # NOTE: hyphens work as word seperator
-  hyph <- grep("-", stimmat$letter)
-  if (length(hyph) > 0) {
-    stimmat$letter[hyph] <- " "
-    tmp <- gsub("-", " ", tmp)
-  }
+  # # replace hyphens
+  # # ----------------
+  # 
+  # # NOTE: hyphens work as word seperator
+  # hyph <- grep("-", stimmat$letter)
+  # if (length(hyph) > 0) {
+  #   stimmat$letter[hyph] <- " "
+  #   tmp <- gsub("-", " ", tmp)
+  # }
   
     
   # compute word
   # -------------
   
-  word.delim <- "[ -]"
+  # word.delim <- "[ \u2219]"
   # TODO: word.delim as parameter
   # TODO: punctuation part of word?
   
-  words <- unlist(strsplit(tmp, word.delim))
+  words <- unlist(strsplit(tmp4, " "))
   wordnum <- 1
-  for (i in 1:length(letters)) {
-    if (stimmat$letter[i] == " ") wordnum <- wordnum + 1
+  
+  # first letter
+  stimmat$wordnum[1] <- wordnum
+  stimmat$word[1] <- words[1]
+  stimmat$width[1] <- letpix$pixel[letpix$letter == stimmat$letter[1]]
+  
+  for (i in 2:length(letters2)) {
+    if (letters2[i] == " ") wordnum <- wordnum + 1
+    if (letters2[i - 1] == "\u2219") wordnum <- wordnum + 1
     stimmat$wordnum[i] <- wordnum
     stimmat$word[i] <- words[stimmat$wordnum[i]]
     stimmat$width[i] <- letpix$pixel[letpix$letter == stimmat$letter[i]]
@@ -134,7 +155,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   } else {
     
     tmp <- stim
-    tmp <- gsub("-", " ", tmp)
+    # tmp <- gsub("-", " ", tmp)
     tmp <- gsub(env$exp$setup$indicator$target, "", tmp)
     tmp <- gsub(env$exp$setup$indicator$line, "", tmp)
     
@@ -218,15 +239,22 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   while (n == m) {
     
     # set line break
-    line.cut <- max(stimmat$wordnum[stimmat$line == n & stimmat$xe < x.cut])
+    line.cut <- max(stimmat$wordnum[stimmat$line == n & stimmat$xe <= x.cut])
+    
+    if (letters2[max(stimmat$letternum[stimmat$wordnum == line.cut])] == "\u2219") {
+      line.cut <- line.cut + 1
+    }
+    
     if (max(stimmat$xe[stimmat$line == n]) > x.cut) {
       
       # set new line
       stimmat$line[stimmat$line == n & stimmat$wordnum >= line.cut] <- stimmat$line[stimmat$line == n & stimmat$wordnum >= line.cut] + 1
       
       # delete blank before line break
-      stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
-      
+      if (letters2[min(stimmat$letternum[stimmat$line == n + 1]) - 1] != "\u2219") {
+        stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
+      }
+     
       # recompute letter number
       stimmat$letternum <- 1:nrow(stimmat)
       
@@ -266,12 +294,13 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$ym <- (stimmat$ys + stimmat$ye) / 2
 
   
-  # reconstruct hyphens
-  # --------------------
-  
-  if (length(hyph) > 0) {
-    stimmat$letter[hyph] <- "-"
-  }
+  # # reconstruct hyphens
+  # # --------------------
+  # # TODO: hyph position is not correct after line breaks
+  # 
+  # if (length(hyph) > 0) {
+  #   stimmat$letter[hyph] <- "-"
+  # }
   
     
   # determine target IA

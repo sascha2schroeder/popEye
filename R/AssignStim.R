@@ -24,21 +24,12 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     if (fix$ys[1] < 0) {
       fix$yn <- fix$ys
     } else {
-      fix$yn <- fix$ys + (env$exp$setup$display$marginTop - fix$ys[1])
+      fix$yn <- fix$ys + (env$exp$setup$display$marginTop - fix$ys[1]) + env$exp$setup$font$height / 2
     }
   } else {
     fix$yn <- fix$ys
   }
 
-  
-  # # define outlier
-  # # ----------------
-  # 
-  # fix$type <- "in"
-  # 
-  # fix$type[fix$yn > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
-  # fix$type[fix$yn < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)] <- "out"
-  
   
   # line assignment 
   # ----------------
@@ -46,6 +37,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # default method: match single fixations
   if (env$exp$setup$analysis$lineMethod == "match") {
     
+    fix$type <- "in"
     fix$line <- NA
     
     for (i in 1:nrow(fix)) {
@@ -63,6 +55,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     }
     
   }
+  
   
   # cluster method
   if (env$exp$setup$analysis$lineMethod == "cluster") {
@@ -95,102 +88,114 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # chain method
   if (env$exp$setup$analysis$lineMethod == "chain") {
     
-    # fix$line <- NA
-    # fix$linerun <- NA
-    # 
-    # # first fixation
-    # i <- 1
-    # stop <- 1
-    # while (stop == 1) {
-    #   
-    #   fix$line[i] <- 1
-    #   out <- abs(fix$yn[i] - max(stimmat$ym[stimmat$line == fix$line[i]]))
-    #   
-    #   if (out > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
-    #     
-    #     out <- abs(fix$yn[i] - stimmat$ym)
-    #   
-    #     if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
-    #       fix$type[i] <- "out"
-    #       fix$line[i] <- NA
-    #       i <- i + 1
-    #       next
-    #       
-    #     } else {
-    #       
-    #       fix$line[i] <- stimmat$line[which.min(out)]
-    #       start <- i
-    #       stop <- 0
-    #       next
-    #       
-    #     }
-    #     
-    #   } else {
-    #     
-    #     start <- i
-    #     stop <- 0
-    #     
-    #   }
-    #   
-    # }
+    # compute distance
+    fix$distx <- NA
+    fix$distx[2:length(fix$distx)] <- diff(fix$xn)
+    fix$disty <- NA
+    fix$disty[2:length(fix$disty)] <- diff(fix$yn)
     
-    # fix$line[start] <- 1
+    # compute mean y position of lines
+    linem <- tapply(stimmat$ym, stimmat$line, mean)
     
+    # initialize variables
     fix$type <- "in"
     fix$linerun <- NA
     fix$linerun[1] <- 1
     fix$line <- NA
-    fix$distx <- NA
-    fix$disty <- NA
+    
+    mem <- NULL
+    start <- 1
+    stop <- nrow(linem)
     
     # segment into runs
-    # NOTE: loop necessary?
-    
     for (i in 2:nrow(fix)) {
       
-      fix$distx[i] <- fix$xs[i] - fix$xs[i - 1]
-      fix$disty[i] <- fix$ys[i] - fix$ys[i - 1]
-      
-      # determine line change
+      # determine run break
       if (abs(fix$disty[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineY | 
           abs(fix$distx[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineX) {
+        
+        # assign previous run to line
+        
+        mean.y <- mean(fix$yn[fix$linerun == fix$linerun[i - 1]], na.rm = T)
+        
+        if (mean.y > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2) | 
+            mean.y < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)) {
+          
+          fix$type[fix$linerun == fix$linerun[i - 1]] <- "out"
+          
+        } else {
+          
+          out <- NULL
+          
+          for (j in start:stop) {
+            out[j] <- (mean.y - linem[j])^2
+          }
+          
+          fix$line[fix$linerun == fix$linerun[i - 1]] <- which.min(out)
+          # mem <- which.min(out)
+          
+        }
+        
+        # check movement direction 
+        
+        # NOTE: also determine how many lines have been moved?
+        # NOTE: mult als lineY?
+        
+        # if (fix$disty[i] >= env$exp$setup$font$height * env$exp$setup$analysis$lineY) {
+        #   
+        #   if (is.null(mem) == F) {
+        #     start <- 1
+        #   } else {
+        #     start <- 1
+        #   }
+        #   
+        #   stop <- nrow(linem)
+        #   
+        # } else if (fix$disty[i] <= -env$exp$setup$font$height * env$exp$setup$analysis$lineY) {
+        #   
+        #   start <- mem
+        #   stop <- 1
+        #   
+        # } else {
+        #   
+        #   # start <- mem
+        #   # stop <- mem
+        #   
+        # }
+        
         fix$linerun[i] <- fix$linerun[i - 1] + 1
+        
       } else {
+        
         fix$linerun[i] <- fix$linerun[i - 1]
+        
       }
       
     }
     
-    # align with line number in stimmat
-    linem <- tapply(stimmat$ym, stimmat$line, mean)
-    num <- as.numeric(unlist(dimnames(table(fix$linerun))))
+    # assign last run
     
-    for (i in 1:length(num)) {
+    mean.y <- mean(fix$yn[fix$linerun == fix$linerun[nrow(fix)]], na.rm = T)
+    
+    if (mean.y > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2) | 
+        mean.y < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)) {
       
-      mean.y <- mean(fix$yn[fix$linerun == num[i]], na.rm = T)
+      fix$type[fix$linerun == fix$linerun[nrow(fix)]] <- "out"
       
-      if (mean.y > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2) | 
-          mean.y < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)) {
-        
-        fix$type[fix$linerun == num[i]] <- "out"
-        
-      } else {
-        
-        out <- NULL
-        
-        for (j in 1:length(linem)) {
-          out[j] <- (mean.y - linem[j])^2
-        }
-        
-        fix$line[fix$linerun == num[i] & is.na(fix$linerun) == F] <- which.min(out) 
-        
+    } else {
+      
+      out <- NULL
+      
+      for (j in 1:nrow(linem)) {
+        out[j] <- (mean.y - linem[j])^2
       }
-        
+      
+      fix$line[fix$linerun == fix$linerun[nrow(fix)]] <- which.min(out)
+      
     }
     
     # fix$distx <- NULL
     # fix$disty <- NULL
-    # fix$dist <- NULL
     
   }
   
