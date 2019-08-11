@@ -32,11 +32,16 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   trial <- merge(trial, nout, all.x = T)
   trial$pout <- round(trial$nout / (trial$nfix + trial$nout), 3)
   
+  trial$fit <- as.numeric(tapply(trialtmp$fit[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), max))
+  trial$fit.problem <- 0
+  trial$fit.problem[trial$fit > env$exp$setup$font$height] <- 1
+  
+  
   # compute forward saccade length (in letters)
   trialtmp$sac <- (trialtmp$word.land + trialtmp$word.launch)
   sac <- aggregate(trialtmp$sac[trialtmp$sac >= 0 & is.na(trialtmp$sac) == F], list(trialtmp$id[trialtmp$sac >= 0 & is.na(trialtmp$sac) == F]), mean, na.rm = T)
   colnames(sac) <- c("id", "sac")
-  sac$sac <- round(sac$sac, 2)
+  sac$sac <- round(sac$sac, 3)
   trial <- merge(trial, sac, all.x = T)
   
   # mean fixation duration
@@ -46,7 +51,6 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   trial$total <- as.numeric(tapply(trialtmp$dur[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), sum))
   # NOTE: only fixation time, does not include saccades and outliers
   # NOTE: maybe differentiate between "trial time" and "reading time"
-  
   
   # reading rate
   trial$rate <- round(60000 / (trial$total / trial$trial.nwords))
@@ -68,8 +72,9 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   trial$rereading <- round(as.numeric(tapply(word$dur - word$firstrun.dur, list(word$id), sum, na.rm = T)))
   
   # return
-  names <- c("subid", "trialid", "trialnum", "itemid", "cond", "trial", "trial.nwords", 
-             "nblink", "nrun", "nfix", "nout", "pout", "sac", "skip", "refix", 
+  names <- c("subid", "trialid", "trialnum", "itemid", "cond", "trial", 
+             "trial.nwords", "nblink", "nrun", "nfix", "nout", "pout", 
+             "fit", "fit.problem", "sac", "skip", "refix", 
              "reg", "mfix", "firstpass", "rereading", "total", "rate")
   exp$out$trial <- trial[order(trial$subid, trial$trialnum), names]
   trial$id <- NULL

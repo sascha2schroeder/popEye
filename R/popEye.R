@@ -408,6 +408,10 @@ popEye <- function(datpath, stimpath,
         names(dat$trial)[i] <- paste("trial", i, sep = ".")
         # NOTE: select by trialid or itemid?
         
+        dat$trial[[i]]$fix$trialid <- i
+        dat$trial[[i]]$sac$trialid <- i
+        dat$trial[[i]]$meta$stimmat$trialid <- i
+        
         fix <- rbind(fix, dat$trial[[i]]$fix)
         sac <- rbind(sac, dat$trial[[i]]$sac)
         
@@ -571,9 +575,9 @@ popEye <- function(datpath, stimpath,
   # compute overview file
   # ----------------------
   
-  message("Compute overview")
+  message("Aggregate overview")
   
-  exp <- ComputeOverview(exp)
+  exp <- AggregateOverview(exp)
   
   
   # clean up

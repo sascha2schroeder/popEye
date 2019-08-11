@@ -16,7 +16,6 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
     dat <- ComputeRun(dat, trial)
     dat <- ComputeLandingPosition(dat, trial)
     
-    
     # rename fixid
     dat$trial[[trial]]$fix$fixid <- dat$trial[[trial]]$fix$num
     dat$trial[[trial]]$fix$num <- NULL
@@ -44,6 +43,7 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "line.change",
                  "letternum", 
                  "letter", 
+                 "fit",
                  "wordnum", 
                  "word", 
                  "ianum", 
@@ -116,6 +116,7 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "line.word",
                  "letternum", 
                  "letter", 
+                 "fit",
                  "wordnum", 
                  "word", 
                  "ianum", 

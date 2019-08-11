@@ -282,7 +282,25 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   for (i in 1:max(stimmat$line)) {
     fix$ym[fix$line == i & is.na(fix$line) == F] <- stimmat$ym[stimmat$line == i]
   }
-
+  
+  
+  # criterion
+  
+  out <- NULL
+  
+  for (i in 1:nrow(fix)) {
+    # i <- 1
+    
+    if (fix$type[i] == "in") {
+      
+      sel <- stimmat$line == fix$line[i] & stimmat$letternum == fix$letternum[i]
+      out[i] <- sqrt((fix$xn[i] - stimmat$xm[sel])^2 + (fix$yn[i] - stimmat$ym[sel])^2)
+      
+    }
+  }
+  
+  fix$fit <- round(mean(out, na.rm = T), 3)
+  
   
   # return
   # -------
