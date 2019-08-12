@@ -97,6 +97,10 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   words <- unlist(strsplit(tmp4, " "))
   wordnum <- 1
   
+  stimmat$wordnum <- NA
+  stimmat$word <- NA
+  stimmat$width <- NA
+  
   # first letter
   stimmat$wordnum[1] <- wordnum
   stimmat$word[1] <- words[1]
@@ -241,7 +245,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     # set line break
     line.cut <- max(stimmat$wordnum[stimmat$line == n & stimmat$xe <= x.cut])
     
-    if (letters2[max(stimmat$letternum[stimmat$wordnum == line.cut])] == "\u2219") {
+    if (stimmat$letter[max(stimmat$letternum[stimmat$wordnum == line.cut])] == "-") {
       line.cut <- line.cut + 1
     }
     
@@ -251,7 +255,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
       stimmat$line[stimmat$line == n & stimmat$wordnum >= line.cut] <- stimmat$line[stimmat$line == n & stimmat$wordnum >= line.cut] + 1
       
       # delete blank before line break
-      if (letters2[min(stimmat$letternum[stimmat$line == n + 1]) - 1] != "\u2219") {
+      if (stimmat$letter[min(stimmat$letternum[stimmat$line == n + 1]) - 1] != "-") {
         stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
       }
      
@@ -273,6 +277,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     n <- n + 1
     
   }
+  
   
   # compute y positions
   # --------------------
