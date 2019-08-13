@@ -252,7 +252,8 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     if (max(stimmat$xe[stimmat$line == n]) > x.cut) {
       
       # set new line
-      stimmat$line[stimmat$line == n & stimmat$wordnum >= line.cut] <- stimmat$line[stimmat$line == n & stimmat$wordnum >= line.cut] + 1
+      # stimmat$line[stimmat$line == n & stimmat$wordnum >= line.cut] <- stimmat$line[stimmat$line == n & stimmat$wordnum >= line.cut] + 1
+      stimmat$line[stimmat$wordnum >= line.cut] <- stimmat$line[stimmat$wordnum >= line.cut] + 1
       
       # delete blank before line break
       if (stimmat$letter[min(stimmat$letternum[stimmat$line == n + 1]) - 1] != "-") {
