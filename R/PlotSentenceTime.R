@@ -1,5 +1,6 @@
 
-PlotSentenceTime <- function(exp, subject, trial, pdf = NULL, interactive = F, sub = F) {
+PlotSentenceTime <- function(exp, subject, trial, pdf = NULL, interactive = F, 
+                             sub = F, cex = 1) {
 
   # TODO: Resize y dimension ?
   # TODO: make contingent on number of lines
@@ -7,11 +8,11 @@ PlotSentenceTime <- function(exp, subject, trial, pdf = NULL, interactive = F, s
   # start pdf
   if (sub == F) {
     if (missing(pdf) == T) {
-      par(mfrow = c(1, 1), cex = 1.25, oma = c(0, 0, 3, 0))
+      par(mfrow = c(1, 1), cex = cex, oma = c(0, 0, 3, 0))
       if (interactive == T) par(ask = T)
     } else {
       pdf(pdf, width = 16, height = 8.5)
-      par(mfrow = c(1, 1), cex = .9, oma = c(0, 0, 2, 0))
+      par(mfrow = c(1, 1), cex = cex, oma = c(0, 0, 2, 0))
     }
   }
 
@@ -97,5 +98,6 @@ PlotSentenceTime <- function(exp, subject, trial, pdf = NULL, interactive = F, s
       dev.off()
     }
   }
+  
 }
 

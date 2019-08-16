@@ -1,14 +1,15 @@
 
-PlotPreprocessing <- function(exp, subject, trial, pdf = NULL, interactive = F) {
+PlotPreprocessing <- function(exp, subject, trial, pdf = NULL, interactive = F, 
+                              cex = 1.2) {
   
   # start pdf
   if (missing(pdf) == T) {
-    par(mfrow = c(2, 2), cex = 1.2, oma = c(0, 0, 3, 0))
+    par(mfrow = c(2, 2), cex = cex, oma = c(0, 0, 3, 0))
     if (interactive == T) par(ask = T)
   } else {
     options(warn = -1)
     pdf(pdf, width = 16, height = 8.5)
-    par(mfrow = c(2, 2), cex = .9, oma = c(0, 0, 2, 0))
+    par(mfrow = c(2, 2), cex = cex, oma = c(0, 0, 2, 0))
   }
   
   PlotXY(exp, subject, trial, sub = T)

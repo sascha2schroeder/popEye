@@ -1,14 +1,15 @@
 
-PlotBoundaryX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
+PlotBoundaryX <- function(exp, subject, trial, pdf = F, interactive = F, 
+                          sub = F, cex = 1) {
   
   # start pdf
   if (sub == F) {
-    if (pdf == T) {
-      pdf("Test.pdf", width = 16, height = 8.5)
-      par(mfrow = c(1, 1), cex = .9, oma = c(0, 0, 2, 0))
-    } else {
-      par(mfrow = c(1, 1), cex = 1.25, oma = c(0, 0, 3, 0))
+    if (missing(pdf) == T) {
+      par(mfrow = c(1, 1), cex = cex, oma = c(0, 0, 3, 0))
       if (interactive == T) par(ask = T)
+    } else {
+      pdf(pdf, width = 16, height = 8.5)
+      par(mfrow = c(1, 1), cex = cex, oma = c(0, 0, 2, 0))
     }
   }
     
@@ -117,15 +118,16 @@ PlotBoundaryX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F
 
   # turn off device  
   if (sub == F) {
-    if (pdf == T) {
-      title(paste("Trial", tmp$meta$trialnum, sep = " "), 
-            outer = T, cex.main = 1.75)
-      dev.off()
-    } else {
-      title(paste("Trial", tmp$meta$trialnum, sep = " "), 
+    if (missing(pdf) == T) {
+      title(paste("Trial", tmp$meta$trialid, sep = " "), 
             outer = T, cex.main = 2)
       par(mfrow = c(1, 1), cex = 1, oma = c(0, 0, 0, 0))
       if (interactive == T) par(ask = F)
+    } else {
+      title(paste("Trial", tmp$meta$trialid, sep = " "), 
+            outer = T, cex.main = 1.75)
+      dev.off()
     }
   }
+  
 }

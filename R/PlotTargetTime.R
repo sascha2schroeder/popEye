@@ -1,25 +1,31 @@
 
-PlotTargetTime <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
+PlotTargetTime <- function(exp, subject, trial, pdf = NULL, interactive = F, 
+                           sub = F, cex = 1) {
   
   # TODO: Resize y dimension ?
   
   # start pdf
   if (sub == F) {
-    if (pdf == T) {
-      pdf("Test.pdf", width = 16, height = 8.5)
-      par(mfrow = c(1, 1), cex = .9, oma = c(0, 0, 2, 0))
-    } else {
-      par(mfrow = c(1, 1), cex = 1.25, oma = c(0, 0, 3, 0))
+    if (missing(pdf) == T) {
+      par(mfrow = c(1, 1), cex = cex, oma = c(0, 0, 3, 0))
       if (interactive == T) par(ask = T)
+    } else {
+      pdf(pdf, width = 16, height = 8.5)
+      par(mfrow = c(1, 1), cex = cex, oma = c(0, 0, 2, 0))
     }
   }
 
   tmp <- SelectSubjectTrial(exp, subject, trial)
   
   # create plot
-  plot(tmp$xy$x, type = "l", ylim = c(exp$setup$display$resolutionX, 1),
-       xlim = c(-50, tmp$fix$stop[nrow(tmp$fix)]) , main = "Time Plot", xlab = "Time (ms)",
-       ylab = "x Position (px)")
+  plot(tmp$xy$x, 
+       type = "l", 
+       ylim = c(exp$setup$display$resolutionX, 1),
+       xlim = c(-50, tmp$fix$stop[nrow(tmp$fix)]) , 
+       main = "Time Plot", 
+       xlab = "Time (ms)",
+       ylab = "x Position (px)"
+       )
   
   # add start/stop
   abline (v = 0, col = "royalblue", lwd = 2)
@@ -80,21 +86,23 @@ PlotTargetTime <- function(exp, subject, trial, pdf = F, interactive = F, sub = 
   
   # add target word
   j <- tmp$meta$target
-  rect(-300, min(tmp$meta$stimmat$xs[tmp$meta$stimmat$ia == j]), 
-       tmp$fix$stop[nrow(tmp$fix)] + 300, max(tmp$meta$stimmat$xe[tmp$meta$stimmat$ia == j]),  
+  rect(-300, min(tmp$meta$stimmat$xs[tmp$meta$stimmat$ianum == j]), 
+       tmp$fix$stop[nrow(tmp$fix)] + 300, max(tmp$meta$stimmat$xe[tmp$meta$stimmat$ianum == j]),  
        angle = NA, lwd = 2, col = makeTransparent("navyblue", alpha = .2))
        
   # turn off device
   if (sub == F) {
-    if (pdf == T) {
-      title(paste("Trial", tmp$meta$trialnum,
-                  sep = " "), outer = T, cex.main = 1.75)
-      dev.off()
-    } else {
-      title(paste("Trial", tmp$meta$trialnum,
+    if (missing(pdf) == T) {
+      title(paste("Trial", tmp$meta$trialid,
                   sep = " "), outer = T, cex.main = 2)
       par(mfrow = c(1, 1), cex = 1, oma = c(0, 0, 0, 0))
       if (interactive == T) par(ask = F)
+      
+    } else {
+      title(paste("Trial", tmp$meta$trialid,
+                  sep = " "), outer = T, cex.main = 1.75)
+      dev.off()
     }
   }
+  
 }
