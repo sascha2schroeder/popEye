@@ -5,17 +5,18 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # setup tracker
   # --------------
   
-  if (env$tracker.model == "") env$tracker.model <- "eyelink"
-  if (env$tracker.software == "") env$tracker.software <- "EB"
-  if (env$tracker.results == "") env$tracker.results <- T
-  tracker <- list(model = env$tracker.model, software = env$tracker.software,
+  # if (env$tracker.model == "") env$tracker.model <- "eyelink"
+  # if (env$tracker.software == "") env$tracker.software <- "EB"
+  # if (env$tracker.results == "") env$tracker.results <- TRUE
+  tracker <- list(model = env$tracker.model, 
+                  software = env$tracker.software,
                   results = env$tracker.results)
   
   
   # setup experiment type
   # ----------------------
   
-  if (env$type == "") env$type <- "sentence"
+  # if (env$type == "") env$type <- "sentence"
   type <- env$type
   
   
