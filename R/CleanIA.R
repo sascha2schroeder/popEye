@@ -17,13 +17,9 @@ CleanIA <- function(dat, env = parent.frame(n = 1)) {
     #   dat <- CleanStage4(dat, trial)
     # }
 
-    if (env$exp$setup$clean$outlier == T) {
+    if (env$exp$setup$clean$outlier == TRUE) {
       dat <- CleanOutlier(dat, trial)  
     }
-
-    # if (env$exp$setup$clean$delete == T) {
-    #   dat <- DeleteFixations(dat, trial)
-    # }
 
   # recompute itemid
   dat$trial[[trial]]$meta$trialid <- trial

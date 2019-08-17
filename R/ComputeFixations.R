@@ -143,7 +143,7 @@ ComputeFixations <- function(xy, sac, env = parent.frame(n = 3)){
   }
   
   # drift check
-  if (env$exp$setup$analysis$drift == T) {
+  if (env$exp$setup$analysis$drift == TRUE) {
     for (i in 1:nrow(fix)) {
       if (fix$xdrift[i] > env$exp$setup$font$size | 
           fix$ydrift[i] > env$exp$setup$font$size) {
