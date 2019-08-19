@@ -210,13 +210,8 @@ popEye <- function(datpath,
   # create output file
   exp <- list(setup = NA, subjects = list())
   
-  # exp <- list(setup = NA, subject = NA)
-  # subject <- list()
-  
   # retrieve setup infomation
   exp$setup <- SetupExperiment()
-  
-  # retrieve setup i  # any substructure (to be implemented)
   
   
   # create output files

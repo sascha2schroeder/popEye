@@ -1,5 +1,5 @@
 
-PlotFixations <- function(exp, subject, trial, start = 1,
+PlotFixations <- function(exp, subject, trial, start = 1, stop = NA,
                           pdf = NULL, interactive = F) {
   
   fix <- SelectSubjectTrial(exp, subject, trial)$fix
@@ -14,15 +14,13 @@ PlotFixations <- function(exp, subject, trial, start = 1,
     palette("default")
   }
   
-  # if (missing(stop)) {
-  #   end <- nrow(fix)
-  # } else {
-  #   end <- stop
-  # }
+  if (missing(stop)) {
+    stop <- max(fix$fixid)
+  } 
   
   end <- start
   
-  while(end <= max(fix$fixid)) {
+  while(end <= stop) {
     
     # start pdf
     if (missing(pdf) == T) {
@@ -34,21 +32,21 @@ PlotFixations <- function(exp, subject, trial, start = 1,
     
     PlotStimulus(exp, subject, trial)
     
-    points(fix$xs[start:end],
-           fix$ys[start:end],
+    points(fix$xs[end:stop],
+           fix$ys[end:stop],
            col = "black",
            pch = 16, type = "l")
     
-    if (fix$type[start:end] == "out") {
-      points(fix$xs[start:end],
-             fix$ys[start:end],
-             col = "black",
-             pch = 16, cex = 1, type = "p")
-    }
+    # if (fix$type[end:stop] == "out") {
+    #   points(fix$xs[end:stop],
+    #          fix$ys[end:stop],
+    #          col = "black",
+    #          pch = 16, cex = 1, type = "p")
+    # }
     
-    points(fix$xs[start:end],
-           fix$ys[start:end],
-           col = fix$line[start:end],
+    points(fix$xs[end:stop],
+           fix$ys[end:stop],
+           col = fix$line[end:stop],
            pch = 16, cex = 1, type = "p")
     
     points(fix$xs[end],
