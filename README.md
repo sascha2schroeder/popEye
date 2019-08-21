@@ -28,7 +28,6 @@ whether a boundary change did not complete within a change saccade, etc.). These
 can be used to remove such trials prior to the main analysis.
 
 
-
 ## When popEye will work
 
 The central idea of popEye is to provide a hardware- and software-independent solution
@@ -42,24 +41,41 @@ We will add support for eye trackers from other manufacturers (SMI, GazePoint, t
 Experiment Builder and the UMass EyeTrack package. I hope I will be able to include experiments created with PyGaze soon.
 
 popEye supports both single- and multi-line experiments and works with 
-proportional and disproportional fonts.
-
-The following fonts are currently supported although not in all font sizes:
+proportional and disproportional fonts. The following fonts are currently supported although not in all font sizes:
 
 - Courier New 
 - Consolas
 - Times New Roman
 - Symbol
 
-(You have to understand that each font and font size combination has to be implemented separately).
+(You have to understand that each font and font size combination has to be implemented separately). 
+Some special characters might still be missing which can cause problems during preprocessing. Please contact me,
+if you experience any problems.
 There is no general problem why popEye shouldn't work with non-European (Chinese, Arabic, Hebrew, etc.) 
-and unspaced scripts. However, it certainly needs some work to implement it.
+and unspaced orthographies. However, it certainly needs some work to implement this. 
+Please contact me, if you are interested in this.
 
 
 ## Installation
 
-The easiest way to install popEye is via the devtools package
+The easiest way to install the most recent version of popEye (current version is 0.6.0) 
+is via the devtools package:
 
 ``` R
+library(devtools)
 install_github('sascha2schroeder/popEye')
 ```
+
+In addition an pre-compiled version that can be loaded locally (RStudio: -> Tools -> Install packages
+-> Install from Package Archive) can be downloaded [here] (https://github.com/sascha2schroeder/popEye/blob/master/popEye/popEye_0.6.0.tar.gz).
+
+
+## How should I set up my experiment so that popEye works smoothly?
+
+There are many different ways how experiments can be programmed. popEye might not
+work with all possible implementations. The most important thing is to send proper
+messages at the start and the end of each trial and whenever important things happen during a trial 
+(display changes etc.). 
+
+A brief tutorial how to set up an experiment in Experiment Builder is provided [here] ().
+
