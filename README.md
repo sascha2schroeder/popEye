@@ -62,17 +62,17 @@ The easiest way to install the most recent version of popEye (current version is
 is via the devtools package:
 
 ``` R
-library(devtools)
+require(devtools)
 install_github('sascha2schroeder/popEye')
 ```
 
-In addition an pre-compiled version that can be loaded locally (RStudio: -> Tools -> Install packages
+Alternatively, an pre-compiled version that can be loaded locally (RStudio: -> Tools -> Install packages
 -> Install from Package Archive) can be downloaded [here](https://github.com/sascha2schroeder/popEye/blob/master/popEye/popEye_0.6.0.tar.gz).
 
 
 ## How should I set up my experiment so that popEye works smoothly?
 
-There are many different ways how eye tracking experiments can be programmed. 
+There are different ways how an eye tracking experiment can be programmed. 
 popEye might not work with all possible implementations. The most important thing is to send proper
 messages at the start and the end of each trial and whenever important things happen during a trial 
 (display changes etc.). 

@@ -1,0 +1,4376 @@
+%BeginHeader
+	PH Boundary Experiment & PSC
+	SCRIPT 1
+	2014-01-18
+%EndHeader
+
+set conditions =  3
+set experiments = 1
+set expConditions = 0
+set background =  0
+set foreground =  16777215
+set filterMode = 2
+set windowThreshold = 0
+set calibration_type = 0
+set display_type = LCD
+
+trial_type boundary
+  text_format =    'Courier New' 16 36 56 250 cleartype
+  text_weight =    normal non-italic
+  button =         B
+  output =         stream
+  trigger =        gaze
+  cursor_size =    0
+  dc_delay =       0
+  stimulus_delay = 0
+  revert =         0
+  highlight_color =131862
+end boundary
+
+trial_type corpus
+  text_format =    'Courier New' 16 36 56 250 cleartype
+  text_weight =    normal non-italic
+  button =         B
+  output =         stream
+  trigger =        gaze
+  cursor_size =    0
+  dc_delay =       0
+  stimulus_delay = 0
+  revert =         0
+  highlight_color =131862
+end corpus
+
+trial_type intro
+  text_format =    'Courier New' 21 42 56 250 cleartype
+  text_weight =    normal non-italic
+  button =         mouse
+  output =         nostream
+  trigger =        nogaze
+  cursor_size =    0
+  dc_delay =       0
+  stimulus_delay = 0
+  revert =         0
+  highlight_color =66542
+end intro
+
+trial_type question
+  text_format =    'Courier New' 16 36 56 250 cleartype
+  text_weight =    normal non-italic
+  button =         leftTrigger
+  button =         rightTrigger
+  output =         nostream
+  trigger =        nogaze
+  cursor_size =    0
+  dc_delay =       0
+  stimulus_delay = 0
+  revert =         0
+  highlight_color =197628
+end question
+
+trial P1I1D0
+  gc_rect =          (320 75 415 125)
+  image =            'C:\Dokumente und Einstellungen\class\Desktop\LeseRiese_2014-01-15\RieseIntro.bmp'
+  max_display_time = 1500000000
+  trial_type =       intro
+end P1I1D0
+
+trial P1I2D1
+  gc_rect =          (320 75 415 125)
+  inline =           |Es ist gutes Wetter und Ulf geht schwimmen.
+  max_display_time = 1500000
+  trial_type =       boundary
+end P1I2D1
+
+trial P1I3D2
+  button =           leftTrigger
+  gc_rect =          (320 75 415 125)
+  inline =           |Geht Ulf ins Kino?\n\n\tNein = ROT                        Ja = GRÜN
+  max_display_time = 1500000
+  trial_type =       question
+end P1I3D2
+
+trial P1I4D3
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Piraten hissen eine schwarze Flagge am Mast.
+  max_display_time = 1500000
+  trial_type =       boundary
+end P1I4D3
+
+trial P1I5D4
+  button =           rightTrigger
+  gc_rect =          (320 75 415 125)
+  inline =           |Haben die Piraten eine Flagge?\n\nNein = ROT                        Ja = GRÜN
+  max_display_time = 15000000
+  trial_type =       question
+end P1I5D4
+
+trial P1I6D5
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Baum im Garten ist gestern umgefallen.
+  max_display_time = 1500000
+  trial_type =       boundary
+end P1I6D5
+
+trial P1I7D6
+  button =           leftTrigger
+  gc_rect =          (320 75 415 125)
+  inline =           |Steht der Baum im Garten noch?\n\nNein = ROT                        Ja = GRÜN
+  max_display_time = 15000000
+  trial_type =       question
+end P1I7D6
+
+trial E1I1D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Mia hat den kräftigen Hecht ganz alleine gefangen.
+  inline =           |Mia hat den kräftigen Hecht ganz alleine gefangen.
+  max_display_time = 1500000
+  region =           (0 349 760 426)
+  trial_type =       boundary
+end E1I1D0
+
+trial E2I1D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Mia hat den kräftigen Hächt ganz alleine gefangen.
+  inline =           |Mia hat den kräftigen Hecht ganz alleine gefangen.
+  max_display_time = 1500000
+  region =           (0 347 760 428)
+  trial_type =       boundary
+end E2I1D0
+
+trial E3I1D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Mia hat den kräftigen Hücht ganz alleine gefangen.
+  inline =           |Mia hat den kräftigen Hecht ganz alleine gefangen.
+  max_display_time = 1500000
+  region =           (0 347 760 427)
+  trial_type =       boundary
+end E3I1D0
+
+trial E1I2D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Ruth hustet vom scharfen Senf in ihrem Mund.
+  inline =           |Ruth hustet vom scharfen Senf in ihrem Mund.
+  max_display_time = 1500000
+  region =           (0 387 760 453)
+  trial_type =       boundary
+end E1I2D0
+
+trial E2I2D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Ruth hustet vom scharfen Sänf in ihrem Mund.
+  inline =           |Ruth hustet vom scharfen Senf in ihrem Mund.
+  max_display_time = 1500000
+  region =           (0 387 760 453)
+  trial_type =       boundary
+end E2I2D0
+
+trial E3I2D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Ruth hustet vom scharfen Sönf in ihrem Mund.
+  inline =           |Ruth hustet vom scharfen Senf in ihrem Mund.
+  max_display_time = 1500000
+  region =           (0 387 760 453)
+  trial_type =       boundary
+end E3I2D0
+
+trial E1I3D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Adrian fast an den heißen Herd und schreit. 
+  inline =           |Adrian fast an den heißen Herd und schreit. 
+  max_display_time = 1500000
+  region =           (0 400 760 465)
+  trial_type =       boundary
+end E1I3D0
+
+trial E2I3D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Adrian fast an den heißen Härd und schreit. 
+  inline =           |Adrian fast an den heißen Herd und schreit. 
+  max_display_time = 1500000
+  region =           (0 400 760 465)
+  trial_type =       boundary
+end E2I3D0
+
+trial E3I3D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Adrian fast an den heißen Hürd und schreit. 
+  inline =           |Adrian fast an den heißen Herd und schreit. 
+  max_display_time = 1500000
+  region =           (0 401 760 466)
+  trial_type =       boundary
+end E3I3D0
+
+trial E1I4D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Bär hat einen dichten Pelz für den Winter.
+  inline =           |Der Bär hat einen dichten Pelz für den Winter.
+  max_display_time = 1500000
+  region =           (0 401 760 465)
+  trial_type =       boundary
+end E1I4D0
+
+trial E2I4D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Bär hat einen dichten Pälz für den Winter.
+  inline =           |Der Bär hat einen dichten Pelz für den Winter.
+  max_display_time = 1500000
+  region =           (0 399 760 466)
+  trial_type =       boundary
+end E2I4D0
+
+trial E3I4D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Bär hat einen dichten Pülz für den Winter.
+  inline =           |Der Bär hat einen dichten Pelz für den Winter.
+  max_display_time = 1500000
+  region =           (0 400 760 464)
+  trial_type =       boundary
+end E3I4D0
+
+trial E1I5D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Jonas hat immer riesiges Pech beim Lotto.
+  inline =           |Jonas hat immer riesiges Pech beim Lotto.
+  max_display_time = 1500000
+  region =           (0 387 760 452)
+  trial_type =       boundary
+end E1I5D0
+
+trial E2I5D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Jonas hat immer riesiges Päch beim Lotto.
+  inline =           |Jonas hat immer riesiges Pech beim Lotto.
+  max_display_time = 1500000
+  region =           (0 386 760 452)
+  trial_type =       boundary
+end E2I5D0
+
+trial E3I5D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Jonas hat immer riesiges Püch beim Lotto.
+  inline =           |Jonas hat immer riesiges Pech beim Lotto.
+  max_display_time = 1500000
+  region =           (0 387 760 451)
+  trial_type =       boundary
+end E3I5D0
+
+trial E1I6D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Uns kann nur ein wahrer Held noch retten.
+  inline =           |Uns kann nur ein wahrer Held noch retten.
+  max_display_time = 1500000
+  region =           (0 374 760 439)
+  trial_type =       boundary
+end E1I6D0
+
+trial E2I6D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Uns kann nur ein wahrer Häld noch retten.
+  inline =           |Uns kann nur ein wahrer Held noch retten.
+  max_display_time = 1500000
+  region =           (0 374 760 439)
+  trial_type =       boundary
+end E2I6D0
+
+trial E3I6D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Uns kann nur ein wahrer Höld noch retten.
+  inline =           |Uns kann nur ein wahrer Held noch retten.
+  max_display_time = 1500000
+  region =           (0 375 760 439)
+  trial_type =       boundary
+end E3I6D0
+
+trial E1I7D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Ritter trägt einen eisernen Helm auf dem Kopf.
+  inline =           |Der Ritter trägt einen eisernen Helm auf dem Kopf.
+  max_display_time = 1500000
+  region =           (0 478 760 544)
+  trial_type =       boundary
+end E1I7D0
+
+trial E2I7D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Ritter trägt einen eisernen Hälm auf dem Kopf.
+  inline =           |Der Ritter trägt einen eisernen Helm auf dem Kopf.
+  max_display_time = 1500000
+  region =           (0 509 760 581)
+  trial_type =       boundary
+end E2I7D0
+
+trial E3I7D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Ritter trägt einen eisernen Hülm auf dem Kopf.
+  inline =           |Der Ritter trägt einen eisernen Helm auf dem Kopf.
+  max_display_time = 1500000
+  region =           (0 478 760 543)
+  trial_type =       boundary
+end E3I7D0
+
+trial E1I8D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Viele Fische bleiben im langen Netz der Fischer hängen.
+  inline =           |Viele Fische bleiben im langen Netz der Fischer hängen.
+  max_display_time = 1500000
+  region =           (0 465 760 531)
+  trial_type =       boundary
+end E1I8D0
+
+trial E2I8D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Viele Fische bleiben im langen Nätz der Fischer hängen.
+  inline =           |Viele Fische bleiben im langen Netz der Fischer hängen.
+  max_display_time = 1500000
+  region =           (0 465 760 531)
+  trial_type =       boundary
+end E2I8D0
+
+trial E3I8D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Viele Fische bleiben im langen Nötz der Fischer hängen.
+  inline =           |Viele Fische bleiben im langen Netz der Fischer hängen.
+  max_display_time = 1500000
+  region =           (0 465 760 530)
+  trial_type =       boundary
+end E3I8D0
+
+trial E1I9D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Julia nimmt das bemalte Heft und zerreißt es.
+  inline =           |Julia nimmt das bemalte Heft und zerreißt es.
+  max_display_time = 1500000
+  region =           (0 374 760 439)
+  trial_type =       boundary
+end E1I9D0
+
+trial E2I9D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Julia nimmt das bemalte Häft und zerreißt es.
+  inline =           |Julia nimmt das bemalte Heft und zerreißt es.
+  max_display_time = 1500000
+  region =           (0 375 760 439)
+  trial_type =       boundary
+end E2I9D0
+
+trial E3I9D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Julia nimmt das bemalte Hölft und zerreißt es.
+  inline =           |Julia nimmt das bemalte Heft und zerreißt es.
+  max_display_time = 1500000
+  region =           (0 374 760 453)
+  trial_type =       boundary
+end E3I9D0
+
+trial E1I10D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Papa zieht immer ein gebügeltes Hemd an zur Arbeit.
+  inline =           |Papa zieht immer ein gebügeltes Hemd an zur Arbeit.
+  max_display_time = 1500000
+  region =           (0 478 760 543)
+  trial_type =       boundary
+end E1I10D0
+
+trial E2I10D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Papa zieht immer ein gebügeltes Hämd an zur Arbeit.
+  inline =           |Papa zieht immer ein gebügeltes Hemd an zur Arbeit.
+  max_display_time = 1500000
+  region =           (0 478 760 543)
+  trial_type =       boundary
+end E2I10D0
+
+trial E3I10D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Papa zieht immer ein gebügeltes Hümd an zur Arbeit.
+  inline =           |Papa zieht immer ein gebügeltes Hemd an zur Arbeit.
+  max_display_time = 1500000
+  region =           (0 478 760 543)
+  trial_type =       boundary
+end E3I10D0
+
+trial E1I11D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Morgen ist ein großes Fest bei uns geplant.
+  inline =           |Morgen ist ein großes Fest bei uns geplant.
+  max_display_time = 1500000
+  region =           (0 348 760 414)
+  trial_type =       boundary
+end E1I11D0
+
+trial E2I11D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Morgen ist ein großes Fäst bei uns geplant.
+  inline =           |Morgen ist ein großes Fest bei uns geplant.
+  max_display_time = 1500000
+  region =           (0 348 760 413)
+  trial_type =       boundary
+end E2I11D0
+
+trial E3I11D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Morgen ist ein großes Füst bei uns geplant.
+  inline =           |Morgen ist ein großes Fest bei uns geplant.
+  max_display_time = 1500000
+  region =           (0 347 760 414)
+  trial_type =       boundary
+end E3I11D0
+
+trial E1I12D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Vögel sitzen im warmen Nest und piepen.
+  inline =           |Die Vögel sitzen im warmen Nest und piepen.
+  max_display_time = 1500000
+  region =           (0 413 760 479)
+  trial_type =       boundary
+end E1I12D0
+
+trial E2I12D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Vögel sitzen im warmen Näst und piepen.
+  inline =           |Die Vögel sitzen im warmen Nest und piepen.
+  max_display_time = 1500000
+  region =           (0 413 760 479)
+  trial_type =       boundary
+end E2I12D0
+
+trial E3I12D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Vögel sitzen im warmen Nüst und piepen.
+  inline =           |Die Vögel sitzen im warmen Nest und piepen.
+  max_display_time = 1500000
+  region =           (0 413 760 478)
+  trial_type =       boundary
+end E3I12D0
+
+trial E1I13D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Kinder bauen das braune Zelt im Garten auf.
+  inline =           |Die Kinder bauen das braune Zelt im Garten auf.
+  max_display_time = 1500000
+  region =           (0 426 760 491)
+  trial_type =       boundary
+end E1I13D0
+
+trial E2I13D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Kinder bauen das braune Zält im Garten auf.
+  inline =           |Die Kinder bauen das braune Zelt im Garten auf.
+  max_display_time = 1500000
+  region =           (0 427 760 492)
+  trial_type =       boundary
+end E2I13D0
+
+trial E3I13D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Kinder bauen das braune Zült im Garten auf.
+  inline =           |Die Kinder bauen das braune Zelt im Garten auf.
+  max_display_time = 1500000
+  region =           (0 426 760 491)
+  trial_type =       boundary
+end E3I13D0
+
+trial E1I14D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Bauer mäht das riesige Feld mit dem Traktor.
+  inline =           |Der Bauer mäht das riesige Feld mit dem Traktor.
+  max_display_time = 1500000
+  region =           (0 413 760 479)
+  trial_type =       boundary
+end E1I14D0
+
+trial E2I14D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Bauer mäht das riesige Fäld mit dem Traktor.
+  inline =           |Der Bauer mäht das riesige Feld mit dem Traktor.
+  max_display_time = 1500000
+  region =           (0 413 760 479)
+  trial_type =       boundary
+end E2I14D0
+
+trial E3I14D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Bauer mäht das riesige Föld mit dem Traktor.
+  inline =           |Der Bauer mäht das riesige Feld mit dem Traktor.
+  max_display_time = 1500000
+  region =           (0 414 760 479)
+  trial_type =       boundary
+end E3I14D0
+
+trial E1I15D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Vom Essen bleibt ein winziger Rest für morgen.
+  inline =           |Vom Essen bleibt ein winziger Rest für morgen.
+  max_display_time = 1500000
+  region =           (0 453 760 518)
+  trial_type =       boundary
+end E1I15D0
+
+trial E2I15D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Vom Essen bleibt ein winziger Räst für morgen.
+  inline =           |Vom Essen bleibt ein winziger Rest für morgen.
+  max_display_time = 1500000
+  region =           (0 452 760 517)
+  trial_type =       boundary
+end E2I15D0
+
+trial E3I15D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Vom Essen bleibt ein winziger Rüst für morgen.
+  inline =           |Vom Essen bleibt ein winziger Rest für morgen.
+  max_display_time = 1500000
+  region =           (0 452 760 518)
+  trial_type =       boundary
+end E3I15D0
+
+trial E1I16D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Aus dem kleinen grünen Keim wird eine Pflanze.
+  inline =           |Aus dem kleinen grünen Keim wird eine Pflanze.
+  max_display_time = 1500000
+  region =           (0 361 760 427)
+  trial_type =       boundary
+end E1I16D0
+
+trial E2I16D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Aus dem kleinen grünen Kaim wird eine Pflanze.
+  inline =           |Aus dem kleinen grünen Keim wird eine Pflanze.
+  max_display_time = 1500000
+  region =           (0 362 760 426)
+  trial_type =       boundary
+end E2I16D0
+
+trial E3I16D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Aus dem kleinen grünen Koim wird eine Pflanze.
+  inline =           |Aus dem kleinen grünen Keim wird eine Pflanze.
+  max_display_time = 1500000
+  region =           (0 361 760 427)
+  trial_type =       boundary
+end E3I16D0
+
+trial E1I17D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Man braucht ein scharfes Beil zum Holzhacken.
+  inline =           |Man braucht ein scharfes Beil zum Holzhacken.
+  max_display_time = 1500000
+  region =           (0 388 760 452)
+  trial_type =       boundary
+end E1I17D0
+
+trial E2I17D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Man braucht ein scharfes Bail zum Holzhacken.
+  inline =           |Man braucht ein scharfes Beil zum Holzhacken.
+  max_display_time = 1500000
+  region =           (0 387 760 453)
+  trial_type =       boundary
+end E2I17D0
+
+trial E3I17D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Man braucht ein scharfes Buil zum Holzhacken.
+  inline =           |Man braucht ein scharfes Beil zum Holzhacken.
+  max_display_time = 1500000
+  region =           (0 387 760 452)
+  trial_type =       boundary
+end E3I17D0
+
+trial E1I18D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Stuhl wird mit starkem Leim zusammen geklebt.
+  inline =           |Der Stuhl wird mit starkem Leim zusammen geklebt.
+  max_display_time = 1500000
+  region =           (0 413 760 478)
+  trial_type =       boundary
+end E1I18D0
+
+trial E2I18D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Stuhl wird mit starkem Laim zusammen geklebt.
+  inline =           |Der Stuhl wird mit starkem Leim zusammen geklebt.
+  max_display_time = 1500000
+  region =           (0 413 760 478)
+  trial_type =       boundary
+end E2I18D0
+
+trial E3I18D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Stuhl wird mit starkem Luim zusammen geklebt.
+  inline =           |Der Stuhl wird mit starkem Leim zusammen geklebt.
+  max_display_time = 1500000
+  region =           (0 414 760 479)
+  trial_type =       boundary
+end E3I18D0
+
+trial E1I19D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Lara hat einen schönen Reim für die Karte geschrieben.
+  inline =           |Lara hat einen schönen Reim für die Karte geschrieben.
+  max_display_time = 1500000
+  region =           (0 361 760 427)
+  trial_type =       boundary
+end E1I19D0
+
+trial E2I19D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Lara hat einen schönen Raim für die Karte geschrieben.
+  inline =           |Lara hat einen schönen Reim für die Karte geschrieben.
+  max_display_time = 1500000
+  region =           (0 361 760 427)
+  trial_type =       boundary
+end E2I19D0
+
+trial E3I19D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Lara hat einen schönen Ruim für die Karte geschrieben.
+  inline =           |Lara hat einen schönen Reim für die Karte geschrieben.
+  max_display_time = 1500000
+  region =           (0 361 760 426)
+  trial_type =       boundary
+end E3I19D0
+
+trial E1I20D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Peter überkam ein schrecklicher Neid beim Anblick der Welpen.
+  inline =           |Peter überkam ein schrecklicher Neid beim Anblick der Welpen.
+  max_display_time = 1500000
+  region =           (0 479 760 544)
+  trial_type =       boundary
+end E1I20D0
+
+trial E2I20D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Peter überkam ein schrecklicher Naid beim Anblick der Welpen.
+  inline =           |Peter überkam ein schrecklicher Neid beim Anblick der Welpen.
+  max_display_time = 1500000
+  region =           (0 478 760 543)
+  trial_type =       boundary
+end E2I20D0
+
+trial E3I20D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Peter überkam ein schrecklicher Nuid beim Anblick der Welpen.
+  inline =           |Peter überkam ein schrecklicher Neid beim Anblick der Welpen.
+  max_display_time = 1500000
+  region =           (0 478 760 544)
+  trial_type =       boundary
+end E3I20D0
+
+trial E1I21D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Koch schüttet den losen Reis ins Wasser.
+  inline =           |Der Koch schüttet den losen Reis ins Wasser.
+  max_display_time = 1500000
+  region =           (0 426 760 491)
+  trial_type =       boundary
+end E1I21D0
+
+trial E2I21D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Koch schüttet den losen Rais ins Wasser.
+  inline =           |Der Koch schüttet den losen Reis ins Wasser.
+  max_display_time = 1500000
+  region =           (0 427 760 492)
+  trial_type =       boundary
+end E2I21D0
+
+trial E3I21D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Koch schüttet den losen Rois ins Wasser.
+  inline =           |Der Koch schüttet den losen Reis ins Wasser.
+  max_display_time = 1500000
+  region =           (0 426 760 491)
+  trial_type =       boundary
+end E3I21D0
+
+trial E1I22D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Aus der Bäckerei ist frischer Teig zu riechen.
+  inline =           |Aus der Bäckerei ist frischer Teig zu riechen.
+  max_display_time = 1500000
+  region =           (0 452 760 517)
+  trial_type =       boundary
+end E1I22D0
+
+trial E2I22D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Aus der Bäckerei ist frischer Taig zu riechen.
+  inline =           |Aus der Bäckerei ist frischer Teig zu riechen.
+  max_display_time = 1500000
+  region =           (0 452 760 516)
+  trial_type =       boundary
+end E2I22D0
+
+trial E3I22D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Aus der Bäckerei ist frischer Tuig zu riechen.
+  inline =           |Aus der Bäckerei ist frischer Teig zu riechen.
+  max_display_time = 1500000
+  region =           (0 453 760 517)
+  trial_type =       boundary
+end E3I22D0
+
+trial E1I23D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir sind in einem sicheren Heim zusammen aufgewachsen.
+  inline =           |Wir sind in einem sicheren Heim zusammen aufgewachsen.
+  max_display_time = 1500000
+  region =           (0 413 760 479)
+  trial_type =       boundary
+end E1I23D0
+
+trial E2I23D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir sind in einem sicheren Haim zusammen aufgewachsen.
+  inline =           |Wir sind in einem sicheren Heim zusammen aufgewachsen.
+  max_display_time = 1500000
+  region =           (0 413 760 478)
+  trial_type =       boundary
+end E2I23D0
+
+trial E3I23D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir sind in einem sicheren Huim zusammen aufgewachsen.
+  inline =           |Wir sind in einem sicheren Heim zusammen aufgewachsen.
+  max_display_time = 1500000
+  region =           (0 413 760 478)
+  trial_type =       boundary
+end E3I23D0
+
+trial E1I24D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Frösche leben im trüben Teich im Park.
+  inline =           |Die Frösche leben im trüben Teich im Park.
+  max_display_time = 1500000
+  region =           (0 426 760 504)
+  trial_type =       boundary
+end E1I24D0
+
+trial E2I24D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Frösche leben im trüben Taich im Park.
+  inline =           |Die Frösche leben im trüben Teich im Park.
+  max_display_time = 1500000
+  region =           (0 427 760 505)
+  trial_type =       boundary
+end E2I24D0
+
+trial E3I24D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Frösche leben im trüben Tuich im Park.
+  inline =           |Die Frösche leben im trüben Teich im Park.
+  max_display_time = 1500000
+  region =           (0 426 760 505)
+  trial_type =       boundary
+end E3I24D0
+
+trial E1I25D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der König beherrschte ein weites Reich mit vielen Untertanen.
+  inline =           |Der König beherrschte ein weites Reich mit vielen Untertanen.
+  max_display_time = 1500000
+  region =           (0 491 760 569)
+  trial_type =       boundary
+end E1I25D0
+
+trial E2I25D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der König beherrschte ein weites Raich mit vielen Untertanen.
+  inline =           |Der König beherrschte ein weites Reich mit vielen Untertanen.
+  max_display_time = 1500000
+  region =           (0 491 760 569)
+  trial_type =       boundary
+end E2I25D0
+
+trial E3I25D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der König beherrschte ein weites Roich mit vielen Untertanen.
+  inline =           |Der König beherrschte ein weites Reich mit vielen Untertanen.
+  max_display_time = 1500000
+  region =           (0 491 760 571)
+  trial_type =       boundary
+end E3I25D0
+
+trial E1I26D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Marder war der schlimmste Feind der Amsel.
+  inline =           |Der Marder war der schlimmste Feind der Amsel.
+  max_display_time = 1500000
+  region =           (0 453 760 531)
+  trial_type =       boundary
+end E1I26D0
+
+trial E2I26D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Marder war der schlimmste Faind der Amsel.
+  inline =           |Der Marder war der schlimmste Feind der Amsel.
+  max_display_time = 1500000
+  region =           (0 453 760 530)
+  trial_type =       boundary
+end E2I26D0
+
+trial E3I26D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Marder war der schlimmste Fuind der Amsel.
+  inline =           |Der Marder war der schlimmste Feind der Amsel.
+  max_display_time = 1500000
+  region =           (0 453 760 531)
+  trial_type =       boundary
+end E3I26D0
+
+trial E1I27D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Lisa nimmt das lockere Seil und zieht.
+  inline =           |Lisa nimmt das lockere Seil und zieht.
+  max_display_time = 1500000
+  region =           (0 361 760 426)
+  trial_type =       boundary
+end E1I27D0
+
+trial E2I27D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Lisa nimmt das lockere Sail und zieht.
+  inline =           |Lisa nimmt das lockere Seil und zieht.
+  max_display_time = 1500000
+  region =           (0 361 760 426)
+  trial_type =       boundary
+end E2I27D0
+
+trial E3I27D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Lisa nimmt das lockere Suil und zieht.
+  inline =           |Lisa nimmt das lockere Seil und zieht.
+  max_display_time = 1500000
+  region =           (0 362 760 427)
+  trial_type =       boundary
+end E3I27D0
+
+trial E1I28D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Im Schloss spukt ein einsamer Geist durch die Hallen.
+  inline =           |Im Schloss spukt ein einsamer Geist durch die Hallen.
+  max_display_time = 1500000
+  region =           (0 452 760 531)
+  trial_type =       boundary
+end E1I28D0
+
+trial E2I28D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Im Schloss spukt ein einsamer Gaist durch die Hallen.
+  inline =           |Im Schloss spukt ein einsamer Geist durch die Hallen.
+  max_display_time = 1500000
+  region =           (0 452 760 530)
+  trial_type =       boundary
+end E2I28D0
+
+trial E3I28D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Im Schloss spukt ein einsamer Goist durch die Hallen.
+  inline =           |Im Schloss spukt ein einsamer Geist durch die Hallen.
+  max_display_time = 1500000
+  region =           (0 452 760 531)
+  trial_type =       boundary
+end E3I28D0
+
+trial E1I29D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir haben den größten Teil der Mauer selbst gebaut.
+  inline =           |Wir haben den größten Teil der Mauer selbst gebaut.
+  max_display_time = 1500000
+  region =           (0 348 760 413)
+  trial_type =       boundary
+end E1I29D0
+
+trial E2I29D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir haben den größten Tail der Mauer selbst gebaut.
+  inline =           |Wir haben den größten Teil der Mauer selbst gebaut.
+  max_display_time = 1500000
+  region =           (0 348 760 413)
+  trial_type =       boundary
+end E2I29D0
+
+trial E3I29D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir haben den größten Toil der Mauer selbst gebaut.
+  inline =           |Wir haben den größten Teil der Mauer selbst gebaut.
+  max_display_time = 1500000
+  region =           (0 349 760 413)
+  trial_type =       boundary
+end E3I29D0
+
+trial E1I30D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Lars hüpft auf dem linken Bein auf und ab. 
+  inline =           |Lars hüpft auf dem linken Bein auf und ab. 
+  max_display_time = 1500000
+  region =           (0 400 760 466)
+  trial_type =       boundary
+end E1I30D0
+
+trial E2I30D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Lars hüpft auf dem linken Bain auf und ab. 
+  inline =           |Lars hüpft auf dem linken Bein auf und ab. 
+  max_display_time = 1500000
+  region =           (0 400 760 467)
+  trial_type =       boundary
+end E2I30D0
+
+trial E3I30D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Lars hüpft auf dem linken Boin auf und ab. 
+  inline =           |Lars hüpft auf dem linken Bein auf und ab. 
+  max_display_time = 1500000
+  region =           (0 401 760 465)
+  trial_type =       boundary
+end E3I30D0
+
+trial E1I31D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Rabe und der freche Specht sind Freunde.
+  inline =           |Der Rabe und der freche Specht sind Freunde.
+  max_display_time = 1500000
+  region =           (0 375 760 466)
+  trial_type =       boundary
+end E1I31D0
+
+trial E2I31D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Rabe und der freche Spächt sind Freunde.
+  inline =           |Der Rabe und der freche Specht sind Freunde.
+  max_display_time = 1500000
+  region =           (0 374 760 465)
+  trial_type =       boundary
+end E2I31D0
+
+trial E3I31D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Rabe und der freche Spücht sind Freunde.
+  inline =           |Der Rabe und der freche Specht sind Freunde.
+  max_display_time = 1500000
+  region =           (0 374 760 465)
+  trial_type =       boundary
+end E3I31D0
+
+trial E1I32D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Ute rennt den langen Steg hinunter und springt ins Wasser.
+  inline =           |Ute rennt den langen Steg hinunter und springt ins Wasser.
+  max_display_time = 1500000
+  region =           (0 336 760 401)
+  trial_type =       boundary
+end E1I32D0
+
+trial E2I32D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Ute rennt den langen Stäg hinunter und springt ins Wasser.
+  inline =           |Ute rennt den langen Steg hinunter und springt ins Wasser.
+  max_display_time = 1500000
+  region =           (0 336 760 400)
+  trial_type =       boundary
+end E2I32D0
+
+trial E3I32D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Ute rennt den langen Stüg hinunter und springt ins Wasser.
+  inline =           |Ute rennt den langen Steg hinunter und springt ins Wasser.
+  max_display_time = 1500000
+  region =           (0 335 760 401)
+  trial_type =       boundary
+end E3I32D0
+
+trial E1I33D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Ritter hat einen klugen Knecht als Helfer.
+  inline =           |Der Ritter hat einen klugen Knecht als Helfer.
+  max_display_time = 1500000
+  region =           (0 427 760 517)
+  trial_type =       boundary
+end E1I33D0
+
+trial E2I33D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Ritter hat einen klugen Knächt als Helfer.
+  inline =           |Der Ritter hat einen klugen Knecht als Helfer.
+  max_display_time = 1500000
+  region =           (0 427 760 518)
+  trial_type =       boundary
+end E2I33D0
+
+trial E3I33D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Ritter hat einen klugen Knücht als Helfer.
+  inline =           |Der Ritter hat einen klugen Knecht als Helfer.
+  max_display_time = 1500000
+  region =           (0 427 760 517)
+  trial_type =       boundary
+end E3I33D0
+
+trial E1I34D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Es wohnt ein winziger Krebs in der Muschel.
+  inline =           |Es wohnt ein winziger Krebs in der Muschel.
+  max_display_time = 1500000
+  region =           (0 348 760 427)
+  trial_type =       boundary
+end E1I34D0
+
+trial E2I34D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Es wohnt ein winziger Kräbs in der Muschel.
+  inline =           |Es wohnt ein winziger Krebs in der Muschel.
+  max_display_time = 1500000
+  region =           (0 349 760 427)
+  trial_type =       boundary
+end E2I34D0
+
+trial E3I34D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Es wohnt ein winziger Kröbs in der Muschel.
+  inline =           |Es wohnt ein winziger Krebs in der Muschel.
+  max_display_time = 1500000
+  region =           (0 348 760 426)
+  trial_type =       boundary
+end E3I34D0
+
+trial E1I35D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Manche Tiere machen viel Dreck in der Wohnung.
+  inline =           |Manche Tiere machen viel Dreck in der Wohnung.
+  max_display_time = 1500000
+  region =           (0 388 760 466)
+  trial_type =       boundary
+end E1I35D0
+
+trial E2I35D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Manche Tiere machen viel Dräck in der Wohnung.
+  inline =           |Manche Tiere machen viel Dreck in der Wohnung.
+  max_display_time = 1500000
+  region =           (0 388 760 465)
+  trial_type =       boundary
+end E2I35D0
+
+trial E3I35D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Manche Tiere machen viel Dröck in der Wohnung.
+  inline =           |Manche Tiere machen viel Dreck in der Wohnung.
+  max_display_time = 1500000
+  region =           (0 387 760 465)
+  trial_type =       boundary
+end E3I35D0
+
+trial E1I36D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Manchmal ist der eigentliche Zweck nicht erkennbar.
+  inline =           |Manchmal ist der eigentliche Zweck nicht erkennbar.
+  max_display_time = 1500000
+  region =           (0 439 760 518)
+  trial_type =       boundary
+end E1I36D0
+
+trial E2I36D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Manchmal ist der eigentliche Zwäck nicht erkennbar.
+  inline =           |Manchmal ist der eigentliche Zweck nicht erkennbar.
+  max_display_time = 1500000
+  region =           (0 438 760 517)
+  trial_type =       boundary
+end E2I36D0
+
+trial E3I36D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Manchmal ist der eigentliche Zwück nicht erkennbar.
+  inline =           |Manchmal ist der eigentliche Zweck nicht erkennbar.
+  max_display_time = 1500000
+  region =           (0 439 760 517)
+  trial_type =       boundary
+end E3I36D0
+
+trial E1I37D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Auf dem großen heißen Blech liegen Plätzchen.
+  inline =           |Auf dem großen heißen Blech liegen Plätzchen.
+  max_display_time = 1500000
+  region =           (0 348 760 426)
+  trial_type =       boundary
+end E1I37D0
+
+trial E2I37D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Auf dem großen heißen Bläch liegen Plätzchen.
+  inline =           |Auf dem großen heißen Blech liegen Plätzchen.
+  max_display_time = 1500000
+  region =           (0 348 760 427)
+  trial_type =       boundary
+end E2I37D0
+
+trial E3I37D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Auf dem großen heißen Blüch liegen Plätzchen.
+  inline =           |Auf dem großen heißen Blech liegen Plätzchen.
+  max_display_time = 1500000
+  region =           (0 348 760 426)
+  trial_type =       boundary
+end E3I37D0
+
+trial E1I38D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Kathrin hat einen grünen Fleck auf der Hose.
+  inline =           |Kathrin hat einen grünen Fleck auf der Hose.
+  max_display_time = 1500000
+  region =           (0 388 760 466)
+  trial_type =       boundary
+end E1I38D0
+
+trial E2I38D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Kathrin hat einen grünen Fläck auf der Hose.
+  inline =           |Kathrin hat einen grünen Fleck auf der Hose.
+  max_display_time = 1500000
+  region =           (0 387 760 465)
+  trial_type =       boundary
+end E2I38D0
+
+trial E3I38D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Kathrin hat einen grünen Flöck auf der Hose.
+  inline =           |Kathrin hat einen grünen Fleck auf der Hose.
+  max_display_time = 1500000
+  region =           (0 387 760 466)
+  trial_type =       boundary
+end E3I38D0
+
+trial E1I39D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Das Regal hat ein lockeres Brett und wackelt.
+  inline =           |Das Regal hat ein lockeres Brett und wackelt.
+  max_display_time = 1500000
+  region =           (0 414 760 491)
+  trial_type =       boundary
+end E1I39D0
+
+trial E2I39D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Das Regal hat ein lockeres Brätt und wackelt.
+  inline =           |Das Regal hat ein lockeres Brett und wackelt.
+  max_display_time = 1500000
+  region =           (0 414 760 491)
+  trial_type =       boundary
+end E2I39D0
+
+trial E3I39D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Das Regal hat ein lockeres Brütt und wackelt.
+  inline =           |Das Regal hat ein lockeres Brett und wackelt.
+  max_display_time = 1500000
+  region =           (0 414 760 491)
+  trial_type =       boundary
+end E3I39D0
+
+trial E1I40D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Fee möchte den lustigen Zwerg zum Freund haben.
+  inline =           |Die Fee möchte den lustigen Zwerg zum Freund haben.
+  max_display_time = 1500000
+  region =           (0 426 760 505)
+  trial_type =       boundary
+end E1I40D0
+
+trial E2I40D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Fee möchte den lustigen Zwärg zum Freund haben.
+  inline =           |Die Fee möchte den lustigen Zwerg zum Freund haben.
+  max_display_time = 1500000
+  region =           (0 426 760 505)
+  trial_type =       boundary
+end E2I40D0
+
+trial E3I40D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Fee möchte den lustigen Zwürg zum Freund haben.
+  inline =           |Die Fee möchte den lustigen Zwerg zum Freund haben.
+  max_display_time = 1500000
+  region =           (0 453 760 535)
+  trial_type =       boundary
+end E3I40D0
+
+trial E1I41D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Sarah wird mit genügend Fleiß die Meisterschaft erreichen.
+  inline =           |Sarah wird mit genügend Fleiß die Meisterschaft erreichen.
+  max_display_time = 1500000
+  region =           (0 374 760 452)
+  trial_type =       boundary
+end E1I41D0
+
+trial E2I41D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Sarah wird mit genügend Flaiß die Meisterschaft erreichen.
+  inline =           |Sarah wird mit genügend Fleiß die Meisterschaft erreichen.
+  max_display_time = 1500000
+  region =           (0 374 760 452)
+  trial_type =       boundary
+end E2I41D0
+
+trial E3I41D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Sarah wird mit genügend Floiß die Meisterschaft erreichen.
+  inline =           |Sarah wird mit genügend Fleiß die Meisterschaft erreichen.
+  max_display_time = 1500000
+  region =           (0 375 760 453)
+  trial_type =       boundary
+end E3I41D0
+
+trial E1I42D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir warten auf dem überfüllten Gleis auf unsere Freunde.
+  inline =           |Wir warten auf dem überfüllten Gleis auf unsere Freunde.
+  max_display_time = 1500000
+  region =           (0 466 760 544)
+  trial_type =       boundary
+end E1I42D0
+
+trial E2I42D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir warten auf dem überfüllten Glais auf unsere Freunde.
+  inline =           |Wir warten auf dem überfüllten Gleis auf unsere Freunde.
+  max_display_time = 1500000
+  region =           (0 466 760 543)
+  trial_type =       boundary
+end E2I42D0
+
+trial E3I42D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir warten auf dem überfüllten Gluis auf unsere Freunde.
+  inline =           |Wir warten auf dem überfüllten Gleis auf unsere Freunde.
+  max_display_time = 1500000
+  region =           (0 466 760 543)
+  trial_type =       boundary
+end E3I42D0
+
+trial E1I43D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Das Baby will den ekligen Brei nicht essen.
+  inline =           |Das Baby will den ekligen Brei nicht essen.
+  max_display_time = 1500000
+  region =           (0 401 760 465)
+  trial_type =       boundary
+end E1I43D0
+
+trial E2I43D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Das Baby will den ekligen Brai nicht essen.
+  inline =           |Das Baby will den ekligen Brei nicht essen.
+  max_display_time = 1500000
+  region =           (0 400 760 465)
+  trial_type =       boundary
+end E2I43D0
+
+trial E3I43D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Das Baby will den ekligen Brui nicht essen.
+  inline =           |Das Baby will den ekligen Brei nicht essen.
+  max_display_time = 1500000
+  region =           (0 401 760 465)
+  trial_type =       boundary
+end E3I43D0
+
+trial E1I44D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Mit einem einzigen giftigen Pfeil wurde das Mammut erlegt.
+  inline =           |Mit einem einzigen giftigen Pfeil wurde das Mammut erlegt.
+  max_display_time = 1500000
+  region =           (0 427 760 504)
+  trial_type =       boundary
+end E1I44D0
+
+trial E2I44D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Mit einem einzigen giftigen Pfail wurde das Mammut erlegt.
+  inline =           |Mit einem einzigen giftigen Pfeil wurde das Mammut erlegt.
+  max_display_time = 1500000
+  region =           (0 427 760 505)
+  trial_type =       boundary
+end E2I44D0
+
+trial E3I44D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Mit einem einzigen giftigen Pfoil wurde das Mammut erlegt.
+  inline =           |Mit einem einzigen giftigen Pfeil wurde das Mammut erlegt.
+  max_display_time = 1500000
+  region =           (0 427 760 504)
+  trial_type =       boundary
+end E3I44D0
+
+trial E1I45D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Martin will den teuren Preis nicht zahlen.
+  inline =           |Martin will den teuren Preis nicht zahlen.
+  max_display_time = 1500000
+  region =           (0 362 760 440)
+  trial_type =       boundary
+end E1I45D0
+
+trial E2I45D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Martin will den teuren Prais nicht zahlen.
+  inline =           |Martin will den teuren Preis nicht zahlen.
+  max_display_time = 1500000
+  region =           (0 362 760 439)
+  trial_type =       boundary
+end E2I45D0
+
+trial E3I45D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Martin will den teuren Pruis nicht zahlen.
+  inline =           |Martin will den teuren Preis nicht zahlen.
+  max_display_time = 1500000
+  region =           (0 362 760 439)
+  trial_type =       boundary
+end E3I45D0
+
+trial E1I46D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Im Laden kaufen wir frisches Fleisch und Gemüse.
+  inline =           |Im Laden kaufen wir frisches Fleisch und Gemüse.
+  max_display_time = 1500000
+  region =           (0 438 760 542)
+  trial_type =       boundary
+end E1I46D0
+
+trial E2I46D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Im Laden kaufen wir frisches Flaisch und Gemüse.
+  inline =           |Im Laden kaufen wir frisches Fleisch und Gemüse.
+  max_display_time = 1500000
+  region =           (0 440 760 543)
+  trial_type =       boundary
+end E2I46D0
+
+trial E3I46D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Im Laden kaufen wir frisches Fluisch und Gemüse.
+  inline =           |Im Laden kaufen wir frisches Fleisch und Gemüse.
+  max_display_time = 1500000
+  region =           (0 439 760 543)
+  trial_type =       boundary
+end E3I46D0
+
+trial E1I47D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Vogel auf dem hohen Zweig fühlt sich sicher vor der Katze.
+  inline =           |Der Vogel auf dem hohen Zweig fühlt sich sicher vor der Katze.
+  max_display_time = 1500000
+  region =           (0 375 760 452)
+  trial_type =       boundary
+end E1I47D0
+
+trial E2I47D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Vogel auf dem hohen Zwaig fühlt sich sicher vor der Katze.
+  inline =           |Der Vogel auf dem hohen Zweig fühlt sich sicher vor der Katze.
+  max_display_time = 1500000
+  region =           (0 374 760 453)
+  trial_type =       boundary
+end E2I47D0
+
+trial E3I47D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Vogel auf dem hohen Zwuig fühlt sich sicher vor der Katze.
+  inline =           |Der Vogel auf dem hohen Zweig fühlt sich sicher vor der Katze.
+  max_display_time = 1500000
+  region =           (0 374 760 452)
+  trial_type =       boundary
+end E3I47D0
+
+trial E1I48D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Mauer bildet einen gewaltigen Kreis um das Dorf.
+  inline =           |Die Mauer bildet einen gewaltigen Kreis um das Dorf.
+  max_display_time = 1500000
+  region =           (0 504 760 582)
+  trial_type =       boundary
+end E1I48D0
+
+trial E2I48D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Mauer bildet einen gewaltigen Krais um das Dorf.
+  inline =           |Die Mauer bildet einen gewaltigen Kreis um das Dorf.
+  max_display_time = 1500000
+  region =           (0 504 760 582)
+  trial_type =       boundary
+end E2I48D0
+
+trial E3I48D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Die Mauer bildet einen gewaltigen Kruis um das Dorf.
+  inline =           |Die Mauer bildet einen gewaltigen Kreis um das Dorf.
+  max_display_time = 1500000
+  region =           (0 505 760 582)
+  trial_type =       boundary
+end E3I48D0
+
+trial E1I49D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Ina hat ein schönes Kleid für sich gekauft.
+  inline =           |Ina hat ein schönes Kleid für sich gekauft.
+  max_display_time = 1500000
+  region =           (0 323 760 401)
+  trial_type =       boundary
+end E1I49D0
+
+trial E2I49D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Ina hat ein schönes Klaid für sich gekauft.
+  inline =           |Ina hat ein schönes Kleid für sich gekauft.
+  max_display_time = 1500000
+  region =           (0 322 760 401)
+  trial_type =       boundary
+end E2I49D0
+
+trial E3I49D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Ina hat ein schönes Kluid für sich gekauft.
+  inline =           |Ina hat ein schönes Kleid für sich gekauft.
+  max_display_time = 1500000
+  region =           (0 322 760 400)
+  trial_type =       boundary
+end E3I49D0
+
+trial E1I50D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Melanie fällt auf den harten Stein und schreit.
+  inline =           |Melanie fällt auf den harten Stein und schreit.
+  max_display_time = 1500000
+  region =           (0 439 760 517)
+  trial_type =       boundary
+end E1I50D0
+
+trial E2I50D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Melanie fällt auf den harten Stain und schreit.
+  inline =           |Melanie fällt auf den harten Stein und schreit.
+  max_display_time = 1500000
+  region =           (0 439 760 517)
+  trial_type =       boundary
+end E2I50D0
+
+trial E3I50D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Melanie fällt auf den harten Stuin und schreit.
+  inline =           |Melanie fällt auf den harten Stein und schreit.
+  max_display_time = 1500000
+  region =           (0 439 760 517)
+  trial_type =       boundary
+end E3I50D0
+
+trial E1I51D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Paul sitzt im gefüllten Saal in der ersten Reihe.
+  inline =           |Paul sitzt im gefüllten Saal in der ersten Reihe.
+  max_display_time = 1500000
+  region =           (0 374 760 439)
+  trial_type =       boundary
+end E1I51D0
+
+trial E2I51D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Paul sitzt im gefüllten Sahl in der ersten Reihe.
+  inline =           |Paul sitzt im gefüllten Saal in der ersten Reihe.
+  max_display_time = 1500000
+  region =           (0 374 760 440)
+  trial_type =       boundary
+end E2I51D0
+
+trial E3I51D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Paul sitzt im gefüllten Sakl in der ersten Reihe.
+  inline =           |Paul sitzt im gefüllten Saal in der ersten Reihe.
+  max_display_time = 1500000
+  region =           (0 373 760 439)
+  trial_type =       boundary
+end E3I51D0
+
+trial E1I52D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Nina hat ein hübsches Paar Handschuhe gefunden.
+  inline =           |Nina hat ein hübsches Paar Handschuhe gefunden.
+  max_display_time = 1500000
+  region =           (0 348 760 414)
+  trial_type =       boundary
+end E1I52D0
+
+trial E2I52D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Nina hat ein hübsches Pahr Handschuhe gefunden.
+  inline =           |Nina hat ein hübsches Paar Handschuhe gefunden.
+  max_display_time = 1500000
+  region =           (0 348 760 412)
+  trial_type =       boundary
+end E2I52D0
+
+trial E3I52D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Nina hat ein hübsches Pabr Handschuhe gefunden.
+  inline =           |Nina hat ein hübsches Paar Handschuhe gefunden.
+  max_display_time = 1500000
+  region =           (0 348 760 414)
+  trial_type =       boundary
+end E3I52D0
+
+trial E1I53D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Man kann den klebrigen Teer auf der Straße riechen.
+  inline =           |Man kann den klebrigen Teer auf der Straße riechen.
+  max_display_time = 1500000
+  region =           (0 362 760 426)
+  trial_type =       boundary
+end E1I53D0
+
+trial E2I53D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Man kann den klebrigen Tehr auf der Straße riechen.
+  inline =           |Man kann den klebrigen Teer auf der Straße riechen.
+  max_display_time = 1500000
+  region =           (0 361 760 426)
+  trial_type =       boundary
+end E2I53D0
+
+trial E3I53D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Man kann den klebrigen Tekr auf der Straße riechen.
+  inline =           |Man kann den klebrigen Teer auf der Straße riechen.
+  max_display_time = 1500000
+  region =           (0 361 760 426)
+  trial_type =       boundary
+end E3I53D0
+
+trial E1I54D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Im Wald lebt das zottelige Biest in einer Höhle.
+  inline =           |Im Wald lebt das zottelige Biest in einer Höhle.
+  max_display_time = 1500000
+  region =           (0 413 760 492)
+  trial_type =       boundary
+end E1I54D0
+
+trial E2I54D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Im Wald lebt das zottelige Bihst in einer Höhle.
+  inline =           |Im Wald lebt das zottelige Biest in einer Höhle.
+  max_display_time = 1500000
+  region =           (0 413 760 491)
+  trial_type =       boundary
+end E2I54D0
+
+trial E3I54D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Im Wald lebt das zottelige Bikst in einer Höhle.
+  inline =           |Im Wald lebt das zottelige Biest in einer Höhle.
+  max_display_time = 1500000
+  region =           (0 412 760 491)
+  trial_type =       boundary
+end E3I54D0
+
+trial E1I55D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Er hat uns einen guten Dienst erwiesen und verdient eine Belohnung.
+  inline =           |Er hat uns einen guten Dienst erwiesen und verdient eine Belohnung.
+  max_display_time = 1500000
+  region =           (0 361 760 452)
+  trial_type =       boundary
+end E1I55D0
+
+trial E2I55D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Er hat uns einen guten Dihnst erwiesen und verdient eine Belohnung.
+  inline =           |Er hat uns einen guten Dienst erwiesen und verdient eine Belohnung.
+  max_display_time = 1500000
+  region =           (0 361 760 452)
+  trial_type =       boundary
+end E2I55D0
+
+trial E3I55D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Er hat uns einen guten Dibnst erwiesen und verdient eine Belohnung.
+  inline =           |Er hat uns einen guten Dienst erwiesen und verdient eine Belohnung.
+  max_display_time = 1500000
+  region =           (0 361 760 452)
+  trial_type =       boundary
+end E3I55D0
+
+trial E1I56D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Laura hat ein ehrgeiziges Ziel vor Augen.
+  inline =           |Laura hat ein ehrgeiziges Ziel vor Augen.
+  max_display_time = 1500000
+  region =           (0 400 760 465)
+  trial_type =       boundary
+end E1I56D0
+
+trial E2I56D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Laura hat ein ehrgeiziges Zihl vor Augen.
+  inline =           |Laura hat ein ehrgeiziges Ziel vor Augen.
+  max_display_time = 1500000
+  region =           (0 400 760 464)
+  trial_type =       boundary
+end E2I56D0
+
+trial E3I56D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Laura hat ein ehrgeiziges Zikl vor Augen.
+  inline =           |Laura hat ein ehrgeiziges Ziel vor Augen.
+  max_display_time = 1500000
+  region =           (0 400 760 465)
+  trial_type =       boundary
+end E3I56D0
+
+trial E1I57D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Nachts schleicht der gemeine Dieb von Haus zu Haus.
+  inline =           |Nachts schleicht der gemeine Dieb von Haus zu Haus.
+  max_display_time = 1500000
+  region =           (0 439 760 504)
+  trial_type =       boundary
+end E1I57D0
+
+trial E2I57D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Nachts schleicht der gemeine Dihb von Haus zu Haus.
+  inline =           |Nachts schleicht der gemeine Dieb von Haus zu Haus.
+  max_display_time = 1500000
+  region =           (0 439 760 505)
+  trial_type =       boundary
+end E2I57D0
+
+trial E3I57D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Nachts schleicht der gemeine Dikb von Haus zu Haus.
+  inline =           |Nachts schleicht der gemeine Dieb von Haus zu Haus.
+  max_display_time = 1500000
+  region =           (0 439 760 505)
+  trial_type =       boundary
+end E3I57D0
+
+trial E1I58D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir proben das fröhliche Lied zusammen in der Klasse.
+  inline =           |Wir proben das fröhliche Lied zusammen in der Klasse.
+  max_display_time = 1500000
+  region =           (0 387 760 453)
+  trial_type =       boundary
+end E1I58D0
+
+trial E2I58D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir proben das fröhliche Lihd zusammen in der Klasse.
+  inline =           |Wir proben das fröhliche Lied zusammen in der Klasse.
+  max_display_time = 1500000
+  region =           (0 387 760 452)
+  trial_type =       boundary
+end E2I58D0
+
+trial E3I58D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir proben das fröhliche Libd zusammen in der Klasse.
+  inline =           |Wir proben das fröhliche Lied zusammen in der Klasse.
+  max_display_time = 1500000
+  region =           (0 387 760 452)
+  trial_type =       boundary
+end E3I58D0
+
+trial E1I59D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Am Waldboden wächst grüner Moos bis hoch auf die Baumstämme.
+  inline =           |Am Waldboden wächst grüner Moos bis hoch auf die Baumstämme.
+  max_display_time = 1500000
+  region =           (0 413 760 479)
+  trial_type =       boundary
+end E1I59D0
+
+trial E2I59D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Am Waldboden wächst grüner Mohs bis hoch auf die Baumstämme.
+  inline =           |Am Waldboden wächst grüner Moos bis hoch auf die Baumstämme.
+  max_display_time = 1500000
+  region =           (0 413 760 478)
+  trial_type =       boundary
+end E2I59D0
+
+trial E3I59D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Am Waldboden wächst grüner Moks bis hoch auf die Baumstämme.
+  inline =           |Am Waldboden wächst grüner Moos bis hoch auf die Baumstämme.
+  max_display_time = 1500000
+  region =           (0 412 760 479)
+  trial_type =       boundary
+end E3I59D0
+
+trial E1I60D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Frida fährt das schaukelnde Boot sicher ans andere Ufer.
+  inline =           |Frida fährt das schaukelnde Boot sicher ans andere Ufer.
+  max_display_time = 1500000
+  region =           (0 427 760 492)
+  trial_type =       boundary
+end E1I60D0
+
+trial E2I60D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Frida fährt das schaukelnde Boht sicher ans andere Ufer.
+  inline =           |Frida fährt das schaukelnde Boot sicher ans andere Ufer.
+  max_display_time = 1500000
+  region =           (0 425 760 492)
+  trial_type =       boundary
+end E2I60D0
+
+trial E3I60D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Frida fährt das schaukelnde Bokt sicher ans andere Ufer.
+  inline =           |Frida fährt das schaukelnde Boot sicher ans andere Ufer.
+  max_display_time = 1500000
+  region =           (0 425 760 492)
+  trial_type =       boundary
+end E3I60D0
+
+trial E1I61D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir fahren mit der langsamen Bahn in den Urlaub.
+  inline =           |Wir fahren mit der langsamen Bahn in den Urlaub.
+  max_display_time = 1500000
+  region =           (0 439 760 505)
+  trial_type =       boundary
+end E1I61D0
+
+trial E2I61D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir fahren mit der langsamen Baan in den Urlaub.
+  inline =           |Wir fahren mit der langsamen Bahn in den Urlaub.
+  max_display_time = 1500000
+  region =           (0 440 760 505)
+  trial_type =       boundary
+end E2I61D0
+
+trial E3I61D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Wir fahren mit der langsamen Baon in den Urlaub.
+  inline =           |Wir fahren mit der langsamen Bahn in den Urlaub.
+  max_display_time = 1500000
+  region =           (0 439 760 504)
+  trial_type =       boundary
+end E3I61D0
+
+trial E1I62D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Am Morgen ist der krähende Hahn immer als Erster zu hören.
+  inline =           |Am Morgen ist der krähende Hahn immer als Erster zu hören.
+  max_display_time = 1500000
+  region =           (0 413 760 479)
+  trial_type =       boundary
+end E1I62D0
+
+trial E2I62D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Am Morgen ist der krähende Haan immer als Erster zu hören.
+  inline =           |Am Morgen ist der krähende Hahn immer als Erster zu hören.
+  max_display_time = 1500000
+  region =           (0 413 760 479)
+  trial_type =       boundary
+end E2I62D0
+
+trial E3I62D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Am Morgen ist der krähende Haon immer als Erster zu hören.
+  inline =           |Am Morgen ist der krähende Hahn immer als Erster zu hören.
+  max_display_time = 1500000
+  region =           (0 414 760 478)
+  trial_type =       boundary
+end E3I62D0
+
+trial E1I63D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Mann kennt die lange Zahl für den Tresor.
+  inline =           |Der Mann kennt die lange Zahl für den Tresor.
+  max_display_time = 1500000
+  region =           (0 387 760 453)
+  trial_type =       boundary
+end E1I63D0
+
+trial E2I63D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Mann kennt die lange Zaal für den Tresor.
+  inline =           |Der Mann kennt die lange Zahl für den Tresor.
+  max_display_time = 1500000
+  region =           (0 387 760 452)
+  trial_type =       boundary
+end E2I63D0
+
+trial E3I63D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Mann kennt die lange Zaol für den Tresor.
+  inline =           |Der Mann kennt die lange Zahl für den Tresor.
+  max_display_time = 1500000
+  region =           (0 387 760 452)
+  trial_type =       boundary
+end E3I63D0
+
+trial E1I64D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Alle sind zur wichtigen Wahl am Sonntag gegangen.
+  inline =           |Alle sind zur wichtigen Wahl am Sonntag gegangen.
+  max_display_time = 1500000
+  region =           (0 374 760 440)
+  trial_type =       boundary
+end E1I64D0
+
+trial E2I64D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Alle sind zur wichtigen Waal am Sonntag gegangen.
+  inline =           |Alle sind zur wichtigen Wahl am Sonntag gegangen.
+  max_display_time = 1500000
+  region =           (0 374 760 440)
+  trial_type =       boundary
+end E2I64D0
+
+trial E3I64D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Alle sind zur wichtigen Waol am Sonntag gegangen.
+  inline =           |Alle sind zur wichtigen Wahl am Sonntag gegangen.
+  max_display_time = 1500000
+  region =           (0 374 760 439)
+  trial_type =       boundary
+end E3I64D0
+
+trial E1I65D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Peter liebt die spannende Fahrt mit dem Zug.
+  inline =           |Peter liebt die spannende Fahrt mit dem Zug.
+  max_display_time = 1500000
+  region =           (0 400 760 478)
+  trial_type =       boundary
+end E1I65D0
+
+trial E2I65D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Peter liebt die spannende Faart mit dem Zug.
+  inline =           |Peter liebt die spannende Fahrt mit dem Zug.
+  max_display_time = 1500000
+  region =           (0 401 760 479)
+  trial_type =       boundary
+end E2I65D0
+
+trial E3I65D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Peter liebt die spannende Faort mit dem Zug.
+  inline =           |Peter liebt die spannende Fahrt mit dem Zug.
+  max_display_time = 1500000
+  region =           (0 400 760 478)
+  trial_type =       boundary
+end E3I65D0
+
+trial E1I66D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Morgen muss der schmerzhafte Zahn gezogen werden.
+  inline =           |Morgen muss der schmerzhafte Zahn gezogen werden.
+  max_display_time = 1500000
+  region =           (0 439 760 504)
+  trial_type =       boundary
+end E1I66D0
+
+trial E2I66D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Morgen muss der schmerzhafte Zaan gezogen werden.
+  inline =           |Morgen muss der schmerzhafte Zahn gezogen werden.
+  max_display_time = 1500000
+  region =           (0 439 760 505)
+  trial_type =       boundary
+end E2I66D0
+
+trial E3I66D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Morgen muss der schmerzhafte Zaon gezogen werden.
+  inline =           |Morgen muss der schmerzhafte Zahn gezogen werden.
+  max_display_time = 1500000
+  region =           (0 439 760 504)
+  trial_type =       boundary
+end E3I66D0
+
+trial E1I67D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Runde Häuser aus braunem Lehm gibt es in Afrika. 
+  inline =           |Runde Häuser aus braunem Lehm gibt es in Afrika. 
+  max_display_time = 1500000
+  region =           (0 387 760 452)
+  trial_type =       boundary
+end E1I67D0
+
+trial E2I67D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Runde Häuser aus braunem Leem gibt es in Afrika. 
+  inline =           |Runde Häuser aus braunem Lehm gibt es in Afrika. 
+  max_display_time = 1500000
+  region =           (0 387 760 453)
+  trial_type =       boundary
+end E2I67D0
+
+trial E3I67D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Runde Häuser aus braunem Leom gibt es in Afrika. 
+  inline =           |Runde Häuser aus braunem Lehm gibt es in Afrika. 
+  max_display_time = 1500000
+  region =           (0 387 760 453)
+  trial_type =       boundary
+end E3I67D0
+
+trial E1I68D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Bäcker braucht viel weißes Mehl zum Backen.
+  inline =           |Der Bäcker braucht viel weißes Mehl zum Backen.
+  max_display_time = 1500000
+  region =           (0 465 760 530)
+  trial_type =       boundary
+end E1I68D0
+
+trial E2I68D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Bäcker braucht viel weißes Meel zum Backen.
+  inline =           |Der Bäcker braucht viel weißes Mehl zum Backen.
+  max_display_time = 1500000
+  region =           (0 466 760 530)
+  trial_type =       boundary
+end E2I68D0
+
+trial E3I68D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Bäcker braucht viel weißes Meol zum Backen.
+  inline =           |Der Bäcker braucht viel weißes Mehl zum Backen.
+  max_display_time = 1500000
+  region =           (0 466 760 531)
+  trial_type =       boundary
+end E3I68D0
+
+trial E1I69D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Klempner hat das falsche Rohr wieder eingebaut.
+  inline =           |Der Klempner hat das falsche Rohr wieder eingebaut.
+  max_display_time = 1500000
+  region =           (0 439 760 504)
+  trial_type =       boundary
+end E1I69D0
+
+trial E2I69D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Klempner hat das falsche Roor wieder eingebaut.
+  inline =           |Der Klempner hat das falsche Rohr wieder eingebaut.
+  max_display_time = 1500000
+  region =           (0 439 760 505)
+  trial_type =       boundary
+end E2I69D0
+
+trial E3I69D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Klempner hat das falsche Roir wieder eingebaut.
+  inline =           |Der Klempner hat das falsche Rohr wieder eingebaut.
+  max_display_time = 1500000
+  region =           (0 439 760 504)
+  trial_type =       boundary
+end E3I69D0
+
+trial E1I70D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Ritter wollte den verdienten Ruhm für seine Taten.
+  inline =           |Der Ritter wollte den verdienten Ruhm für seine Taten.
+  max_display_time = 1500000
+  region =           (0 491 760 557)
+  trial_type =       boundary
+end E1I70D0
+
+trial E2I70D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Ritter wollte den verdienten Ruum für seine Taten.
+  inline =           |Der Ritter wollte den verdienten Ruhm für seine Taten.
+  max_display_time = 1500000
+  region =           (0 491 760 556)
+  trial_type =       boundary
+end E2I70D0
+
+trial E3I70D0
+  gc_rect =          (320 75 415 125)
+  inline =           |Der Ritter wollte den verdienten Ruom für seine Taten.
+  inline =           |Der Ritter wollte den verdienten Ruhm für seine Taten.
+  max_display_time = 1500000
+  region =           (0 491 760 556)
+  trial_type =       boundary
+end E3I70D0
+
+trial E1I71D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Henrik isst die leckere Schokolade von Oma am liebsten.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I71D0
+
+trial E2I71D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Henrik isst die leckere Schokolade von Oma am liebsten.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I71D0
+
+trial E3I71D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Henrik isst die leckere Schokolade von Oma am liebsten.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I71D0
+
+trial E1I72D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Nachts traut sich das scheue Gespenst manchmal aus der Gruft.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I72D0
+
+trial E2I72D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Nachts traut sich das scheue Gespenst manchmal aus der Gruft.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I72D0
+
+trial E3I72D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Nachts traut sich das scheue Gespenst manchmal aus der Gruft.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I72D0
+
+trial E1I73D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Nora hat uns das geheime Versteck hinter dem Regal gezeigt.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I73D0
+
+trial E2I73D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Nora hat uns das geheime Versteck hinter dem Regal gezeigt.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I73D0
+
+trial E3I73D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Nora hat uns das geheime Versteck hinter dem Regal gezeigt.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I73D0
+
+trial E1I74D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Wir haben Lena das eingepackte Geschenk zusammen übergeben.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I74D0
+
+trial E2I74D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Wir haben Lena das eingepackte Geschenk zusammen übergeben.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I74D0
+
+trial E3I74D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Wir haben Lena das eingepackte Geschenk zusammen übergeben.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I74D0
+
+trial E1I75D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Davids Papa ist der freundlichste Polizist auf seiner Wache.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I75D0
+
+trial E2I75D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Davids Papa ist der freundlichste Polizist auf seiner Wache.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I75D0
+
+trial E3I75D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Davids Papa ist der freundlichste Polizist auf seiner Wache.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I75D0
+
+trial E1I76D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Wir gehen zusammen den langen Flur hinunter zum Lehrerzimmer.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I76D0
+
+trial E2I76D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Wir gehen zusammen den langen Flur hinunter zum Lehrerzimmer.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I76D0
+
+trial E3I76D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Wir gehen zusammen den langen Flur hinunter zum Lehrerzimmer.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I76D0
+
+trial E1I77D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Der Plan machte keinen richtigen Sinn mehr für Sven.
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I77D0
+
+trial E2I77D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Der Plan machte keinen richtigen Sinn mehr für Sven.
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I77D0
+
+trial E3I77D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Der Plan machte keinen richtigen Sinn mehr für Sven.
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I77D0
+
+trial E1I78D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Es gab eine neue heiße Spur in dem Fall.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I78D0
+
+trial E2I78D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Es gab eine neue heiße Spur in dem Fall.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I78D0
+
+trial E3I78D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Es gab eine neue heiße Spur in dem Fall.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I78D0
+
+trial E1I79D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Der kürzeste Weg zur berühmten Burg ist die steile Treppe.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I79D0
+
+trial E2I79D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Der kürzeste Weg zur berühmten Burg ist die steile Treppe.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I79D0
+
+trial E3I79D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Der kürzeste Weg zur berühmten Burg ist die steile Treppe.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I79D0
+
+trial E1I80D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Auf der Straße ist gebackenes Brot zu riechen.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I80D0
+
+trial E2I80D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Auf der Straße ist gebackenes Brot zu riechen.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I80D0
+
+trial E3I80D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Auf der Straße ist gebackenes Brot zu riechen.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I80D0
+
+trial E1I81D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Nachts lauert der schäbige Vagabund auf reiche Reisende.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I81D0
+
+trial E2I81D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Nachts lauert der schäbige Vagabund auf reiche Reisende.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I81D0
+
+trial E3I81D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Nachts lauert der schäbige Vagabund auf reiche Reisende.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I81D0
+
+trial E1I82D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Es war der beliebte Präsident in dem schicken Auto.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I82D0
+
+trial E2I82D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Es war der beliebte Präsident in dem schicken Auto.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I82D0
+
+trial E3I82D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Es war der beliebte Präsident in dem schicken Auto.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I82D0
+
+trial E1I83D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Wir hatten die große Sensation schon lange erwartet.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I83D0
+
+trial E2I83D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Wir hatten die große Sensation schon lange erwartet.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I83D0
+
+trial E3I83D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Wir hatten die große Sensation schon lange erwartet.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I83D0
+
+trial E1I84D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Eigentlich war das haarige Scheusal gar nicht so gruselig.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I84D0
+
+trial E2I84D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Eigentlich war das haarige Scheusal gar nicht so gruselig.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I84D0
+
+trial E3I84D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Eigentlich war das haarige Scheusal gar nicht so gruselig.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I84D0
+
+trial E1I85D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Im Sand krabbelt ein kleiner Skorpion durch die Wüste.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I85D0
+
+trial E2I85D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Im Sand krabbelt ein kleiner Skorpion durch die Wüste.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I85D0
+
+trial E3I85D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Im Sand krabbelt ein kleiner Skorpion durch die Wüste.    
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I85D0
+
+trial E1I86D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Ich hatte gestern mächtigen Zoff mit meinem Bruder.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I86D0
+
+trial E2I86D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Ich hatte gestern mächtigen Zoff mit meinem Bruder.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I86D0
+
+trial E3I86D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Ich hatte gestern mächtigen Zoff mit meinem Bruder.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I86D0
+
+trial E1I87D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Max war von dem farbigen Pfau sehr beeindruckt.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I87D0
+
+trial E2I87D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Max war von dem farbigen Pfau sehr beeindruckt.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I87D0
+
+trial E3I87D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Max war von dem farbigen Pfau sehr beeindruckt.     
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I87D0
+
+trial E1I88D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Auf der Wiese spielt das junge Kalb mit den anderen Kälbern.  
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I88D0
+
+trial E2I88D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Auf der Wiese spielt das junge Kalb mit den anderen Kälbern.  
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I88D0
+
+trial E3I88D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Auf der Wiese spielt das junge Kalb mit den anderen Kälbern.  
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I88D0
+
+trial E1I89D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Tom will mit dem wackeligen Floß bis zur Insel fahren.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I89D0
+
+trial E2I89D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Tom will mit dem wackeligen Floß bis zur Insel fahren.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I89D0
+
+trial E3I89D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Tom will mit dem wackeligen Floß bis zur Insel fahren.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I89D0
+
+trial E1I90D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Mit der Lupe war die winzige Laus gut zu erkennen.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E1I90D0
+
+trial E2I90D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Mit der Lupe war die winzige Laus gut zu erkennen.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E2I90D0
+
+trial E3I90D0
+  gc_rect =          (320 75 415 125)
+  inline =		|Mit der Lupe war die winzige Laus gut zu erkennen.   
+  max_display_time =	1500000
+  trial_type =		corpus
+end E3I90D0
+
+trial E1I9001D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Hat Mias Papa beim fischen geholfen?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9001D1
+
+trial E2I9001D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Hat Mias Papa beim fischen geholfen?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9001D1
+
+trial E3I9001D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Hat Mias Papa beim fischen geholfen?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9001D1
+
+trial E1I9005D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Gewinnt Jonas immer beim Lotto?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9005D1
+
+trial E2I9005D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Gewinnt Jonas immer beim Lotto?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9005D1
+
+trial E3I9005D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Gewinnt Jonas immer beim Lotto?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9005D1
+
+trial E1I9016D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Wird aus dem Keim eine Pflanze?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9016D1
+
+trial E2I9016D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Wird aus dem Keim eine Pflanze?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9016D1
+
+trial E3I9016D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Wird aus dem Keim eine Pflanze?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9016D1
+
+trial E1I9019D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Hat Lara eine Geschichte geschrieben?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9019D1
+
+trial E2I9019D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Hat Lara eine Geschichte geschrieben?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9019D1
+
+trial E3I9019D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Hat Lara eine Geschichte geschrieben?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9019D1
+
+trial E1I9031D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Waren Specht und Rabe Feinde?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9031D1
+
+trial E2I9031D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Waren Specht und Rabe Feinde?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9031D1
+
+trial E3I9031D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Waren Specht und Rabe Feinde?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9031D1
+
+trial E1I9034D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Wohnt der Krebs in einem Loch?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9034D1
+
+trial E2I9034D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Wohnt der Krebs in einem Loch?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9034D1
+
+trial E3I9034D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Wohnt der Krebs in einem Loch?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9034D1
+
+trial E1I9041D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Ist die Meisterschaft für Sarah erreichbar?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9041D1
+
+trial E2I9041D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Ist die Meisterschaft für Sarah erreichbar?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9041D1
+
+trial E3I9041D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Ist die Meisterschaft für Sarah erreichbar?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9041D1
+
+trial E1I9044D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Ist das Mammut mit einem Pfeil erlegt worden?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9044D1
+
+trial E2I9044D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Ist das Mammut mit einem Pfeil erlegt worden?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9044D1
+
+trial E3I9044D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Ist das Mammut mit einem Pfeil erlegt worden?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9044D1
+
+trial E1I9051D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Sitzt Paul in der ersten Reihe?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9051D1
+
+trial E2I9051D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Sitzt Paul in der ersten Reihe?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9051D1
+
+trial E3I9051D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Sitzt Paul in der ersten Reihe?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9051D1
+
+trial E1I9054D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Lebt das Biest in einem Baum?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9054D1
+
+trial E2I9054D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Lebt das Biest in einem Baum?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9054D1
+
+trial E3I9054D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Lebt das Biest in einem Baum?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9054D1
+
+trial E1I9061D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Ist die Bahn langsam?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9061D1
+
+trial E2I9061D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Ist die Bahn langsam?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9061D1
+
+trial E3I9061D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Ist die Bahn langsam?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9061D1
+
+trial E1I9064D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|War die Wahl am Dienstag?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9064D1
+
+trial E2I9064D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|War die Wahl am Dienstag?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9064D1
+
+trial E3I9064D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|War die Wahl am Dienstag?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9064D1
+
+trial E1I9071D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Isst Henrik gerne Schokolade?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9071D1
+
+trial E2I9071D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Isst Henrik gerne Schokolade?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9071D1
+
+trial E3I9071D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Isst Henrik gerne Schokolade?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9071D1
+
+trial E1I9076D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Sind wir zusammen zum Lehrerzimmer gegangen?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9076D1
+
+trial E2I9076D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Sind wir zusammen zum Lehrerzimmer gegangen?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9076D1
+
+trial E3I9076D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Sind wir zusammen zum Lehrerzimmer gegangen?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9076D1
+
+trial E1I9081D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Schläft der Vagabund nachts?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9081D1
+
+trial E2I9081D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Schläft der Vagabund nachts?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9081D1
+
+trial E3I9081D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Schläft der Vagabund nachts?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9081D1
+
+trial E1I9086D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Gab es gestern Streit?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9086D1
+
+trial E2I9086D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Gab es gestern Streit?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9086D1
+
+trial E3I9086D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Gab es gestern Streit?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9086D1
+
+trial E1I9072D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Ist das Gespenst ängstlich?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9072D1
+
+trial E2I9072D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Ist das Gespenst ängstlich?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9072D1
+
+trial E3I9072D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Ist das Gespenst ängstlich?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9072D1
+
+trial E1I9077D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Machte der Plan noch Sinn?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9077D1
+
+trial E2I9077D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Machte der Plan noch Sinn?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9077D1
+
+trial E3I9077D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|Machte der Plan noch Sinn?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9077D1
+
+trial E1I9082D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|War der Präsident beliebt?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9082D1
+
+trial E2I9082D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|War der Präsident beliebt?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9082D1
+
+trial E3I9082D1
+  button =		rightTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|War der Präsident beliebt?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9082D1
+
+trial E1I9087D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|War Max von dem Pfau gelangweilt?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E1I9087D1
+
+trial E2I9087D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|War Max von dem Pfau gelangweilt?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E2I9087D1
+
+trial E3I9087D1
+  button =		leftTrigger
+  gc_rect =		(0 0 0 0)
+  inline =		|War Max von dem Pfau gelangweilt?\n\nNein = Rot                        Ja = Grün
+  max_display_time =	1500000
+  trial_type =		question
+end E3I9087D1
+
+
+trial E1I999D1
+  gc_rect =          (320 75 415 125)
+  inline =           |:)
+  max_display_time = 1500000000
+  trial_type =       intro
+end E1I999D1
+
+trial E1I999D2
+  gc_rect =          (320 75 415 125)
+  inline =           |:)
+  max_display_time = 1500000000
+  trial_type =       intro
+end E1I999D2
+
+trial E2I999D1
+  gc_rect =          (320 75 415 125)
+  inline =           |:)
+  max_display_time = 1500000000
+  trial_type =       intro
+end E2I999D1
+
+trial E2I999D2
+  gc_rect =          (320 75 415 125)
+  inline =           |:)
+  max_display_time = 1500000000
+  trial_type =       intro
+end E2I999D2
+
+trial E3I999D1
+  gc_rect =          (320 75 415 125)
+  inline =           |:)
+  max_display_time = 1500000000
+  trial_type =       intro
+end E3I999D1
+
+trial E3I999D2
+  gc_rect =          (320 75 415 125)
+  inline =           |:)
+  max_display_time = 1500000000
+  trial_type =       intro
+end E3I999D2
+
+sequence SP1I1
+  P1I1D0
+  E1I999D1
+  P1I2D1
+  P1I3D2
+  E1I999D1
+  P1I4D3
+  P1I5D4
+  E1I999D1
+  P1I6D5
+  P1I7D6
+end SP1I1
+
+sequence SE1I1
+  E1I1D0
+  E1I9001D1
+  E1I999D2
+end SE1I1
+
+sequence SE2I1
+  E2I1D0
+  E2I9001D1
+  E2I999D2
+end SE2I1
+
+sequence SE3I1
+  E3I1D0
+  E3I9001D1
+  E3I999D2
+end SE3I1
+
+sequence SE1I2
+  E1I2D0
+  E1I999D1
+end SE1I2
+
+sequence SE2I2
+  E2I2D0
+  E2I999D1
+end SE2I2
+
+sequence SE3I2
+  E3I2D0
+  E3I999D1
+end SE3I2
+
+sequence SE1I3
+  E1I3D0
+  E1I999D1
+end SE1I3
+
+sequence SE2I3
+  E2I3D0
+  E2I999D1
+end SE2I3
+
+sequence SE3I3
+  E3I3D0
+  E3I999D1
+end SE3I3
+
+sequence SE1I4
+  E1I4D0
+  E1I999D1
+end SE1I4
+
+sequence SE2I4
+  E2I4D0
+  E2I999D1
+end SE2I4
+
+sequence SE3I4
+  E3I4D0
+  E3I999D1
+end SE3I4
+
+sequence SE1I5
+  E1I5D0
+  E19005D1
+  E1I999D2
+end SE1I5
+
+sequence SE2I5
+  E2I5D0
+  E2I9005D1
+  E2I999D2
+end SE2I5
+
+sequence SE3I5
+  E3I5D0
+  E3I9005D1
+  E3I999D2
+end SE3I5
+
+sequence SE1I6
+  E1I6D0
+  E1I999D1
+end SE1I6
+
+sequence SE2I6
+  E2I6D0
+  E2I999D1
+end SE2I6
+
+sequence SE3I6
+  E3I6D0
+  E3I999D1
+end SE3I6
+
+sequence SE1I7
+  E1I7D0
+  E1I999D1
+end SE1I7
+
+sequence SE2I7
+  E2I7D0
+  E2I999D1
+end SE2I7
+
+sequence SE3I7
+  E3I7D0
+  E3I999D1
+end SE3I7
+
+sequence SE1I8
+  E1I8D0
+  E1I999D1
+end SE1I8
+
+sequence SE2I8
+  E2I8D0
+  E2I999D1
+end SE2I8
+
+sequence SE3I8
+  E3I8D0
+  E3I999D1
+end SE3I8
+
+sequence SE1I9
+  E1I9D0
+  E1I999D1
+end SE1I9
+
+sequence SE2I9
+  E2I9D0
+  E2I999D1
+end SE2I9
+
+sequence SE3I9
+  E3I9D0
+  E3I999D1
+end SE3I9
+
+sequence SE1I10
+  E1I10D0
+  E1I999D1
+end SE1I10
+
+sequence SE2I10
+  E2I10D0
+  E2I999D1
+end SE2I10
+
+sequence SE3I10
+  E3I10D0
+  E3I999D1
+end SE3I10
+
+sequence SE1I11
+  E1I11D0
+  E1I999D1
+end SE1I11
+
+sequence SE2I11
+  E2I11D0
+  E2I999D1
+end SE2I11
+
+sequence SE3I11
+  E3I11D0
+  E3I999D1
+end SE3I11
+
+sequence SE1I12
+  E1I12D0
+  E1I999D1
+end SE1I12
+
+sequence SE2I12
+  E2I12D0
+  E2I999D1
+end SE2I12
+
+sequence SE3I12
+  E3I12D0
+  E3I999D1
+end SE3I12
+
+sequence SE1I13
+  E1I13D0
+  E1I999D1
+end SE1I13
+
+sequence SE2I13
+  E2I13D0
+  E2I999D1
+end SE2I13
+
+sequence SE3I13
+  E3I13D0
+  E3I999D1
+end SE3I13
+
+sequence SE1I14
+  E1I14D0
+  E1I999D1
+end SE1I14
+
+sequence SE2I14
+  E2I14D0
+  E2I999D1
+end SE2I14
+
+sequence SE3I14
+  E3I14D0
+  E3I999D1
+end SE3I14
+
+sequence SE1I15
+  E1I15D0
+  E1I999D1
+end SE1I15
+
+sequence SE2I15
+  E2I15D0
+  E2I999D1
+end SE2I15
+
+sequence SE3I15
+  E3I15D0
+  E3I999D1
+end SE3I15
+
+sequence SE1I16
+  E1I16D0
+  E1I9016D1
+  E1I999D2
+end SE1I16
+
+sequence SE2I16
+  E2I16D0
+  E2I9016D1
+  E2I999D2
+end SE2I16
+
+sequence SE3I16
+  E3I16D0
+  E3I9016D1
+  E3I999D2
+end SE3I16
+
+sequence SE1I17
+  E1I17D0
+  E1I999D1
+end SE1I17
+
+sequence SE2I17
+  E2I17D0
+  E2I999D1
+end SE2I17
+
+sequence SE3I17
+  E3I17D0
+  E3I999D1
+end SE3I17
+
+sequence SE1I18
+  E1I18D0
+  E1I999D1
+end SE1I18
+
+sequence SE2I18
+  E2I18D0
+  E2I999D1
+end SE2I18
+
+sequence SE3I18
+  E3I18D0
+  E3I999D1
+end SE3I18
+
+sequence SE1I19
+  E1I19D0
+  E1I9019D1
+  E1I999D2
+end SE1I19
+
+sequence SE2I19
+  E2I19D0
+  E2I9019D1
+  E2I999D2
+end SE2I19
+
+sequence SE3I19
+  E3I19D0
+  E3I9019D1
+  E3I999D2
+end SE3I19
+
+sequence SE1I20
+  E1I20D0
+  E1I999D1
+end SE1I20
+
+sequence SE2I20
+  E2I20D0
+  E2I999D1
+end SE2I20
+
+sequence SE3I20
+  E3I20D0
+  E3I999D1
+end SE3I20
+
+sequence SE1I21
+  E1I21D0
+  E1I999D1
+end SE1I21
+
+sequence SE2I21
+  E2I21D0
+  E2I999D1
+end SE2I21
+
+sequence SE3I21
+  E3I21D0
+  E3I999D1
+end SE3I21
+
+sequence SE1I22
+  E1I22D0
+  E1I999D1
+end SE1I22
+
+sequence SE2I22
+  E2I22D0
+  E2I999D1
+end SE2I22
+
+sequence SE3I22
+  E3I22D0
+  E3I999D1
+end SE3I22
+
+sequence SE1I23
+  E1I23D0
+  E1I999D1
+end SE1I23
+
+sequence SE2I23
+  E2I23D0
+  E2I999D1
+end SE2I23
+
+sequence SE3I23
+  E3I23D0
+  E3I999D1
+end SE3I23
+
+sequence SE1I24
+  E1I24D0
+  E1I999D1
+end SE1I24
+
+sequence SE2I24
+  E2I24D0
+  E2I999D1
+end SE2I24
+
+sequence SE3I24
+  E3I24D0
+  E3I999D1
+end SE3I24
+
+sequence SE1I25
+  E1I25D0
+  E1I999D1
+end SE1I25
+
+sequence SE2I25
+  E2I25D0
+  E2I999D1
+end SE2I25
+
+sequence SE3I25
+  E3I25D0
+  E3I999D1
+end SE3I25
+
+sequence SE1I26
+  E1I26D0
+  E1I999D1
+end SE1I26
+
+sequence SE2I26
+  E2I26D0
+  E2I999D1
+end SE2I26
+
+sequence SE3I26
+  E3I26D0
+  E3I999D1
+end SE3I26
+
+sequence SE1I27
+  E1I27D0
+  E1I999D1
+end SE1I27
+
+sequence SE2I27
+  E2I27D0
+  E2I999D1
+end SE2I27
+
+sequence SE3I27
+  E3I27D0
+  E3I999D1
+end SE3I27
+
+sequence SE1I28
+  E1I28D0
+  E1I999D1
+end SE1I28
+
+sequence SE2I28
+  E2I28D0
+  E2I999D1
+end SE2I28
+
+sequence SE3I28
+  E3I28D0
+  E3I999D1
+end SE3I28
+
+sequence SE1I29
+  E1I29D0
+  E1I999D1
+end SE1I29
+
+sequence SE2I29
+  E2I29D0
+  E2I999D1
+end SE2I29
+
+sequence SE3I29
+  E3I29D0
+  E3I999D1
+end SE3I29
+
+sequence SE1I30
+  E1I30D0
+  E1I999D1
+end SE1I30
+
+sequence SE2I30
+  E2I30D0
+  E2I999D1
+end SE2I30
+
+sequence SE3I30
+  E3I30D0
+  E3I999D2
+end SE3I30
+
+sequence SE1I31
+  E1I31D0
+  E1I9031D1
+  E1I999D2
+end SE1I31
+
+sequence SE2I31
+  E2I31D0
+  E2I9031D1
+  E2I999D2
+end SE2I31
+
+sequence SE3I31
+  E3I31D0
+  E3I9031D1
+  E3I999D2
+end SE3I31
+
+sequence SE1I32
+  E1I32D0
+  E1I999D1
+end SE1I32
+
+sequence SE2I32
+  E2I32D0
+  E2I999D1
+end SE2I32
+
+sequence SE3I32
+  E3I32D0
+  E3I999D1
+end SE3I32
+
+sequence SE1I33
+  E1I33D0
+  E1I999D1
+end SE1I33
+
+sequence SE2I33
+  E2I33D0
+  E2I999D1
+end SE2I33
+
+sequence SE3I33
+  E3I33D0
+  E3I999D1
+end SE3I33
+
+sequence SE1I34
+  E1I34D0
+  E1I9034D1
+  E1I999D2
+end SE1I34
+
+sequence SE2I34
+  E2I34D0
+  E2I9034D1
+  E2I999D2
+end SE2I34
+
+sequence SE3I34
+  E3I34D0
+  E3I9034D1
+  E3I999D2
+end SE3I34
+
+sequence SE1I35
+  E1I35D0
+  E1I999D1
+end SE1I35
+
+sequence SE2I35
+  E2I35D0
+  E2I999D1
+end SE2I35
+
+sequence SE3I35
+  E3I35D0
+  E3I999D1
+end SE3I35
+
+sequence SE1I36
+  E1I36D0
+  E1I999D1
+end SE1I36
+
+sequence SE2I36
+  E2I36D0
+  E2I999D1
+end SE2I36
+
+sequence SE3I36
+  E3I36D0
+  E3I999D1
+end SE3I36
+
+sequence SE1I37
+  E1I37D0
+  E1I999D1
+end SE1I37
+
+sequence SE2I37
+  E2I37D0
+  E2I999D1
+end SE2I37
+
+sequence SE3I37
+  E3I37D0
+  E3I999D1
+end SE3I37
+
+sequence SE1I38
+  E1I38D0
+  E1I999D1
+end SE1I38
+
+sequence SE2I38
+  E2I38D0
+  E2I999D1
+end SE2I38
+
+sequence SE3I38
+  E3I38D0
+  E3I999D1
+end SE3I38
+
+sequence SE1I39
+  E1I39D0
+  E1I999D1
+end SE1I39
+
+sequence SE2I39
+  E2I39D0
+  E2I999D1
+end SE2I39
+
+sequence SE3I39
+  E3I39D0
+  E3I999D1
+end SE3I39
+
+sequence SE1I40
+  E1I40D0
+  E1I999D1
+end SE1I40
+
+sequence SE2I40
+  E2I40D0
+  E2I999D1
+end SE2I40
+
+sequence SE3I40
+  E3I40D0
+  E3I999D1
+end SE3I40
+
+sequence SE1I41
+  E1I41D0
+  E1I9041D1
+  E1I999D2
+end SE1I41
+
+sequence SE2I41
+  E2I41D0
+  E2I9041D1
+  E2I999D2
+end SE2I41
+
+sequence SE3I41
+  E3I41D0
+  E3I9041D1
+  E3I999D2
+end SE3I41
+
+sequence SE1I42
+  E1I42D0
+  E1I999D1
+end SE1I42
+
+sequence SE2I42
+  E2I42D0
+  E2I999D1
+end SE2I42
+
+sequence SE3I42
+  E3I42D0
+  E3I999D1
+end SE3I42
+
+sequence SE1I43
+  E1I43D0
+  E1I999D1
+end SE1I43
+
+sequence SE2I43
+  E2I43D0
+  E2I999D1
+end SE2I43
+
+sequence SE3I43
+  E3I43D0
+  E3I999D1
+end SE3I43
+
+sequence SE1I44
+  E1I44D0
+  E1I9044D1
+  E1I999D2
+end SE1I44
+
+sequence SE2I44
+  E2I44D0
+  E2I9044D1
+  E2I999D2
+end SE2I44
+
+sequence SE3I44
+  E3I44D0
+  E3I9044D1
+  E3I999D2
+end SE3I44
+
+sequence SE1I45
+  E1I45D0
+  E1I999D1
+end SE1I45
+
+sequence SE2I45
+  E2I45D0
+  E2I999D1
+end SE2I45
+
+sequence SE3I45
+  E3I45D0
+  E3I999D1
+end SE3I45
+
+sequence SE1I46
+  E1I46D0
+  E1I999D1
+end SE1I46
+
+sequence SE2I46
+  E2I46D0
+  E2I999D1
+end SE2I46
+
+sequence SE3I46
+  E3I46D0
+  E3I999D1
+end SE3I46
+
+sequence SE1I47
+  E1I47D0
+  E1I999D1
+end SE1I47
+
+sequence SE2I47
+  E2I47D0
+  E2I999D1
+end SE2I47
+
+sequence SE3I47
+  E3I47D0
+  E3I999D1
+end SE3I47
+
+sequence SE1I48
+  E1I48D0
+  E1I999D1
+end SE1I48
+
+sequence SE2I48
+  E2I48D0
+  E2I999D1
+end SE2I48
+
+sequence SE3I48
+  E3I48D0
+  E3I999D1
+end SE3I48
+
+sequence SE1I49
+  E1I49D0
+  E1I999D1
+end SE1I49
+
+sequence SE2I49
+  E2I49D0
+  E2I999D1
+end SE2I49
+
+sequence SE3I49
+  E3I49D0
+  E3I999D1
+end SE3I49
+
+sequence SE1I50
+  E1I50D0
+  E1I999D1
+end SE1I50
+
+sequence SE2I50
+  E2I50D0
+  E2I999D1
+end SE2I50
+
+sequence SE3I50
+  E3I50D0
+  E3I999D1
+end SE3I50
+
+sequence SE1I51
+  E1I51D0
+  E1I9051D1
+  E1I999D2
+end SE1I51
+
+sequence SE2I51
+  E2I51D0
+  E2I9051D1
+  E2I999D2
+end SE2I51
+
+sequence SE3I51
+  E3I51D0
+  E3I9051D1
+  E3I999D2
+end SE3I51
+
+sequence SE1I52
+  E1I52D0
+  E1I999D1
+end SE1I52
+
+sequence SE2I52
+  E2I52D0
+  E2I999D1
+end SE2I52
+
+sequence SE3I52
+  E3I52D0
+  E3I999D1
+end SE3I52
+
+sequence SE1I53
+  E1I53D0
+  E1I999D1
+end SE1I53
+
+sequence SE2I53
+  E2I53D0
+  E2I999D1
+end SE2I53
+
+sequence SE3I53
+  E3I53D0
+  E3I999D1
+end SE3I53
+
+sequence SE1I54
+  E1I54D0
+  E1I9054D1
+  E1I999D2
+end SE1I54
+
+sequence SE2I54
+  E2I54D0
+  E2I9054D1
+  E2I999D2
+end SE2I54
+
+sequence SE3I54
+  E3I54D0
+  E3I9054D1
+  E3I999D2
+end SE3I54
+
+sequence SE1I55
+  E1I55D0
+  E1I999D1
+end SE1I55
+
+sequence SE2I55
+  E2I55D0
+  E2I999D1
+end SE2I55
+
+sequence SE3I55
+  E3I55D0
+  E3I999D1
+end SE3I55
+
+sequence SE1I56
+  E1I56D0
+  E1I999D1
+end SE1I56
+
+sequence SE2I56
+  E2I56D0
+  E2I999D1
+end SE2I56
+
+sequence SE3I56
+  E3I56D0
+  E3I999D1
+end SE3I56
+
+sequence SE1I57
+  E1I57D0
+  E1I999D1
+end SE1I57
+
+sequence SE2I57
+  E2I57D0
+  E2I999D1
+end SE2I57
+
+sequence SE3I57
+  E3I57D0
+  E3I999D1
+end SE3I57
+
+sequence SE1I58
+  E1I58D0
+  E1I999D1
+end SE1I58
+
+sequence SE2I58
+  E2I58D0
+  E2I999D1
+end SE2I58
+
+sequence SE3I58
+  E3I58D0
+  E3I999D1
+end SE3I58
+
+sequence SE1I59
+  E1I59D0
+  E1I999D1
+end SE1I59
+
+sequence SE2I59
+  E2I59D0
+  E2I999D1
+end SE2I59
+
+sequence SE3I59
+  E3I59D0
+  E3I999D1
+end SE3I59
+
+sequence SE1I60
+  E1I60D0
+  E1I999D1
+end SE1I60
+
+sequence SE2I60
+  E2I60D0
+  E2I999D1
+end SE2I60
+
+sequence SE3I60
+  E3I60D0
+  E3I999D1
+end SE3I60
+
+sequence SE1I61
+  E1I61D0
+  E1I9061D1
+  E1I999D2
+end SE1I61
+
+sequence SE2I61
+  E2I61D0
+  E2I9061D1
+  E2I999D2
+end SE2I61
+
+sequence SE3I61
+  E3I61D0
+  E3I9061D1
+  E3I999D2
+end SE3I61
+
+sequence SE1I62
+  E1I62D0
+  E1I999D1
+end SE1I62
+
+sequence SE2I62
+  E2I62D0
+  E2I999D1
+end SE2I62
+
+sequence SE3I62
+  E3I62D0
+  E3I999D1
+end SE3I62
+
+sequence SE1I63
+  E1I63D0
+  E1I999D1
+end SE1I63
+
+sequence SE2I63
+  E2I63D0
+  E2I999D1
+end SE2I63
+
+sequence SE3I63
+  E3I63D0
+  E3I999D1
+end SE3I63
+
+sequence SE1I64
+  E1I64D0
+  E1I9064D1
+  E1I999D2
+end SE1I64
+
+sequence SE2I64
+  E2I64D0
+  E2I9064D1
+  E2I999D2
+end SE2I64
+
+sequence SE3I64
+  E3I64D0
+  E3I9064D1
+  E3I999D2
+end SE3I64
+
+sequence SE1I65
+  E1I65D0
+  E1I999D1
+end SE1I65
+
+sequence SE2I65
+  E2I65D0
+  E2I999D1
+end SE2I65
+
+sequence SE3I65
+  E3I65D0
+  E3I999D1
+end SE3I65
+
+sequence SE1I66
+  E1I66D0
+  E1I999D1
+end SE1I66
+
+sequence SE2I66
+  E2I66D0
+  E2I999D1
+end SE2I66
+
+sequence SE3I66
+  E3I66D0
+  E3I999D1
+end SE3I66
+
+sequence SE1I67
+  E1I67D0
+  E1I999D1
+end SE1I67
+
+sequence SE2I67
+  E2I67D0
+  E2I999D1
+end SE2I67
+
+sequence SE3I67
+  E3I67D0
+  E3I999D1
+end SE3I67
+
+sequence SE1I68
+  E1I68D0
+  E1I999D1
+end SE1I68
+
+sequence SE2I68
+  E2I68D0
+  E2I999D1
+end SE2I68
+
+sequence SE3I68
+  E3I68D0
+  E3I999D1
+end SE3I68
+
+sequence SE1I69
+  E1I69D0
+  E1I999D1
+end SE1I69
+
+sequence SE2I69
+  E2I69D0
+  E2I999D1
+end SE2I69
+
+sequence SE3I69
+  E3I69D0
+  E3I999D1
+end SE3I69
+
+sequence SE1I70
+  E1I70D0
+  E1I999D1
+end SE1I70
+
+sequence SE2I70
+  E2I70D0
+  E2I999D1
+end SE2I70
+
+sequence SE3I70
+  E3I70D0
+  E3I999D1
+end SE3I70
+
+sequence SE1I71
+  E1I71D0
+  E1I9071D1
+  E1I999D2
+end SE1I71
+
+sequence SE2I71
+  E2I71D0
+  E2I9071D1
+  E2I999D2
+end SE2I71
+
+sequence SE3I71
+  E3I71D0
+  E3I9071D1
+  E3I999D2
+end SE3I71
+
+sequence SE1I72
+  E1I72D0
+  E1I9072D1
+  E1I999D2
+end SE1I72
+
+sequence SE2I72
+  E2I72D0
+  E2I9072D1
+  E2I999D2
+end SE2I72
+
+sequence SE3I72
+  E3I72D0
+  E3I9072D1
+  E3I999D2
+end SE3I72
+
+sequence SE1I73
+  E1I73D0
+  E1I999D1
+end SE1I73
+
+sequence SE2I73
+  E2I73D0
+  E2I999D1
+end SE2I73
+
+sequence SE3I73
+  E3I73D0
+  E3I999D1
+end SE3I73
+
+sequence SE1I74
+  E1I74D0
+  E1I999D1
+end SE1I74
+
+sequence SE2I74
+  E2I74D0
+  E2I999D1
+end SE2I74
+
+sequence SE3I74
+  E3I74D0
+  E3I999D1
+end SE3I74
+
+sequence SE1I75
+  E1I75D0
+  E1I999D1
+end SE1I75
+
+sequence SE2I75
+  E2I75D0
+  E2I999D1
+end SE2I75
+
+sequence SE3I75
+  E3I75D0
+  E3I999D1
+end SE3I75
+
+sequence SE1I76
+  E1I76D0
+  E1I9076D1
+  E1I999D2
+end SE1I76
+
+sequence SE2I76
+  E2I76D0
+  E2I9076D1
+  E2I999D2
+end SE2I76
+
+sequence SE3I76
+  E3I76D0
+  E3I9076D1
+  E3I999D2
+end SE3I76
+
+sequence SE1I77
+  E1I77D0
+  E1I9077D1
+  E1I999D2
+end SE1I77
+
+sequence SE2I77
+  E2I77D0
+  E2I9077D1
+  E2I999D2
+end SE2I77
+
+sequence SE3I77
+  E3I77D0
+  E3I9077D1
+  E3I999D2
+end SE3I77
+
+sequence SE1I78
+  E1I78D0
+  E1I999D1
+end SE1I78
+
+sequence SE2I78
+  E2I78D0
+  E2I999D1
+end SE2I78
+
+sequence SE3I78
+  E3I78D0
+  E3I999D1
+end SE3I78
+
+sequence SE1I79
+  E1I79D0
+  E1I999D1
+end SE1I79
+
+sequence SE2I79
+  E2I79D0
+  E2I999D1
+end SE2I79
+
+sequence SE3I79
+  E3I79D0
+  E3I999D1
+end SE3I79
+
+sequence SE1I80
+  E1I80D0
+  E1I999D1
+end SE1I80
+
+sequence SE2I80
+  E2I80D0
+  E2I999D1
+end SE2I80
+
+sequence SE3I80
+  E3I80D0
+  E3I999D1
+end SE3I80
+
+sequence SE1I81
+  E1I81D0
+  E1I9081D1
+  E1I999D2
+end SE1I81
+
+sequence SE2I81
+  E2I81D0
+  E2I9081D1
+  E2I999D2
+end SE2I81
+
+sequence SE3I81
+  E3I81D0
+  E3I9081D1
+  E3I999D2
+end SE3I81
+
+sequence SE1I82
+  E1I82D0
+  E1I9082D1
+  E1I999D2
+end SE1I82
+
+sequence SE2I82
+  E2I82D0
+  E2I9082D1
+  E2I999D2
+end SE2I82
+
+sequence SE3I82
+  E3I82D0
+  E3I9082D1
+  E3I999D2
+end SE3I82
+
+sequence SE1I83
+  E1I83D0
+  E1I999D1
+end SE1I83
+
+sequence SE2I83
+  E2I83D0
+  E2I999D1
+end SE2I83
+
+sequence SE3I83
+  E3I83D0
+  E3I999D1
+end SE3I83
+
+sequence SE1I84
+  E1I84D0
+  E1I999D1
+end SE1I84
+
+sequence SE2I84
+  E2I84D0
+  E2I999D1
+end SE2I84
+
+sequence SE3I84
+  E3I84D0
+  E3I999D1
+end SE3I84
+
+sequence SE1I85
+  E1I85D0
+  E1I999D1
+end SE1I85
+
+sequence SE2I85
+  E2I85D0
+  E2I999D1
+end SE2I85
+
+sequence SE3I85
+  E3I85D0
+  E3I999D1
+end SE3I85
+
+sequence SE1I86
+  E1I86D0
+  E1I9086D1
+  E1I999D2
+end SE1I86
+
+sequence SE2I86
+  E2I86D0
+  E2I9086D1
+  E2I999D2
+end SE2I86
+
+sequence SE3I86
+  E3I86D0
+  E3I9086D1
+  E3I999D2
+end SE3I86
+
+sequence SE1I87
+  E1I87D0
+  E1I9087D1
+  E1I999D2
+end SE1I87
+
+sequence SE2I87
+  E2I87D0
+  E2I9087D1
+  E2I999D2
+end SE2I87
+
+sequence SE3I87
+  E3I87D0
+  E3I9087D1
+  E3I999D2
+end SE3I87
+
+sequence SE1I88
+  E1I88D0
+  E1I999D1
+end SE1I88
+
+sequence SE2I88
+  E2I88D0
+  E2I999D1
+end SE2I88
+
+sequence SE3I88
+  E3I88D0
+  E3I999D1
+end SE3I88
+
+sequence SE1I89
+  E1I89D0
+  E1I999D1
+end SE1I89
+
+sequence SE2I89
+  E2I89D0
+  E2I999D1
+end SE2I89
+
+sequence SE3I89
+  E3I89D0
+  E3I999D1
+end SE3I89
+
+sequence SE1I90
+  E1I90D0
+  E1I999D1
+end SE1I90
+
+sequence SE2I90
+  E2I90D0
+  E2I999D1
+end SE2I90
+
+sequence SE3I90
+  E3I90D0
+  E3I999D1
+end SE3I90

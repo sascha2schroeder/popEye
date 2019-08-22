@@ -1,0 +1,354 @@
+%BeginHeader
+	Corpus Stories
+	SCRIPT 1
+	2014-01-13
+%EndHeader
+
+set conditions =  1
+set experiments = 1
+set expConditions = 0
+set background =  0
+set foreground =  16777215
+set filterMode = 2
+set windowThreshold = 0
+set calibration_type = 1
+set display_type = LCD
+
+trial_type intro
+  text_format =    'Courier New' 20 22 80 80 cleartype
+  text_weight =    normal non-italic
+  button =         mouse
+  output =         nostream
+  trigger =        nogaze
+  cursor_size =    0
+  dc_delay =       0
+  stimulus_delay = 0
+  revert =         0
+  highlight_color =66542
+end intro
+
+trial_type question
+  text_format =    'Courier New' 20 22 80 80 cleartype
+  text_weight =    normal non-italic
+  button =         mouse
+  output =         nostream
+  trigger =        nogaze
+  cursor_size =    0
+  dc_delay =       0
+  stimulus_delay = 0
+  revert =         0
+  highlight_color =197628
+end question
+
+trial_type story
+  text_format =    'Courier New' 20 22 80 80 cleartype
+  text_weight =    normal non-italic
+  button =         B
+  output =         stream
+  trigger =        gaze
+  cursor_size =    0
+  dc_delay =       0
+  stimulus_delay = 0
+  revert =         0
+  highlight_color =66542
+end story
+
+trial P1I1D0
+  gc_rect =          (0 0 0 0)
+  image =            'C:\Dokumente und Einstellungen\class\Desktop\LeseRiese_2014-01-18\RieseIntro.bmp'
+  max_display_time = 1500000000
+  trial_type =       intro
+end P1I1D0
+
+trial P1I2D1
+  gc_rect =          (106 106 175 175)
+  inline =           |Heute sind auf dem Meer hohe Wellen, deshalb \nbleibt das Schiff der Seeräuber im Hafen. \nNach der Unruhe werden die wilden Piraten aber \nwieder in See stechen und anderen Schiffen \nvoll mit Gold und Wein auflauern. Bis dahin \nbleiben die Männer auf ihrer versteckten Insel und\nzählen auf Tischen ihre Schätze.
+  max_display_time = 1500000000
+  trial_type =       story
+end P1I2D1
+
+trial P1I3D2
+  gc_rect =          (0 0 0 0)
+  inline =           |Verstecken sich die Piraten\nA...auf einem Schiff?\nB...auf einer Insel?\nC...auf einem Turm?\nD...auf dem Meer?
+  max_display_time = 1500000000
+  trial_type =       question
+end P1I3D2
+
+trial E1I1D0
+  gc_rect =          (106 106 175 175)
+  inline =           |Hurra, der kleine Eisbär ist da! Heute ist es \nso weit! Auf die Geburt des kleinen Eisbären \nwarten schon alle im Zoo. Der Zoodirektor, \nder Tierarzt, der Pfleger und vor allem ich \nsind alle gespannt! Ich heiße Fabian und mein \nPapa ist Tierpfleger im Zoo. Die dicke Eisbärenmama \nhat sich nämlich heute mit ihrem kugelrunden \nBauch in ihre Höhle zurückgezogen.
+  max_display_time = 1500000000
+  trial_type =       story
+end E1I1D0
+
+trial E1I2D1
+  gc_rect =          (106 106 175 175)
+  inline =           |Vor ein paar Tagen noch hatte der Tierarzt \nheimlich dort eine Videokamera angebracht. Jetzt \nkönnen wir beobachten, wie der kleine Eisbär \nauf die Welt kommt! Außer, wenn die dicke \nBärin die winzige Kamera mit ihrem zotteligen \nPopo verdeckt. Nach der Schule flitze ich \nsofort in den Zoo.
+  max_display_time = 1500000000
+  trial_type =       story
+end E1I2D1
+
+trial E1I3D0
+  gc_rect =          (106 106 175 175)
+  inline =           |Der Rätseldrache wohnt in einer leeren \nKonservendose. Darin waren früher Pfirsiche. Deshalb \nriecht die Dose süß und gut. Aber manchmal \nwird dem Rätseldrachen langweilig. Dann klappt \ner den Deckel seiner Dose auf und fliegt \nein bisschen spazieren.
+  max_display_time = 1500000000
+  trial_type =       story
+end E1I3D0
+
+trial E1I4D1
+  gc_rect =          (106 106 175 175)
+  inline =           |Und wenn er gerade vorbeifliegt, während jemand \neine Frage stellt oder ein Rätsel macht, dann \nkann der Drache nicht anders. Er landet. \nFragen und Rätsel mag er nämlich für sein Leben \ngerne. Und wenn jemand eine schwierige \nMatheaufgabe lösen muss oder ein Wort nicht \nlesen kann, hilft der Rätseldrache!
+  max_display_time = 1500000000
+  trial_type =       story
+end E1I4D1
+
+trial E1I5D0
+  gc_rect =          (106 106 175 175)
+  inline =           |Tobi Flatterhemd saß aufrecht im Bett und \ngruselte sich. Das war ihm neu. Obwohl er bald \neinhundertzwölf Jahre alt wurde, war ihm noch \nnie eine Gänsehaut über den Rücken gelaufen. \nErst jetzt hatte sie ihn erwischt. Beim \nAufwachen war sein Blick durch das Fenster in \nden Schlosspark gefallen, den der \nVollmond in silbriges Licht tauchte. 
+  max_display_time = 1500000000
+  trial_type =       story
+end E1I5D0
+
+trial E1I6D1
+  gc_rect =          (106 106 175 175)
+  inline =           |Mit dem Park und dem Mond war alles in Ordnung. \nAber drüben im Schloss stimmte etwas nicht! \nDer Turm des Ostflügels hätte eigentlich dunkel \nsein müssen. Er wurde schon lange nicht mehr \nbewohnt und diente dem Gebäude nur noch als \neine Art Zierde. Tobi stand auf und ging \nans Fenster. Kein Zweifel, im Turm brannte Licht!
+  max_display_time = 1500000000
+  trial_type =       story
+end E1I6D1
+
+trial E1I7D0
+  gc_rect =          (106 106 175 175)
+  inline =           |Einst stritten sich die Sonne und der Wind, \nwer von ihnen beiden der Stärkere sei. Sie \nwurden sich einig, derjenige sollte der Sieger \nsein, der einen Wanderer, am Ersten nötigen \nwürde, seinen Mantel abzulegen. Sogleich \nbegann der Wind zu stürmen; Regen und \nHagelschauer unterstützten ihn.
+  max_display_time = 1500000000
+  trial_type =       story
+end E1I7D0
+
+trial E1I8D1
+  gc_rect =          (106 106 175 175)
+  inline =           |Der arme Wanderer jammerte und zagte; aber \nimmer fester wickelte er sich in seinen Mantel \nein und ging weiter. Jetzt kam die Sonne an \ndie Reihe. Mit milder und sanfter Glut ließ \nsie ihre Strahlen herabfallen. Der Wanderer \nvermochte den Mantel nicht länger \ntragen in der Hitze. Er warf ihn ab \nund die Sonne erfreute sich ihres Sieges.
+  max_display_time = 1500000000
+  trial_type =       story
+end E1I8D1
+
+trial E1I9D0
+  gc_rect =          (106 106 175 175)
+  inline =           |Meine Freundin Fanny glaubt zwar nicht an \nmeine Theorie, aber ich bin mir sicher, dass ich \nmit dem ersten emilschen Gesetz recht habe. \nDieses Gesetz habe ich selbst entdeckt. \nEs lautet: Je stärker der Wind gegen die Stirn \nbläst, desto schwieriger wird das \nDenken für das Gehirn dahinter. 
+  max_display_time = 1500000000
+  trial_type =       story
+end E1I9D0
+
+trial E1I10D1
+  gc_rect =          (106 106 175 175)
+  inline =           |Zumindest auf unserer kleinen Insel ist das \nso. Bekanntlich bläst der Wind an der Nordsee \noft kräftig und bekanntlich bläst er weiter \noben immer etwas heftiger als weiter unten. \nDeshalb ist bei starkem Wind das Denken für \ndie etwas größeren Leute auch noch \nviel schwerer als für die etwas kleineren Leute.
+  max_display_time = 1500000000
+  trial_type =       story
+end E1I10D1
+
+trial E1I11D0
+  gc_rect =          (106 106 175 175)
+  inline =           |Wir sind mit einem großen Segelschiff übers \nMeer gefahren, um einen Schatz zu suchen. Ich \nwar auf der Reise ein Schiffsjunge und darauf \nwar ich sehr stolz. Die lange Fahrt zur \nSchatzinsel war voller Abenteuer und Gefahren. \nEs ist ein Wunder, dass mich die \nPiraten nicht erwischt haben.
+  max_display_time = 1500000000
+  trial_type =       story
+end E1I11D0
+
+trial E1I12D1
+  gc_rect =          (106 106 175 175)
+  inline =           |Aber ich will alles der Reihe nach erzählen. \nZuerst möchte ich euch sagen, wer ich bin. \nIch heiße Jim Hawkins und bin sechzehn Jahre alt. \nMeine Mutter hatte in England eine Gaststätte \nin der Nähe eines kleinen Hafens. Tag und \nNacht hörte ich, wie das Meer rauschte \nund der Seewind ums Haus pfiff.
+  max_display_time = 1500000000
+  trial_type =       story
+end E1I12D1
+
+trial E1I900D5
+  gc_rect =          (0 0 0 0)
+  image =            'C:\Dokumente und Einstellungen\class\Desktop\LeseRiese_2014-01-18\InterludeOwl.bmp'
+  max_display_time = 1500000000
+  trial_type =       intro
+end E1I900D5
+
+trial E1I1001D2
+  gc_rect =          (0 0 0 0)
+  inline =           |Warten im Zoo alle\nA...auf den Direktor?\nB...auf Fabian?\nC...auf den kleinen Eisbären?\nD...auf den Tierarzt?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I1001D2
+
+trial E1I1003D2
+  gc_rect =          (0 0 0 0)
+  inline =           |Wohnt der Rätseldrache\nA...in einem Baum?\nB...in einem Haus?\nC...in einer Höhle?\nD...in einer Dose?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I1003D2
+
+trial E1I1005D2
+  gc_rect =          (0 0 0 0)
+  inline =           |Wie alt ist Tobi Flatterhemd:\nA...achtzig?\nB...einhundertzwanzig?\nC...einhundertzwölf?\nD...zweihundertzwölf?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I1005D2
+
+trial E1I1007D2
+  gc_rect =          (0 0 0 0)
+  inline =           |Streitet sich in der Geschichte:\nA...niemand?\nB...die Sonne und der Wind?\nC...der Wanderer und die Sonne?\nD...der Wanderer und der Wind?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I1007D2
+
+trial E1I1009D2
+  gc_rect =          (0 0 0 0)
+  inline =           |Wo ist es in der Geschichte besonders windig:\nA...auf dem Berg?\nB...auf dem Meer?\nC...auf der kleinen Insel?\nD...in der Stadt?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I1009D2
+
+trial E1I1011D2
+  gc_rect =          (0 0 0 0)
+  inline =           |War Jim stolz darauf,\nA...dass er Pirat war?\nB...dass er Schiffsjunge war?\nC...dass er den Schatz gefunden hat?\nD...dass er Kapitän war?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I1011D2
+
+trial E1I2001D3
+  gc_rect =          (0 0 0 0)
+  inline =           |Hat sich die Eisbärenmama in die Höhle zurückgezogen\nA...weil sie Bauchweh hat?\nB...weil sie müde ist?\nC...weil sie ihr Eisbärenbaby bekommt?\nD...weil sie Angst vor dem Tierarzt hat?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I2001D3
+
+trial E1I2003D3
+  gc_rect =          (0 0 0 0)
+  inline =           |Fliegt der Drache herum,\nA...weil er Leute erschrecken will?\nB...weil er gerne fliegt?\nC...weil ihm langweilig ist?\nD...weil er hungrig ist?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I2003D3
+
+trial E1I2005D3
+  gc_rect =          (0 0 0 0)
+  inline =           |Als Tobi aufwacht,\nA...gruselt er sich?\nB...ärgert er sich?\nC...friert er?\nD...wundert er sich?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I2005D3
+
+trial E1I2007D3
+  gc_rect =          (0 0 0 0)
+  inline =           |Ging es in dem Streit darüber,\nA...wer schneller ist?\nB...wer schlauer ist?\nC...wer stärker ist?\nD...wer geschickter ist?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I2007D3
+
+trial E1I2009D3
+  gc_rect =          (0 0 0 0)
+  inline =           |Wer glaubt an das emilsche Gesetz:\nA...nur Emils Freundin?\nB...nur Emil?\nC...niemand?\nD...Emil und seine Freundin?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I2009D3
+
+trial E1I2011D3
+  gc_rect =          (0 0 0 0)
+  inline =           |Von wem hätte Jim erwischt werden können:\nA...von Ungeheuern?\nB...von Soldaten?\nC...von Piraten?\nD...von Geistern?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I2011D3
+
+trial E1I3001D4
+  gc_rect =          (0 0 0 0)
+  inline =           |Hat der Tierarzt eine Kamera versteckt,\nA...um die Geburt des Eisbären zu beobachten?\nB...um die Zoobesucher zu beobachten?\nC...um Fabian zu beobachten?\nD...um die Eisbärin zu ärgern?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I3001D4
+
+trial E1I3003D4
+  gc_rect =          (0 0 0 0)
+  inline =           |Was macht der Drache am liebsten:\nA...in seiner Dose schlafen?\nB...herum fliegen?\nC...baden?\nD...Rätsel lösen?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I3003D4
+
+trial E1I3005D4
+  gc_rect =          (0 0 0 0)
+  inline =           |Was ist mit dem Schloss anders als sonst:\nA...ist das Tor offen?\nB...brennt Licht im Turm?\nC...ist das Fenster offen?\nD...ist der Turm dunkel?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I3005D4
+
+trial E1I3007D4
+  gc_rect =          (0 0 0 0)
+  inline =           |Wer hat den Streit gewonnen:\nA...der Wanderer?\nB...der Wind?\nC...die Sonne?\nD...niemand?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I3007D4
+
+trial E1I3009D4
+  gc_rect =          (0 0 0 0)
+  inline =           |Besagt das erste emilsche Gesetz, dass Denken\nA...schwieriger ist bei starkem Wind?\nB...einfacher ist bei starkem Wind?\nC...leichter ist für große Menschen?\nD...für alle gleich schwer ist?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I3009D4
+
+trial E1I3011D4
+  gc_rect =          (0 0 0 0)
+  inline =           |Wo hat Jim früher gewohnt:\nA...in der Nähe eines Hafens?\nB...in den Bergen?\nC...auf einem Schiff?\nD...in der Nähe von Afrika?
+  max_display_time = 1500000000
+  trial_type =       question
+end E1I3011D4
+
+sequence SP1I1
+  P1I1D0
+  P1I2D1
+  P1I3D2
+  E1I900D5
+end SP1I1
+
+sequence SE1I1
+  E1I1D0
+  E1I2D1
+  E1I1001D2
+  E1I2001D3
+  E1I3001D4
+  E1I900D5
+end SE1I1
+
+sequence SE1I3
+  E1I3D0
+  E1I4D1
+  E1I1003D2
+  E1I2003D3
+  E1I3003D4
+  E1I900D5
+end SE1I3
+
+sequence SE1I5
+  E1I5D0
+  E1I6D1
+  E1I1005D2
+  E1I2005D3
+  E1I3005D4
+  E1I900D5
+end SE1I5
+
+sequence SE1I7
+  E1I7D0
+  E1I8D1
+  E1I1007D2
+  E1I2007D3
+  E1I3007D4
+  E1I900D5
+end SE1I7
+
+sequence SE1I9
+  E1I9D0
+  E1I10D1
+  E1I1009D2
+  E1I2009D3
+  E1I3009D4
+  E1I900D5
+end SE1I9
+
+sequence SE1I11
+  E1I11D0
+  E1I12D1
+  E1I1011D2
+  E1I2011D3
+  E1I3011D4
+  E1I900D5
+end SE1I11
+
