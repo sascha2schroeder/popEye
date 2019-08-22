@@ -71,8 +71,7 @@ install_github('sascha2schroeder/popEye')
 ```
 
 Alternatively, an pre-compiled version that can be loaded locally (RStudio: -> Tools -> Install packages
--> Install from Package Archive) can be downloaded [here](https://github.com/sascha2schroeder/popEye/blob/master/popEye/builds/popEye_0.6.0.tar.gz).
-
+-> Install from Package Archive) can be downloaded [here](https://github.com/sascha2schroeder/popEye/blob/master/builds/popEye_0.6.0.tar.gz).
 
 ## How should I set up my experiment so that popEye works smoothly?
 
@@ -108,4 +107,4 @@ Alternatively, you can cite the talk I gave at ECEM 2019 in Alicante:
 
 Schroeder, S. (2019, August). *popEye - An R package to analyse eye movement data from reading experiments.* Paper presented at the 20th European Conference of Eye Movements Alicante, Spain.
 
-The slides of the talk can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/paper/popEye/ECEM_2019_popEye.pdf).
+The slides of the talk can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/popEye/paper/ECEM_2019_popEye.pdf).
