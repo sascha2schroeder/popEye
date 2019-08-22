@@ -71,7 +71,7 @@ install_github('sascha2schroeder/popEye')
 ```
 
 Alternatively, an pre-compiled version that can be loaded locally (RStudio: -> Tools -> Install packages
--> Install from Package Archive) can be downloaded [here](https://github.com/sascha2schroeder/popEye/blob/master/popEye/popEye_0.6.0.tar.gz).
+-> Install from Package Archive) can be downloaded [here](https://github.com/sascha2schroeder/popEye/blob/master/popEye/builds/popEye_0.6.0.tar.gz).
 
 
 ## How should I set up my experiment so that popEye works smoothly?
@@ -82,14 +82,19 @@ messages at the start and the end of each trial and whenever important things ha
 (display changes etc.). 
 
 A brief tutorial how to set up an experiment in Experiment Builder and an example experiment
-can be found [here].
+can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/popEye/materials/Setup_ExperimentBuilder.md).
 
 Example scripts for EyeTrack can be found here for
- [single line](https://github.com/sascha2schroeder/popEye/blob/master/popEye/materials/Eyetrack_SingleLine.script) and 
+[single line](https://github.com/sascha2schroeder/popEye/blob/master/popEye/materials/Eyetrack_SingleLine.script) and 
 [multi line](https://github.com/sascha2schroeder/popEye/blob/master/popEye/materials/Eyetrack_MultiLine.script) experiments.
 
 
-## Preprocessing
+## Use
+
+A short introduction explaining how to use popEye to preprocess your data can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/popEye/materials/Preprocessing.md).
+
+A brief tutorial how to use popEye during the analysis of your data can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/popEye/materials/Analysis.md).
+
 
 
 ## References
