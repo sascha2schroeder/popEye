@@ -1,6 +1,10 @@
-## popEye
+# popEye
 
 popEye is an integrated environment to analyze eye-tracking data from reading experiments. Its unique feature is that it allows to analyze data from different experimental paradigms (single sentence reading, boundary paradigm, fast priming paradigm, text reading), collected using different eye tracking devices (SR research, SMI, etc.) and software packages (EyeTrack, Experiment Builder, etc.) within the same workflow.
+
+Presumably popEye will be most useful to you if
+- you are interested in using multi-line, multi-page texts.
+- you are using boundary change and fast priming paradigms. 
 
 Please feel free to use, test, or contribute to the package. Any help is really appreciated! The package is experimental at present, so please be patient if you encounter problems when you use popEye for the first time. Please feel free to contact me (sascha2schroeder@gmail.com) or to open an an issue on the project's github site.
 
@@ -80,5 +84,23 @@ messages at the start and the end of each trial and whenever important things ha
 A brief tutorial how to set up an experiment in Experiment Builder and an example experiment
 can be found [here].
 
-A example script for EyeTrack can be found [here].
+Example scripts for EyeTrack can be found here for
+ [single line](https://github.com/sascha2schroeder/popEye/blob/master/popEye/materials/Eyetrack_SingleLine.script) and 
+[multi line](https://github.com/sascha2schroeder/popEye/blob/master/popEye/materials/Eyetrack_MultiLine.script) experiments.
 
+
+## Preprocessing
+
+
+## References
+
+I am currently preparing a manuscript to be submitted to Behavior Research Methods.
+Meanwhile, you can reference it like this:
+
+Schroeder, S. (2019). *popEye - An R package to analyse eye movement data from reading experiments.* GitHub repository, https://github.com/sascha2schroeder/popEye
+
+Alternatively, you can cite the talk I gave at ECEM 2019 in Alicante:
+
+Schroeder, S. (2019, August). *popEye - An R package to analyse eye movement data from reading experiments.* Paper presented at the 20th European Conference of Eye Movements Alicante, Spain.
+
+The slides of the talk can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/paper/popEye/ECEM_2019_popEye.pdf).
