@@ -81,18 +81,18 @@ messages at the start and the end of each trial and whenever important things ha
 (display changes etc.). 
 
 A brief tutorial how to set up an experiment in Experiment Builder and an example experiment
-can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/popEye/materials/Setup_ExperimentBuilder.md).
+can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/materials/Setup_ExperimentBuilder.md).
 
 Example scripts for EyeTrack can be found here for
-[single line](https://github.com/sascha2schroeder/popEye/blob/master/popEye/materials/Eyetrack_SingleLine.script) and 
-[multi line](https://github.com/sascha2schroeder/popEye/blob/master/popEye/materials/Eyetrack_MultiLine.script) experiments.
+[single line](https://github.com/sascha2schroeder/popEye/blob/master/materials/EyeTrack_SingleLine.script) and 
+[multi line](https://github.com/sascha2schroeder/popEye/blob/master/materials/Eyetrack_MultiLine.script) experiments.
 
 
 ## Use
 
-A short introduction explaining how to use popEye to preprocess your data can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/popEye/materials/Preprocessing.md).
+A short introduction explaining how to use popEye to preprocess your data can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/materials/Preprocessing.md).
 
-A brief tutorial how to use popEye during the analysis of your data can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/popEye/materials/Analysis.md).
+A brief tutorial how to use popEye during the analysis of your data can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/materials/Analysis.md).
 
 
 
@@ -107,4 +107,4 @@ Alternatively, you can cite the talk I gave at ECEM 2019 in Alicante:
 
 Schroeder, S. (2019, August). *popEye - An R package to analyse eye movement data from reading experiments.* Paper presented at the 20th European Conference of Eye Movements Alicante, Spain.
 
-The slides of the talk can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/popEye/paper/ECEM_2019_popEye.pdf).
+The slides of the talk can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/paper/ECEM_2019_popEye.pdf).
