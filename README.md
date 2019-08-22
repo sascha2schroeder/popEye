@@ -85,7 +85,7 @@ can be found [here](https://github.com/sascha2schroeder/popEye/blob/master/mater
 
 Example scripts for EyeTrack can be found here for
 [single line](https://github.com/sascha2schroeder/popEye/blob/master/materials/EyeTrack_SingleLine.script) and 
-[multi line](https://github.com/sascha2schroeder/popEye/blob/master/materials/Eyetrack_MultiLine.script) experiments.
+[multi line](https://github.com/sascha2schroeder/popEye/blob/master/materials/EyeTrack_MultiLine.script) experiments.
 
 
 ## Use
