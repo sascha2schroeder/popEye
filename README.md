@@ -1,10 +1,11 @@
 # popEye
 
-<img align="right" width="200" height="180" src="/materials/popeye1.jpg?raw=true">
+<img align="right" width="220" height="190" src="/materials/popeye1.jpg?raw=true">
 
 popEye is an integrated environment to analyze eye-tracking data from reading experiments. Its unique feature is that it allows to analyze data from different experimental paradigms (single sentence reading, boundary paradigm, fast priming paradigm, text reading), collected using different eye tracking devices (SR research, SMI, etc.) and software packages (EyeTrack, Experiment Builder, etc.) within the same workflow.
 
-Presumably popEye will be most useful to you if
+popEye will be most useful to you if
+- you work with different eye trackers and software packages at the same time.
 - you are interested in using multi-line, multi-page texts.
 - you are using boundary change and fast priming paradigms. 
 
