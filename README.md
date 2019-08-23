@@ -1,6 +1,6 @@
 # popEye
 
-<img align="right" width="220" height="190" src="/materials/popeye1.jpg?raw=true">
+<img align="right" width="220" height="190" src="materials/popeye1.jpg?raw=true">
 
 popEye is an integrated environment to analyze eye-tracking data from reading experiments. Its unique feature is that it allows to analyze data from different experimental paradigms (single sentence reading, boundary paradigm, fast priming paradigm, text reading), collected using different eye tracking devices (SR research, SMI, etc.) and software packages (EyeTrack, Experiment Builder, etc.) within the same workflow.
 
@@ -85,18 +85,18 @@ messages at the start and the end of each trial and whenever important things ha
 (display changes etc.). 
 
 A brief tutorial how to set up an experiment in Experiment Builder and an example experiment
-can be found [here](/materials/Setup_ExperimentBuilder.md).
+can be found [here](materials/Setup_ExperimentBuilder.md).
 
 Example scripts for EyeTrack can be found here for
-[single line](/materials/EyeTrack_SingleLine.script) and 
-[multi line](/materials/EyeTrack_MultiLine.script) experiments.
+[single line](materials/EyeTrack_SingleLine.script) and 
+[multi line](materials/EyeTrack_MultiLine.script) experiments.
 
 
 ## Use
 
-A short introduction explaining how to use popEye to preprocess your data can be found [here](/materials/Preprocessing.md).
+A short introduction explaining how to use popEye to preprocess your data can be found [here](materials/Preprocessing.md).
 
-A brief tutorial how to use popEye during the analysis of your data can be found [here](/materials/Analysis.md).
+A brief tutorial how to use popEye during the analysis of your data can be found [here](materials/Analysis.md).
 
 
 
@@ -111,4 +111,4 @@ Alternatively, you can cite the talk I gave at ECEM 2019 in Alicante:
 
 Schroeder, S. (2019, August). *popEye - An R package to analyse eye movement data from reading experiments.* Paper presented at the 20th European Conference of Eye Movements Alicante, Spain.
 
-The slides of the talk can be found [here](/paper/ECEM_2019_popEye.pdf).
+The slides of the talk can be found [here](paper/ECEM_2019_popEye.pdf).
