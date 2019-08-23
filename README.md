@@ -40,7 +40,7 @@ can be used to remove such trials prior to the main analysis.
 
 The central idea of popEye is to provide a hardware- and software-independent solution
 for reading-related experiments. At present, however, popEye works only with specific
-eye trackers and software packages used for stimulus presentation
+eye trackers and software packages used for stimulus presentation.
 
 - popEye currently works only for data collected using Eyelink eye trackers from SR research.
 We will add support for eye trackers from other manufacturers (SMI, GazePoint, tobii) as soon as possible.
