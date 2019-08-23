@@ -89,7 +89,7 @@ can be found [here](/materials/Setup_ExperimentBuilder.md).
 
 Example scripts for EyeTrack can be found here for
 [single line](/materials/EyeTrack_SingleLine.script) and 
-[multi line](/master/materials/EyeTrack_MultiLine.script) experiments.
+[multi line](/materials/EyeTrack_MultiLine.script) experiments.
 
 
 ## Use
