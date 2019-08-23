@@ -1,6 +1,6 @@
 # popEye
 
-![popEye](https://github.com/sascha2schroeder/popEye/tree/master/materials/popeye1.png)
+![popEye](https://github.com/sascha2schroeder/popEye/tree/master/materials/popeye1.jpg)
 
 popEye is an integrated environment to analyze eye-tracking data from reading experiments. Its unique feature is that it allows to analyze data from different experimental paradigms (single sentence reading, boundary paradigm, fast priming paradigm, text reading), collected using different eye tracking devices (SR research, SMI, etc.) and software packages (EyeTrack, Experiment Builder, etc.) within the same workflow.
 
@@ -13,7 +13,7 @@ Please feel free to use, test, or contribute to the package. Any help is really 
 
 ## What popEye will do for you
 
-<img align="right" width="120" height="100" src="https://github.com/sascha2schroeder/popEye/tree/master/materials/popeye1.png">
+<img align="right" width="120" height="100" src="https://github.com/sascha2schroeder/popEye/tree/master/materials/popeye1.jpg">
 
 popEye's functionaltiy can be divided in two broad areas: data preprocessing 
 and data analysis.
