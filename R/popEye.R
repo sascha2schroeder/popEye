@@ -429,14 +429,16 @@ popEye <- function(datpath,
       
       # increment number of subjects
       nsub <- nsub + 1
+
+      # generate header slot
+      header <- list()
       
       subid <- gsub("\\.asc", "", sub.list[s])
+      header$subid <- subid
+      header$version <- v
       
       # message subject
       message(paste(". Subject: ", subid, paste = ""))
-      
-      # generate header slot
-      header <- list(subid = subid)
       
       # TODO: store other information about subject (e.g., version)
       
@@ -453,8 +455,10 @@ popEye <- function(datpath,
       
       dat <-  ReadData(filepath, subid)
       
-      # TODO: reading asc data rather slow
-      # TODO: do not convert to asc, but read edf directly (-> external packages)
+      # TODO: read in edf directly (-> external packages)
+      # TODO: asc data processing rather slow
+      
+      return(dat)
       
       
       # remove data

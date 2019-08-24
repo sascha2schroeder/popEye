@@ -1,10 +1,7 @@
 
 ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
   
-  # TODO: integrate workflow for different setups (EyeTrack, ExperimentBuilder)
-  # TODO: create subdirectories ?
   # TODO: check whether encoding options also work on other OS
-  # TODO: add argument for EyeTrack workflow
   # TODO: check whether edf file can be read in directly
   
   # create names for files
@@ -18,7 +15,7 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
   
   # setwd
   oldwd <- getwd()
-
+  
   if (env$exp$setup$tracker$software == "EB") {
     newwd <- paste(filepath, subid, "/",sep = "")
     # setwd(newwd)
@@ -37,12 +34,22 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
   # if (file.exists(ascfile) == F) {
   #   message(".. Read EDF file")
   #   ConvertEDF(edffile)  
-  #   message(".. Extract data")
-  #   raw <- ExtractAll(ascfile, subid)
-  # } else {
-    message(".. Extract data")
-    raw <- ExtractAll(ascfile, subid)
-  # } 
+  # }
+  
+  message(".. Extract data")
+  
+  # read ASC
+  infile   <- readLines(ascfile, encoding = "UTF-8")
+  
+  # extract data
+  ExtractSetup(infile)
+  ExtractHeader(infile)
+  msg   <- ExtractMsg(infile)
+  samp  <- ExtractSamples(infile)
+  event <- ExtractEvents(infile)
+  
+  # combine
+  raw <- list(msg = msg, samp = samp, event = event)
   
   # return wd
   setwd(oldwd)
