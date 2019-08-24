@@ -456,7 +456,6 @@ popEye <- function(datpath,
       # TODO: reading asc data rather slow
       # TODO: do not convert to asc, but read edf directly (-> external packages)
       
-      return(dat)
       
       # remove data
       # --------------

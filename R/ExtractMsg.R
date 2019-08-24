@@ -37,16 +37,7 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
   env$header$calibration <- as.numeric(sapply(strsplit(tmp, " "), "[[", 9))
   # TODO: store as vector or mean?
   
-  # # driftcorrect
-  # time <- as.numeric(sapply(strsplit(sapply(strsplit(
-  #   dat[grep("DRIFTCORRECT", dat)], " "), "[[", 1)), "\t"), "[[", 2)
-  # drift <- as.numeric(sapply(strsplit(dat[grep("DRIFTCORRECT", dat)], " "), "[[", 9))
-  # DriftCorrect <- data.frame(time = time, drift = drift)
-  # 
-  # # TODO: not for ET  
-  # # TODO: store on trial level
-
-    
+  
   # extract trials
   # ---------------
   
@@ -63,7 +54,6 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     itemid <- sapply(strsplit(tmp[ind == env$exp$setup$variable$id], " "), "[[", 5)
     
     # number of practice trials
-    # env$exp$setup$clean$practice <- max(as.numeric(unlist(dimnames(table(table(itemid)))))) - 1
     env$exp$setup$clean$practice <- env$exp$setup$item$pracnum
     
     # condition
@@ -94,6 +84,34 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     # dependency
     dependency <- as.numeric(rep(0, length(itemid)))
     # NOTE: does not make much sense; store to be parallel with ET
+    
+    # driftcorrect
+    # -------------
+    
+    # NOTE: check whether driftcorrect is present for EB
+    
+    # extract driftcorrect elements
+    tmp <- dat[grep("DRIFTCORRECT", dat)]
+    
+    # remove repetitions
+    tmp <- tmp[-grep("REPEATING", tmp)]
+    
+    # # remove aborted trials
+    # # NOTE: is this necessary
+    # if (length(grep("ABORTED", tmp)) > 0) {
+    #   tmp <- tmp[-grep("ABORTED", tmp)]  
+    # }
+    
+    time <- as.numeric(sapply(strsplit(sapply(strsplit(
+      tmp, " "), "[[", 1), "\t"), "[[", 2))
+    drift <- as.numeric(sapply(strsplit(tmp, " "), "[[", 9))
+    x <- sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 12), ","), "[[", 1)
+    y <- sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 12), ","), "[[", 2)
+    
+    env$header$drift <- data.frame(time = time, trialnum = trialnum, drift = drift, x = x, y = y)
+    
+    # TODO: store on trial level
+      
   }
   
   # ET
