@@ -2,7 +2,7 @@
 AggregateIA <- function(exp) {
   
   # create outfile  
-  iatmp <- exp$out$fix
+  iatmp <- exp$out$fix[exp$out$fix$type == "in", ]
   iatmp$id <- as.character(paste(iatmp$subid, iatmp$trialnum, iatmp$ianum, sep = ":"))
   ia <- iatmp[duplicated(iatmp$id) == F, ]
   
@@ -25,7 +25,7 @@ AggregateIA <- function(exp) {
   ia$nrun <- as.numeric(tapply(iatmp$ia.run, list(iatmp$id), max, na.rm = T))
   ia$reread <- ifelse(ia$nrun > 1, 1, 0)
   ia$nfix <- as.numeric(tapply(iatmp$fixid, list(iatmp$id), length))
-  ia$refix <- as.numeric(tapply(iatmp$ia.refix, list(iatmp$id), max))
+  ia$refix <- as.numeric(tapply(iatmp$ia.refix, list(iatmp$id), max, na.rm = T))
   ia$reg.in <- as.numeric(tapply(iatmp$ia.reg.in, list(iatmp$id), max, na.rm = T))
   ia$reg.out <- as.numeric(tapply(iatmp$ia.reg.out, list(iatmp$id), max, na.rm = T))
   ia$dur <- as.numeric(tapply(iatmp$dur, list(iatmp$id), sum, na.rm = T))

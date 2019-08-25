@@ -2,7 +2,7 @@
 AggregateWord <- function(exp) {
   
   # create outfile  
-  wordtmp <- exp$out$fix
+  wordtmp <- exp$out$fix[exp$out$fix$type == "in", ]
   wordtmp$id <- as.character(paste(wordtmp$subid, wordtmp$trialnum, 
                                    wordtmp$wordnum, sep = ":"))
   

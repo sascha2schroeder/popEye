@@ -1,5 +1,5 @@
 
-AggregateOverview <- function(exp) {
+AggregateSubject <- function(exp) {
   
   if (exp$setup$type == "text") {
     cagg=aggregate(cbind(exp$out$clean$trial.crit, exp$out$clean$crit),
@@ -57,7 +57,6 @@ AggregateOverview <- function(exp) {
                           exp$out$trial$nfix, 
                           exp$out$trial$nblink > 1, 
                           exp$out$trial$nout > 1,
-                          exp$out$trial$fit.problem,
                           exp$out$trial$skip, 
                           exp$out$trial$sac, 
                           exp$out$trial$refix, 
@@ -66,7 +65,7 @@ AggregateOverview <- function(exp) {
                           exp$out$trial$total, 
                           exp$out$trial$rate),
                     list(exp$out$trial$subid), mean, na.rm = T)
-  colnames(sagg) <- c("subid", "nrun", "nfix", "nblink", "nout", "pfit", 
+  colnames(sagg) <- c("subid", "nrun", "nfix", "nblink", "nout", 
                       "skip", "sac", "refix", "reg", "mfix", "total", 
                       "rate")
   
@@ -74,7 +73,6 @@ AggregateOverview <- function(exp) {
   sagg$nfix <- round(sagg$nfix, 2)
   sagg$pblink <- round(sagg$nblink, 3)
   sagg$pout <- round(sagg$nout, 3)
-  sagg$pfit <- round(sagg$pfit, 3)
   sagg$skip <- round(sagg$skip, 3)
   sagg$sac <- round(sagg$sac, 3)
   sagg$refix <- round(sagg$refix, 3)
@@ -95,19 +93,19 @@ AggregateOverview <- function(exp) {
   }
   
   # merge and write out
-  exp$out$overview <- merge(cagg, sagg, by = "subid")
+  exp$out$subject <- merge(cagg, sagg, by = "subid")
   
   if (exp$setup$tracker$software == "EB" & exp$setup$tracker$results == T) {
-    names <- c("subid", "ntrial", "pcrit", "pblink", "pout", "pfit", "nrun", 
+    names <- c("subid", "ntrial", "pcrit", "pblink", "pout", "nrun", 
                "nfix", "skip", "sac", "refix", "reg", "mfix", "total", "rate", 
                "quest.acc", "quest.rt")
   } else {
-    names <- c("subid", "ntrial", "pcrit", "pblink", "pout","pfit", "nrun", 
+    names <- c("subid", "ntrial", "pcrit", "pblink", "pout", "nrun", 
                "nfix", "skip", "sac", "refix", "reg", "mfix", "total", "rate")
   }
   
-  exp$out$overview <- exp$out$overview[names]
-  row.names(exp$out$overview) <- NULL
+  exp$out$subject <- exp$out$subject[names]
+  row.names(exp$out$subject) <- NULL
   
   return(exp)
   

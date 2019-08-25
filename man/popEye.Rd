@@ -126,7 +126,7 @@ in the stimulus file}
 \item{font.spacing}{Spacing between lines (1, 1.5, or 2)}
 
 \item{analysis.eyelink}{Should the real-time parsing from the eyelink system 
-be used (TRUE or FALSE, default is TRUE)}
+be used? (TRUE or FALSE, default is TRUE)}
 
 \item{analysis.vfac}{Velocity threshold used for saccade detection (see Engbert & Kliegl, 
 2003; default is 5)}

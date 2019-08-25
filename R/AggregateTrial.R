@@ -16,12 +16,12 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   # -----------------
   
   # number of blinks
-  blink <- aggregate(trialtmp$blink, list(trialtmp$id), function(x) round(sum(x) / 2))
+  blink <- aggregate(trialtmp$blink[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), function(x) round(sum(x) / 2))
   colnames(blink) <- c("id", "nblink")
   trial <- merge(trial, blink, all.x = T)
 
   # number of runs
-  trial$nrun <- as.numeric(tapply(trialtmp$word.runid, list(trialtmp$id), max, na.rm = T))
+  trial$nrun <- as.numeric(tapply(trialtmp$word.runid[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), max, na.rm = T))
   
   # number of fixations
   trial$nfix <- as.numeric(tapply(trialtmp$fixid[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), length))
@@ -32,10 +32,6 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   trial <- merge(trial, nout, all.x = T)
   trial$pout <- round(trial$nout / (trial$nfix + trial$nout), 3)
   
-  trial$fit <- as.numeric(tapply(trialtmp$fit[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), max))
-  trial$fit.problem <- 0
-  trial$fit.problem[trial$fit > env$exp$setup$font$height] <- 1
-  
   
   # compute forward saccade length (in letters)
   trialtmp$sac <- (trialtmp$word.land + trialtmp$word.launch)
@@ -45,7 +41,7 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   trial <- merge(trial, sac, all.x = T)
   
   # mean fixation duration
-  trial$mfix <- round(as.numeric(tapply(trialtmp$dur, list(trialtmp$id), mean)))
+  trial$mfix <- round(as.numeric(tapply(trialtmp$dur[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), mean)))
   
   # trial duration
   trial$total <- as.numeric(tapply(trialtmp$dur[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), sum))
@@ -66,16 +62,16 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   # this is the proportion of words that have been regressed to
 
   # compute first-pass reading time
-  trial$firstpass <- round(as.numeric(tapply(word$firstrun.dur, list(word$id), sum, na.rm = T)))
+  trial$firstpass <- round(as.numeric(tapply(word$firstrun.dur[trialtmp$type == "in"], list(word$id[trialtmp$type == "in"]), sum, na.rm = T)))
   
   # compute rereading time
-  trial$rereading <- round(as.numeric(tapply(word$dur - word$firstrun.dur, list(word$id), sum, na.rm = T)))
+  trial$rereading <- round(as.numeric(tapply(word$dur[trialtmp$type == "in"] - word$firstrun.dur[trialtmp$type == "in"], list(word$id[trialtmp$type == "in"]), sum, na.rm = T)))
   
   # return
   names <- c("subid", "trialid", "trialnum", "itemid", "cond", "trial", 
              "trial.nwords", "nblink", "nrun", "nfix", "nout", "pout", 
-             "fit", "fit.problem", "sac", "skip", "refix", 
-             "reg", "mfix", "firstpass", "rereading", "total", "rate")
+             "sac", "skip", "refix", "reg", "mfix", "firstpass", 
+             "rereading", "total", "rate")
   exp$out$trial <- trial[order(trial$subid, trial$trialnum), names]
   trial$id <- NULL
   row.names(exp$out$trial) <- NULL

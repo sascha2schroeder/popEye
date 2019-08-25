@@ -63,7 +63,7 @@
 #' @param font.size Size of the font (in pixels)
 #' @param font.spacing Spacing between lines (1, 1.5, or 2)
 #' @param analysis.eyelink Should the real-time parsing from the eyelink system 
-#' be used (TRUE or FALSE, default is TRUE)
+#' be used? (TRUE or FALSE, default is TRUE)
 #' @param analysis.vfac Velocity threshold used for saccade detection (see Engbert & Kliegl, 
 #' 2003; default is 5)
 #' @param analysis.mindur Minimum duration of a saccade (see Engbert & Kliegl, 2003; 
@@ -734,9 +734,9 @@ popEye <- function(datpath,
   # compute overview file
   # ----------------------
   
-  message("Aggregate overview")
+  message("Aggregate subject")
   
-  exp <- AggregateOverview(exp)
+  exp <- AggregateSubject(exp)
   
   
   # clean up
