@@ -63,7 +63,7 @@
 #' @param font.size Size of the font (in pixels)
 #' @param font.spacing Spacing between lines (1, 1.5, or 2)
 #' @param analysis.eyelink Should the real-time parsing from the eyelink system 
-#' be used (TRUE or FALSE, default is FALSE)
+#' be used (TRUE or FALSE, default is TRUE)
 #' @param analysis.vfac Velocity threshold used for saccade detection (see Engbert & Kliegl, 
 #' 2003; default is 5)
 #' @param analysis.mindur Minimum duration of a saccade (see Engbert & Kliegl, 2003; 
@@ -161,7 +161,7 @@ popEye <- function(datpath,
                    font.name = "CourierNew", 
                    font.size = 16, 
                    font.spacing = 2,
-                   analysis.eyelink = FALSE, 
+                   analysis.eyelink = TRUE, 
                    analysis.vfac = 5, 
                    analysis.mindur = 10, 
                    analysis.postdur = 30,
@@ -188,7 +188,7 @@ popEye <- function(datpath,
                    exclude.blink = FALSE, 
                    exclude.nfix = 3, 
                    exclude.sac = 200,
-                   outpath = "", 
+                   outpath = getwd(), 
                    outname = "",
                    # NOTE: Maybe combine to one parameter
                    debug.version = NULL,
@@ -462,7 +462,7 @@ popEye <- function(datpath,
       
       message(".. Remove data")
       
-      dat <- Remove(dat) 
+      dat <- RemoveData(dat) 
       
       
       # create trials
@@ -470,9 +470,7 @@ popEye <- function(datpath,
       
       message(".. Create trials")
       
-      dat <- Preprocessing(dat)
-      
-      return(dat)
+      dat <- CreateTrials(dat)
       
       
       # -----------------------

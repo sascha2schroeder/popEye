@@ -1,14 +1,8 @@
 
-Preprocessing <- function(dat, env = parent.frame(n = 1)) {
-  
-  # TODO: align function
-  
-  # message("... processing ...")
+CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   
   # prepare slots for trials
   ret <- rep(list(NA), length(table(dat$msg$trialnum)))
-  
-  # TODO: maybe separate restructuring function
   
   
   # trial loop
@@ -21,8 +15,6 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
     start <- RetrieveStartStop(dat, trial)$start
     stop <- RetrieveStartStop(dat, trial)$stop
 
-    # if (start == Inf) next # FIX: if trial is empty
-    
     tmp <- SelectTrial(dat, start, stop)
     tmp <- TrialTime(tmp) # -> part of SelectTrial() ?
 
@@ -30,12 +22,45 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
     # create trial slot
     # ------------------
     
-    meta <- list(trialid = trial, trialnum = max(tmp$msg$trialnum), itemid = max(tmp$msg$itemid), condition = max(tmp$msg$condition), dependency = max(tmp$msg$dependency))
+    time <- env$header$trial$time[trial]
+    sel <- tail(env$header$calibration[env$header$calibration$time < time, ], n = 1)
+    
+    if (is.null(env$header$drift)) {
+      meta <- list(trialid = trial, 
+                   trialnum = max(tmp$msg$trialnum), 
+                   itemid = max(tmp$msg$itemid), 
+                   condition = max(tmp$msg$condition), 
+                   dependency = max(tmp$msg$dependency),
+                   start = time,
+                   calibration.method = sel$method,
+                   calibration.avg = as.numeric(sel$avg),
+                   calibration.max = as.numeric(sel$max)
+      )                 
+      
+    } else {
+     
+      meta <- list(trialid = trial, 
+                   trialnum = max(tmp$msg$trialnum), 
+                   itemid = max(tmp$msg$itemid), 
+                   condition = max(tmp$msg$condition), 
+                   dependency = max(tmp$msg$dependency),
+                   start = time,
+                   calibration.method = sel$method,
+                   calibration.avg = as.numeric(sel$avg),
+                   calibration.max = as.numeric(sel$max),
+                   drift = env$header$drift$drift[trial],
+                   drift.x = as.numeric(as.character(env$header$drift$x[trial])),
+                   drift.y = as.numeric(as.character(env$header$drift$y[trial]))
+      )                 
+      
+    }
+    
+    env$meta <- meta
+    
     tmp$msg$trialnum <- NULL # remove trialnum from msg object
     tmp$msg$itemid <- NULL # remove condition from msg object
     tmp$msg$condition <- NULL # remove condition from msg object
     tmp$msg$dependency <- NULL # remove condition from msg object
-    
     
     if (sum(tmp$event$msg == "SFIX") >= 3) { # FIX: skip if there are less than three fixations in trial
     # TODO: this only works for Eyelink -> FIX
@@ -59,10 +84,13 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
         # -------------
         
         if (env$exp$setup$analysis$eyelink == FALSE) {
-          # out <- EventLong(ComputeEvents(xy, vxy)) 
+          
           out <- ComputeEvents(xy, vxy) 
+          
         } else {
+          
           out <- EventLong(TimestampToEvent(tmp))  
+          
         }
         
       }
@@ -70,7 +98,7 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
       # clean
       # -----------
 
-      if (sum(out$msg == "SAC") > 0) { # QUICK FIX: do not clean if no saccade detected
+      if (sum(out$msg == "SAC") > 0) { # FIX: do not clean if no saccade detected
         clean <- Cleaning(out)
       } else {
         clean <- NA
@@ -110,6 +138,10 @@ Preprocessing <- function(dat, env = parent.frame(n = 1)) {
   dat$msg <- NULL
   dat$samp <- NULL
   dat$event <- NULL
+  env$header$trial <- NULL
+  env$header$calibration <- NULL
+  env$header$drift <- NULL
+  env$meta <- NULL
   
   return(dat)
   

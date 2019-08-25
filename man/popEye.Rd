@@ -18,7 +18,7 @@ popEye(datpath, stimulus.file, tracker.model = "eyelink",
   display.marginLeft = 150, display.marginTop = 300,
   display.marginRight = 50, display.marginBottom = 100,
   font.name = "CourierNew", font.size = 16, font.spacing = 2,
-  analysis.eyelink = FALSE, analysis.vfac = 5, analysis.mindur = 10,
+  analysis.eyelink = TRUE, analysis.vfac = 5, analysis.mindur = 10,
   analysis.postdur = 30, analysis.drift = TRUE,
   analysis.sparse = TRUE, analysis.driftX = FALSE,
   analysis.driftY = FALSE, analysis.lineMethod = "chain",
@@ -28,7 +28,7 @@ popEye(datpath, stimulus.file, tracker.model = "eyelink",
   clean.stage3Dur = 140, clean.stage4 = FALSE, clean.stage4Min = 80,
   clean.stage4Max = 800, clean.delete = FALSE, clean.outlier = FALSE,
   exclude.blink = FALSE, exclude.nfix = 3, exclude.sac = 200,
-  outpath = "", outname = "", debug.version = NULL,
+  outpath = getwd(), outname = "", debug.version = NULL,
   debug.subject = NULL, debug.trial = NULL)
 }
 \arguments{
@@ -126,7 +126,7 @@ in the stimulus file}
 \item{font.spacing}{Spacing between lines (1, 1.5, or 2)}
 
 \item{analysis.eyelink}{Should the real-time parsing from the eyelink system 
-be used (TRUE or FALSE, default is FALSE)}
+be used (TRUE or FALSE, default is TRUE)}
 
 \item{analysis.vfac}{Velocity threshold used for saccade detection (see Engbert & Kliegl, 
 2003; default is 5)}

@@ -1,5 +1,5 @@
 
-Remove <- function(dat, env = parent.frame(n = 1)) {
+RemoveData <- function(dat, env = parent.frame(n = 1)) {
  
   dat <- RemoveTrials(dat)
   dat <- RemoveSamples(dat)

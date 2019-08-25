@@ -1,7 +1,6 @@
 
-ComputeEvents <- function(xy, vxy) {
-  
-  
+ComputeEvents <- function(xy, vxy, env = parent.frame(n = 1)) {
+ 
   # computes saccades, fixations, and blinks
   # -----------------------------------------
   

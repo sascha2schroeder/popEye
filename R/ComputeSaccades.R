@@ -18,11 +18,16 @@ ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
   radius <- data.frame(cbind(radiusx, radiusy))
   names(radius) <- c('x', 'y')
   
+  
   # compute test criterion: ellipse equation
-  if (env$exp$setup$tracker$calibration == "H3") {
+  if (env$meta$calibration.method == "H3") {
+    
     test <- (vxy$x / radiusx)^2 # 3 point calibration (no y dimension)
+    
   } else {
+    
     test <- (vxy$x / radiusx)^2 + (vxy$y / radiusy)^2
+    
   }
   
   # compute saccades
