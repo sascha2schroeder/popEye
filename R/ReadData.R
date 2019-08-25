@@ -36,8 +36,6 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
   #   ConvertEDF(edffile)  
   # }
   
-  message(".. Extract data")
-  
   # read ASC
   infile   <- readLines(ascfile, encoding = "UTF-8")
   

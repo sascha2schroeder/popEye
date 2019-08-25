@@ -56,13 +56,11 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # if (env$item.practice == "") env$item.practice <- "^P"
   # if (env$item.trigger == "") env$item.trigger <- "999"
   # if (env$item.question == "") env$item.question <- 1000
-  # if (length(env$item.keep) == 1) env$item.keep <- ""
   
   item <- list(pracnum = env$item.pracnum,
                practice = env$item.practice,
                trigger = env$item.trigger,
-               question = env$item.question,
-               keep = env$item.keep)
+               question = env$item.question)
   
   
   # stimfile

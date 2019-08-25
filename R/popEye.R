@@ -31,8 +31,6 @@
 #' experiment (only relevant for EyeTrack experiments) 
 #' @param item.question Indicator for a comprehension question trial used  
 #' during the experiment (only relevant for EyeTrack experiments)
-#' @param item.keep Item range that is kept during the analysis (if only a
-#' subset of trials is relevant for the analysis)
 #' @param item.pracnum Number of practice items shown at the beginning of an
 #' experiment (which are discarded during the analysis)
 #' @param stimulus.file Path and name of stimulus file
@@ -145,8 +143,6 @@ popEye <- function(datpath,
                    item.practice = "^P", 
                    item.trigger = "999",
                    item.question = 1000, 
-                   item.keep = "",
-                   # NOTE: maybe change to missing in functions
                    item.pracnum = 0,
                    stimulus.id = "id",
                    stimulus.cond = NA, 
@@ -453,12 +449,12 @@ popEye <- function(datpath,
       # read data
       # -----------
       
+      message(".. Read data")
+      
       dat <-  ReadData(filepath, subid)
       
       # TODO: read in edf directly (-> external packages)
       # TODO: asc data processing rather slow
-      
-      return(dat)
       
       
       # remove data
@@ -467,6 +463,8 @@ popEye <- function(datpath,
       message(".. Remove data")
       
       dat <- Remove(dat) 
+      
+      return(dat)
       
       
       # create trials

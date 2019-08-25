@@ -10,8 +10,8 @@ popEye(datpath, stimulus.file, tracker.model = "eyelink",
   message.stop = "stop", message.boundary = "boundary",
   message.target = "target", message.prime = "prime",
   variable.id = "id", variable.cond = NA, item.practice = "^P",
-  item.trigger = "999", item.question = 1000, item.keep = "",
-  item.pracnum = 0, stimulus.id = "id", stimulus.cond = NA,
+  item.trigger = "999", item.question = 1000, item.pracnum = 0,
+  stimulus.id = "id", stimulus.cond = NA,
   stimulus.preview = "preview", stimulus.prime = "prime",
   stimulus.text = "text", indicator.word = " ", indicator.ia = " ",
   indicator.target = "\\\\*", indicator.line = "\\\\\\\\n",
@@ -77,9 +77,6 @@ experiment (only relevant for EyeTrack experiments)}
 
 \item{item.question}{Indicator for a comprehension question trial used
 during the experiment (only relevant for EyeTrack experiments)}
-
-\item{item.keep}{Item range that is kept during the analysis (if only a
-subset of trials is relevant for the analysis)}
 
 \item{item.pracnum}{Number of practice items shown at the beginning of an
 experiment (which are discarded during the analysis)}
