@@ -75,7 +75,8 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     x <- sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 12), ","), "[[", 1)
     y <- sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 12), ","), "[[", 2)
     
-    env$header$drift <- data.frame(time = time, trialnum = trialnum, drift = drift, x = x, y = y)
+    env$header$drift <- data.frame(time = time, trialnum = trialnum, 
+                                   itemid = itemid, drift = drift, x = x, y = y)
       
   }
   

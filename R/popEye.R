@@ -464,8 +464,6 @@ popEye <- function(datpath,
       
       dat <- Remove(dat) 
       
-      return(dat)
-      
       
       # create trials
       # ---------------
@@ -473,6 +471,8 @@ popEye <- function(datpath,
       message(".. Create trials")
       
       dat <- Preprocessing(dat)
+      
+      return(dat)
       
       
       # -----------------------

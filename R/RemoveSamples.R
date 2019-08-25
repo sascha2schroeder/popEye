@@ -3,12 +3,12 @@
 
 RemoveSamples <- function(dat, env = parent.frame(n = 2)) {
   
-  samp <- data.frame(matrix(data = NA, nrow = 1, ncol = 4)) 
-  names(samp) <- c('time', 'x',  'y', 'pupil')
-  
   msg <- data.frame(matrix(data = NA, nrow = 1, ncol = 6)) 
   names(msg) <- c('trialnum', 'itemid', 'condition', 'dependency', 'time',  'msg')
  
+  samp <- data.frame(matrix(data = NA, nrow = 1, ncol = 4)) 
+  names(samp) <- c('time', 'x',  'y', 'pupil')
+  
   event <- data.frame(matrix(data = NA, nrow = 1, ncol = 6)) 
   names(event) <- c('time',  'msg', 'xs', 'ys', 'xe', 'ye')
 
