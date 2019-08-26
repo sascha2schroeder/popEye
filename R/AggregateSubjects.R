@@ -1,5 +1,5 @@
 
-AggregateSubject <- function(exp) {
+AggregateSubjects <- function(exp) {
   
   if (exp$setup$type == "text") {
     cagg=aggregate(cbind(exp$out$clean$trial.crit, exp$out$clean$crit),
@@ -55,8 +55,8 @@ AggregateSubject <- function(exp) {
   # trial
   sagg <- aggregate(cbind(exp$out$trial$nrun, 
                           exp$out$trial$nfix, 
-                          exp$out$trial$nblink > 1, 
-                          exp$out$trial$nout > 1,
+                          exp$out$trial$nblink >= 1, 
+                          exp$out$trial$nout >= 1,
                           exp$out$trial$skip, 
                           exp$out$trial$sac, 
                           exp$out$trial$refix, 
@@ -93,7 +93,7 @@ AggregateSubject <- function(exp) {
   }
   
   # merge and write out
-  exp$out$subject <- merge(cagg, sagg, by = "subid")
+  exp$out$subjects <- merge(cagg, sagg, by = "subid")
   
   if (exp$setup$tracker$software == "EB" & exp$setup$tracker$results == T) {
     names <- c("subid", "ntrial", "pcrit", "pblink", "pout", "nrun", 
@@ -104,8 +104,8 @@ AggregateSubject <- function(exp) {
                "nfix", "skip", "sac", "refix", "reg", "mfix", "total", "rate")
   }
   
-  exp$out$subject <- exp$out$subject[names]
-  row.names(exp$out$subject) <- NULL
+  exp$out$subjects <- exp$out$subjects[names]
+  row.names(exp$out$subjects) <- NULL
   
   return(exp)
   

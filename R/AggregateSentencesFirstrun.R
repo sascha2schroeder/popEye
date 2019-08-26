@@ -1,5 +1,5 @@
 
-AggregateSentenceFirstrun <- function(exp) {
+AggregateSentencesFirstrun <- function(exp) {
   
   # create outfile  
   firstruntmp <- exp$out$fix[exp$out$fix$sent.run == 1, ]

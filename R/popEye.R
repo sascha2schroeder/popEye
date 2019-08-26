@@ -190,7 +190,7 @@ popEye <- function(datpath,
                    exclude.sac = 200,
                    outpath = getwd(), 
                    outname = "",
-                   # NOTE: Maybe combine to one parameter
+                   # NOTE: Maybe combine outpath and outname to one parameter
                    debug.version = NULL,
                    debug.subject = NULL,
                    debug.trial = NULL
@@ -215,13 +215,22 @@ popEye <- function(datpath,
   
   # item files
   word.item <- data.frame(matrix(NA, 1, 8))
-  colnames(word.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "wordnum", "word")
+  colnames(word.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", 
+                           "sentnum", "wordnum", "word")
   
-  ia.item <- data.frame(matrix(NA, 1, 8))
-  colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "ianum", "ia")
+  if (type == "target" | type == "boundary" | type == "fast") {
+    ia.item <- data.frame(matrix(NA, 1, 9))
+    colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", 
+                           "sentnum", "ianum", "ia", "target")
+  } else {
+    ia.item <- data.frame(matrix(NA, 1, 8))
+    colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", 
+                           "sentnum", "ianum", "ia")
+  }
   
   sent.item <- data.frame(matrix(NA, 1, 7))
-  colnames(sent.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent")
+  colnames(sent.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", 
+                           "sentnum", "sent")
   
   # fix
   fix <- NULL
@@ -398,6 +407,8 @@ popEye <- function(datpath,
     
     # v <- 2
     
+    message(paste("Version ", v, sep = ""))
+    
     # list of subjects
     if (tracker.software == "EB") {
       filepath <- paste(datpath, version.list[v], "results/", sep = "")  
@@ -434,7 +445,7 @@ popEye <- function(datpath,
       header$version <- v
       
       # message subject
-      message(paste(". Subject:", s, paste = ""))
+      message(paste(". Subject ", s, ": ", subid, sep = ""))
       
       # TODO: store other information about subject (e.g., version)
       
@@ -694,49 +705,50 @@ popEye <- function(datpath,
   row.names(exp$out$clean) <- NULL
   
   
-  # aggregate word
-  # ---------------
-  
-  message("Aggregate word")
-  
-  exp$out$wordfirst <- AggregateWordFirstrun(exp)
-  exp$out$wordtmp <- AggregateWord(exp)
-  exp <- CombineWord(exp)
-  
-  
-  # aggregate IA
-  # -------------
-  
-  message("Aggregate IA")
-  
-  exp$out$iafirst <- AggregateIAFirstrun(exp)
-  exp$out$iatmp <- AggregateIA(exp)
-  exp <- CombineIA(exp)
-  
-  # aggregate sentence
-  # -------------------
-  
-  message("Aggregate sentence")
-  
-  exp$out$sentfirst <- AggregateSentenceFirstrun(exp)
-  exp$out$senttmp <- AggregateSentence(exp)
-  exp <- CombineSentence(exp)
-  
-  
-  # aggregate trial
+  # aggregate words
   # ----------------
   
-  message("Aggregate trial")
+  message("Aggregate words")
   
-  exp <- AggregateTrial(exp)
+  exp$out$wordfirst <- AggregateWordsFirstrun(exp)
+  exp$out$wordtmp <- AggregateWords(exp)
+  exp <- CombineWords(exp)
   
   
-  # compute overview file
-  # ----------------------
+  # aggregate IAs
+  # --------------
   
-  message("Aggregate subject")
+  message("Aggregate IAs")
   
-  exp <- AggregateSubject(exp)
+  exp$out$iafirst <- AggregateIAsFirstrun(exp)
+  exp$out$iatmp <- AggregateIAs(exp)
+  exp <- CombineIAs(exp)
+  
+  
+  # aggregate sentences
+  # --------------------
+  
+  message("Aggregate sentences")
+  
+  exp$out$sentfirst <- AggregateSentencesFirstrun(exp)
+  exp$out$senttmp <- AggregateSentences(exp)
+  exp <- CombineSentences(exp)
+  
+  
+  # aggregate trials
+  # -----------------
+  
+  message("Aggregate trials")
+  
+  exp <- AggregateTrials(exp)
+  
+  
+  # aggregate subjects
+  # ------------------
+  
+  message("Aggregate subjects")
+  
+  exp <- AggregateSubjects(exp)
   
   
   # clean up
@@ -763,7 +775,7 @@ popEye <- function(datpath,
     outname <- tmp[length(tmp)]
   }
 
-  save
+  # save
   saveRDS(exp, file = paste(outpath, "/", outname, ".RDS", sep = ""))
   
 }

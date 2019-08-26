@@ -4,6 +4,8 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   # prepare slots for trials
   ret <- rep(list(NA), length(table(dat$msg$trialnum)))
   
+  print(head(ret))
+  
   
   # trial loop
   # -----------
@@ -18,12 +20,15 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   
   for (trial in trial.arg1:trial.arg2) {
     
+    print(trial)
+    
     start <- RetrieveStartStop(dat, trial)$start
     stop <- RetrieveStartStop(dat, trial)$stop
 
     tmp <- SelectTrial(dat, start, stop)
     tmp <- TrialTime(tmp) # -> part of SelectTrial() ?
 
+    print(head(tmp))
     
     # create trial slot
     # ------------------

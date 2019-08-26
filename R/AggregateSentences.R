@@ -1,5 +1,5 @@
 
-AggregateSentence <- function(exp) {
+AggregateSentences <- function(exp) {
   
   # create outfile  
   senttmp <- exp$out$fix[exp$out$fix$type == "in", ]

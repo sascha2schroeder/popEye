@@ -1,5 +1,5 @@
 
-AggregateWord <- function(exp) {
+AggregateWords <- function(exp) {
   
   # create outfile  
   wordtmp <- exp$out$fix[exp$out$fix$type == "in", ]

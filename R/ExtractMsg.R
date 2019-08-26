@@ -62,10 +62,12 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     tmp <- dat[grep("DRIFTCORRECT", dat)]
     
     # remove repetitions
-    tmp <- tmp[-grep("REPEATING", tmp)]
-   
+    if (sum(grepl("REPEATING", tmp)) > 0) {
+      tmp <- tmp[-grep("REPEATING", tmp)]
+    }
+    
     # remove aborted trials
-    if (length(grep("ABORTED", tmp)) > 0) {
+    if (sum(grepl("ABORTED", tmp)) > 0) {
       tmp <- tmp[-grep("ABORTED", tmp)]
     }
     
@@ -74,7 +76,6 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     drift <- as.numeric(sapply(strsplit(tmp, " "), "[[", 9))
     x <- sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 12), ","), "[[", 1)
     y <- sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 12), ","), "[[", 2)
-    
     env$header$drift <- data.frame(time = time, trialnum = trialnum, 
                                    itemid = itemid, drift = drift, x = x, y = y)
       
@@ -117,8 +118,7 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
   # ---------------------
   
   # FIX: if start message is empty
-  if (env$exp$setup$message$start == "" | env$exp$setup$message$start == "DRAW_LIST") {
-    env$exp$setup$message$start <- "DRAW_LIST"
+  if (env$exp$setup$message$start == "DRAW_LIST") {
     dat <- gsub("!V DRAW_LIST", "DRAW_LIST", dat)
   }
   

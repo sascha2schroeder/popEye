@@ -1,5 +1,5 @@
 
-AggregateIA <- function(exp) {
+AggregateIAs <- function(exp) {
   
   # create outfile  
   iatmp <- exp$out$fix[exp$out$fix$type == "in", ]
@@ -37,12 +37,18 @@ AggregateIA <- function(exp) {
   # ------------------
   
   # delete variables
-  ia <- ia[, -match(c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum",
-                      "ianum", "ia"), colnames(ia))]
+  if (exp$setup$type == "target" | exp$setup$type == "boundary" | exp$setup$type == "fast") {
+    ia <- ia[, -match(c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum",
+                        "ianum", "ia", "target"), colnames(ia))]
+  } else {
+    ia <- ia[, -match(c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum",
+                        "ianum", "ia"), colnames(ia))]
+  }
   
   item <- exp$out$ia.item
   item$id <- as.character(paste(item$subid, item$trialnum, item$ianum, sep = ":"))
   ia <- merge(ia, item, by = "id", all.y = T)
+  
   ia$skip <- 0
   ia$skip[is.na(ia$blink) == T] <- 1
   
@@ -53,17 +59,15 @@ AggregateIA <- function(exp) {
   # save
   # -----
   
-  if (exp$setup$type == "text" | exp$setup$type == "sentence") {
-    names <- c("subid", "trialid", "trialnum", "itemid", "cond", 
-               "sentnum", "ianum", "ia", 
-               "blink", "skip", "nrun", "reread", "nfix", "refix", 
-               "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
-  }
-  
   if (exp$setup$type == "target" | exp$setup$type == "boundary" | exp$setup$type == "fast") {
     names <- c("subid", "trialid", "trialnum", "itemid", "cond", 
                "sentnum", "ianum", "ia",
                "target", "blink", "skip", "nrun", "reread", "nfix", "refix",
+               "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
+  } else {
+    names <- c("subid", "trialid", "trialnum", "itemid", "cond", 
+               "sentnum", "ianum", "ia", 
+               "blink", "skip", "nrun", "reread", "nfix", "refix", 
                "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
   }
   
