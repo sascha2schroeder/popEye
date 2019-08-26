@@ -8,9 +8,15 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   # trial loop
   # -----------
   
-  for (trial in 1:length(table(dat$msg$trialnum))) {
-  # for (trial in 3:3) {
-    # trial <- 3
+  if (is.null(env$debug.trial) == T) {
+    trial.arg1 <- 1
+    trial.arg2 <- length(table(dat$msg$trialnum))
+  } else {
+    trial.arg1 <- env$debug.trial
+    trial.arg2 <- env$debug.trial
+  }
+  
+  for (trial in trial.arg1:trial.arg2) {
     
     start <- RetrieveStartStop(dat, trial)$start
     stop <- RetrieveStartStop(dat, trial)$stop
@@ -61,6 +67,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     tmp$msg$itemid <- NULL # remove condition from msg object
     tmp$msg$condition <- NULL # remove condition from msg object
     tmp$msg$dependency <- NULL # remove condition from msg object
+    
     
     if (sum(tmp$event$msg == "SFIX") >= 3) { # FIX: skip if there are less than three fixations in trial
     # TODO: this only works for Eyelink -> FIX
@@ -120,19 +127,24 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                           xy = xy,
                           vxy = vxy,
                           parse = clean)
+      
   }
   
-  # check for empty slots
-  for (i in length(ret):1) {
-    if (length(ret[[i]]$parse) == 1) {
-      ret[[i]] <- NULL
-    }
-  }
-  
+  # check for empty slots and save
   if (is.null(env$debug.trial) == T) {
+    
+    for (i in length(ret):1) {
+      if (length(ret[[i]]$parse) == 1) {
+        ret[[i]] <- NULL
+      }
+    }
+    
     dat$trial <- ret
+    
   } else {
+    
     dat$trial[[1]] <- ret[[env$debug.trial]]
+    
   }
   
   dat$msg <- NULL

@@ -434,7 +434,7 @@ popEye <- function(datpath,
       header$version <- v
       
       # message subject
-      message(paste(". Subject: ", subid, paste = ""))
+      message(paste(". Subject:", s, paste = ""))
       
       # TODO: store other information about subject (e.g., version)
       
