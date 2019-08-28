@@ -6,27 +6,16 @@ ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
   # determine tresholds
   # ---------------------
   
-  # compute threshold
-  medx <- median(vxy$x, na.rm = T)
-  msdx <- MedianSD(vxy$x)
-  medy <- median(vxy$y, na.rm = T)
-  msdy <- MedianSD(vxy$y)
-  
-  # compute radius
-  radiusx <- env$exp$setup$analysis$vfac * msdx
-  radiusy <- env$exp$setup$analysis$vfac * msdy
-  radius <- data.frame(cbind(radiusx, radiusy))
-  names(radius) <- c('x', 'y')
-  
+  radius <- ComputeRadius(vxy)
   
   # compute test criterion: ellipse equation
   if (env$meta$calibration.method == "H3") {
     
-    test <- (vxy$x / radiusx)^2 # 3 point calibration (no y dimension)
+    test <- (vxy$x / radius$x)^2 # 3 point calibration (no y dimension)
     
   } else {
     
-    test <- (vxy$x / radiusx)^2 + (vxy$y / radiusy)^2
+    test <- (vxy$x / radius$x)^2 + (vxy$y / radius$y)^2
     
   }
   
@@ -61,7 +50,7 @@ ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
   }
   
   # FIX: check number of saccades
-  # -------------------------
+  # ------------------------------
   
   if (nsac == 0) {
     sacout <- data.frame(matrix(0, 1, 7))

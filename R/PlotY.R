@@ -1,5 +1,5 @@
 
-PlotY <- function(exp, subject, trial, sub = F, pdf = pdf) {
+PlotY <- function(exp, subject, trial, sub = F, pdf = pdf, interactive = F) {
   
     # start pdf
   if (sub == F) {
