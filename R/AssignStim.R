@@ -13,24 +13,42 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # x axis
   if (env$exp$setup$analysis$driftX == T) {
-    fix$xn <- fix$xs + (env$exp$setup$display$marginLeft - fix$xs[1])
+    
+    # fix$xn <- fix$xs + (env$exp$setup$display$marginLeft - fix$xs[1])
+    
+    if (is.na(dat$trial[[trial]]$meta$drift) == F) {
+      fix$xn <- fix$xs - dat$trial[[trial]]$meta$drift.x
+    } else {
+      fix$xn <- fix$xs 
+    }
+    
   } else {
+    
     fix$xn <- fix$xs 
+    
   }
   
   # y axis
   if (env$exp$setup$analysis$driftY == T) {
     
-    if (fix$ys[1] < 0) {
-      fix$yn <- fix$ys
+    if (is.na(dat$trial[[trial]]$meta$drift) == F) {
+      fix$yn <- fix$ys - dat$trial[[trial]]$meta$drift.y + env$exp$setup$font$height / 2
     } else {
-      fix$yn <- fix$ys + (env$exp$setup$display$marginTop - fix$ys[1]) + env$exp$setup$font$height / 2
+      fix$yn <- fix$ys
     }
+    
+    # if (fix$ys[1] < 0) {
+    #   fix$yn <- fix$ys
+    # } else {
+    #   fix$yn <- fix$ys + (env$exp$setup$display$marginTop - fix$ys[1]) + env$exp$setup$font$height / 2
+    # }
+    
   } else {
+    
     fix$yn <- fix$ys
+    
   }
 
-  
   # line assignment 
   # ----------------
   

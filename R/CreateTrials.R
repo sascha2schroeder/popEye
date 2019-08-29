@@ -9,12 +9,12 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   # trial loop
   # -----------
   
-  if (is.null(env$debug.trial) == T) {
+  if (is.null(env$select.trial) == T) {
     trial.arg1 <- 1
     trial.arg2 <- length(table(dat$msg$trialnum))
   } else {
-    trial.arg1 <- env$debug.trial
-    trial.arg2 <- env$debug.trial
+    trial.arg1 <- env$select.trial
+    trial.arg2 <- env$select.trial
   }
   
   for (trial in trial.arg1:trial.arg2) {
@@ -32,19 +32,19 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     time <- env$header$trial$time[trial]
     sel <- tail(env$header$calibration[env$header$calibration$time < time, ], n = 1)
     
-    if (is.null(env$header$drift)) {
-      meta <- list(trialid = trial, 
-                   trialnum = max(tmp$msg$trialnum), 
-                   itemid = max(tmp$msg$itemid), 
-                   condition = max(tmp$msg$condition), 
-                   dependency = max(tmp$msg$dependency),
-                   start = time,
-                   calibration.method = sel$method,
-                   calibration.avg = as.numeric(sel$avg),
-                   calibration.max = as.numeric(sel$max)
-      )                 
-      
-    } else {
+    # if (is.null(env$header$drift)) {
+    #   meta <- list(trialid = trial, 
+    #                trialnum = max(tmp$msg$trialnum), 
+    #                itemid = max(tmp$msg$itemid), 
+    #                condition = max(tmp$msg$condition), 
+    #                dependency = max(tmp$msg$dependency),
+    #                start = time,
+    #                calibration.method = sel$method,
+    #                calibration.avg = as.numeric(sel$avg),
+    #                calibration.max = as.numeric(sel$max)
+    #   )                 
+    #   
+    # } else {
      
       meta <- list(trialid = trial, 
                    trialnum = max(tmp$msg$trialnum), 
@@ -55,12 +55,12 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                    calibration.method = sel$method,
                    calibration.avg = as.numeric(sel$avg),
                    calibration.max = as.numeric(sel$max),
-                   drift = env$header$drift$drift[trial],
-                   drift.x = as.numeric(as.character(env$header$drift$x[trial])),
-                   drift.y = as.numeric(as.character(env$header$drift$y[trial]))
+                   drift = env$header$trial$drift[trial],
+                   drift.x = as.numeric(as.character(env$header$trial$drift.x[trial])),
+                   drift.y = as.numeric(as.character(env$header$trial$drift.y[trial]))
       )                 
       
-    }
+    # }
     
     env$meta <- meta
     
@@ -132,7 +132,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   }
   
   # check for empty slots and save
-  if (is.null(env$debug.trial) == T) {
+  if (is.null(env$select.trial) == T) {
     
     for (i in length(ret):1) {
       if (length(ret[[i]]$parse) == 1) {
@@ -144,7 +144,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     
   } else {
     
-    dat$trial[[1]] <- ret[[env$debug.trial]]
+    dat$trial[[1]] <- ret[[env$select.trial]]
     
   }
   
@@ -153,7 +153,6 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   dat$event <- NULL
   env$header$trial <- NULL
   env$header$calibration <- NULL
-  env$header$drift <- NULL
   env$meta <- NULL
   
   return(dat)

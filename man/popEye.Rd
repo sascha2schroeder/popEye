@@ -28,8 +28,8 @@ popEye(datpath, stimulus.file, tracker.model = "eyelink",
   clean.stage3Dur = 140, clean.stage4 = FALSE, clean.stage4Min = 80,
   clean.stage4Max = 800, clean.delete = FALSE, clean.outlier = FALSE,
   exclude.blink = FALSE, exclude.nfix = 3, exclude.sac = 200,
-  outpath = getwd(), outname = "", debug.version = NULL,
-  debug.subject = NULL, debug.trial = NULL)
+  outpath = getwd(), outname = "", select.version = NULL,
+  select.subject = NULL, select.trial = NULL)
 }
 \arguments{
 \item{datpath}{Path to eye tracking files}
@@ -209,13 +209,13 @@ received (deleted otherwise; default is 3)}
 
 \item{outname}{Name of output file}
 
-\item{debug.version}{Restrict analysis to a specific version of the experiment
+\item{select.version}{Restrict analysis to a specific version of the experiment
 (numeric; internal for debugging; only relevant for EB experiments)}
 
-\item{debug.subject}{Restrict analysis to a specific subject (within a version)
+\item{select.subject}{Restrict analysis to a specific subject (within a version)
 (numeric; internal for debugging)}
 
-\item{debug.trial}{Restrict analysis to a specific trial (numeric; internal for debugging)}
+\item{select.trial}{Restrict analysis to a specific trial (numeric; internal for debugging)}
 }
 \description{
 This function is used when you want to analyze eye tracking data using popEye.

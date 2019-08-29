@@ -1,16 +1,27 @@
 
-ComputeClean <- function(dat, env = parent.frame(n = 1)) {
+CreateClean <- function(dat, env = parent.frame(n = 1)) {
   
   # TODO: write retrieval functions
   
   cleantmp <- data.frame(matrix(NA, length(dat$trial), 5))
   colnames(cleantmp) <- c("subid", "trialid", "trialnum", "itemid", "cond")
   
+  
   # extract values
   cleantmp$trialid <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "trialid"))
   cleantmp$trialnum <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "trialnum"))
   cleantmp$itemid <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "itemid"))
   cleantmp$cond <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "condition"))
+  
+  cleantmp$calibration.method <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "calibration.method"))
+  cleantmp$calibration.avg <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "calibration.avg"))
+  cleantmp$calibration.max <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "calibration.max"))
+  
+  if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
+    cleantmp$drift <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "drift"))
+    cleantmp$drift.x <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "drift.x"))
+    cleantmp$drift.y <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "drift.y"))
+  }
   
   cleantmp$trial.fix <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "nfix"))
   cleantmp$trial.blink <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "blink"))

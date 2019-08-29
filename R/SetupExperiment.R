@@ -3,22 +3,14 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   
   
   # setup tracker
-  # --------------
-  
   tracker <- list(model = env$tracker.model, 
                   software = env$tracker.software,
                   results = env$tracker.results)
   
-  
   # setup experiment type
-  # ----------------------
-  
   type <- env$type
   
-  
   # messages
-  # ---------
-  
   message <- list(start = NA, stop = NA)  
   message$start <- env$message.start
   message$stop <- env$message.stop
@@ -32,43 +24,17 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     message$prime <- env$message.prime
   }
   
-  
   # variable
-  # ---------
-  # if (env$variable.id == "") env$variable.id <- "id"
-  # variable.id <- env$variable.id
-  # if (env$variable.cond == "") env$variable.cond <- NA
-  # if (length(env$variable.cond) > 1) env$variable.cond <- paste(env$variable.cond, collapse = ":")
-  # variable.cond <- env$variable.cond
-
   variable <- list(id = env$variable.id,
                cond = env$variable.cond)
   
-  
   # item
-  # -----
-  
-  # if (env$item.pracnum == "") env$item.pracnum <- 0
-  # if (env$item.practice == "") env$item.practice <- "^P"
-  # if (env$item.trigger == "") env$item.trigger <- "999"
-  # if (env$item.question == "") env$item.question <- 1000
-  
   item <- list(pracnum = env$item.pracnum,
                practice = env$item.practice,
                trigger = env$item.trigger,
                question = env$item.question)
   
-  
   # stimfile
-  # ---------
- 
-  # if (env$stimulus.id == "") env$stimulus.id <- "id"
-  # if (env$stimulus.cond == "") env$stimulus.cond <- NA
-  # if (length(env$stimulus.cond) > 1) env$stimulus.cond <- paste(env$stimulus.cond, collapse = ":")
-  # if (env$stimulus.preview == "") env$stimulus.preview <- "preview"
-  # if (env$stimulus.prime == "") env$stimulus.prime <- "prime"
-  # if (env$stimulus.text == "") env$stimulus.text <- "text"
-  
   stimulus <- list(file = env$stimulus.file,
                    id = env$stimulus.id,
                    cond = env$stimulus.cond,
@@ -76,28 +42,13 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                    prime = env$stimulus.prime,
                    text = env$stimulus.text)
 
-  
   # indicator
-  # ----------
-    
-  # if (env$indicator.word == "") env$indicator.word <- " "
-  # if (env$indicator.ia == "") env$indicator.ia <- " "
-  # if (env$indicator.target == "") env$indicator.target <- "\\*"
-  # if (env$indicator.line == "") env$indicator.line <- "\\\\n"
-  
   indicator <- list(word = env$indicator.word,
                     ia = env$indicator.ia,
                     target = env$indicator.target,
                     line = env$indicator.line)                 
   
-  
   # display
-  # --------
-  
-  # if (env$display.marginLeft == "") env$display.marginLeft <- 150
-  # if (env$display.marginTop == "") env$display.marginTop <- 300
-  # if (env$display.marginRight == "") env$display.marginRight <- 50
-  # if (env$display.marginBottom == "") env$display.marginBottom <- 100
   display <- list(marginLeft = env$display.marginLeft,
                   marginTop = env$display.marginTop,
                   marginRight = env$display.marginRight,
@@ -110,11 +61,9 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # -----
   
   # TODO: specify height indicators for all fonts
+  # NOTE: maybe in separate function
   
   # font type
-  # if (env$font.name == "") env$font.name <- "CourierNew"
-  # if (env$font.size == "") env$font.size <- 16
-  # if (env$font.spacing == "") env$font.spacing <- "2"
   font <- list(name = env$font.name, 
                size = env$font.size,
                spacing = env$font.spacing)
@@ -247,21 +196,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
 
   
   # analysis
-  # ---------
-  # if (env$analysis.eyelink == "") env$analysis.eyelink <- FALSE
-  # if (env$analysis.vfac == "") env$analysis.vfac <- 5
-  # if (env$analysis.mindur == "") env$analysis.mindur <- 10
-  # if (env$analysis.postdur == "") env$analysis.postdur <- 30
-  # if (env$analysis.drift == "") env$analysis.drift <- TRUE
-  # if (env$analysis.sparse == "") env$analysis.sparse <- TRUE
-  # if (env$analysis.driftX == "") env$analysis.driftX <- FALSE
-  # if (env$analysis.driftY == "") env$analysis.driftY <- FALSE
-  # if (env$analysis.lineMethod == "") env$analysis.lineMethod <- "chain"
-  # if (env$analysis.outlierX == "") env$analysis.outlierX <- 2
-  # if (env$analysis.outlierY == "") env$analysis.outlierY <- 2
-  # if (env$analysis.lineX == "") env$analysis.lineX <- 20
-  # if (env$analysis.lineY == "") env$analysis.lineY <- 2
-  
   analysis <- list(eyelink = env$analysis.eyelink, vfac = env$analysis.vfac,
                    mindur = env$analysis.mindur, postdur = env$analysis.postdur,
                    drift = env$analysis.drift, sparse = env$analysis.sparse,
@@ -274,20 +208,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
 
     
   # cleaning
-  # -----------
-  
-  # if (env$clean.stage1Dur == "") env$clean.stage1Dur <- 80
-  # if (env$clean.stage1Dist == "") env$clean.stage1Dist <- 1
-  # if (env$clean.stage2Dur == "") env$clean.stage2Dur <- 40
-  # if (env$clean.stage2Dist == "") env$clean.stage2Dist <- 3
-  # if (env$clean.stage3 == "") env$clean.stage3 <- FALSE
-  # if (env$clean.stage3Dur == "") env$clean.stage3Dur <- 140
-  # if (env$clean.stage4 == "") env$clean.stage4 <- FALSE
-  # if (env$clean.stage4Min == "") env$clean.stage4Min <- 80
-  # if (env$clean.stage4Max == "") env$clean.stage4Max <- 800
-  # if (env$clean.delete == "") env$clean.delete <- FALSE
-  # if (env$clean.outlier == "") env$clean.outlier <- FALSE
-  
   clean <- list(stage1Dur = env$clean.stage1Dur, 
                 stage1Dist = env$clean.stage1Dist,
                 stage2Dur = env$clean.stage2Dur, 
@@ -303,19 +223,12 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
 
   
   # exclude
-  # --------
-  
-  # if (env$exclude.blink == "") env$exclude.blink <- FALSE
-  # if (env$exclude.nfix == "") env$exclude.nfix <- 3
-  # if (env$exclude.sac == "") env$exclude.sac <- 200
   exclude <- list(blink = env$exclude.blink,
                   nfix = env$exclude.nfix,
                   sac = env$exclude.sac)
 
     
-  # merge setup slot
-  # -----------------
-  
+  # write out
   setup <- list(tracker = tracker, type = type, message = message, item = item,
                 variable = variable, stimulus = stimulus, indicator = indicator, 
                 display = display, font = font, clean = clean, 

@@ -66,6 +66,7 @@ AggregateTrials <- function(exp, env = parent.frame(n = 1)) {
   # compute rereading time
   trial$rereading <- round(as.numeric(tapply(word$dur[trialtmp$type == "in"] - word$firstrun.dur[trialtmp$type == "in"], list(word$id[trialtmp$type == "in"]), sum, na.rm = T)))
   
+  
   # return
   names <- c("subid", "trialid", "trialnum", "itemid", "cond", "trial", 
              "trial.nwords", "nblink", "nrun", "nfix", "nout", 

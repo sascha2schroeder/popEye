@@ -16,12 +16,6 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
     env$header$trial$trialnum <- env$header$trial$trialnum - practice
     env$header$trial <- env$header$trial[env$header$trial$itemid %in% keep, ]
     
-    # drift
-    env$header$drift <- env$header$drift[env$header$drift$trialnum > practice, ]
-    env$header$drift$trialnum <- env$header$drift$trialnum - practice
-    env$header$drift <- env$header$drift[env$header$drift$itemid %in% keep, ]
-    
-    
   } else if (env$exp$setup$tracker$software == "ET") {
     
     practice <- env$exp$setup$clean$practice

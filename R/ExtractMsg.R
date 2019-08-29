@@ -12,6 +12,7 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
   time <- as.numeric(sapply(strsplit(tmp[grep("TRIALID", tmp)], " "), "[[", 1))
   trialnum <- 1:length(time)
   
+  
   # EB
   if (env$exp$setup$tracker$software == "EB") {
   
@@ -52,33 +53,6 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     dependency <- as.numeric(rep(0, length(itemid)))
     # NOTE: does not make much sense; store to be parallel with ET
     
-    
-    # driftcorrect
-    # -------------
-    
-    # NOTE: check whether driftcorrect is present for EB
-    
-    # extract driftcorrect elements
-    tmp <- dat[grep("DRIFTCORRECT", dat)]
-    
-    # remove repetitions
-    if (sum(grepl("REPEATING", tmp)) > 0) {
-      tmp <- tmp[-grep("REPEATING", tmp)]
-    }
-    
-    # remove aborted trials
-    if (sum(grepl("ABORTED", tmp)) > 0) {
-      tmp <- tmp[-grep("ABORTED", tmp)]
-    }
-    
-    time <- as.numeric(sapply(strsplit(sapply(strsplit(
-      tmp, " "), "[[", 1), "\t"), "[[", 2))
-    drift <- as.numeric(sapply(strsplit(tmp, " "), "[[", 9))
-    x <- sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 12), ","), "[[", 1)
-    y <- sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 12), ","), "[[", 2)
-    env$header$drift <- data.frame(time = time, trialnum = trialnum, 
-                                   itemid = itemid, drift = drift, x = x, y = y)
-      
   }
   
   # ET
@@ -111,6 +85,52 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
   trial <- data.frame(time = time, trialnum = trialnum, itemid = itemid,
                       condition = condition, dependency = dependency,
                       stringsAsFactors = FALSE)
+  
+  
+  # driftcorrect
+  # -------------
+  
+  if (sum(grepl("DRIFTCORRECT", dat)) > 0) {
+    
+    # extract driftcorrect elements
+    tmp <- dat[grep("DRIFTCORRECT", dat)]
+    
+    # remove repetitions
+    if (sum(grepl("REPEATING", tmp)) > 0) {
+      tmp <- tmp[-grep("REPEATING", tmp)]
+    }
+    
+    # remove aborted trials
+    if (sum(grepl("ABORTED", tmp)) > 0) {
+      tmp <- tmp[-grep("ABORTED", tmp)]
+    }
+    
+    drifttime <- as.numeric(sapply(strsplit(sapply(strsplit(
+      tmp, " "), "[[", 1), "\t"), "[[", 2))
+    drift <- as.numeric(sapply(strsplit(tmp, " "), "[[", 9))
+    x <- sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 12), ","), "[[", 1)
+    y <- sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 12), ","), "[[", 2)
+    # env$header$drift <- data.frame(time = drifttime, drift = drift, x = x, y = y)
+    
+    trial$drift <- NA
+    trial$drift.x <- NA
+    trial$drift.y <- NA
+    
+    for (i in 1:nrow(trial)) {
+      
+      sel <- abs(trial$time[i] - drifttime)
+      if (min(sel) > 20) next
+      if (abs(drift[which.min(sel)]) > 10) next
+      
+      trial$drift[i] <- drift[which.min(sel)]
+      trial$drift.x[i] <- x[which.min(sel)]
+      trial$drift.y[i] <- y[which.min(sel)]
+      
+    }
+    
+  }
+  
+  # write out trial to header
   env$header$trial <- trial
   
   
