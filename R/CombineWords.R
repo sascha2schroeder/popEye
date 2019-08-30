@@ -52,7 +52,6 @@ CombineWords <- function(exp) {
   exp$out$words$gopast <- NULL
   exp$out$words$gopast.sel <- NULL
   
-  
   # delete firstrun measures if firstrun.blink
   exp$out$words$firstrun.nfix[exp$out$words$firstrun.skip == 1] <- NA
   exp$out$words$firstrun.refix[exp$out$words$firstrun.skip == 1] <- NA
@@ -105,34 +104,6 @@ CombineWords <- function(exp) {
   # duration
   exp$out$words$singlefix.dur <- NA
   exp$out$words$singlefix.dur[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1] <- exp$out$words$firstfix.dur[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1]
-  
-  
-  # delete firstrun and singlefix variables for firstskips
-  # ------------------------------------------------------
-  
-  # exp$out$words$firstrun.gopast[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstrun.gopast.sel[exp$out$words$firstrun.skip == 1] <- NA
-  # 
-  # exp$out$words$firstrun.nfix[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstrun.refix[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstrun.reg.in[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstrun.reg.out[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstrun.dur[exp$out$words$firstrun.skip == 1] <- NA
-  # 
-  # exp$out$words$firstfix.sac.in[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstfix.sac.out[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstfix.launch[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstfix.land[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstfix.cland[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstfix.dur[exp$out$words$firstrun.skip == 1] <- NA
-  # 
-  # exp$out$words$singlefix[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$singlefix.sac.in[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$singlefix.sac.out[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$singlefix.launch[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$singlefix.land[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$singlefix.cland[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$singlefix.dur[exp$out$words$firstrun.skip == 1] <- NA
   
   return(exp)
   

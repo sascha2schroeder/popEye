@@ -4,7 +4,7 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
   for (trial in 1:length(dat$trial)) {
     # trial <- 2
     
-    # dat <- OutlierAsBlinks(dat, trial) 
+    dat <- OutlierAsBlinks(dat, trial)
     # NOTE: not sure whether this function makes sense
     
     dat <- ComputeLineChange(dat, trial)
@@ -39,6 +39,7 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "sac.out",
                  "type", 
                  "blink",            
+                 "linerun",
                  "line", 
                  "line.change",
                  "letternum", 
@@ -91,7 +92,9 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "sent.reg.out", 
                  "sent.reg.in"
       )
+      
     } else {
+      
       names <- c("subid", 
                  "trialid", 
                  "trialnum", 
@@ -110,6 +113,7 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "sac.out",
                  "type", 
                  "blink",
+                 "linerun",
                  "line", 
                  "line.change",
                  "line.let",

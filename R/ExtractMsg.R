@@ -94,6 +94,7 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     
     # extract driftcorrect elements
     tmp <- dat[grep("DRIFTCORRECT", dat)]
+    tmp <- gsub("  ", " ", tmp)
     
     # remove repetitions
     if (sum(grepl("REPEATING", tmp)) > 0) {
@@ -107,10 +108,9 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     
     drifttime <- as.numeric(sapply(strsplit(sapply(strsplit(
       tmp, " "), "[[", 1), "\t"), "[[", 2))
-    drift <- as.numeric(sapply(strsplit(tmp, " "), "[[", 9))
-    x <- sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 12), ","), "[[", 1)
-    y <- sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 12), ","), "[[", 2)
-    # env$header$drift <- data.frame(time = drifttime, drift = drift, x = x, y = y)
+    drift <- as.numeric(sapply(strsplit(tmp, " "), "[[", 8))
+    x <- as.numeric(sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 10), ","), "[[", 1))
+    y <- as.numeric(sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 10), ","), "[[", 2))
     
     trial$drift <- NA
     trial$drift.x <- NA
@@ -119,7 +119,7 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     for (i in 1:nrow(trial)) {
       
       sel <- abs(trial$time[i] - drifttime)
-      if (min(sel) > 20) next
+      if (min(sel) > 200) next
       if (abs(drift[which.min(sel)]) > 10) next
       
       trial$drift[i] <- drift[which.min(sel)]

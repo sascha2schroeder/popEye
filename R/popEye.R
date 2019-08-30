@@ -398,7 +398,6 @@ popEye <- function(datpath,
       message(".. Cleaning trial")
       
       dat <- CleanAll(dat)
-      
       # NOTE: think about relationship between cleaning here and in main analysis
       
       
@@ -454,29 +453,6 @@ popEye <- function(datpath,
       
       sent.itemtmp <- ItemFileSent(dat)
       sent.item <- rbind(sent.item, sent.itemtmp)
-      
-      
-      # select fixations
-      # -----------------
-      
-      # message(".. Collect fixations")
-      # 
-      # fixtmp <- SelectFix(dat)
-      # # fixtmp$subid <-  subid
-      # fix <- rbind(fix, fixtmp)
-      # fix <- fix[order(fix$subid, fix$trialnum, fix$fixid), ]
-      
-      
-      # # select saccades
-      # # -----------------
-      # 
-      # message(".. Select saccades")
-      # 
-      # sactmp <- SelectSac(dat)
-      # 
-      # sactmp$subid <-  subid
-      # sac <- rbind(sac, sactmp)
-      # sac <- sac[order(sac$subid, sac$trialnum, sac$sacid), ]
       
       
       # results file

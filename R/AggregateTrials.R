@@ -3,10 +3,9 @@ AggregateTrials <- function(exp, env = parent.frame(n = 1)) {
 
   # create outfile  
   trialtmp <- exp$out$fix
-  
   trialtmp$id <- paste(trialtmp$subid, trialtmp$trialnum, sep = ":")
-  trialtmp <- trialtmp[is.na(trialtmp$trial.nwords) == F, ]
-  trial <- trialtmp[duplicated(trialtmp$id) == F, ]
+  
+  trial <- trialtmp[duplicated(trialtmp$id) == F & is.na(trialtmp$trial.nwords) == F, ]
   names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "trial", 
              "trial.nwords")
   trial <- trial[names]  
