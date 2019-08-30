@@ -98,12 +98,12 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
     
   }
   
-  # # rename fixid
+  # rename fixid
   sac$sacid <- sac$num
   
   # names and return
     names <- c("subid", "trialid", "trialnum", "itemid", "cond", "sacid", "msg", 
-               "xs", "xe", "ys", "ye", "start", "stop", 
+               "xs", "xe", "ys", "ye", "xsn", "xen", "ysn", "yen", "start", "stop", 
                "dist.px", "dist.let", "peak.vel", "dur")
   sac <- sac[names]
   

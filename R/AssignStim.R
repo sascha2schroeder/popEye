@@ -48,6 +48,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     fix$yn <- fix$ys
     
   }
+  
 
   # line assignment 
   # ----------------

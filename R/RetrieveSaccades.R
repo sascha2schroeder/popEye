@@ -1,5 +1,5 @@
 
-RetrieveSaccades <- function(dat, trial) {
+RetrieveSaccades <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # trial = 1
   
@@ -36,6 +36,53 @@ RetrieveSaccades <- function(dat, trial) {
   
   # NOTE: deletes first saccade (if there is one)
   # NOTE: deletes last saccade (if there is one)
+  
+  
+  # drift correct 
+  # ---------------
+  
+  # x axis
+  if (env$exp$setup$analysis$driftX == T) {
+    
+    if (is.na(dat$trial[[trial]]$meta$drift) == F) {
+      
+      dat$trial[[trial]]$sac$xsn <- dat$trial[[trial]]$sac$xs - dat$trial[[trial]]$meta$drift.x
+      dat$trial[[trial]]$sac$xen <- dat$trial[[trial]]$sac$xe - dat$trial[[trial]]$meta$drift.x
+      
+    } else {
+      
+      dat$trial[[trial]]$sac$xsn <- dat$trial[[trial]]$sac$xs
+      dat$trial[[trial]]$sac$xen <- dat$trial[[trial]]$sac$xe
+    }
+    
+  } else {
+    
+    dat$trial[[trial]]$sac$xsn <- dat$trial[[trial]]$sac$xs
+    dat$trial[[trial]]$sac$xen <- dat$trial[[trial]]$sac$xe
+    
+  }
+  
+  # y axis
+  if (env$exp$setup$analysis$driftY == T) {
+    
+    if (is.na(dat$trial[[trial]]$meta$drift) == F) {
+      
+      dat$trial[[trial]]$sac$ysn <- dat$trial[[trial]]$sac$ys - dat$trial[[trial]]$meta$drift.y + env$exp$setup$font$height / 2
+      dat$trial[[trial]]$sac$yen <- dat$trial[[trial]]$sac$ye - dat$trial[[trial]]$meta$drift.y + env$exp$setup$font$height / 2
+      
+    } else {
+      
+      dat$trial[[trial]]$sac$ysn <- dat$trial[[trial]]$sac$ys
+      dat$trial[[trial]]$sac$yen <- dat$trial[[trial]]$sac$ye
+      
+    }
+    
+  } else {
+    
+    dat$trial[[trial]]$sac$ysn <- dat$trial[[trial]]$sac$ys
+    dat$trial[[trial]]$sac$yen <- dat$trial[[trial]]$sac$ye
+    
+  }
   
   return(dat)
   

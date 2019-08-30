@@ -51,10 +51,9 @@ PlotSentenceX <- function(exp, subject, trial, pdf = NULL, interactive = F,
   
   # add blinks
   blink <- tmp$sac[tmp$sac$msg == "BLINK", ]
-  
   if (nrow(blink) > 0) {
     for (i in 1:nrow(blink)) {
-      arrows(blink$xs[i], blink$ys[i], blink$xe[i], blink$ye[i], col = "red", code = 0)
+      arrows(blink$xsn[i], blink$ysn[i], blink$xen[i], blink$yen[i], col = "red", code = 0)
     }
   }
   
