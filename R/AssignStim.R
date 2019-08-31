@@ -14,8 +14,6 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # x axis
   if (env$exp$setup$analysis$driftX == T) {
     
-    # fix$xn <- fix$xs + (env$exp$setup$display$marginLeft - fix$xs[1])
-    
     if (is.na(dat$trial[[trial]]$meta$drift) == F) {
       fix$xn <- fix$xs - dat$trial[[trial]]$meta$drift.x
     } else {
@@ -36,12 +34,6 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     } else {
       fix$yn <- fix$ys
     }
-    
-    # if (fix$ys[1] < 0) {
-    #   fix$yn <- fix$ys
-    # } else {
-    #   fix$yn <- fix$ys + (env$exp$setup$display$marginTop - fix$ys[1]) + env$exp$setup$font$height / 2
-    # }
     
   } else {
     
@@ -332,19 +324,25 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # --------------
   
   out <- NULL
+  crit.line <- NULL
   
   for (i in 1:nrow(fix)) {
     # i <- 1
     
-    if (fix$type[i] == "in") {
-      
-      sel <- stimmat$line == fix$line[i] & stimmat$letternum == fix$letternum[i]
-      out[i] <- sqrt((fix$xn[i] - stimmat$xm[sel])^2 + (fix$yn[i] - stimmat$ym[sel])^2)
-      
-    }
+    # if (fix$type[i] == "in") {
+    #   
+    #   sel <- stimmat$line == fix$line[i] & stimmat$letternum == fix$letternum[i]
+    #   out[i] <- sqrt((fix$xn[i] - stimmat$xm[sel])^2 + (fix$yn[i] - stimmat$ym[sel])^2)
+    #   
+    # }
+    
+      out <- abs(fix$yn[i] - stimmat$ym)
+      crit.line[i] <- stimmat$line[which.min(out)]
+    
   }
   
-  fix$fit <- round(mean(out, na.rm = T), 3)
+  # fix$fit <- round(mean(out, na.rm = T), 3)
+  fix$fit <- round((length(fix$line[is.na(fix$line) == F]) - sum(fix$line[is.na(fix$line) == F] == crit.line[is.na(fix$line) == F], na.rm = T)) / length(fix$line[is.na(fix$line) == F]), 3)
   
   
   # return
