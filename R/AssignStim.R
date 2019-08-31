@@ -50,6 +50,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     
     fix$type <- "in"
     fix$line <- NA
+    fix$linerun <- NA
     
     for (i in 1:nrow(fix)) {
       # i <- 2
