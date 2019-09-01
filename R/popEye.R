@@ -31,8 +31,6 @@
 #' experiment (only relevant for EyeTrack experiments) 
 #' @param item.question Indicator for a comprehension question trial used  
 #' during the experiment (only relevant for EyeTrack experiments)
-#' @param item.keep Item range that is kept during the analysis (if only a
-#' subset of trials is relevant for the analysis)
 #' @param item.pracnum Number of practice items shown at the beginning of an
 #' experiment (which are discarded during the analysis)
 #' @param stimulus.file Path and name of stimulus file
@@ -65,7 +63,7 @@
 #' @param font.size Size of the font (in pixels)
 #' @param font.spacing Spacing between lines (1, 1.5, or 2)
 #' @param analysis.eyelink Should the real-time parsing from the eyelink system 
-#' be used (TRUE or FALSE, default is FALSE)
+#' be used? (TRUE or FALSE, default is TRUE)
 #' @param analysis.vfac Velocity threshold used for saccade detection (see Engbert & Kliegl, 
 #' 2003; default is 5)
 #' @param analysis.mindur Minimum duration of a saccade (see Engbert & Kliegl, 2003; 
@@ -120,11 +118,11 @@
 #' 200 ms as default).
 #' @param outpath Path were output file should be saved
 #' @param outname Name of output file
-#' @param debug.version Restrict analysis to a specific version of the experiment
+#' @param select.version Restrict analysis to a specific version of the experiment
 #' (numeric; internal for debugging; only relevant for EB experiments)
-#' @param debug.subject Restrict analysis to a specific subject (within a version)
+#' @param select.subject Restrict analysis to a specific subject (within a version)
 #' (numeric; internal for debugging)
-#' @param debug.trial Restrict analysis to a specific trial (numeric; internal for debugging)
+#' @param select.trial Restrict analysis to a specific trial (numeric; internal for debugging)
 
 
 popEye <- function(datpath, 
@@ -145,8 +143,6 @@ popEye <- function(datpath,
                    item.practice = "^P", 
                    item.trigger = "999",
                    item.question = 1000, 
-                   item.keep = "",
-                   # NOTE: maybe change to missing in functions
                    item.pracnum = 0,
                    stimulus.id = "id",
                    stimulus.cond = NA, 
@@ -165,7 +161,7 @@ popEye <- function(datpath,
                    font.name = "CourierNew", 
                    font.size = 16, 
                    font.spacing = 2,
-                   analysis.eyelink = FALSE, 
+                   analysis.eyelink = TRUE, 
                    analysis.vfac = 5, 
                    analysis.mindur = 10, 
                    analysis.postdur = 30,
@@ -192,12 +188,12 @@ popEye <- function(datpath,
                    exclude.blink = FALSE, 
                    exclude.nfix = 3, 
                    exclude.sac = 200,
-                   outpath = "", 
+                   outpath = getwd(), 
                    outname = "",
-                   # NOTE: Maybe combine to one parameter
-                   debug.version = NULL,
-                   debug.subject = NULL,
-                   debug.trial = NULL
+                   # NOTE: Maybe combine outpath and outname to one parameter
+                   select.version = NULL,
+                   select.subject = NULL,
+                   select.trial = NULL
 ) {
   
   
@@ -213,158 +209,8 @@ popEye <- function(datpath,
   # retrieve setup infomation
   exp$setup <- SetupExperiment()
   
-  
   # create output files
-  # --------------------
-  
-  # item files
-  word.item <- data.frame(matrix(NA, 1, 8))
-  colnames(word.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "wordnum", "word")
-  
-  ia.item <- data.frame(matrix(NA, 1, 8))
-  colnames(ia.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "ianum", "ia")
-  
-  sent.item <- data.frame(matrix(NA, 1, 7))
-  colnames(sent.item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent")
-  
-  # fix
-  fix <- NULL
-  
-  # sac
-  sac <- NULL
-  
-  # results
-  results <- list(text = NA, quest = NA)
-  
-  # clean
-  if (type == "text") {
-    clean <- data.frame(matrix(NA, 1, 10))
-    colnames(clean) <- c("subid", 
-                         "trialid", 
-                         "trialnum", 
-                         "itemid", 
-                         "cond",
-                         "trial.fix", 
-                         "trial.blink", 
-                         "trial.sac",
-                         "trial.crit", 
-                         "crit")
-  } 
-  
-  if (type == "sentence") {
-    clean <- data.frame(matrix(NA, 1, 10))
-    colnames(clean) <- c("subid", 
-                         "trialid", 
-                         "trialnum", 
-                         "itemid", 
-                         "cond",
-                         "trial.fix", 
-                         "trial.blink", 
-                         "trial.sac",
-                         "trial.crit", 
-                         "crit")
-  } 
-  
-  if (type == "target") {
-    clean <- data.frame(matrix(NA, 1, 21))
-    colnames(clean) <- c("subid", 
-                         "trialid", 
-                         "trialnum", 
-                         "itemid", 
-                         "cond",
-                         "trial.fix", 
-                         "trial.blink", 
-                         "trial.sac",
-                         "trial.crit", 
-                         "target.blink", 
-                         "target.out",
-                         "target.first",
-                         "target.pre.sac", 
-                         "target.pre.launch", 
-                         "target.pre.refix",
-                         "target.pre.reg", 
-                         "target.post.fix",
-                         "target.post.sac", 
-                         "target.post.reg", 
-                         "target.crit", 
-                         "crit")
-  }
-  
-  if (type == "boundary") {
-    clean <- data.frame(matrix(NA, 1, 33))
-    colnames(clean) <- c("subid", 
-                         "trialid", 
-                         "trialnum", 
-                         "itemid", 
-                         "cond",
-                         "trial.fix", 
-                         "trial.blink", 
-                         "trial.sac",
-                         "trial.crit", 
-                         "target.blink",
-                         "target.out",
-                         "target.first", 
-                         "target.pre.sac",
-                         "target.pre.launch", 
-                         "target.pre.refix",
-                         "target.pre.reg", 
-                         "target.post.fix",
-                         "target.post.sac", 
-                         "target.post.reg", 
-                         "target.crit",
-                         "boundary.trigger", 
-                         "boundary.seq", 
-                         "boundary.change.sac", 
-                         "boundary.pre.time", 
-                         "boundary.target.time", 
-                         "boundary.post.time", 
-                         "boundary.target.fix", 
-                         "boundary.blink",
-                         "boundary.pattern", 
-                         "boundary.time",
-                         "boundary.hook", 
-                         "boundary.crit", 
-                         "crit")
-  }
-  
-  if (type == "fast") {
-    clean <- data.frame(matrix(NA, 1, 34))
-    colnames(clean) <- c("subid", 
-                         "trialid", 
-                         "trialnum", 
-                         "itemid", 
-                         "cond",
-                         "trial.fix", 
-                         "trial.blink", 
-                         "trial.sac",
-                         "trial.crit", 
-                         "target.blink",
-                         "target.out",
-                         "target.first",
-                         "target.pre.sac",
-                         "target.pre.launch", 
-                         "target.pre.refix",
-                         "target.pre.reg", 
-                         "target.post.fix",
-                         "target.post.sac", 
-                         "target.post.reg", 
-                         "target.crit",
-                         "fast.trigger", 
-                         "fast.seq", 
-                         "fast.sac.dur", 
-                         "fast.pre.time", 
-                         "fast.prime.time", 
-                         "fast.post.prime", 
-                         "fast.fix.dur", 
-                         "fast.fix.target", 
-                         "fast.blink",
-                         "fast.pattern", 
-                         "fast.time",
-                         "fast.hook", 
-                         "fast.crit", 
-                         "crit")
-  }
-  # TODO: fast priming outdated
+  CreateOutput()
   
   
   # create version list
@@ -390,17 +236,19 @@ popEye <- function(datpath,
   # version loop
   # ----------------------------------
   
-  if (missing(debug.version) == T) {
+  if (missing(select.version) == T) {
     version.arg1 <- 1
     version.arg2 <- length(version.list)
   } else {
-    version.arg1 <- debug.version
-    version.arg2 <- debug.version
+    version.arg1 <- select.version
+    version.arg2 <- select.version
   }
   
   for (v in version.arg1:version.arg2) {
     
     # v <- 2
+    
+    message(paste("Version ", v, sep = ""))
     
     # list of subjects
     if (tracker.software == "EB") {
@@ -417,26 +265,28 @@ popEye <- function(datpath,
     # subject loop
     # ----------------------------------
     
-    if (missing(debug.subject) == T) {
+    if (missing(select.subject) == T) {
       subject.arg1 <- 1
       subject.arg2 <- length(sub.list)
     } else {
-      subject.arg1 <- debug.subject
-      subject.arg2 <- debug.subject
+      subject.arg1 <- select.subject
+      subject.arg2 <- select.subject
     }
     
     for (s in subject.arg1:subject.arg2) {
       
       # increment number of subjects
       nsub <- nsub + 1
+
+      # generate header slot
+      header <- list()
       
       subid <- gsub("\\.asc", "", sub.list[s])
+      header$subid <- subid
+      header$version <- v
       
       # message subject
-      message(paste(". Subject: ", subid, paste = ""))
-      
-      # generate header slot
-      header <- list(subid = subid)
+      message(paste(". Subject ", s, ": ", subid, sep = ""))
       
       # TODO: store other information about subject (e.g., version)
       
@@ -451,10 +301,12 @@ popEye <- function(datpath,
       # read data
       # -----------
       
+      message(".. Read data")
+      
       dat <-  ReadData(filepath, subid)
       
-      # TODO: reading asc data rather slow
-      # TODO: do not convert to asc, but read edf directly (-> external packages)
+      # TODO: read in edf directly (-> external packages)
+      # TODO: asc data processing rather slow
       
       
       # remove data
@@ -462,7 +314,7 @@ popEye <- function(datpath,
       
       message(".. Remove data")
       
-      dat <- Remove(dat) 
+      dat <- RemoveData(dat) 
       
       
       # create trials
@@ -470,7 +322,7 @@ popEye <- function(datpath,
       
       message(".. Create trials")
       
-      dat <- Preprocessing(dat)
+      dat <- CreateTrials(dat)
       
       
       # -----------------------
@@ -498,7 +350,7 @@ popEye <- function(datpath,
       # assign letters/words
       # ---------------------
       
-      message(".. Assign letters/words")
+      message(".. Assign stimulus")
       
       dat <- MatchStim(dat)
       
@@ -546,7 +398,6 @@ popEye <- function(datpath,
       message(".. Cleaning trial")
       
       dat <- CleanAll(dat)
-      
       # NOTE: think about relationship between cleaning here and in main analysis
       
       
@@ -604,29 +455,6 @@ popEye <- function(datpath,
       sent.item <- rbind(sent.item, sent.itemtmp)
       
       
-      # select fixations
-      # -----------------
-      
-      # message(".. Collect fixations")
-      # 
-      # fixtmp <- SelectFix(dat)
-      # # fixtmp$subid <-  subid
-      # fix <- rbind(fix, fixtmp)
-      # fix <- fix[order(fix$subid, fix$trialnum, fix$fixid), ]
-      
-      
-      # # select saccades
-      # # -----------------
-      # 
-      # message(".. Select saccades")
-      # 
-      # sactmp <- SelectSac(dat)
-      # 
-      # sactmp$subid <-  subid
-      # sac <- rbind(sac, sactmp)
-      # sac <- sac[order(sac$subid, sac$trialnum, sac$sacid), ]
-      
-      
       # results file
       # -------------
       
@@ -650,7 +478,7 @@ popEye <- function(datpath,
       
       message(".. Create clean file")
       
-      cleantmp <- ComputeClean(dat)
+      cleantmp <- CreateClean(dat)
       cleantmp$subid <- subid
       clean <- rbind(clean, cleantmp)
       
@@ -664,7 +492,6 @@ popEye <- function(datpath,
   # collect output files
   # ---------------------
   
-  # item files
   exp$out$word.item <- word.item[-1, ]
   row.names(exp$out$word.item) <- NULL
   
@@ -674,7 +501,6 @@ popEye <- function(datpath,
   exp$out$sent.item <- sent.item[-1, ]
   row.names(exp$out$sent.item) <- NULL
   
-  # fixations and saccades
   exp$out$fix <- fix
   row.names(exp$out$fix) <- NULL
   
@@ -689,54 +515,54 @@ popEye <- function(datpath,
     row.names(exp$out$results$quest) <- NULL
   }
   
-  # out
   exp$out$clean <- clean[-1, ]
   row.names(exp$out$clean) <- NULL
   
   
-  # aggregate word
-  # ---------------
-  
-  message("Aggregate word")
-  
-  exp$out$wordfirst <- AggregateWordFirstrun(exp)
-  exp$out$wordtmp <- AggregateWord(exp)
-  exp <- CombineWord(exp)
-  
-  
-  # aggregate IA
-  # -------------
-  
-  message("Aggregate IA")
-  
-  exp$out$iafirst <- AggregateIAFirstrun(exp)
-  exp$out$iatmp <- AggregateIA(exp)
-  exp <- CombineIA(exp)
-  
-  # aggregate sentence
-  # -------------------
-  
-  message("Aggregate sentence")
-  
-  exp$out$sentfirst <- AggregateSentenceFirstrun(exp)
-  exp$out$senttmp <- AggregateSentence(exp)
-  exp <- CombineSentence(exp)
-  
-  
-  # aggregate trial
+  # aggregate words
   # ----------------
   
-  message("Aggregate trial")
+  message("Aggregate words")
   
-  exp <- AggregateTrial(exp)
+  exp$out$wordfirst <- AggregateWordsFirstrun(exp)
+  exp$out$wordtmp <- AggregateWords(exp)
+  exp <- CombineWords(exp)
   
   
-  # compute overview file
-  # ----------------------
+  # aggregate IAs
+  # --------------
   
-  message("Aggregate overview")
+  message("Aggregate IAs")
   
-  exp <- AggregateOverview(exp)
+  exp$out$iafirst <- AggregateIAsFirstrun(exp)
+  exp$out$iatmp <- AggregateIAs(exp)
+  exp <- CombineIAs(exp)
+  
+  
+  # aggregate sentences
+  # --------------------
+  
+  message("Aggregate sentences")
+  
+  exp$out$sentfirst <- AggregateSentencesFirstrun(exp)
+  exp$out$senttmp <- AggregateSentences(exp)
+  exp <- CombineSentences(exp)
+  
+  
+  # aggregate trials
+  # -----------------
+  
+  message("Aggregate trials")
+  
+  exp <- AggregateTrials(exp)
+  
+  
+  # aggregate subjects
+  # ------------------
+  
+  message("Aggregate subjects")
+  
+  exp <- AggregateSubjects(exp)
   
   
   # clean up
@@ -763,7 +589,7 @@ popEye <- function(datpath,
     outname <- tmp[length(tmp)]
   }
 
-  save
+  # save
   saveRDS(exp, file = paste(outpath, "/", outname, ".RDS", sep = ""))
   
 }

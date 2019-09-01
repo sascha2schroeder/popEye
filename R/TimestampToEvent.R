@@ -1,5 +1,5 @@
 
-TimestampToEvent <- function(dat) {
+TimestampToEvent <- function(dat, env = parent.frame(n = 1)) {
   
   # TODO: does not work for trials starting with SFIX (?)
 
@@ -23,6 +23,7 @@ TimestampToEvent <- function(dat) {
   # evaluate first message
   # ------------------------
   
+  
   if (dat$event$msg[1] == "EFIX") {
     fixnum <- 1
     fix$num[fixnum] <- 1
@@ -31,14 +32,21 @@ TimestampToEvent <- function(dat) {
     sacnum <- 1
     sac$num[sacnum] <- 1
     sac$start[sacnum] <- 1
+  } else if (dat$event$msg[1] == "SSACC") {
+    sacnum <- sacnum
   } else if (dat$event$msg[1] == "SFIX") {
     fixnum <- fixnum
   } else if (dat$event$msg[1] == "EBLINK") {
     blinknum <- 1
     blink$num[blinknum] <- 1
     blink$start[blinknum] <- 1
+  } else if (dat$event$msg[1] == "SBLINK") {
+    blinknum <- blinknum
+    sacnum <- 1
+    sac$num[sacnum] <- 1
+    sac$start[sacnum] <- 1
   } else {
-    print(paste("First element", dat$event$msg[1], "not defined yet.", sep = " "))
+    print(paste("Trial ", env$trial, ": First element ", dat$event$msg[1], " not defined yet.", sep = ""))
   }
   
   
@@ -106,7 +114,7 @@ TimestampToEvent <- function(dat) {
   row.names(blink) <- NULL
   
   out <- list(sac = sac, fix = fix, blink = blink)
-
+  
   return(out)
   
 }

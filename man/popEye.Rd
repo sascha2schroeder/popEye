@@ -10,15 +10,15 @@ popEye(datpath, stimulus.file, tracker.model = "eyelink",
   message.stop = "stop", message.boundary = "boundary",
   message.target = "target", message.prime = "prime",
   variable.id = "id", variable.cond = NA, item.practice = "^P",
-  item.trigger = "999", item.question = 1000, item.keep = "",
-  item.pracnum = 0, stimulus.id = "id", stimulus.cond = NA,
+  item.trigger = "999", item.question = 1000, item.pracnum = 0,
+  stimulus.id = "id", stimulus.cond = NA,
   stimulus.preview = "preview", stimulus.prime = "prime",
   stimulus.text = "text", indicator.word = " ", indicator.ia = " ",
   indicator.target = "\\\\*", indicator.line = "\\\\\\\\n",
   display.marginLeft = 150, display.marginTop = 300,
   display.marginRight = 50, display.marginBottom = 100,
   font.name = "CourierNew", font.size = 16, font.spacing = 2,
-  analysis.eyelink = FALSE, analysis.vfac = 5, analysis.mindur = 10,
+  analysis.eyelink = TRUE, analysis.vfac = 5, analysis.mindur = 10,
   analysis.postdur = 30, analysis.drift = TRUE,
   analysis.sparse = TRUE, analysis.driftX = FALSE,
   analysis.driftY = FALSE, analysis.lineMethod = "chain",
@@ -28,8 +28,8 @@ popEye(datpath, stimulus.file, tracker.model = "eyelink",
   clean.stage3Dur = 140, clean.stage4 = FALSE, clean.stage4Min = 80,
   clean.stage4Max = 800, clean.delete = FALSE, clean.outlier = FALSE,
   exclude.blink = FALSE, exclude.nfix = 3, exclude.sac = 200,
-  outpath = "", outname = "", debug.version = NULL,
-  debug.subject = NULL, debug.trial = NULL)
+  outpath = getwd(), outname = "", select.version = NULL,
+  select.subject = NULL, select.trial = NULL)
 }
 \arguments{
 \item{datpath}{Path to eye tracking files}
@@ -77,9 +77,6 @@ experiment (only relevant for EyeTrack experiments)}
 
 \item{item.question}{Indicator for a comprehension question trial used
 during the experiment (only relevant for EyeTrack experiments)}
-
-\item{item.keep}{Item range that is kept during the analysis (if only a
-subset of trials is relevant for the analysis)}
 
 \item{item.pracnum}{Number of practice items shown at the beginning of an
 experiment (which are discarded during the analysis)}
@@ -129,7 +126,7 @@ in the stimulus file}
 \item{font.spacing}{Spacing between lines (1, 1.5, or 2)}
 
 \item{analysis.eyelink}{Should the real-time parsing from the eyelink system 
-be used (TRUE or FALSE, default is FALSE)}
+be used? (TRUE or FALSE, default is TRUE)}
 
 \item{analysis.vfac}{Velocity threshold used for saccade detection (see Engbert & Kliegl, 
 2003; default is 5)}
@@ -212,13 +209,13 @@ received (deleted otherwise; default is 3)}
 
 \item{outname}{Name of output file}
 
-\item{debug.version}{Restrict analysis to a specific version of the experiment
+\item{select.version}{Restrict analysis to a specific version of the experiment
 (numeric; internal for debugging; only relevant for EB experiments)}
 
-\item{debug.subject}{Restrict analysis to a specific subject (within a version)
+\item{select.subject}{Restrict analysis to a specific subject (within a version)
 (numeric; internal for debugging)}
 
-\item{debug.trial}{Restrict analysis to a specific trial (numeric; internal for debugging)}
+\item{select.trial}{Restrict analysis to a specific trial (numeric; internal for debugging)}
 }
 \description{
 This function is used when you want to analyze eye tracking data using popEye.

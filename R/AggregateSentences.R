@@ -1,9 +1,8 @@
 
-AggregateSentence <- function(exp) {
+AggregateSentences <- function(exp) {
   
   # create outfile  
-  senttmp <- exp$out$fix
-  senttmp <- senttmp[senttmp$type == "in", ]
+  senttmp <- exp$out$fix[exp$out$fix$type == "in", ]
   senttmp$id <- as.character(paste(senttmp$subid, senttmp$trialnum, 
                                    senttmp$sentnum, sep = ":"))
   senttmp <- senttmp[order(senttmp$id), ]

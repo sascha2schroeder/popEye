@@ -1,5 +1,5 @@
 
-PlotVelocity <- function(exp, subject, trial, sub = F, pdf = pdf) {
+PlotVelocity <- function(exp, subject, trial, sub = F, pdf = pdf, interactive = F) {
   
   # start pdf
   if (sub == F) {
@@ -22,7 +22,7 @@ PlotVelocity <- function(exp, subject, trial, sub = F, pdf = pdf) {
   points(tmp$vxy$x, tmp$vxy$y, type = "l", col = "royalblue", lwd = .5)
   
   # compute radius
-  rad = unlist(ComputeSaccades(tmp$xy, tmp$vxy)$radius)
+  rad = unlist(ComputeRadius(tmp$vxy))
   
   # kernel
   phi <- as.vector(seq(from = 0, to = 2*pi, length.out = 300))

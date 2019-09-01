@@ -1,5 +1,5 @@
 
-CombineSentence <- function(exp) {
+CombineSentences <- function(exp) {
   
   # sentence
   exp$out$senttmp$id <- 
@@ -24,15 +24,17 @@ CombineSentence <- function(exp) {
   exp$out$senttmp <- NULL
   exp$out$sentfirst <- NULL
   
-  exp$out$sent <- comb
-  exp$out$sent <- exp$out$sent[order(exp$out$sent$subid, exp$out$sent$trialnum, exp$out$sent$sentnum), ]
-  row.names(exp$out$sent) <- NULL
+  exp$out$sentences <- comb
+  exp$out$sentences <- exp$out$sentences[order(exp$out$sentences$subid, 
+                                               exp$out$sentences$trialnum, 
+                                               exp$out$sentences$sentnum), ]
+  row.names(exp$out$sentences) <- NULL
   
   # gopast time in firstrun
-  exp$out$sent$firstrun.gopast <- exp$out$sent$gopast
-  exp$out$sent$firstrun.gopast.sel <- exp$out$sent$gopast.sel
-  exp$out$sent$gopast <- NULL
-  exp$out$sent$gopast.sel <- NULL
+  exp$out$sentences$firstrun.gopast <- exp$out$sentences$gopast
+  exp$out$sentences$firstrun.gopast.sel <- exp$out$sentences$gopast.sel
+  exp$out$sentences$gopast <- NULL
+  exp$out$sentences$gopast.sel <- NULL
   
   return(exp)
   

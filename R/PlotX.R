@@ -1,5 +1,5 @@
 
-PlotX <- function(exp, subject, trial, sub = F, pdf = NULL) {
+PlotX <- function(exp, subject, trial, sub = F, pdf = NULL, interactive = F) {
   
   # start pdf
   if (sub == F) {

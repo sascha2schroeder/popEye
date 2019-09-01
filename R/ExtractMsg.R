@@ -1,58 +1,17 @@
 
-ExtractMsg <- function(dat, env = parent.frame(n = 3)){
+ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
   
   # remove non-message events
-  dat <- dat[grep("MSG", dat, useBytes = T)]
+  dat <- infile[grep("MSG", infile, useBytes = T)]
   
   
-  # extract information
-  # --------------------
-  
-  # TODO: date (?)
-  # TODO: monitor refresh rate (?)
-  
-  # display resolution
-  env$exp$setup$display$resolutionX <-
-    as.numeric(sapply(strsplit(dat[grep("GAZE_COORDS", dat)], " "), "[[", 5)[1]) + 1
-  env$exp$setup$display$resolutionY <-
-    as.numeric(sapply(strsplit(dat[grep("GAZE_COORDS", dat)], " "), "[[", 6)[1]) + 1
-  
-  # sample rate
-  env$exp$setup$tracker$samp <-
-    as.numeric(sapply(strsplit(dat[grep("RECORD", dat)][1], " "), "[[", 5))
-  
-  # calibration method
-  env$exp$setup$tracker$calibration <-
-    unlist(dimnames(table(sapply(strsplit(dat[grep("CALIBRATION", dat)], " "), "[[", 4))))[1]
-  # NOTE: use lowest calibration method in experiment
-  
-  # calibration accuracy
-  tmp <- dat[grep("VALIDATION", dat)]
-  
-  # check for aborted calibrations
-  if (length(grep("ABORTED", tmp)) > 0) {
-    tmp <- tmp[-grep("ABORTED", tmp)]  
-  }
-  tmp <- gsub("  ", " ", tmp)
-  env$header$calibration <- as.numeric(sapply(strsplit(tmp, " "), "[[", 9))
-  # TODO: store as vector or mean?
-  
-  # # driftcorrect
-  # time <- as.numeric(sapply(strsplit(sapply(strsplit(
-  #   dat[grep("DRIFTCORRECT", dat)], " "), "[[", 1)), "\t"), "[[", 2)
-  # drift <- as.numeric(sapply(strsplit(dat[grep("DRIFTCORRECT", dat)], " "), "[[", 9))
-  # DriftCorrect <- data.frame(time = time, drift = drift)
-  # 
-  # # TODO: not for ET  
-  # # TODO: store on trial level
-
-    
   # extract trials
   # ---------------
   
   tmp <- sapply(strsplit(dat[grep("TRIALID", dat)], "\t"), "[[", 2)
   time <- as.numeric(sapply(strsplit(tmp[grep("TRIALID", tmp)], " "), "[[", 1))
   trialnum <- 1:length(time)
+  
   
   # EB
   if (env$exp$setup$tracker$software == "EB") {
@@ -63,7 +22,6 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     itemid <- sapply(strsplit(tmp[ind == env$exp$setup$variable$id], " "), "[[", 5)
     
     # number of practice trials
-    # env$exp$setup$clean$practice <- max(as.numeric(unlist(dimnames(table(table(itemid)))))) - 1
     env$exp$setup$clean$practice <- env$exp$setup$item$pracnum
     
     # condition
@@ -94,6 +52,7 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     # dependency
     dependency <- as.numeric(rep(0, length(itemid)))
     # NOTE: does not make much sense; store to be parallel with ET
+    
   }
   
   # ET
@@ -103,7 +62,6 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
     itemtmp <- sapply(strsplit(tmp[grep("TRIALID", tmp)], " "), "[[", 3)
     
     # number of practice trials
-    # env$exp$setup$clean$practice <- length(itemtmp[grep(env$exp$setup$item$practice, itemtmp)])
     env$exp$setup$clean$practice <-itemtmp[grep(env$exp$setup$item$practice, itemtmp)]
     
     # remove letters from itemid
@@ -128,19 +86,59 @@ ExtractMsg <- function(dat, env = parent.frame(n = 3)){
                       condition = condition, dependency = dependency,
                       stringsAsFactors = FALSE)
   
-  # NOTE: save as output slot?
+  
+  # driftcorrect
+  # -------------
+  
+  if (sum(grepl("DRIFTCORRECT", dat)) > 0) {
+    
+    # extract driftcorrect elements
+    tmp <- dat[grep("DRIFTCORRECT", dat)]
+    tmp <- gsub("  ", " ", tmp)
+    
+    # remove repetitions
+    if (sum(grepl("REPEATING", tmp)) > 0) {
+      tmp <- tmp[-grep("REPEATING", tmp)]
+    }
+    
+    # remove aborted trials
+    if (sum(grepl("ABORTED", tmp)) > 0) {
+      tmp <- tmp[-grep("ABORTED", tmp)]
+    }
+    
+    drifttime <- as.numeric(sapply(strsplit(sapply(strsplit(
+      tmp, " "), "[[", 1), "\t"), "[[", 2))
+    drift <- as.numeric(sapply(strsplit(tmp, " "), "[[", 8))
+    x <- as.numeric(sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 10), ","), "[[", 1))
+    y <- as.numeric(sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 10), ","), "[[", 2))
+    
+    trial$drift <- NA
+    trial$drift.x <- NA
+    trial$drift.y <- NA
+    
+    for (i in 1:nrow(trial)) {
+      
+      sel <- abs(trial$time[i] - drifttime)
+      if (min(sel) > 200) next
+      if (abs(drift[which.min(sel)]) > 10) next
+      
+      trial$drift[i] <- drift[which.min(sel)]
+      trial$drift.x[i] <- x[which.min(sel)]
+      trial$drift.y[i] <- y[which.min(sel)]
+      
+    }
+    
+  }
+  
+  # write out trial to header
+  env$header$trial <- trial
   
   
   # create message frame
   # ---------------------
   
-  # select message stamps
-  # tmp <- dat[grep(paste(unlist(env$exp$setup$message), collapse = "|"), dat)]
-  # tmp <- dat[grep(paste(paste("^", unlist(env$exp$setup$message), "$", sep = ""), collapse = "|"), dat)]
-  
   # FIX: if start message is empty
-  if (env$exp$setup$message$start == "" | env$exp$setup$message$start == "DRAW_LIST") {
-    env$exp$setup$message$start <- "DRAW_LIST"
+  if (env$exp$setup$message$start == "DRAW_LIST") {
     dat <- gsub("!V DRAW_LIST", "DRAW_LIST", dat)
   }
   

@@ -13,24 +13,35 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # x axis
   if (env$exp$setup$analysis$driftX == T) {
-    fix$xn <- fix$xs + (env$exp$setup$display$marginLeft - fix$xs[1])
+    
+    if (is.na(dat$trial[[trial]]$meta$drift) == F) {
+      fix$xn <- fix$xs - dat$trial[[trial]]$meta$drift.x
+    } else {
+      fix$xn <- fix$xs 
+    }
+    
   } else {
+    
     fix$xn <- fix$xs 
+    
   }
   
   # y axis
   if (env$exp$setup$analysis$driftY == T) {
     
-    if (fix$ys[1] < 0) {
-      fix$yn <- fix$ys
+    if (is.na(dat$trial[[trial]]$meta$drift) == F) {
+      fix$yn <- fix$ys - dat$trial[[trial]]$meta$drift.y + env$exp$setup$font$height / 2
     } else {
-      fix$yn <- fix$ys + (env$exp$setup$display$marginTop - fix$ys[1]) + env$exp$setup$font$height / 2
+      fix$yn <- fix$ys
     }
+    
   } else {
+    
     fix$yn <- fix$ys
+    
   }
-
   
+
   # line assignment 
   # ----------------
   
@@ -39,6 +50,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     
     fix$type <- "in"
     fix$line <- NA
+    fix$linerun <- NA
     
     for (i in 1:nrow(fix)) {
       # i <- 2
@@ -243,11 +255,6 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
       
       out <- abs(fix$xn[i] - stimmat$xm[stimmat$line == fix$line[i]])
       
-      if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierX) {
-        fix$type[i] <- "out"
-        next
-      }
-      
       fix$letternum[i] <- stimmat$letternum[stimmat$line == fix$line[i]][which.min(out)]
       fix$letter[i] <- stimmat$letter[stimmat$line == fix$line[i]][which.min(out)]
       fix$wordnum[i] <- stimmat$wordnum[stimmat$line == fix$line[i]][which.min(out)]
@@ -271,6 +278,36 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
       fix$trial.nwords[i] <- stimmat$trial.nwords[stimmat$line == fix$line[i]][which.min(out)]
       fix$trial[i] <- stimmat$trial[stimmat$line == fix$line[i]][which.min(out)]
       
+      if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierX) {
+        
+        fix$type[i] <- "out"
+        
+        fix$line[i] <- NA
+        fix$letternum[i] <- NA
+        fix$letter[i] <- NA
+        fix$wordnum[i] <- NA
+        fix$word[i] <- NA
+        fix$sentnum[i] <- NA
+        fix$sent[i] <- NA
+        fix$sent.nwords[i] <- NA
+        fix$ianum[i] <- NA
+        fix$ia[i] <- NA
+        
+        if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
+          fix$target[i] <- NA
+        }
+        
+        fix$line.let[i] <- NA
+        fix$word.land[i] <- NA
+        fix$ia.land[i] <- NA
+        fix$line.word[i] <- NA
+        fix$sent.word[i] <- NA
+        
+        fix$trial.nwords[i] <- NA
+        fix$trial[i] <- NA
+        
+      }
+      
     }
     
   }
@@ -284,22 +321,29 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   
-  # criterion
+  # fit criterion
+  # --------------
   
   out <- NULL
+  crit.line <- NULL
   
   for (i in 1:nrow(fix)) {
     # i <- 1
     
-    if (fix$type[i] == "in") {
-      
-      sel <- stimmat$line == fix$line[i] & stimmat$letternum == fix$letternum[i]
-      out[i] <- sqrt((fix$xn[i] - stimmat$xm[sel])^2 + (fix$yn[i] - stimmat$ym[sel])^2)
-      
-    }
+    # if (fix$type[i] == "in") {
+    #   
+    #   sel <- stimmat$line == fix$line[i] & stimmat$letternum == fix$letternum[i]
+    #   out[i] <- sqrt((fix$xn[i] - stimmat$xm[sel])^2 + (fix$yn[i] - stimmat$ym[sel])^2)
+    #   
+    # }
+    
+      out <- abs(fix$yn[i] - stimmat$ym)
+      crit.line[i] <- stimmat$line[which.min(out)]
+    
   }
   
-  fix$fit <- round(mean(out, na.rm = T), 3)
+  # fix$fit <- round(mean(out, na.rm = T), 3)
+  fix$fit <- round((length(fix$line[is.na(fix$line) == F]) - sum(fix$line[is.na(fix$line) == F] == crit.line[is.na(fix$line) == F], na.rm = T)) / length(fix$line[is.na(fix$line) == F]), 3)
   
   
   # return

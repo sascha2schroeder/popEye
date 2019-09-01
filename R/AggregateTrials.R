@@ -1,11 +1,11 @@
 
-AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
+AggregateTrials <- function(exp, env = parent.frame(n = 1)) {
 
   # create outfile  
   trialtmp <- exp$out$fix
-  
   trialtmp$id <- paste(trialtmp$subid, trialtmp$trialnum, sep = ":")
-  trial <- trialtmp[duplicated(trialtmp$id) == F, ]
+  
+  trial <- trialtmp[duplicated(trialtmp$id) == F & is.na(trialtmp$trial.nwords) == F, ]
   names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "trial", 
              "trial.nwords")
   trial <- trial[names]  
@@ -16,12 +16,12 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   # -----------------
   
   # number of blinks
-  blink <- aggregate(trialtmp$blink, list(trialtmp$id), function(x) round(sum(x) / 2))
+  blink <- aggregate(trialtmp$blink[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), function(x) round(sum(x) / 2))
   colnames(blink) <- c("id", "nblink")
   trial <- merge(trial, blink, all.x = T)
 
   # number of runs
-  trial$nrun <- as.numeric(tapply(trialtmp$word.runid, list(trialtmp$id), max, na.rm = T))
+  trial$nrun <- as.numeric(tapply(trialtmp$word.runid[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), max, na.rm = T))
   
   # number of fixations
   trial$nfix <- as.numeric(tapply(trialtmp$fixid[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), length))
@@ -30,12 +30,9 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   nout <- aggregate(trialtmp$type == "out", list(trialtmp$id), sum)
   colnames(nout) <- c("id", "nout")
   trial <- merge(trial, nout, all.x = T)
-  trial$pout <- round(trial$nout / (trial$nfix + trial$nout), 3)
   
-  trial$fit <- as.numeric(tapply(trialtmp$fit[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), max))
-  trial$fit.problem <- 0
-  trial$fit.problem[trial$fit > env$exp$setup$font$height] <- 1
-  
+  # fit
+  trial$fit <- as.numeric(tapply(trialtmp$fit, list(trialtmp$id), max))
   
   # compute forward saccade length (in letters)
   trialtmp$sac <- (trialtmp$word.land + trialtmp$word.launch)
@@ -45,7 +42,7 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   trial <- merge(trial, sac, all.x = T)
   
   # mean fixation duration
-  trial$mfix <- round(as.numeric(tapply(trialtmp$dur, list(trialtmp$id), mean)))
+  trial$mfix <- round(as.numeric(tapply(trialtmp$dur[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), mean)))
   
   # trial duration
   trial$total <- as.numeric(tapply(trialtmp$dur[trialtmp$type == "in"], list(trialtmp$id[trialtmp$type == "in"]), sum))
@@ -56,7 +53,7 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   trial$rate <- round(60000 / (trial$total / trial$trial.nwords))
   
   # match with word-level file 
-  word <- exp$out$word
+  word <- exp$out$words
   word$id <- paste(word$subid, word$trialnum, sep = ":")
   
   trial$skip <- round(as.numeric(tapply(word$firstrun.skip, list(word$id), mean, na.rm = T)), 3)
@@ -66,19 +63,20 @@ AggregateTrial <- function(exp, env = parent.frame(n = 1)) {
   # this is the proportion of words that have been regressed to
 
   # compute first-pass reading time
-  trial$firstpass <- round(as.numeric(tapply(word$firstrun.dur, list(word$id), sum, na.rm = T)))
+  trial$firstpass <- round(as.numeric(tapply(word$firstrun.dur[trialtmp$type == "in"], list(word$id[trialtmp$type == "in"]), sum, na.rm = T)))
   
   # compute rereading time
-  trial$rereading <- round(as.numeric(tapply(word$dur - word$firstrun.dur, list(word$id), sum, na.rm = T)))
+  trial$rereading <- round(as.numeric(tapply(word$dur[trialtmp$type == "in"] - word$firstrun.dur[trialtmp$type == "in"], list(word$id[trialtmp$type == "in"]), sum, na.rm = T)))
+  
   
   # return
   names <- c("subid", "trialid", "trialnum", "itemid", "cond", "trial", 
-             "trial.nwords", "nblink", "nrun", "nfix", "nout", "pout", 
-             "fit", "fit.problem", "sac", "skip", "refix", 
-             "reg", "mfix", "firstpass", "rereading", "total", "rate")
-  exp$out$trial <- trial[order(trial$subid, trial$trialnum), names]
-  trial$id <- NULL
-  row.names(exp$out$trial) <- NULL
+             "trial.nwords", "nblink", "nrun", "nfix", "nout", "fit", 
+             "sac", "skip", "refix", "reg", "mfix", "firstpass", 
+             "rereading", "total", "rate")
+  exp$out$trials <- trial[order(trial$subid, trial$trialnum), names]
+  # trial$id <- NULL
+  row.names(exp$out$trials) <- NULL
   
   return(exp)
   

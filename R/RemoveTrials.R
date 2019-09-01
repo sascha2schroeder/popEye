@@ -3,48 +3,33 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
   
   if (env$exp$setup$tracker$software == "EB") {
     
-    # remove practice trials
-    dat$msg <- dat$msg[dat$msg$trialnum > env$exp$setup$clean$practice, ]
+    practice <- env$exp$setup$clean$practice
+    keep <- unlist(env$exp$setup$stimulus$file[env$exp$setup$stimulus$id])
     
-    # recompute trialnum
-    dat$msg$trialnum <- dat$msg$trialnum - env$exp$setup$clean$practice
+    # msg
+    dat$msg <- dat$msg[dat$msg$trialnum > practice, ]
+    dat$msg$trialnum <- dat$msg$trialnum - practice
+    dat$msg <- dat$msg[dat$msg$itemid %in% keep, ]
     
-    # exclude items
-    env$exp$setup$item$keep <- unlist(env$exp$setup$stimulus$file[env$exp$setup$stimulus$id])
-    # NOTE: keep all items in stimulusfile
-
-    # if (env$exp$setup$item$keep == "") {
-    #   env$exp$setup$item$keep <- unlist(dimnames(table(dat$msg$itemid)))
-    # } 
-
-    dat$msg <- dat$msg[dat$msg$itemid %in% env$exp$setup$item$keep, ]
-
-    # env$exp$setup$item$keep <- ""
-    
-    # exclude corresponding sample and event data
-    dat$samp <- dat$samp[dat$samp$time > (dat$msg$time[1] - 1), ]
-    dat$event <- dat$event[dat$event$time > (dat$msg$time[1] - 1), ]
+    # trial
+    env$header$trial <- env$header$trial[env$header$trial$trialnum > practice, ]
+    env$header$trial$trialnum <- env$header$trial$trialnum - practice
+    env$header$trial <- env$header$trial[env$header$trial$itemid %in% keep, ]
     
   } else if (env$exp$setup$tracker$software == "ET") {
     
-    dat$msg <- dat$msg[(dat$msg$itemid %in% env$exp$setup$clean$practice) == F, ]
-
-    # remove practice trials
-    if (sum(dat$msg$itemid == env$exp$setup$clean$practice) > 1) { # FIX: check
-      # dat$msg <- dat$msg[dat$msg$trialnum > dat$msg$trialnum[
-      #   dat$msg$itemid == env$exp$setup$clean$practice][1], ]
-      dat$msg <- dat$msg[(dat$msg$itemid %in% env$exp$setup$clean$practice) == F, ]
-      
-    } else {
-      # dat$msg <- dat$msg[dat$msg$trialnum > dat$msg$trialnum[
-      #   dat$msg$itemid == env$exp$setup$clean$practice - 1][1], ]
-      dat$msg <- dat$msg[(dat$msg$itemid %in% env$exp$setup$clean$practice) == F, ]
-    }
-
-    # remove letters from itemid
-    tmp <- strsplit(dat$msg$itemid, "P|E|I|D")
+    practice <- env$exp$setup$clean$practice
+    keep <- unlist(env$exp$setup$stimulus$file[env$exp$setup$stimulus$id])
     
-    # itemid
+    
+    # msg
+    # ----
+    
+    # remove practice trials
+    dat$msg <- dat$msg[(dat$msg$itemid %in% practice) == F, ]
+    
+    # compute itemid
+    tmp <- strsplit(dat$msg$itemid, "P|E|I|D")
     dat$msg$itemid <- as.numeric(sapply(tmp, "[[", 3))
     
     # remove trigger trials
@@ -63,18 +48,40 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
     # recompute trialnum
     dat$msg$trialnum <- as.numeric(factor(dat$msg$trialnum))
     
-    # exclude items
-    if (env$exp$setup$item$keep == "") {
-      keep <- unlist(dimnames(table(dat$msg$itemid)))
-    } else {
-      keep <- env$exp$setup$item$keep
-    }
+    # keep items in stimulus file
     dat$msg <- dat$msg[dat$msg$itemid %in% keep, ]
-    # NOTE: all items as default
+     
+     
+    # trial
+    # ------
     
-    # exclude corresponding samples and events
-    dat$samp <- dat$samp[dat$samp$time > (dat$msg$time[1] - 1), ]
-    dat$event <- dat$event[dat$event$time > (dat$msg$time[1] - 1), ]
+    # remove practice trials
+    env$header$trial <- env$header$trial[(env$header$trial$itemid %in% practice) == F, ]
+
+    # compute itemid
+    tmp <- strsplit(env$header$trial$itemid, "P|E|I|D")
+    env$header$trial$itemid <- as.numeric(sapply(tmp, "[[", 3))
+    
+    # NOTE: keep "E" in experimental trials (?)
+    
+    # remove trigger trials
+    env$header$trial <- env$header$trial[-grep(env$exp$setup$item$trigger, env$header$trial$itemid), ]
+    
+    # remove questions trials
+    env$header$trial <- env$header$trial[env$header$trial$itemid < env$exp$setup$item$question, ]
+    
+    # remove repeated trials
+    tmp <- env$header$trial$itemid[env$header$trial$msg == env$exp$setup$message$start]
+    exc <- unlist(names(table(tmp)[table(tmp) > 1]))
+    if (is.null(exc) == FALSE) {
+      env$header$trial <- env$header$trial[(env$header$trial$itemid %in% exc) == FALSE, ]
+    }
+    
+    # recompute trialnum
+    env$header$trial$trialnum <- as.numeric(factor(env$header$trial$trialnum))
+    
+    # keep items in stimulus file
+    env$header$trial <- env$header$trial[env$header$trial$itemid %in% keep, ]
     
   }
   

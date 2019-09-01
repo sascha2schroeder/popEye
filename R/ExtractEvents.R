@@ -1,17 +1,9 @@
 
 ExtractEvents <- function(dat){
   
-  # -------------------------------------------- #
-  # ExtractEvents.R
-  #
-  # Extracts EyeLink events from .asc file
-  #
-  # -------------------------------------------- #
-  
   # extract events (saccades, fixations, blinks) from *.asc file
   dat <- dat[grep(paste(c("SSACC", "ESACC", "SFIX", "EFIX", "SBLINK", "EBLINK"),
-                        collapse = "|"), 
-                   dat, useBytes=TRUE)]
+                        collapse = "|"),  dat, useBytes=TRUE)]
   dat <- dat[nchar(dat) > 0]
       
   # SFIX
