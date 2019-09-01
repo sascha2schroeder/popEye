@@ -185,6 +185,21 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$letpix <- data.frame(letter = letter, pixel = pixel) 
   }
   
+  # Tahoma, 13 pt
+  if (font$name == "Tahoma" & font$size == 13) {
+    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
+                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
+                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
+                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
+                " ", ",",".","?","!","–", "-","’","´","„","“",":","\"",";","”",
+                "(", ")","'",
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
+    pixel <- rep(11, length(letter))
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    font$height <- 14
+    font$lead <- 2
+  }
+  
   # print classes
   font$print$up <- c("A","E","I","O","U","Q","W","R","T","Z","P","S","D","F",
                      "G","H","J","K","L","Y","X","C","V","B","N","M","Ä","Ö",

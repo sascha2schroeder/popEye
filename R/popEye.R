@@ -193,7 +193,9 @@ popEye <- function(datpath,
                    # NOTE: Maybe combine outpath and outname to one parameter
                    select.version = NULL,
                    select.subject = NULL,
-                   select.trial = NULL
+                   select.trial = NULL,
+                   debug = "none"
+                   
 ) {
   
   
@@ -308,6 +310,10 @@ popEye <- function(datpath,
       # TODO: read in edf directly (-> external packages)
       # TODO: asc data processing rather slow
       
+      if (debug == "read") {
+        return (dat)
+      }
+      
       
       # remove data
       # --------------
@@ -316,6 +322,10 @@ popEye <- function(datpath,
       
       dat <- RemoveData(dat) 
       
+      if (debug == "remove") {
+        return (dat)
+      }
+      
       
       # create trials
       # ---------------
@@ -323,6 +333,10 @@ popEye <- function(datpath,
       message(".. Create trials")
       
       dat <- CreateTrials(dat)
+      
+      if (debug == "create") {
+        return (dat)
+      }
       
       
       # -----------------------

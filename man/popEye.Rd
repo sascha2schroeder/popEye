@@ -29,7 +29,7 @@ popEye(datpath, stimulus.file, tracker.model = "eyelink",
   clean.stage4Max = 800, clean.delete = FALSE, clean.outlier = FALSE,
   exclude.blink = FALSE, exclude.nfix = 3, exclude.sac = 200,
   outpath = getwd(), outname = "", select.version = NULL,
-  select.subject = NULL, select.trial = NULL)
+  select.subject = NULL, select.trial = NULL, debug = "none")
 }
 \arguments{
 \item{datpath}{Path to eye tracking files}
