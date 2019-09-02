@@ -144,6 +144,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                 "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
                 " ", ",",".","?","!","–", "-","’","´","„","“",":","\"",";","”",
                 "(", ")","'",
+                "í", "ó", "É", "é", "á", "ñ", "ú",
                 "1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
     pixel <- rep(15, length(letter))
     font$letpix <- data.frame(letter = letter, pixel = pixel)

@@ -107,6 +107,11 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$width[1] <- letpix$pixel[letpix$letter == stimmat$letter[1]]
   
   for (i in 2:length(letters2)) {
+    
+    if (is.element(stimmat$letter[i], letpix$letter) == F) {
+      print(paste("Letter", stimmat$letter[i], "missing.", sep = " "))
+    }
+    
     if (letters2[i] == " ") wordnum <- wordnum + 1
     if (letters2[i - 1] == "\u2219") wordnum <- wordnum + 1
     stimmat$wordnum[i] <- wordnum
