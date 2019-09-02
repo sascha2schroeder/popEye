@@ -30,22 +30,11 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     # ------------------
     
     time <- env$header$trial$time[trial]
-    sel <- tail(env$header$calibration[env$header$calibration$time < time, ], n = 1)
     
-    # if (is.null(env$header$drift)) {
-    #   meta <- list(trialid = trial, 
-    #                trialnum = max(tmp$msg$trialnum), 
-    #                itemid = max(tmp$msg$itemid), 
-    #                condition = max(tmp$msg$condition), 
-    #                dependency = max(tmp$msg$dependency),
-    #                start = time,
-    #                calibration.method = sel$method,
-    #                calibration.avg = as.numeric(sel$avg),
-    #                calibration.max = as.numeric(sel$max)
-    #   )                 
-    #   
-    # } else {
-     
+    if (is.null(env$header$calibration$time) == F) {
+      
+      sel <- tail(env$header$calibration[env$header$calibration$time < time, ], n = 1)
+      
       meta <- list(trialid = trial, 
                    trialnum = max(tmp$msg$trialnum), 
                    itemid = max(tmp$msg$itemid), 
@@ -58,9 +47,21 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                    drift = env$header$trial$drift[trial],
                    drift.x = as.numeric(as.character(env$header$trial$drift.x[trial])),
                    drift.y = as.numeric(as.character(env$header$trial$drift.y[trial]))
-      )                 
+      )    
       
-    # }
+    } else {
+     
+      meta <- list(trialid = trial, 
+                   trialnum = max(tmp$msg$trialnum), 
+                   itemid = max(tmp$msg$itemid), 
+                   condition = max(tmp$msg$condition), 
+                   dependency = max(tmp$msg$dependency),
+                   start = time,
+                   calibration.method = env$header$calibration$method)
+                   
+    }
+                 
+      
     
     env$meta <- meta
     
