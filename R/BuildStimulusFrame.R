@@ -39,13 +39,13 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # replace hyphen within word with different character
   tmp2 <- unlist(strsplit(tmp, " "))
-  sel <- grep("[a-zA-Z]-[a-zA-Z]", tmp2)
-  tmp2[sel] <- gsub("-", "\u2219", tmp2[sel])
+  sel <- grep(".-.", tmp2)
+  tmp2[sel] <- gsub("[-]", "\u2219", tmp2[sel])
   tmp3 <- paste(tmp2, collapse = " ")
   
   # replace hyphen within words with blank
   tmp2 <- unlist(strsplit(tmp, " "))
-  sel <- grep("[a-zA-Z]-[a-zA-Z]", tmp2)
+  sel <- grep(".-.", tmp2)
   tmp2[sel] <- gsub("-", "- ", tmp2[sel])
   tmp4 <- paste(tmp2, collapse = " ")
   
@@ -197,6 +197,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$xe <- cumsum(stimmat$width) + x.offset
   # NOTE: seperate start and end positions necessary?
 
+  
   # compute lines
   # --------------
   
@@ -207,7 +208,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # NOTE: maybe condition on software (ET vs EB)
   
-  # Stage 1: compute wrap-up line breaks
+  # Stage 1: compute manual line breaks
   
   if (grepl(line.delim, stim)) {
     
@@ -241,6 +242,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     }
     
   }
+  
   
   # Stage 2: compute wrap-up line breaks
   

@@ -14,6 +14,7 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F,
       if (interactive == T) par(ask = T)
     } else {
       pdf(pdf, width = 16, height = 8.5)
+      # png(pdf, width = 2000, height = 1000)
       par(mfrow = c(1, 1), cex = cex, oma = c(1, 0, 2, 0))
     }
   }

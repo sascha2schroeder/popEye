@@ -26,7 +26,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     tmp <- TrialTime(tmp) # -> part of SelectTrial() ?
 
     
-    # create trial slot
+    # create meta slot
     # ------------------
     
     time <- env$header$trial$time[trial]
@@ -42,6 +42,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                    dependency = max(tmp$msg$dependency),
                    start = time,
                    calibration.method = sel$method,
+                   calibration.eye = sel$eye,
                    calibration.avg = as.numeric(sel$avg),
                    calibration.max = as.numeric(sel$max),
                    drift = env$header$trial$drift[trial],
@@ -57,18 +58,27 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                    condition = max(tmp$msg$condition), 
                    dependency = max(tmp$msg$dependency),
                    start = time,
-                   calibration.method = env$header$calibration$method)
+                   calibration.method = env$header$calibration$method,
+                   calibration.eye = env$header$calibration$eye
+                   )
                    
     }
                  
-      
-    
     env$meta <- meta
     
     tmp$msg$trialnum <- NULL # remove trialnum from msg object
     tmp$msg$itemid <- NULL # remove condition from msg object
     tmp$msg$condition <- NULL # remove condition from msg object
     tmp$msg$dependency <- NULL # remove condition from msg object
+    
+    
+    # create event slot
+    # ------------------
+    
+    if (meta$calibration.eye == "LR") {
+      tmp$event <- tmp$event[tmp$event$eye == "L", ]
+    }
+    # FIX: select left eye if tracking was binocular (corresponds to sample data)
     
     
     if (sum(tmp$event$msg == "SFIX") >= 3) { # FIX: skip if there are less than three fixations in trial

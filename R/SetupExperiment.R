@@ -201,6 +201,35 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$lead <- 2
   }
   
+  # ConsolasRussian 20 pt
+  if (font$name == "ConsolasRussian" & font$size == 20) {
+    letter <- c(" ", "-", "–", "—", ",", ":", "!", ".",  "«", "»", "(", ")",
+                "1", "4", "7", "9", "а", "А", "б", "Б", "в", "В", "г", "Г", "д",
+                "Д", "е", "Е", "ё", "ж", "Ж", "з", "З", "и", "И", "й", "к", "К",
+                "л", "м", "М", "н", "Н", "о", "О", "п", "П", "р", "Р", "с", "С", 
+                "т", "Т", "у", "У", "ф", "Ф", "х", "Х", "ц", "ч", "Ч", "ш", "Ш",
+                "щ", "ъ", "ы", "ь", "э", "Э", "ю", "Ю", "я", "Я")
+    pixel <- rep(15, length(letter))
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    font$height <- 24
+    font$lead <- 9
+  }
+  
+  # CourierHebrew 20 pt
+  if (font$name == "CourierHebrew" & font$size == 20) {
+    letter <- c(" ", "-", "–", "," , ":", ".", "'", "\"", "0", "1", "2", "8", "C", 
+                "\u05d4", "\u05d3", "\u05d2", "\u05d1", "\u05d0", "\u05e5",
+                "\u05e6", "\u05e3", "\u05e4", "\u05e2", "\u05e1", "\u05df",
+                "\u05e0", "\u05dd", "\u05de", "\u05dc", "\u05da", "\u05db",
+                "\u05d9", "\u05d8", "\u05d7", "\u05d6", "\u05d5", "\u05ea",
+                "\u05e9", "\u05e8", "\u05e7")
+    pixel <- rep(16, length(letter))
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    font$height <- 22
+    font$lead <- 5
+    font$right <- T
+  }
+  
   # print classes
   font$print$up <- c("A","E","I","O","U","Q","W","R","T","Z","P","S","D","F",
                      "G","H","J","K","L","Y","X","C","V","B","N","M","Ä","Ö",

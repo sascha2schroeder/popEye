@@ -14,6 +14,7 @@ ExtractHeader <- function(infile, env = parent.frame(n = 2)){
     tmp <- infile[grep("MSG", infile)]
     tmp <- tmp[grep("CALIBRATION", tmp)]
     env$header$calibration$method <- sapply(strsplit(tmp, " "), "[[", 4)
+    env$header$calibration$eye <- sapply(strsplit(tmp, " "), "[[", 5)
   
   }
   
@@ -30,13 +31,15 @@ ExtractHeader <- function(infile, env = parent.frame(n = 2)){
     }
     
     # set up calibration matrix
-    env$header$calibration <- data.frame(matrix(NA, length(tmp), 7))
-    colnames(env$header$calibration) <- c("time", "method", "avg", "max", "offset", 
+    env$header$calibration <- data.frame(matrix(NA, length(tmp), 8))
+    colnames(env$header$calibration) <- c("time", "eye", "method", 
+                                          "avg", "max", "offset", 
                                           "x.px", "y.px")
     
     env$header$calibration$time <- 
       as.numeric(sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 1), "\t"), "[[", 2))
     env$header$calibration$method <- sapply(strsplit(tmp, " "), "[[", 4)
+    env$header$calibration$eye <- sapply(strsplit(tmp, " "), "[[", 5)
     env$header$calibration$avg <- sapply(strsplit(tmp, " "), "[[", 9)
     env$header$calibration$max <- sapply(strsplit(tmp, " "), "[[", 11)
     env$header$calibration$offset <- sapply(strsplit(tmp, " "), "[[", 14)

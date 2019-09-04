@@ -9,8 +9,8 @@ RemoveSamples <- function(dat, env = parent.frame(n = 2)) {
   samp <- data.frame(matrix(data = NA, nrow = 1, ncol = 4)) 
   names(samp) <- c('time', 'x',  'y', 'pupil')
   
-  event <- data.frame(matrix(data = NA, nrow = 1, ncol = 6)) 
-  names(event) <- c('time',  'msg', 'xs', 'ys', 'xe', 'ye')
+  event <- data.frame(matrix(data = NA, nrow = 1, ncol = 7)) 
+  names(event) <- c('time',  'eye', 'msg', 'xs', 'ys', 'xe', 'ye')
 
   for (trial in 1:max(dat$msg$trialnum)) {
     # trial = 1

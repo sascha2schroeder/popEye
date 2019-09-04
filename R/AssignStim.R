@@ -7,7 +7,11 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   fix <- dat$trial[[trial]]$fix
   stimmat <- dat$trial[[trial]]$meta$stimmat
   
-
+  if (env$exp$setup$font$right == T) {
+    fix$xs <- env$exp$setup$display$resolutionX - fix$xs
+  }
+  
+  
   # drift correct 
   # ---------------
   
@@ -348,6 +352,17 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # return
   # -------
+  
+  if (env$exp$setup$font$right == T) {
+    fix$xs <- env$exp$setup$display$resolutionX - fix$xs
+    fix$xn <- env$exp$setup$display$resolutionX - fix$xn
+    dat$trial[[trial]]$meta$stimmat$xsn <- env$exp$setup$display$resolutionX - dat$trial[[trial]]$meta$stimmat$xs
+    dat$trial[[trial]]$meta$stimmat$xen <- env$exp$setup$display$resolutionX - dat$trial[[trial]]$meta$stimmat$xe
+    dat$trial[[trial]]$meta$stimmat$xs <- dat$trial[[trial]]$meta$stimmat$xen
+    dat$trial[[trial]]$meta$stimmat$xe <- dat$trial[[trial]]$meta$stimmat$xsn
+    dat$trial[[trial]]$meta$stimmat$xsn <- NULL
+    dat$trial[[trial]]$meta$stimmat$xen <- NULL
+  }
   
   dat$trial[[trial]]$fix <- fix  
   
