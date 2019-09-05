@@ -230,6 +230,82 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$right <- T
   }
   
+  # TahomaArabic 13 pt
+  if (font$name == "TahomaArabic" & font$size == 13) {
+    letter <- c(
+      # diacritics
+      "\u064b",
+      "\u064c",
+      "\u064d",
+      "\u064e",
+      "\u064f",
+      "\u0650",
+      "\u0651",
+      "\u0652",
+      
+      # punctuation
+      " ",
+      ",",
+      "\u060c",
+      "\u061b",
+      ":",
+      ".",
+      "\"",
+      "“",
+      "«",
+      "»",
+      "(",
+      ")",
+      "*",
+      "6",
+      
+      # regular characters
+      "\u0626",
+      "\u0625",
+      "\u0624",
+      "\u0623",
+      "\u0622",
+      "\u0621",
+      "\u062D",
+      "\u062C",
+      "\u062B",
+      "\u062A",
+      "\u0629",
+      "\u0628",
+      "\u0627",
+      "\u0634",
+      "\u0633",
+      "\u0632",
+      "\u0631",
+      "\u0630",
+      "\u062F",
+      "\u062E",
+      "\u0641",
+      "\u063A",
+      "\u0639",
+      "\u0638",
+      "\u0637",
+      "\u0636",
+      "\u0635",
+      "\u0648",
+      "\u0647",
+      "\u0646",
+      "\u0645",
+      "\u0644",
+      "\u0643",
+      "\u0642",
+      "\u064A",
+      "\u0649"
+    )
+    pixel <- rep(10, length(letter))
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    font$height <- 16
+    font$lead <- 2
+    font$right <- T
+  }
+  
+  
+  
   # print classes
   font$print$up <- c("A","E","I","O","U","Q","W","R","T","Z","P","S","D","F",
                      "G","H","J","K","L","Y","X","C","V","B","N","M","Ä","Ö",

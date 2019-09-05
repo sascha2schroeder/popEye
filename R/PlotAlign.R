@@ -1,5 +1,5 @@
 
-PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F, 
+PlotAlign <- function(exp, subject, trial, plot = NULL, interactive = F, 
                       sub = F, align = F, outlier = F, cex = 1) {
   
   # TODO: resize y dimension?
@@ -9,13 +9,18 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F,
   # start pdf
   
   if (sub == F) {
-    if (missing(pdf) == T) {
+    if (missing(plot) == T) {
       par(mfrow = c(1, 1), cex = cex, oma = c(0, 0, 0, 0))
       if (interactive == T) par(ask = T)
     } else {
-      pdf(pdf, width = 16, height = 8.5)
-      # png(pdf, width = 2000, height = 1000)
-      par(mfrow = c(1, 1), cex = cex, oma = c(1, 0, 2, 0))
+      tmp <- unlist(strsplit(plot, "\\."))
+      if (tmp[length(tmp)] == "pdf") {
+        pdf(plot, width = 16, height = 8.5)
+        par(mfrow = c(1, 1), cex = cex, oma = c(1, 0, 2, 0))
+      } else if (tmp[length(tmp)] == "png") {
+        png(plot, width = 2000, height = 1000)
+        par(mfrow = c(1, 1), cex = cex, oma = c(1, 0, 2, 0))  
+      }
     }
   }
   
@@ -160,7 +165,7 @@ PlotAlign <- function(exp, subject, trial, pdf = NULL, interactive = F,
   }
   
   # turn off device  
-  if (missing(pdf) == F) {
+  if (missing(plot) == F) {
     # title(paste("Trial", SelectSubjectTrial(exp, subject, trial)$meta$trialnum, 
     # sep = " "), outer = T, cex.main = 3.75)
     dev.off()

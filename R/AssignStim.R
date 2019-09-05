@@ -362,6 +362,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     dat$trial[[trial]]$meta$stimmat$xe <- dat$trial[[trial]]$meta$stimmat$xsn
     dat$trial[[trial]]$meta$stimmat$xsn <- NULL
     dat$trial[[trial]]$meta$stimmat$xen <- NULL
+    dat$trial[[trial]]$meta$stimmat$xm <- (dat$trial[[trial]]$meta$stimmat$xs + dat$trial[[trial]]$meta$stimmat$xe) / 2
   }
   
   dat$trial[[trial]]$fix <- fix  
