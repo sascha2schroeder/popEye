@@ -299,7 +299,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     )
     pixel <- rep(10, length(letter))
     font$letpix <- data.frame(letter = letter, pixel = pixel)
-    font$height <- 16
+    font$height <- 14
     font$lead <- 2
     font$right <- T
   }

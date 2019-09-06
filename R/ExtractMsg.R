@@ -101,6 +101,10 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
       tmp <- tmp[-grep("REPEATING", tmp)]
     }
     
+    if (sum(grepl("FAILED", tmp)) > 0) {
+      tmp <- tmp[-grep("FAILED", tmp)]
+    }
+    
     # remove aborted trials
     if (sum(grepl("ABORTED", tmp)) > 0) {
       tmp <- tmp[-grep("ABORTED", tmp)]
