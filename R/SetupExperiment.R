@@ -88,6 +88,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 16
     font$lead <- 3
+    font$right <- F
   }
   
   # CourierNew, 16 pt
@@ -102,7 +103,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 18
     font$lead <- 4
-    
+    font$right <- F
   }
   
   # CourierNew, 18 pt
@@ -118,7 +119,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 20
     font$lead <- 5
-    
+    font$right <- F
   }
   
   # CourierNew, 20 pt
@@ -133,7 +134,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 22
     font$lead <- 6
-    
+    font$right <- F
   }
   
   # Consolas, 20 pt
@@ -150,7 +151,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 24
     font$lead <- 10
-    
+    font$right <- F
   }
   
   # Symbol, 13 pt
@@ -167,7 +168,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                12,6,5,NA,NA)
     # NOTE: "Ö" correct?
     font$letpix <- data.frame(letter = letter, pixel = pixel)
-    
+    font$right <- F
   }
 
   # Symbol, 14 pt
@@ -184,6 +185,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                14,3,3,NA,NA)
     # NOTE: "I" correct?
     font$letpix <- data.frame(letter = letter, pixel = pixel) 
+    font$right <- F
   }
   
   # Tahoma, 13 pt
@@ -199,6 +201,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 14
     font$lead <- 2
+    font$right <- F
   }
   
   # ConsolasRussian 20 pt
@@ -213,6 +216,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 24
     font$lead <- 9
+    font$right <- F
   }
   
   # CourierHebrew 20 pt
