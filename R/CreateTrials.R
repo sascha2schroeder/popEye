@@ -5,7 +5,6 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   ret <- rep(list(NA), length(table(dat$msg$trialnum)))
   
   
-  
   # trial loop
   # -----------
   
@@ -24,7 +23,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
 
     tmp <- SelectTrial(dat, start, stop)
     tmp <- TrialTime(tmp) # -> part of SelectTrial() ?
-
+    
     
     # create meta slot
     # ------------------
@@ -63,8 +62,6 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                    )
                    
     }
-                 
-    env$meta <- meta
     
     tmp$msg$trialnum <- NULL # remove trialnum from msg object
     tmp$msg$itemid <- NULL # remove condition from msg object
@@ -75,7 +72,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     # create event slot
     # ------------------
     
-    if (meta$calibration.eye == "LR") {
+    if (env$header$calibration$eye == "LR") {
       tmp$event <- tmp$event[tmp$event$eye == "L", ]
     }
     # FIX: select left eye if tracking was binocular (corresponds to sample data)

@@ -21,7 +21,6 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
   sac$amp.px <- NA
   sac$amp.angle <- NA
   
-  
   for (s in 1:nrow(sac)) {
     # s = 1
     

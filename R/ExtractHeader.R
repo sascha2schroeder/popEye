@@ -9,15 +9,20 @@ ExtractHeader <- function(infile, env = parent.frame(n = 2)){
   # calibration
   # ------------
   
+  tmp <- infile[grep("MSG", infile)]
+  tmp <- tmp[grep("VALIDATION", tmp)]
+  
   if (sum(grepl("CALIBRATION", infile)) > 0) {
   
     tmp <- infile[grep("MSG", infile)]
     tmp <- tmp[grep("CALIBRATION", tmp)]
+    tmp <- tmp[length(tmp)]
+    # tmp <- tmp[grep("GOOD", tmp)]
+    
     env$header$calibration$method <- sapply(strsplit(tmp, " "), "[[", 4)
     env$header$calibration$eye <- sapply(strsplit(tmp, " "), "[[", 5)
-  
+    
   }
-  
   
   if (sum(grepl("VALIDATION", infile)) > 0) {
     
@@ -29,6 +34,7 @@ ExtractHeader <- function(infile, env = parent.frame(n = 2)){
     if (length(grep("ABORTED", tmp)) > 0) {
       tmp <- tmp[-grep("ABORTED", tmp)]  
     }
+    
     
     # set up calibration matrix
     env$header$calibration <- data.frame(matrix(NA, length(tmp), 8))
@@ -47,5 +53,5 @@ ExtractHeader <- function(infile, env = parent.frame(n = 2)){
     env$header$calibration$y.px <- as.numeric(sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 16), ","), "[[", 2))
     
   }
- 
+  
 }
