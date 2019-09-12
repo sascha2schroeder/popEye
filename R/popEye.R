@@ -214,6 +214,10 @@ popEye <- function(datpath,
   # create output files
   CreateOutput()
   
+  if (debug == "setup") {
+    return (exp)
+  }
+  
   
   # create version list
   # --------------------
