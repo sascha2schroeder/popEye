@@ -213,9 +213,14 @@ received (deleted otherwise; default is 3)}
 (numeric; internal for debugging; only relevant for EB experiments)}
 
 \item{select.subject}{Restrict analysis to a specific subject (within a version)
-(numeric; internal for debugging)}
+(numeric; internal for debugging). Select a single subject by specifying a single
+number (e.g., select.subject = 4). Select a range of subjects by using the colon 
+operator (e.g., select.subject = 1:4).}
 
 \item{select.trial}{Restrict analysis to a specific trial (numeric; internal for debugging)}
+
+\item{debug}{Perform analysis only for specific steps of the analysis ("setup", 
+"read", "remove", "create")}
 }
 \description{
 This function is used when you want to analyze eye tracking data using popEye.

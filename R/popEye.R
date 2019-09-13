@@ -121,9 +121,12 @@
 #' @param select.version Restrict analysis to a specific version of the experiment
 #' (numeric; internal for debugging; only relevant for EB experiments)
 #' @param select.subject Restrict analysis to a specific subject (within a version)
-#' (numeric; internal for debugging)
+#' (numeric; internal for debugging). Select a single subject by specifying a single
+#' number (e.g., select.subject = 4). Select a range of subjects by using the colon 
+#' operator (e.g., select.subject = 1:4).
 #' @param select.trial Restrict analysis to a specific trial (numeric; internal for debugging)
-
+#' @param debug Perform analysis only for specific steps of the analysis ("setup", 
+#' "read", "remove", "create")
 
 popEye <- function(datpath, 
                    stimulus.file,
@@ -275,8 +278,14 @@ popEye <- function(datpath,
       subject.arg1 <- 1
       subject.arg2 <- length(sub.list)
     } else {
-      subject.arg1 <- select.subject
-      subject.arg2 <- select.subject
+      if (length(select.subject) > 1) {
+        subject.arg1 <- select.subject[1]
+        subject.arg2 <- select.subject[2]
+      } else {
+        subject.arg1 <- select.subject
+        subject.arg2 <- select.subject
+      }
+      
     }
     
     for (s in subject.arg1:subject.arg2) {
