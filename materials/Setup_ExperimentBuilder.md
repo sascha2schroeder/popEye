@@ -1,3 +1,4 @@
 # Setup of experiments in Exeriment Builder 
 
-Follow soon.
+An example script how to set up your experiment in Experiment Builder can be found 
+[here.](materials/ExperimentBuilder.ebz)

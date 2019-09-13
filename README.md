@@ -55,6 +55,7 @@ proportional and disproportional fonts. The following fonts are currently suppor
 - Consolas
 - Times New Roman
 - Symbol
+- Tahoma
 
 (You have to understand that each font and font size combination has to be implemented separately). 
 Some special characters might still be missing which can cause problems during preprocessing. Please contact me,
@@ -66,7 +67,7 @@ Please contact me, if you are interested in this.
 
 ## Installation
 
-The easiest way to install the most recent version of popEye (current version is 0.6.0) 
+The easiest way to install the most recent version of popEye (current version is 0.6.2) 
 is via the devtools package:
 
 ``` R
@@ -75,7 +76,8 @@ install_github('sascha2schroeder/popEye')
 ```
 
 Alternatively, an pre-compiled version that can be loaded locally (RStudio: -> Tools -> Install packages
--> Install from Package Archive) can be downloaded [here](builds/popEye_0.6.0.tar.gz).
+-> Install from Package Archive) can be downloaded [here](builds/popEye_0.6.2.tar.gz).
+
 
 ## How should I set up my experiment so that popEye works smoothly?
 
