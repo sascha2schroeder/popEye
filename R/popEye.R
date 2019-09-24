@@ -545,6 +545,10 @@ popEye <- function(datpath,
   exp$out$clean <- clean[-1, ]
   row.names(exp$out$clean) <- NULL
   
+  if (debug == "aggregate") {
+    return (exp)
+  }
+  
   
   # aggregate words
   # ----------------
@@ -575,6 +579,7 @@ popEye <- function(datpath,
   exp$out$senttmp <- AggregateSentences(exp)
   exp <- CombineSentences(exp)
   
+  return(exp)
   
   # aggregate trials
   # -----------------

@@ -55,7 +55,6 @@ PlotAlign <- function(exp, subject, trial, plot = NULL, interactive = F,
     text(stimmat$xs[i] + (stimmat$xe[i] - stimmat$xs[i]) / 2, stimmat$ym[i], stimmat$letter[i], family = "Courier", cex = .9)
   }
   
-  + (stimmat$xe[i] - stimmat$xs[i]) / 2
   
   # add words
   words <- as.numeric(unlist(dimnames(table(tmp$meta$stimmat$wordnum))))
