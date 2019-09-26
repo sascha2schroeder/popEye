@@ -579,7 +579,6 @@ popEye <- function(datpath,
   exp$out$senttmp <- AggregateSentences(exp)
   exp <- CombineSentences(exp)
   
-  return(exp)
   
   # aggregate trials
   # -----------------
