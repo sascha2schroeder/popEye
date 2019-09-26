@@ -33,8 +33,8 @@ PlotFixations <- function(exp, subject, trial, start = 1, stop = NA,
     
     PlotStimulus(exp, subject, trial)
   
-    points(fix$xs[start:end],
-           fix$ys[start:end],
+    points(fix$xn[start:end],
+           fix$yn[start:end],
            col = "black",
            pch = 16, type = "l")
     
@@ -45,16 +45,19 @@ PlotFixations <- function(exp, subject, trial, start = 1, stop = NA,
     #          pch = 16, cex = 1, type = "p")
     # }
     
-    points(fix$xs[start:end],
-           fix$ys[start:end],
-           col = fix$line[start:end],
-           pch = 16, cex = 1, type = "p")
+    fix$line[fix$type == "out"] <- 0
     
-    points(fix$xs[end],
-           fix$ys[end],
-           col = fix$line[end],
-           pch = 16, cex = 2, type = "p")
-    
+      
+      points(fix$xn[start:end],
+             fix$yn[start:end],
+             bg = fix$line[start:end],
+             pch = 21, cex = 1, type = "p")
+      
+      points(fix$xn[end],
+             fix$yn[end],
+             bg = fix$line[end],
+             pch = 21, cex = 2, type = "p")
+      
     # add fixation number
     text(fix$xn[end], (fix$yn[end] - 20), fix$fixid[end], col = "black", cex = 1.25)  
     
