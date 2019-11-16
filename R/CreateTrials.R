@@ -77,7 +77,6 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     }
     # FIX: select left eye if tracking was binocular (corresponds to sample data)
     
-    
     if (sum(tmp$event$msg == "SFIX") >= 3) { # FIX: skip if there are less than three fixations in trial
     # TODO: this only works for Eyelink -> FIX
       

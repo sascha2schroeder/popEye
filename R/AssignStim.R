@@ -15,6 +15,10 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # drift correct 
   # ---------------
   
+  if (is.null(dat$trial[[trial]]$meta$drift) == T) {
+    dat$trial[[trial]]$meta$drift <- NA
+  }
+  
   # x axis
   if (env$exp$setup$analysis$driftX == T) {
     

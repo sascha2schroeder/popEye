@@ -12,7 +12,6 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
   time <- as.numeric(sapply(strsplit(tmp[grep("TRIALID", tmp)], " "), "[[", 1))
   trialnum <- 1:length(time)
   
-  
   # EB
   if (env$exp$setup$tracker$software == "EB") {
   

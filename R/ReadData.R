@@ -37,13 +37,13 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
   # }
   
   # read ASC
-  infile   <- readLines(ascfile, encoding = "UTF-8")
+  infile <- readLines(ascfile, encoding = "UTF-8")
   
   # extract data
   ExtractSetup(infile)
   ExtractHeader(infile)
-  msg   <- ExtractMsg(infile)
-  samp  <- ExtractSamples(infile)
+  msg <- ExtractMsg(infile)
+  samp <- ExtractSamples(infile)
   event <- ExtractEvents(infile)
   
   # combine

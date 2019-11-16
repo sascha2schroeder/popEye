@@ -19,11 +19,11 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   # calculate cut-off
   x.cut <- x.res - right.limit
   
-  # set spacing multiplier
-  if (env$exp$setup$font$spacing == "1") mult <- 1
-  if (env$exp$setup$font$spacing == "1.5") mult <- 1.5
-  if (env$exp$setup$font$spacing == "2") mult <- 2
-  # TODO: other spacing conditions
+  # # set spacing multiplier
+  # if (env$exp$setup$font$spacing == "1") mult <- 1
+  # if (env$exp$setup$font$spacing == "1.5") mult <- 1.5
+  # if (env$exp$setup$font$spacing == "2") mult <- 2
+  # # TODO: other spacing conditions
   
   
   # compute letter
@@ -300,8 +300,8 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   for (i in 1:max(stimmat$line)) {
     # i = 1
     
-    stimmat$ys[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height) * mult * (i - 1) - font.height * 0.5
-    stimmat$ye[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height) * mult * (i - 1) + font.height * 1.5
+    stimmat$ys[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height) * as.numeric(env$exp$setup$font$spacing) * (i - 1) - font.height * 0.5
+    stimmat$ye[stimmat$line == i] <- y.offset + font.lead + (font.height + 1) * (i - 1) + (font.height) * as.numeric(env$exp$setup$font$spacing) * (i - 1) + font.height * 1.5
     
     # print (i)
   }

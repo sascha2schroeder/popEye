@@ -145,8 +145,8 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                 "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
                 "ş","ı","ç","ğ","Ç","İ","Ş",
                 " ", ",",".","?","!","–", "-","’","´","„","“",":","\"",";","”",
-                "(", ")","'",
-                "í", "ó", "É", "é", "á", "ñ", "ú",
+                "(", ")","'","‘", "—",
+                "í", "ó", "É", "é", "á", "ñ", "ú", "ë", "ï","â",
                 "1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
     pixel <- rep(15, length(letter))
     font$letpix <- data.frame(letter = letter, pixel = pixel)
@@ -154,6 +154,24 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$lead <- 10
     font$right <- F
   }
+  
+  # Consolas, 22 pt
+  if (font$name == "Consolas" & font$size == 22) {
+    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
+                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
+                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
+                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
+                "ş","ı","ç","ğ","Ç","İ","Ş",
+                " ", ",",".","?","!","–", "-","’","´","„","“",":","\"",";","”",
+                "(", ")","'","‘", "—",
+                "í", "ó", "É", "é", "á", "ñ", "ú", "ë", "ï","â",
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
+    pixel <- rep(16, length(letter))
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    font$height <- 25
+    font$lead <- 9
+    font$right <- F
+  } 
   
   # Symbol, 13 pt
   if (font$name == "Symbol" & font$size == 13) {

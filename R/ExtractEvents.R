@@ -67,27 +67,45 @@ ExtractEvents <- function(dat){
   es$ye <- round(as.numeric(es$ye))
   
   # SBLINK
-  time <- sapply(strsplit(dat[grep("SBLINK", dat)], " "), "[[", 3)
-  eye <- sapply(strsplit(dat[grep("SBLINK", dat)], " "), "[[", 2)
-  msg <- rep("SBLINK", length.out = length(time))
-  sb <- data.frame(cbind(time, eye, msg),stringsAsFactors=F)
-  sb$time <- as.numeric(sb$time)
-  sb$xs <- NA
-  sb$ys <- NA
-  sb$xe <- NA
-  sb$ye <- NA
+  if (grepl("SBLINK", dat)) {
+    
+    time <- sapply(strsplit(dat[grep("SBLINK", dat)], " "), "[[", 3)
+    eye <- sapply(strsplit(dat[grep("SBLINK", dat)], " "), "[[", 2)
+    msg <- rep("SBLINK", length.out = length(time))
+    sb <- data.frame(cbind(time, eye, msg),stringsAsFactors=F)
+    sb$time <- as.numeric(sb$time)
+    sb$xs <- NA
+    sb$ys <- NA
+    sb$xe <- NA
+    sb$ye <- NA
+    
+  } else {
+    
+    sb <- data.frame(matrix(ncol = 7, nrow = 0))
+    colnames(sb) <- c("time", "eye", "msg", "xs", "ys", "xe", "ye")
+    
+  }
   
   # EBLINK
-  time <- sapply(strsplit(dat[grep("EBLINK", dat)], "\t"), "[[", 2)
-  eye <- sapply(strsplit(sapply(strsplit(dat[grep("EBLINK", dat)], "\t"), "[[", 1), " "), "[[", 2)
-  msg <- rep("EBLINK", length.out = length(time))
-  eb <- data.frame(cbind(time, eye, msg), stringsAsFactors = F)
-  eb$time <- as.numeric(eb$time)
-  eb$msg <- as.character(eb$msg)
-  eb$xs <- NA
-  eb$ys <- NA
-  eb$xe <- NA
-  eb$ye <- NA
+  if (grepl("EBLINK", dat)) {
+    
+    time <- sapply(strsplit(dat[grep("EBLINK", dat)], "\t"), "[[", 2)
+    eye <- sapply(strsplit(sapply(strsplit(dat[grep("EBLINK", dat)], "\t"), "[[", 1), " "), "[[", 2)
+    msg <- rep("EBLINK", length.out = length(time))
+    eb <- data.frame(cbind(time, eye, msg), stringsAsFactors = F)
+    eb$time <- as.numeric(eb$time)
+    eb$msg <- as.character(eb$msg)
+    eb$xs <- NA
+    eb$ys <- NA
+    eb$xe <- NA
+    eb$ye <- NA
+  
+  } else {
+    
+    eb <- data.frame(matrix(ncol = 7, nrow = 0))
+    colnames(eb) <- c("time", "eye", "msg", "xs", "ys", "xe", "ye")
+    
+  }
   
   # combine and write out
   out <- rbind(sf, ef, ss, es, sb, eb)
