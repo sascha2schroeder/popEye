@@ -367,8 +367,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
 
   
   # exclude
-  exclude <- list(blink = env$exclude.blink,
-                  nfix = env$exclude.nfix,
+  exclude <- list(nfix = env$exclude.nfix,
                   sac = env$exclude.sac)
 
     

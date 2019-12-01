@@ -34,7 +34,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
     
     # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
       
-      env$clean <- data.frame(matrix(NA, 1, 16))
+      env$clean <- data.frame(matrix(NA, 1, 15))
       colnames(env$clean) <- c("subid", 
                                "trialid", 
                                "trialnum", 
@@ -48,28 +48,9 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                                "drift.y",
                                "trial.fix", 
                                "trial.blink", 
-                               "trial.sac",
                                "trial.crit", 
                                "crit")
       
-    # } else {
-    #   
-    #   env$clean <- data.frame(matrix(NA, 1, 13))
-    #   colnames(env$clean) <- c("subid", 
-    #                            "trialid", 
-    #                            "trialnum", 
-    #                            "itemid", 
-    #                            "cond",
-    #                            "calibration.method",
-    #                            "calibration.avg",
-    #                            "calibration.max",
-    #                            "trial.fix", 
-    #                            "trial.blink", 
-    #                            "trial.sac",
-    #                            "trial.crit", 
-    #                            "crit")
-    # }
-    
   } 
   
   
@@ -77,7 +58,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
     
     # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
       
-    env$clean <- data.frame(matrix(NA, 1, 16))
+    env$clean <- data.frame(matrix(NA, 1, 15))
     colnames(env$clean) <- c("subid", 
                              "trialid", 
                              "trialnum", 
@@ -91,28 +72,8 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                              "drift.y",
                              "trial.fix", 
                              "trial.blink", 
-                             "trial.sac",
                              "trial.crit", 
                              "crit")
-    
-    # } else {
-    #   
-    #   env$clean <- data.frame(matrix(NA, 1, 13))
-    #   colnames(env$clean) <- c("subid", 
-    #                            "trialid", 
-    #                            "trialnum", 
-    #                            "itemid", 
-    #                            "cond",
-    #                            "calibration.method",
-    #                            "calibration.avg",
-    #                            "calibration.max",
-    #                            "trial.fix", 
-    #                            "trial.blink", 
-    #                            "trial.sac",
-    #                            "trial.crit", 
-    #                            "crit")
-    #   
-    # }
     
   } 
   
@@ -120,7 +81,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
     
     # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
       
-    env$clean <- data.frame(matrix(NA, 1, 27))
+    env$clean <- data.frame(matrix(NA, 1, 26))
     colnames(env$clean) <- c("subid", 
                              "trialid", 
                              "trialnum", 
@@ -134,7 +95,6 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                              "drift.y",
                              "trial.fix", 
                              "trial.blink", 
-                             "trial.sac",
                              "trial.crit", 
                              "target.blink", 
                              "target.out",
@@ -149,43 +109,13 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                              "target.crit", 
                              "crit")
     
-    # } else {
-    #   
-    #   env$clean <- data.frame(matrix(NA, 1, 24))
-    #   colnames(env$clean) <- c("subid", 
-    #                            "trialid", 
-    #                            "trialnum", 
-    #                            "itemid", 
-    #                            "cond",
-    #                            "calibration.method",
-    #                            "calibration.avg",
-    #                            "calibration.max",
-    #                            "trial.fix", 
-    #                            "trial.blink", 
-    #                            "trial.sac",
-    #                            "trial.crit", 
-    #                            "target.blink", 
-    #                            "target.out",
-    #                            "target.first",
-    #                            "target.pre.sac", 
-    #                            "target.pre.launch", 
-    #                            "target.pre.refix",
-    #                            "target.pre.reg", 
-    #                            "target.post.fix",
-    #                            "target.post.sac", 
-    #                            "target.post.reg", 
-    #                            "target.crit", 
-    #                            "crit")
-    #   
-    # }
-    
   }
   
   if (env$exp$setup$type == "boundary") {
     
     # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
       
-    env$clean <- data.frame(matrix(NA, 1, 39))
+    env$clean <- data.frame(matrix(NA, 1, 38))
     colnames(env$clean) <- c("subid", 
                              "trialid", 
                              "trialnum", 
@@ -199,7 +129,6 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                              "drift.y",
                              "trial.fix", 
                              "trial.blink", 
-                             "trial.sac",
                              "trial.crit", 
                              "target.blink",
                              "target.out",
@@ -226,48 +155,6 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                              "boundary.crit", 
                              "crit")
     
-    # } else {
-    #   
-    #   env$clean <- data.frame(matrix(NA, 1, 36))
-    #   colnames(env$clean) <- c("subid", 
-    #                            "trialid", 
-    #                            "trialnum", 
-    #                            "itemid", 
-    #                            "cond",
-    #                            "calibration.method",
-    #                            "calibration.avg",
-    #                            "calibration.max",
-    #                            "trial.fix", 
-    #                            "trial.blink", 
-    #                            "trial.sac",
-    #                            "trial.crit", 
-    #                            "target.blink",
-    #                            "target.out",
-    #                            "target.first", 
-    #                            "target.pre.sac",
-    #                            "target.pre.launch", 
-    #                            "target.pre.refix",
-    #                            "target.pre.reg", 
-    #                            "target.post.fix",
-    #                            "target.post.sac", 
-    #                            "target.post.reg", 
-    #                            "target.crit",
-    #                            "boundary.trigger", 
-    #                            "boundary.seq", 
-    #                            "boundary.change.sac", 
-    #                            "boundary.pre.time", 
-    #                            "boundary.target.time", 
-    #                            "boundary.post.time", 
-    #                            "boundary.target.fix", 
-    #                            "boundary.blink",
-    #                            "boundary.pattern", 
-    #                            "boundary.time",
-    #                            "boundary.hook", 
-    #                            "boundary.crit", 
-    #                            "crit")
-    #   
-    # }
-    
   }
   
   # TODO: fast priming outdated
@@ -275,7 +162,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
     
     # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
     
-    env$clean <- data.frame(matrix(NA, 1, 40))
+    env$clean <- data.frame(matrix(NA, 1, 39))
     colnames(env$clean) <- c("subid", 
                              "trialid", 
                              "trialnum", 
@@ -289,7 +176,6 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                              "drift.y",
                              "trial.fix", 
                              "trial.blink", 
-                             "trial.sac",
                              "trial.crit", 
                              "target.blink",
                              "target.out",
@@ -316,49 +202,6 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                              "fast.hook", 
                              "fast.crit", 
                              "crit")
-    
-    # } else {
-    #   
-    #   env$clean <- data.frame(matrix(NA, 1, 40))
-    #   colnames(env$clean) <- c("subid", 
-    #                            "trialid", 
-    #                            "trialnum", 
-    #                            "itemid", 
-    #                            "cond",
-    #                            "calibration.method",
-    #                            "calibration.avg",
-    #                            "calibration.max",
-    #                            "trial.fix", 
-    #                            "trial.blink", 
-    #                            "trial.sac",
-    #                            "trial.crit", 
-    #                            "target.blink",
-    #                            "target.out",
-    #                            "target.first",
-    #                            "target.pre.sac",
-    #                            "target.pre.launch", 
-    #                            "target.pre.refix",
-    #                            "target.pre.reg", 
-    #                            "target.post.fix",
-    #                            "target.post.sac", 
-    #                            "target.post.reg", 
-    #                            "target.crit",
-    #                            "fast.trigger", 
-    #                            "fast.seq", 
-    #                            "fast.sac.dur", 
-    #                            "fast.pre.time", 
-    #                            "fast.prime.time", 
-    #                            "fast.post.prime", 
-    #                            "fast.fix.dur", 
-    #                            "fast.fix.target", 
-    #                            "fast.blink",
-    #                            "fast.pattern", 
-    #                            "fast.time",
-    #                            "fast.hook", 
-    #                            "fast.crit", 
-    #                            "crit")
-    #   
-    # } 
     
   }
   

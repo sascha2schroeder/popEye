@@ -5,7 +5,7 @@ ExtractEvents <- function(dat){
   dat <- dat[grep(paste(c("SSACC", "ESACC", "SFIX", "EFIX", "SBLINK", "EBLINK"),
                         collapse = "|"),  dat, useBytes=TRUE)]
   dat <- dat[nchar(dat) > 0]
-      
+  
   # SFIX
   time <- sapply(strsplit(dat[grep("SFIX", dat)], " "), "[[", 5)
   eye <- sapply(strsplit(dat[grep("SFIX", dat)], " "), "[[", 2)
@@ -67,7 +67,7 @@ ExtractEvents <- function(dat){
   es$ye <- round(as.numeric(es$ye))
   
   # SBLINK
-  if (grepl("SBLINK", dat)) {
+  if (sum(grepl("SBLINK", dat)) > 0) {
     
     time <- sapply(strsplit(dat[grep("SBLINK", dat)], " "), "[[", 3)
     eye <- sapply(strsplit(dat[grep("SBLINK", dat)], " "), "[[", 2)
@@ -87,7 +87,7 @@ ExtractEvents <- function(dat){
   }
   
   # EBLINK
-  if (grepl("EBLINK", dat)) {
+  if (sum(grepl("EBLINK", dat)) > 0) {
     
     time <- sapply(strsplit(dat[grep("EBLINK", dat)], "\t"), "[[", 2)
     eye <- sapply(strsplit(sapply(strsplit(dat[grep("EBLINK", dat)], "\t"), "[[", 1), " "), "[[", 2)

@@ -45,6 +45,12 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     # --------
     
     # target.blink: check whether blink occured prior to target IA (critical)
+    
+    # if (sum(tmp$blink[tmp$ianum <= target.ia]) > 0) {
+    #   dat$trial[[trial]]$clean$target$blink <- 1
+    # }
+    
+    # NOTE: is this the following really necessary?
     target.range <- seq(from = min(dat$trial[[trial]]$meta$stimmat$xs[dat$trial[[trial]]$meta$stimmat$ianum == target.ia]),
                         to = max(dat$trial[[trial]]$meta$stimmat$xe[dat$trial[[trial]]$meta$stimmat$ianum == target.ia]))
     
@@ -68,6 +74,7 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
       }
       # print(i)
     }
+    
     
     # target.out: check whether there is an outlying fixation before target fixation
     if (length(tmp$fixid[tmp$type == "out"]) > 0 ) {
@@ -135,6 +142,7 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
       }
     }
     # NOTE: can also be used later (sac.in/refixation on pre-target IA)
+    # NOTE: not working when target.blink or target.out (?)
     
     # pre.reg: check whether higher letter than launch letter has been visited before
     let.hist = tmp$letternum[tmp$start < target.start$start]
@@ -186,12 +194,12 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     if (sum(c(
       dat$trial[[trial]]$clean$target$blink,
       dat$trial[[trial]]$clean$target$out,
-      dat$trial[[trial]]$clean$target$first,
+      dat$trial[[trial]]$clean$target$first
       # dat$trial[[trial]]$clean$target$pre.sac,
       # dat$trial[[trial]]$clean$target$pre.launch,
       # dat$trial[[trial]]$clean$target$pre.refix,
       # dat$trial[[trial]]$clean$target$pre.reg,
-      dat$trial[[trial]]$clean$target$post.fix
+      # dat$trial[[trial]]$clean$target$post.fix
       # dat$trial[[trial]]$clean$target$post.sac,
       # dat$trial[[trial]]$clean$target$post.reg
     )) > 0) {

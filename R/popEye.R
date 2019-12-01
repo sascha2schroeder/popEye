@@ -188,9 +188,8 @@ popEye <- function(datpath,
                    clean.stage4Max = 800, 
                    clean.delete = FALSE,
                    clean.outlier = FALSE,
-                   exclude.blink = FALSE, 
                    exclude.nfix = 3, 
-                   exclude.sac = 200,
+                   exclude.sac = 150,
                    outpath = getwd(), 
                    outname = "",
                    # NOTE: Maybe combine outpath and outname to one parameter
@@ -512,6 +511,7 @@ popEye <- function(datpath,
     }
     
   }
+  
   
   # NOTE: save number of subjects in setup slot?
   

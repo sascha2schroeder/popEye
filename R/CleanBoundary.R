@@ -69,6 +69,7 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
     
     # 1. boundary.blink (critical): 
     # check for blinks before/after boundary saccade
+    # NOTE: is this really necessary (blinks already in target check)
     
     blink.before <- tail(fix$blink[fix$start <= boundary$start], n = 1)
     
@@ -100,10 +101,11 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
         paste(boundary.label, "FIX", target.label, sep = "-")
     } else {
       dat$trial[[trial]]$clean$boundary$seq <- 0
+      dat$trial[[trial]]$clean$boundary$pattern <- 1
     }
     
     if (dat$trial[[trial]]$clean$boundary$seq == 0) {
-      dat$trial[[trial]]$clean$boundary$pattern <- 1
+      # dat$trial[[trial]]$clean$boundary$pattern <- 1
       dat$trial[[trial]]$clean$boundary$seq <- paste(pre.target$msg, 
                                                      target$msg, post.target$msg, sep = "-")
     }

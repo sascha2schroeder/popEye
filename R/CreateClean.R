@@ -6,7 +6,6 @@ CreateClean <- function(dat, env = parent.frame(n = 1)) {
   cleantmp <- data.frame(matrix(NA, length(dat$trial), 5))
   colnames(cleantmp) <- c("subid", "trialid", "trialnum", "itemid", "cond")
   
-  
   # extract values
   cleantmp$trialid <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "trialid"))
   cleantmp$trialnum <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "trialnum"))
@@ -44,7 +43,6 @@ CreateClean <- function(dat, env = parent.frame(n = 1)) {
   
   cleantmp$trial.fix <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "nfix"))
   cleantmp$trial.blink <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "blink"))
-  cleantmp$trial.sac <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "sac"))
   cleantmp$trial.crit <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "crit"))
   
   if (env$exp$setup$type == "target"  | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {

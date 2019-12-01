@@ -27,9 +27,9 @@ popEye(datpath, stimulus.file, tracker.model = "eyelink",
   clean.stage2Dur = 40, clean.stage2Dist = 3, clean.stage3 = FALSE,
   clean.stage3Dur = 140, clean.stage4 = FALSE, clean.stage4Min = 80,
   clean.stage4Max = 800, clean.delete = FALSE, clean.outlier = FALSE,
-  exclude.blink = FALSE, exclude.nfix = 3, exclude.sac = 200,
-  outpath = getwd(), outname = "", select.version = NULL,
-  select.subject = NULL, select.trial = NULL, debug = "none")
+  exclude.nfix = 3, exclude.sac = 150, outpath = getwd(),
+  outname = "", select.version = NULL, select.subject = NULL,
+  select.trial = NULL, debug = "none")
 }
 \arguments{
 \item{datpath}{Path to eye tracking files}
@@ -196,9 +196,6 @@ of letters) during stage 2 cleaning}
 \item{clean.outlier}{If TRUE outlying fixations at the begining and the end
 of a trial are deleted (default is FALSE)}
 
-\item{exclude.blink}{If TRUE a trial is flagged as critical if at least one
-blink has occured on it (default is FALSE)}
-
 \item{exclude.nfix}{Minimum number of fixations that a trial has to have 
 received (deleted otherwise; default is 3)}
 
@@ -221,6 +218,9 @@ operator (e.g., select.subject = 1:4).}
 
 \item{debug}{Perform analysis only for specific steps of the analysis ("setup", 
 "read", "remove", "create")}
+
+\item{exclude.blink}{If TRUE a trial is flagged as critical if at least one
+blink has occured on it (default is FALSE)}
 }
 \description{
 This function is used when you want to analyze eye tracking data using popEye.

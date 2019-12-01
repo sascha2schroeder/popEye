@@ -106,6 +106,9 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
                "dist.px", "dist.let", "peak.vel", "dur")
   sac <- sac[names]
   
+  # treat very long saccades as blinks (controlled by exclude.sac)
+  sac$msg[sac$dur > env$exp$setup$exclude$sac] <- "BLINK"
+  
   dat$trial[[trial]]$sac <- sac[is.na(sac$start) == F, ]
   
   
