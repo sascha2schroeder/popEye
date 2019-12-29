@@ -1,7 +1,6 @@
 
 BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
-  
   # retrieve variables
   # ------------------
   
@@ -40,7 +39,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   # replace hyphen within word with different character
   tmp2 <- unlist(strsplit(tmp, " "))
   sel <- grep(".-.", tmp2)
-  tmp2[sel] <- gsub("[-]", "\u2219", tmp2[sel])
+  tmp2[sel] <- gsub("[-]", "\u20de", tmp2[sel])
   tmp3 <- paste(tmp2, collapse = " ")
   
   # replace hyphen within words with blank
@@ -90,7 +89,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   # compute word
   # -------------
   
-  # word.delim <- "[ \u2219]"
   # TODO: word.delim as parameter
   # TODO: punctuation part of word?
   
@@ -118,7 +116,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     }
     
     if (letters2[i] == " ") wordnum <- wordnum + 1
-    if (letters2[i - 1] == "\u2219") wordnum <- wordnum + 1
+    if (letters2[i - 1] == "\u20de") wordnum <- wordnum + 1
     stimmat$wordnum[i] <- wordnum
     stimmat$word[i] <- words[stimmat$wordnum[i]]
     stimmat$width[i] <- letpix$pixel[letpix$letter == stimmat$letter[i]]
@@ -357,7 +355,8 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   # letter in word
   stimmat$letword <- ave(stimmat$letternum, stimmat$wordnum, FUN = rank) - 1
   
-  first <- tapply(stimmat$word, stimmat$line, min)
+  first <- tapply(stimmat$word, stimmat$line, min, na.rm = T)
+  
   for (i in 1:length(first)) {
     stimmat$letword[stimmat$word == first[i]] <- stimmat$letword + 1
   }

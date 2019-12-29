@@ -24,6 +24,7 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     env$exp$setup$clean$practice <- env$exp$setup$item$pracnum
     
     # condition
+    
     if (is.na(env$exp$setup$variable$cond) == FALSE) {
       
       if (length(env$exp$setup$variable$cond) == 1) {

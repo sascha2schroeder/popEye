@@ -151,7 +151,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     pixel <- rep(15, length(letter))
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 24
-    font$lead <- 10
+    font$lead <- 9
     font$right <- F
   }
   
@@ -231,6 +231,22 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                 "л", "м", "М", "н", "Н", "о", "О", "п", "П", "р", "Р", "с", "С", 
                 "т", "Т", "у", "У", "ф", "Ф", "х", "Х", "ц", "ч", "Ч", "ш", "Ш",
                 "щ", "ъ", "ы", "ь", "э", "Э", "ю", "Ю", "я", "Я")
+    pixel <- rep(15, length(letter))
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    font$height <- 24
+    font$lead <- 9
+    font$right <- F
+  }
+  
+  # ConsolasGreek 20 pt
+  if (font$name == "ConsolasGreek" & font$size == 20) {
+    letter <- c(" ", "-", "–", ",", ";", ":", ".", "’", "«", "»", "(", ")", "∙",
+                "0", "1", "2", "4", "6", "7", "8", "9", "a", "A", "h", "i", "l",
+                "o", "p", "r", "S", "t", "α", "Α", "ά", "Ά", "β", "Β", "γ", "Γ",
+                "δ", "Δ", "ε", "Ε", "έ", "Έ", "ζ", "η", "Η", "ή", "θ", "ι", "Ι",
+                "ί", "ϊ", "κ", "Κ", "λ", "Λ", "μ", "Μ", "ν", "Ν", "ξ", "ο", "Ο",
+                "ό", "Ό", "π", "Π", "ρ", "Ρ", "σ", "Σ", "ς", "τ", "Τ", "υ", "ύ",
+                "φ", "Φ", "χ", "Χ", "ψ", "ω", "Ω", "ώ")
     pixel <- rep(15, length(letter))
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 24
@@ -326,7 +342,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$lead <- 2
     font$right <- T
   }
-  
   
   
   # print classes
