@@ -1,0 +1,142 @@
+* [33m7a1358f[m[33m ([m[1;36mHEAD -> [m[1;32mdevel[m[33m)[m Norwegian added
+* [33m9862995[m Greek added
+* [33me7890c1[m[33m ([m[1;31mlocal/devel[m[33m)[m minor changes
+* [33ma77ea0e[m Version v0.6.4
+* [33m47ab484[m[33m ([m[1;33mtag: v0.6.3[m[33m, [m[1;31mpublic/master[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;31mlocal/master[m[33m, [m[1;32mmaster[m[33m)[m Builds removed
+* [33m85d2524[m Old builds deleted
+* [33mb462d08[m Documentation updated
+* [33m08ff766[m minor changes
+* [33m9cf4aea[m PlotFixations outlier added
+* [33m30a6630[m PlotFixations fixed
+* [33m9854458[m AggregateTrial fixed
+* [33m869eb00[m Version 0.6.3 started
+* [33m9a4a6d2[m Version corrected
+* [33mfb7ec1f[m Setup Experiment Builder changed
+* [33m5b37f0b[m README updated
+* [33mcc78a74[m[33m ([m[1;33mtag: v0.6.2[m[33m)[m Select.subject changed
+* [33mbea6344[m English version started
+* [33m854cb53[m Turkish letters added
+* [33mb2cea89[m Reading direction fixed
+* [33me7c8b40[m Driftcorrect fixed
+* [33med3f82a[m Arabic started
+* [33mec73ff2[m Hebrew added
+* [33m7a0b31e[m Spanish fixed
+* [33m31af66a[m Russian fit
+* [33m6c2481a[m Tahoma added
+* [33m8cf25fa[m AlignFixations deleted
+* [33me7bedd0[m v0.6.2 started
+* [33m120c23f[m *.tar.gz added
+*   [33m9a6cdc8[m Merge development version 0.6.1 into master
+[32m|[m[33m\[m  
+[32m|[m * [33maaf5d28[m[33m ([m[1;33mtag: v0.6.1[m[33m)[m LineMethod match fixed
+[32m|[m * [33m76d147c[m Fit criterion changed
+[32m|[m * [33mce1c436[m Blinks in plots fixed
+[32m|[m * [33mab267da[m Outlier as blinks
+[32m|[m * [33m66b2b4e[m Driftcorrect ready
+[32m|[m * [33m6537023[m PlotVelocity fixed
+[32m|[m * [33mb5a98b4[m Start message MultiLing fixed
+[32m|[m * [33m1785d0d[m Aggregate plural
+[32m|[m * [33m1da78a1[m Start events fixed
+[32m|[m * [33mb988fb4[m CORP fixed
+[32m|[m * [33m1c2e43e[m Driftcorrect preprocessing ready
+[32m|[m * [33mcb63601[m RemoveTrials fixed
+[32m|[m * [33m2f178a3[m ReadTrials cleaned
+[32m|[m * [33m57e5b56[m Driftcorrect read in ready
+[32m|[m * [33mc150743[m Drift correction feature started
+[32m|[m * [33meaef7dc[m v0.6.1
+* [33m|[m [33mcd03831[m README changed
+[33m|[m[33m/[m  
+* [33m4995972[m README changed
+* [33m31ffd73[m Setup EB added
+* [33m937f100[m README changed
+* [33mf038172[m README changed
+* [33me6813cf[m README changed
+* [33mdcda03a[m README changed
+* [33m9b8a9be[m README changed
+* [33mbd58e6e[m README changed
+* [33m6705f50[m Image added
+* [33me136471[m README changed
+* [33m8aa39cf[m README changed
+* [33mb52a06a[m README changed
+* [33m5fa5244[m Changes README
+* [33m9af99fb[m Changes README
+* [33m3d24af1[m Materials added
+* [33mee00281[m Changes ReadMe
+* [33m8744f85[m precompiled version uploaded
+* [33mdbe2d20[m ReadMe changed
+* [33m36dd9a1[m ReadMe added
+* [33mf25efd3[m[33m ([m[1;33mtag: v0.6.0[m[33m)[m ECEM version
+* [33mf026b85[m[33m ([m[1;33mtag: v0.5.4.1[m[33m)[m Default values fixed
+* [33me88cd8f[m[33m ([m[1;33mtag: v0.5.4.0[m[33m)[m Documentation popEye
+* [33mbc0a8f9[m Plots fixed
+* [33m974c1f5[m Line-wrap fixed
+* [33m4bb518f[m Line wrap hyphen fixed
+* [33mebab8aa[m Fit criterion added
+* [33m174a29c[m[33m ([m[1;33mtag: v0.5.3.8[m[33m)[m New development version
+* [33med5f2df[m Version number updated
+* [33m929e33d[m[33m ([m[1;33mtag: v0.5.3.7[m[33m)[m Stable version
+* [33m45047db[m[33m ([m[1;33mtag: v0.5.3.6[m[33m)[m New line breaks
+* [33me72d67c[m Chain method changed
+* [33mb1d6894[m[33m ([m[1;33mtag: v0.5.3.5[m[33m)[m New development version
+* [33mb820408[m Version number changes
+* [33mbc14892[m[33m ([m[1;33mtag: v0.5.3.4[m[33m)[m AssignStim changed, PlotFixation added
+* [33m731aed0[m[33m ([m[1;33mtag: v0.5.3.3[m[33m)[m PlotAlign fixed
+* [33mbaebcde[m PlotAlign fixed
+* [33me3ce41a[m Line assignment changed
+* [33mdf76320[m Line assignment changed
+* [33me7598ec[m Line breaks fixed
+* [33m9af52d7[m[33m ([m[1;33mtag: v0.5.3.2[m[33m)[m v0.5.3.2
+* [33m42b68b7[m New cleaning routine
+* [33m80d829c[m IA segmentation fixed
+* [33m10902c4[m Sentence number added
+* [33mc8cc379[m Firstskip fixed
+* [33m152d4f5[m Refix and sac.in/sac.out fixed
+* [33mca006aa[m Skippings fixed
+* [33m81cf7de[m item files retrieval added
+* [33ma089ece[m[33m ([m[1;33mtag: v0.5.3.1[m[33m)[m Debug functions added
+* [33m1963383[m Plots fixed
+* [33m75cc078[m minor changes
+* [33m971bad2[m[33m ([m[1;33mtag: v0.5.2.3[m[33m)[m Sentence-level ready
+* [33m946c050[m[33m ([m[1;33mtag: v0.5.2.2[m[33m)[m MultiLing ready
+* [33m401e189[m minor fixes
+* [33m14b75be[m[33m ([m[1;33mtag: v0.5.2.1[m[33m, [m[1;31mpublic/readme[m[33m)[m lineMethod introduced
+* [33m30daf85[m Wrap-up hyphen fixed
+* [33m9801663[m PlotAlign fixed
+* [33m1cfac4a[m basic run complete
+* [33mb74c152[m[33m ([m[1;33mtag: v0.5.1.5[m[33m, [m[1;31morigin/readme[m[33m)[m SetupExperiment fixed
+* [33mb2e5b0a[m[33m ([m[1;33mtag: v0.5.1.4[m[33m)[m v0.5.1.4
+* [33m1fa1705[m[33m ([m[1;33mtag: v0.5.1.3[m[33m)[m target cleaning revised
+* [33m8468046[m[33m ([m[1;33mtag: v0.5.1.2[m[33m)[m target cleaning fixed
+* [33ma1f7423[m[33m ([m[1;33mtag: v0.5.1.1[m[33m)[m blink integration fixed
+* [33m34b7acf[m v0.5.03
+* [33m3b1efb3[m cleaning fixed
+* [33mddc05f0[m v5.0.2
+* [33me1d63f5[m minor fix
+* [33ma25687e[m firstskip fixed
+* [33mbe698cb[m check measures
+* [33m6e398b9[m target run complete
+* [33m4f8fde0[m intermediate save
+* [33m6cec17a[m With target IA
+* [33m768989b[m first complete run
+* [33m49acadd[m Fixation measures adjusted
+* [33m9b5934a[m New stimulus assignment mechanism
+* [33m4601b38[m step 1
+* [33m6d56437[m version changed
+* [33m95dc467[m files deleted
+* [33m29357eb[m[33m ([m[1;33mtag: v0.4.5.7[m[33m)[m word slot added
+* [33m0ff90b1[m minor changes
+* [33me56bcfb[m minor changes
+* [33m6306a59[m[33m ([m[1;33mtag: v0.4.5.6[m[33m)[m Gopast added
+* [33m88c980e[m IA analysis modified
+* [33m5a7b74b[m major fixes
+* [33m4ff27e4[m[33m ([m[1;33mtag: v0.4.5.3[m[33m)[m major changes
+* [33m532eafe[m Major changes
+* [33mde60bbe[m major fixes
+* [33mb655638[m major fixes
+* [33m8060ad9[m[33m ([m[1;33mtag: v0.4.0[m[33m)[m fast priming added
+* [33mcc8f56d[m symbol implemented
+* [33m3c75877[m[33m ([m[1;33mtag: v0.3.0[m[33m)[m ET boundary implemented
+* [33m3661d81[m EB boundary implemented
+* [33m7122f0a[m[33m ([m[1;33mtag: v0.2.0[m[33m)[m target type implemented
+* [33m71a963f[m[33m ([m[1;33mtag: v0.1.0[m[33m)[m files added
+* [33medf1c30[m initial commit

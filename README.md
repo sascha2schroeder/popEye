@@ -67,7 +67,7 @@ Please contact me, if you are interested in this.
 
 ## Installation
 
-The easiest way to install the most recent version of popEye (current version is 0.6.3) 
+The easiest way to install the most recent version of popEye (current version is 0.6.4) 
 is via the devtools package:
 
 ``` R
@@ -76,7 +76,7 @@ install_github('sascha2schroeder/popEye')
 ```
 
 Alternatively, an pre-compiled version that can be installed locally (RStudio: -> Tools -> Install packages
--> Install from Package Archive) can be downloaded [here](materials/popEye_0.6.3.tar.gz).
+-> Install from Package Archive) can be downloaded [here](materials/popEye_0.6.4.zip).
 
 
 ## How should I set up my experiment so that popEye works smoothly?
