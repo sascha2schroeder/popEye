@@ -76,7 +76,7 @@ install_github('sascha2schroeder/popEye')
 ```
 
 Alternatively, an pre-compiled version that can be installed locally (RStudio: -> Tools -> Install packages
--> Install from Package Archive) can be downloaded [here](materials/popEye_0.6.4.zip).
+-> Install from Package Archive) can be downloaded for [Windows](materials/popEye_0.6.4.zip), [macOS](materials/popEye_0.6.4.tgz), and [Linux](materials/popEye_0.6.4.tar.gz).
 
 
 ## How should I set up my experiment so that popEye works smoothly?
