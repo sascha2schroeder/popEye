@@ -49,6 +49,19 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     
   }
   
+  
+  # translate fixations
+  # --------------------
+  
+  # translate on xy axis
+  if (env$exp$setup$analysis$translate == T) {
+    
+    fix <- TranslateFixations(fix, stimmat)
+    
+  }
+  
+  # TODO: Maybe also translation only on y axis
+  
 
   # line assignment 
   # ----------------

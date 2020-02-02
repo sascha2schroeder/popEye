@@ -392,6 +392,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                    mindur = env$analysis.mindur, postdur = env$analysis.postdur,
                    drift = env$analysis.drift, sparse = env$analysis.sparse,
                    driftX = env$analysis.driftX, driftY = env$analysis.driftY,
+                   translate = env$analysis.translate,
                    lineMethod = env$analysis.lineMethod,
                    outlierX = env$analysis.outlierX,
                    outlierY = env$analysis.outlierY,

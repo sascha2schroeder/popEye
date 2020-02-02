@@ -21,15 +21,16 @@ popEye(datpath, stimulus.file, tracker.model = "eyelink",
   analysis.eyelink = TRUE, analysis.vfac = 5, analysis.mindur = 10,
   analysis.postdur = 30, analysis.drift = TRUE,
   analysis.sparse = TRUE, analysis.driftX = FALSE,
-  analysis.driftY = FALSE, analysis.lineMethod = "chain",
-  analysis.outlierX = 2, analysis.outlierY = 2, analysis.lineX = 20,
-  analysis.lineY = 2, clean.stage1Dur = 80, clean.stage1Dist = 1,
-  clean.stage2Dur = 40, clean.stage2Dist = 3, clean.stage3 = FALSE,
-  clean.stage3Dur = 140, clean.stage4 = FALSE, clean.stage4Min = 80,
-  clean.stage4Max = 800, clean.delete = FALSE, clean.outlier = FALSE,
-  exclude.nfix = 3, exclude.sac = 150, outpath = getwd(),
-  outname = "", select.version = NULL, select.subject = NULL,
-  select.trial = NULL, debug = "none")
+  analysis.driftY = FALSE, analysis.translate = FALSE,
+  analysis.lineMethod = "chain", analysis.outlierX = 2,
+  analysis.outlierY = 2, analysis.lineX = 20, analysis.lineY = 2,
+  clean.stage1Dur = 80, clean.stage1Dist = 1, clean.stage2Dur = 40,
+  clean.stage2Dist = 3, clean.stage3 = FALSE, clean.stage3Dur = 140,
+  clean.stage4 = FALSE, clean.stage4Min = 80, clean.stage4Max = 800,
+  clean.delete = FALSE, clean.outlier = FALSE, exclude.nfix = 3,
+  exclude.sac = 150, outpath = getwd(), outname = "",
+  select.version = NULL, select.subject = NULL, select.trial = NULL,
+  debug = "none")
 }
 \arguments{
 \item{datpath}{Path to eye tracking files}
@@ -150,6 +151,9 @@ which the drift correct element is used)}
 \item{analysis.driftY}{If TRUE fixation is corrected for drift on the y
 axis (TRUE or FALSE, default is FALSE; only relevant for EB experiments in
 which the drift correct element is used)}
+
+\item{analysis.translate}{If TRUE fixations are moved to fit into text area
+(TRUE or FALSE, default is FALSE)}
 
 \item{analysis.lineMethod}{Method used to assign fixations to lines ("match",
 "cluster" or "chain", "chain" is default; see Vignette)}

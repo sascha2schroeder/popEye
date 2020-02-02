@@ -80,6 +80,8 @@
 #' @param analysis.driftY If TRUE fixation is corrected for drift on the y
 #' axis (TRUE or FALSE, default is FALSE; only relevant for EB experiments in
 #' which the drift correct element is used)
+#' @param analysis.translate If TRUE fixations are moved to fit into text area
+#'(TRUE or FALSE, default is FALSE)
 #' @param analysis.lineMethod Method used to assign fixations to lines ("match",
 #' "cluster" or "chain", "chain" is default; see Vignette)
 #' @param analysis.outlierX Parameter for outlier detection on the x axis 
@@ -172,6 +174,7 @@ popEye <- function(datpath,
                    analysis.sparse = TRUE,
                    analysis.driftX = FALSE, 
                    analysis.driftY = FALSE,
+                   analysis.translate = FALSE,
                    analysis.lineMethod = "chain",
                    analysis.outlierX = 2,
                    analysis.outlierY = 2,
