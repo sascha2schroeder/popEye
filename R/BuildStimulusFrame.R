@@ -1,28 +1,21 @@
 
 BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
+  
   # retrieve variables
   # ------------------
   
   stim <- dat$trial[[trial]]$meta$stim
   
-  x.res <- env$exp$setup$display$resolutionX
   x.offset <- env$exp$setup$display$marginLeft
   y.offset <- env$exp$setup$display$marginTop
-  right.limit <- env$exp$setup$display$marginRight
   line.delim <- env$exp$setup$indicator$line
   letpix <- env$exp$setup$font$letpix
   font.height <- env$exp$setup$font$height
   font.lead <- env$exp$setup$font$lead
   
   # calculate cut-off
-  x.cut <- x.res - right.limit
-  
-  # # set spacing multiplier
-  # if (env$exp$setup$font$spacing == "1") mult <- 1
-  # if (env$exp$setup$font$spacing == "1.5") mult <- 1.5
-  # if (env$exp$setup$font$spacing == "2") mult <- 2
-  # # TODO: other spacing conditions
+  x.cut <- env$exp$setup$display$resolutionX - env$exp$setup$display$marginRight
   
   
   # compute letter
@@ -75,17 +68,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$cond <- dat$trial[[trial]]$meta$cond
   
   
-  # # replace hyphens
-  # # ----------------
-  # 
-  # # NOTE: hyphens work as word seperator
-  # hyph <- grep("-", stimmat$letter)
-  # if (length(hyph) > 0) {
-  #   stimmat$letter[hyph] <- " "
-  #   tmp <- gsub("-", " ", tmp)
-  # }
-  
-    
   # compute word
   # -------------
   
@@ -122,6 +104,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     stimmat$width[i] <- letpix$pixel[letpix$letter == stimmat$letter[i]]
     # print(i)
   }
+  
   
   
   # sentence

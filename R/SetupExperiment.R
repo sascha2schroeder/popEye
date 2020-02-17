@@ -76,6 +76,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$family <- "unknown"
   }
   
+  
+  # CourierNew
+  # -----------
+  
   # CourierNew, 14 pt
   if (font$name == "CourierNew" & font$size == 14) {
     letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
@@ -152,6 +156,25 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$right <- F
   }
   
+  # CourierHebrew 20 pt
+  if (font$name == "CourierHebrew" & font$size == 20) {
+    letter <- c(" ", "-", "–", "," , ":", ".", "'", "\"", "0", "1", "2", "8", "C", 
+                "\u05d4", "\u05d3", "\u05d2", "\u05d1", "\u05d0", "\u05e5",
+                "\u05e6", "\u05e3", "\u05e4", "\u05e2", "\u05e1", "\u05df",
+                "\u05e0", "\u05dd", "\u05de", "\u05dc", "\u05da", "\u05db",
+                "\u05d9", "\u05d8", "\u05d7", "\u05d6", "\u05d5", "\u05ea",
+                "\u05e9", "\u05e8", "\u05e7")
+    pixel <- rep(16, length(letter))
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    font$height <- 22
+    font$lead <- 5
+    font$right <- T
+  }
+  
+  
+  # Consolas
+  # --------
+  
   # Consolas, 20 pt
   if (font$name == "Consolas" & font$size == 20) {
     letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
@@ -190,73 +213,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$right <- F
   } 
   
-  # TimesNewRoman, 16 pt
-  if (font$name == "Symbol" & font$size == 13) {
-    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
-                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
-                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
-                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
-                " ", ",",".","?","!")
-    pixel <- c(NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,
-               NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,
-               9,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,
-               NA,NA,NA,NA,NA,NA,NA,
-               NA,NA,NA,NA,NA)
-    # NOTE: "Ö" correct?
-    font$letpix <- data.frame(letter = letter, pixel = pixel)
-    font$right <- F
-  }
-  
-  # Symbol, 13 pt
-  if (font$name == "Symbol" & font$size == 13) {
-    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
-                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
-                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
-                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
-                " ", ",",".","?","!")
-    pixel <- c(19,17,17,19,17,17,19,16,19,8,11,21,20,22,19,19,13,
-               19,18,15,16,18,19,NA,13,20,NA,21,17,
-               14,14,13,14,12,11,15,13,14,8,11,14,14,13,13,14,13,15,12,13,16,12,11,
-               13,13,17,17,13,17,10,
-               12,6,5,NA,NA)
-    # NOTE: "Ö" correct?
-    font$letpix <- data.frame(letter = letter, pixel = pixel)
-    font$right <- F
-  }
-
-  # Symbol, 14 pt
-  if (font$name == "Symbol" & font$size == 14) {
-    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
-                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
-                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
-                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
-                " ", ",",".","?","!")
-    pixel <- c(21,17,16,21,19,18,19,18,20,9,12,21,21,22,18,20,NA,
-               20,NA,15,16,19,21,NA,12,22,NA,NA,18,
-               15,15,13,14,12,11,15,13,14,7,11,14,16,15,13,13,13,
-               16,NA,13,16,14,11,13,13,17,17,13,NA,11,
-               14,3,3,NA,NA)
-    # NOTE: "I" correct?
-    font$letpix <- data.frame(letter = letter, pixel = pixel) 
-    font$right <- F
-  }
-  
-  # Tahoma, 13 pt
-  if (font$name == "Tahoma" & font$size == 13) {
-    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
-                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
-                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
-                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
-                " ", ",",".","?","!","–", "-","’","´","„","“",":","\"",";","”",
-                "(", ")","'",
-                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
-    pixel <- rep(11, length(letter))
-    font$letpix <- data.frame(letter = letter, pixel = pixel)
-    font$height <- 14
-    font$lead <- 2
-    font$right <- F
-  }
-  
   # ConsolasRussian 20 pt
   if (font$name == "ConsolasRussian" & font$size == 20) {
     letter <- c(" ", "-", "–", "—", ",", ":", "!", ".",  "«", "»", "(", ")",
@@ -288,19 +244,113 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$right <- F
   }
   
-  # CourierHebrew 20 pt
-  if (font$name == "CourierHebrew" & font$size == 20) {
-    letter <- c(" ", "-", "–", "," , ":", ".", "'", "\"", "0", "1", "2", "8", "C", 
-                "\u05d4", "\u05d3", "\u05d2", "\u05d1", "\u05d0", "\u05e5",
-                "\u05e6", "\u05e3", "\u05e4", "\u05e2", "\u05e1", "\u05df",
-                "\u05e0", "\u05dd", "\u05de", "\u05dc", "\u05da", "\u05db",
-                "\u05d9", "\u05d8", "\u05d7", "\u05d6", "\u05d5", "\u05ea",
-                "\u05e9", "\u05e8", "\u05e7")
-    pixel <- rep(16, length(letter))
+  
+  # TimesNew Roman
+  # ---------------
+  
+  # TimesNewRoman, 16 pt
+  if (font$name == "TimesNewRoman" & font$size == 16) {
+    letter <- c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+                "ä", "ö", "ü", "ß", "é", "è", "ï", "í",
+                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                "N",  "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+                "Ä", "Ö", "Ü",
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
+                " ", ".", ",", ";", ":", "-", "_", "#", "*", "+", "~", "\"", "!", "?",
+                "%", "&", "/", "(", ")", "$", "[", "]", "=", "\\", "§", "'", "<",
+                ">", "|", "°", "€", "^", "}", "{")  
+    
+    pixel <- c(9, 10,  9, 10,  9,  7, 10, 10,  6,  6, 10,  6, 16,
+               10, 11, 10, 10,  7,  8,  6, 11, 10, 15, 10, 9, 9,  
+               9, 11, 11, 10, 9, 9, 6, 6,
+               14, 14, 14, 15, 13, 11, 15, 15,  6,  8, 15, 12, 18,
+               15, 15, 12, 15, 14, 10, 12, 15, 15, 19, 14, 15, 12,
+               15, 15, 15,
+               11, 11, 11, 12, 11, 11, 12, 11, 11, 11,
+               5, 5,  5,  5,  6, 7, 11, 11, 10, 12, 11, 8, 6, 10, 
+               18, 16,  6, 7,  7, 11, 7, 7, 12, 6, 11, 4, 12, 12, 3,
+               8, 11, 10, 10, 10)
+    
+    # pixel <- c(9, 10, 9, 10, 9, 7, 10, 10, 6, 6, 10, 6, 16, 
+    #            10, 11, 10, 10, 7, 8, 6, 11, 10, 15, 10, 9, 9,
+    #            9, 11, 11, 10, 9, 9, 6, 6,
+    #            14, 15, 15, 15, 13, 12, 15, 15, 6, 8, 15, 12, 18, 
+    #            15, 15, 12, 15, 14, 12, 12, 15, 15, 19, 15, 15, 12, 
+    #            14, 15, 15, 
+    #            11, 11, 11, 11, 11, 11, 12, 11, 11, 11, 
+    #            5, 5, 5, 5, 6, 7, 11, 11, 10, 12, 11, 8, 6, 10, 
+    #            18, 16, 6, 7, 7, 11, 7, 7, 12, 6, 11, 4, 12, 
+    #            12, 3, 8, 11, 10, 10, 10)
+    
     font$letpix <- data.frame(letter = letter, pixel = pixel)
-    font$height <- 22
+    font$height <- 20
     font$lead <- 5
-    font$right <- T
+    font$right <- F
+  }
+  
+  
+  # Symbol
+  # ------
+  
+  # Symbol, 13 pt 
+  # TODO: height/lead missing
+  if (font$name == "Symbol" & font$size == 13) {
+    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
+                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
+                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
+                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
+                " ", ",",".","?","!")
+    pixel <- c(19,17,17,19,17,17,19,16,19,8,11,21,20,22,19,19,13,
+               19,18,15,16,18,19,NA,13,20,NA,21,17,
+               14,14,13,14,12,11,15,13,14,8,11,14,14,13,13,14,13,15,12,13,16,12,11,
+               13,13,17,17,13,17,10,
+               12,6,5,NA,NA)
+    # NOTE: "Ö" correct?
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    font$height <- NA
+    font$lead <- NA
+    font$right <- F
+  }
+
+  # Symbol, 14 pt
+  # TODO: height/lead missing
+  if (font$name == "Symbol" & font$size == 14) {
+    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
+                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
+                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
+                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
+                " ", ",",".","?","!")
+    pixel <- c(21,17,16,21,19,18,19,18,20,9,12,21,21,22,18,20,NA,
+               20,NA,15,16,19,21,NA,12,22,NA,NA,18,
+               15,15,13,14,12,11,15,13,14,7,11,14,16,15,13,13,13,
+               16,NA,13,16,14,11,13,13,17,17,13,NA,11,
+               14,3,3,NA,NA)
+    # NOTE: "I" correct?
+    font$letpix <- data.frame(letter = letter, pixel = pixel) 
+    font$height <- NA
+    font$lead <- NA
+    font$right <- F
+  }
+  
+  
+  # Tahoma
+  # -------
+  
+  # Tahoma, 13 pt
+  if (font$name == "Tahoma" & font$size == 13) {
+    letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
+                "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
+                "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
+                "p","q","r","s","ß","t","u","ü","v","w","x","y","z",
+                " ", ",",".","?","!","–", "-","’","´","„","“",":","\"",";","”",
+                "(", ")","'",
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
+    pixel <- rep(11, length(letter))
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    font$height <- 14
+    font$lead <- 2
+    font$right <- F
   }
   
   # TahomaArabic 13 pt
@@ -377,7 +427,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$right <- T
   }
   
-  
   # print classes
   font$print$up <- c("A","E","I","O","U","Q","W","R","T","Z","P","S","D","F",
                      "G","H","J","K","L","Y","X","C","V","B","N","M","Ä","Ö",
@@ -387,7 +436,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   font$print$de <- c("q","p","g","j","y")
   font$print$pu <- c(".",",","–")
 
-  
   # analysis
   analysis <- list(eyelink = env$analysis.eyelink, vfac = env$analysis.vfac,
                    mindur = env$analysis.mindur, postdur = env$analysis.postdur,
@@ -400,7 +448,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                    lineX = env$analysis.lineX,
                    lineY= env$analysis.lineY)
 
-    
   # cleaning
   clean <- list(stage1Dur = env$clean.stage1Dur, 
                 stage1Dist = env$clean.stage1Dist,
@@ -415,12 +462,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                 outlier = env$clean.outlier
                 )
 
-  
   # exclude
   exclude <- list(nfix = env$exclude.nfix,
                   sac = env$exclude.sac)
 
-    
   # write out
   setup <- list(tracker = tracker, type = type, message = message, item = item,
                 variable = variable, stimulus = stimulus, indicator = indicator, 
