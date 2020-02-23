@@ -50,7 +50,7 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
     
     # keep items in stimulus file
     dat$msg <- dat$msg[dat$msg$itemid %in% keep, ]
-     
+    
      
     # trial
     # ------

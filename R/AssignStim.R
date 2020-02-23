@@ -3,6 +3,8 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # trial <- 2
   
+  print(trial)
+  
   # data
   fix <- dat$trial[[trial]]$fix
   stimmat <- dat$trial[[trial]]$meta$stimmat
@@ -234,6 +236,22 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   # TODO: FixAlign method (Cohen, 2013) 
+  
+  # Spakov method
+  if (env$exp$setup$analysis$lineMethod == "Spakov") {
+    
+    fix$type <- "in"
+    # TODO: clean outliers (maybe related to MoveBox)
+    fix$linerun <- 1
+    
+    fix <- BuildSequences(fix, stimmat)
+    fix <- Phase1(fix, stimmat)
+    fix <- Phase2(fix, stimmat)
+    fix <- Phase3(fix, stimmat)
+    fix <- Phase4(fix, stimmat)
+    fix <- AssignLine(fix)
+    
+  }
   
   
   # map letter and IA

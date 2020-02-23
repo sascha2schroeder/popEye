@@ -319,9 +319,7 @@ popEye <- function(datpath,
       # -----------
       
       message(".. Read data")
-      
       dat <-  ReadData(filepath, subid)
-      
       # TODO: read in edf directly (-> external packages)
       # TODO: asc data processing rather slow
       
@@ -367,6 +365,10 @@ popEye <- function(datpath,
       
       dat <- ReadStimulus(dat)
       
+      if (debug == "add") {
+        return (dat)
+      }
+      
       
       # extract fixations
       # --------------------
@@ -375,6 +377,10 @@ popEye <- function(datpath,
       
       dat <- ExtractFixation(dat)
       
+      if (debug == "extract") {
+        return (dat)
+      }
+      
       
       # assign letters/words
       # ---------------------
@@ -382,6 +388,10 @@ popEye <- function(datpath,
       message(".. Assign stimulus")
       
       dat <- MatchStim(dat)
+      
+      if (debug == "assign") {
+        return (dat)
+      }
       
       
       # clean IAs
