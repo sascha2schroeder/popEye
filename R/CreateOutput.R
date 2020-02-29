@@ -34,7 +34,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
     
     # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
       
-      env$clean <- data.frame(matrix(NA, 1, 15))
+      env$clean <- data.frame(matrix(NA, 1, 16))
       colnames(env$clean) <- c("subid", 
                                "trialid", 
                                "trialnum", 
@@ -46,6 +46,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                                "drift",
                                "drift.x",
                                "drift.y",
+                               "trial.calibration",
                                "trial.fix", 
                                "trial.blink", 
                                "trial.crit", 
@@ -58,7 +59,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
     
     # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
       
-    env$clean <- data.frame(matrix(NA, 1, 15))
+    env$clean <- data.frame(matrix(NA, 1, 16))
     colnames(env$clean) <- c("subid", 
                              "trialid", 
                              "trialnum", 
@@ -70,6 +71,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                              "drift",
                              "drift.x",
                              "drift.y",
+                             "trial.calibration",
                              "trial.fix", 
                              "trial.blink", 
                              "trial.crit", 
@@ -81,7 +83,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
     
     # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
       
-    env$clean <- data.frame(matrix(NA, 1, 26))
+    env$clean <- data.frame(matrix(NA, 1, 27))
     colnames(env$clean) <- c("subid", 
                              "trialid", 
                              "trialnum", 
@@ -93,6 +95,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                              "drift",
                              "drift.x",
                              "drift.y",
+                             "trial.calibration",
                              "trial.fix", 
                              "trial.blink", 
                              "trial.crit", 
@@ -115,7 +118,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
     
     # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
       
-    env$clean <- data.frame(matrix(NA, 1, 38))
+    env$clean <- data.frame(matrix(NA, 1, 39))
     colnames(env$clean) <- c("subid", 
                              "trialid", 
                              "trialnum", 
@@ -127,6 +130,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                              "drift",
                              "drift.x",
                              "drift.y",
+                             "trial.calibration",
                              "trial.fix", 
                              "trial.blink", 
                              "trial.crit", 
@@ -162,7 +166,8 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
     
     # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
     
-    env$clean <- data.frame(matrix(NA, 1, 39))
+    env$clean <- data.frame(matrix(NA, 1, 40))
+    
     colnames(env$clean) <- c("subid", 
                              "trialid", 
                              "trialnum", 
@@ -174,6 +179,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                              "drift",
                              "drift.x",
                              "drift.y",
+                             "trial.calibration",
                              "trial.fix", 
                              "trial.blink", 
                              "trial.crit", 

@@ -327,7 +327,6 @@ popEye <- function(datpath,
         return (dat)
       }
       
-      
       # remove data
       # --------------
       
@@ -344,7 +343,7 @@ popEye <- function(datpath,
       # ---------------
       
       message(".. Create trials")
-      
+     
       dat <- CreateTrials(dat)
       
       if (debug == "create") {
@@ -524,7 +523,6 @@ popEye <- function(datpath,
     }
     
   }
-  
   
   # NOTE: save number of subjects in setup slot?
   

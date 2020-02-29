@@ -34,20 +34,41 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
       
       sel <- tail(env$header$calibration[env$header$calibration$time < time, ], n = 1)
       
-      meta <- list(trialid = trial, 
-                   trialnum = max(tmp$msg$trialnum), 
-                   itemid = max(tmp$msg$itemid), 
-                   condition = max(tmp$msg$condition), 
-                   dependency = max(tmp$msg$dependency),
-                   start = time,
-                   calibration.method = sel$method,
-                   calibration.eye = sel$eye,
-                   calibration.avg = as.numeric(sel$avg),
-                   calibration.max = as.numeric(sel$max),
-                   drift = env$header$trial$drift[trial],
-                   drift.x = as.numeric(as.character(env$header$trial$drift.x[trial])),
-                   drift.y = as.numeric(as.character(env$header$trial$drift.y[trial]))
-      )    
+      if(length(sel$method) == 0) {
+        
+        meta <- list(trialid = trial, 
+                     trialnum = max(tmp$msg$trialnum), 
+                     itemid = max(tmp$msg$itemid), 
+                     condition = max(tmp$msg$condition), 
+                     dependency = max(tmp$msg$dependency),
+                     start = time,
+                     calibration.method = "",
+                     calibration.eye = "",
+                     calibration.avg = "",
+                     calibration.max = "",
+                     drift = "",
+                     drift.x = "",
+                     drift.y = ""
+        )    
+        
+      } else {
+        
+        meta <- list(trialid = trial, 
+                     trialnum = max(tmp$msg$trialnum), 
+                     itemid = max(tmp$msg$itemid), 
+                     condition = max(tmp$msg$condition), 
+                     dependency = max(tmp$msg$dependency),
+                     start = time,
+                     calibration.method = sel$method,
+                     calibration.eye = sel$eye,
+                     calibration.avg = as.numeric(sel$avg),
+                     calibration.max = as.numeric(sel$max),
+                     drift = env$header$trial$drift[trial],
+                     drift.x = as.numeric(as.character(env$header$trial$drift.x[trial])),
+                     drift.y = as.numeric(as.character(env$header$trial$drift.y[trial]))
+        )    
+        
+      }
       
     } else {
      

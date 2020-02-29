@@ -7,7 +7,21 @@ CleanTrial <- function(dat, env = parent.frame(n = 2)) {
     # print(trial)
     
     # set up output slot
-    dat$trial[[trial]]$clean$trial <- list(nfix = 0, blink = 0, sac = 0, crit = 0)
+    dat$trial[[trial]]$clean$trial <- list(calibration = 0, 
+                                           nfix = 0, 
+                                           blink = 0, 
+                                           sac = 0, 
+                                           crit = 0)
+    
+    # trial.calibration: if trial was not calibrated
+    if (dat$trial[[trial]]$meta$calibration.method == "") {
+      dat$trial[[trial]]$clean$trial$calibration <- 1
+    }
+    
+    # trial.calibration: if calibration accuracy was too bad 
+    if (dat$trial[[trial]]$meta$calibration.avg > 1) {
+      dat$trial[[trial]]$clean$trial$calibration <- 1
+    }
     
     # trial.fix: check minimum number of fixations in trial (controlled by exclude.fix)
     if (max(dat$trial[[trial]]$fix$fixid) <  env$exp$setup$exclude$nfix) {
@@ -21,7 +35,8 @@ CleanTrial <- function(dat, env = parent.frame(n = 2)) {
     } 
     
     # combine
-    if (sum(c(dat$trial[[trial]]$clean$trial$nfix)) > 0) {
+    if (sum(c(dat$trial[[trial]]$clean$trial$calibration, 
+              dat$trial[[trial]]$clean$trial$nfix)) > 0) {
         dat$trial[[trial]]$clean$trial$crit = 1
     }
     

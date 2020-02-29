@@ -31,6 +31,13 @@ Phase1 <- function(fix, stimmat) {
         tmp[1, 1] <- long[i]
         tmp[1, 2] <- long[j]
         
+        if (sd(fix$yn[fix$run == long[i]]) == 0 | 
+            sd(fix$xn[fix$run == long[i]]) == 0 | 
+            sd(fix$yn[fix$run == long[j]]) == 0 | 
+            sd(fix$xn[fix$run == long[j]]) == 0) {
+              next
+            } 
+            
         # compute regressions
         fm1 <- lm(fix$yn[fix$run == long[i]] ~ scale(fix$xn[fix$run == long[i]]))
         fm2 <- lm(fix$yn[fix$run == long[j]] ~ scale(fix$xn[fix$run == long[j]]))
@@ -60,6 +67,16 @@ Phase1 <- function(fix, stimmat) {
     out3 <- out2[out2[,3] < crit1 & abs(out2[,5]) < crit2 & abs(out2[,6] - out2[,8]) < crit3, ]
     
     cand <- out3[1, ]
+    
+    # plot
+    plot(fix$xn, fix$yn, ylim = c(768, 0), type = "n", main = paste(cand[1], ":", cand[2]))
+    points(fix$xn[fix$run == cand[1]], fix$yn[fix$run == cand[1]], col = "green",
+           pch = 1, type = "b", cex = 1, lty = 2)
+    points(fix$xn[fix$run == cand[2]], fix$yn[fix$run == cand[2]], col = "green",
+           pch = 0, type = "b", cex = 1, lty = 3)
+    points(fix$xn[fix$run == cand[1] | fix$run == cand[2]], 
+           fix$yn[fix$run == cand[1] | fix$run == cand[2]], 
+           col = "green", pch = 16, type = "b", cex = 1, lty = 1)
     
     fix$run[fix$run == cand[2]] <- cand[1]
     fix$run <- as.numeric(as.factor(fix$run))

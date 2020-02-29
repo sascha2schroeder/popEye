@@ -14,15 +14,17 @@ CreateClean <- function(dat, env = parent.frame(n = 1)) {
   
   cleantmp$calibration.method <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "calibration.method"))
   
-  if ( is.null(unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "calibration.avg"))) == F ) {
+  if (is.null(unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "calibration.avg"))) == F ) {
     
     cleantmp$calibration.avg <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "calibration.avg"))
     cleantmp$calibration.max <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "calibration.max"))
     
     if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
+      
       cleantmp$drift <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "drift"))
       cleantmp$drift.x <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "drift.x"))
       cleantmp$drift.y <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "drift.y"))
+      
     } else {
       
       cleantmp$drift <- NA
@@ -41,6 +43,7 @@ CreateClean <- function(dat, env = parent.frame(n = 1)) {
     
   }
   
+  cleantmp$trial.calibration <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "calibration"))
   cleantmp$trial.fix <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "nfix"))
   cleantmp$trial.blink <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "blink"))
   cleantmp$trial.crit <- unlist(lapply(lapply(lapply(dat$trial, "[[", "clean"), "[[", "trial"), "[[", "crit"))

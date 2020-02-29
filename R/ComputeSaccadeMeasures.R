@@ -79,7 +79,7 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
       }
       
       # saccade amplitude/angle
-      if (dat$trial[[trial]]$meta$calibration.method != "H3") {
+      if (dat$trial[[trial]]$meta$calibration.method != "H3" ) {
         sac$amp.px[s] <- round(sqrt(sac$dX[s]^2 + sac$dY[s]^2))
         sac$amp.angle[s] <- round(atan2(sac$dY[s], sac$dX[s]), 2)
       } else {

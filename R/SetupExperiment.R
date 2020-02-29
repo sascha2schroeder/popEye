@@ -176,7 +176,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # --------
   
   # Consolas, 18 pt
-  if (font$name == "Consolas" & font$size == 20) {
+  if (font$name == "Consolas" & font$size == 18) {
     letter <- c("A","Ä","B","C","D","E","F","G","H","I","J","K","L","M","N","O","Ö",
                 "P","Q","R","S","T","U","Ü","V","W","X","Y","Z",
                 "a","ä","b","c","d","e","f","g","h","i","j","k","l","m","n","o","ö",
