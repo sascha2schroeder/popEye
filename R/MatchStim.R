@@ -1,10 +1,11 @@
 
-MatchStim <- function(dat, trial) {
+MatchStim <- function(dat, trial, env = parent.frame(n = 1)) {
   
   for (trial in 1:length(dat$trial)) {
     
+    message(paste("... Trial ", trial, sep = ""))
+    
     dat <- BuildStimulusFrame(dat, trial)
-    # return(dat)
     dat <- AssignStim(dat, trial)
     
   }

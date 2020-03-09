@@ -3,7 +3,7 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
   
   # TODO: check whether encoding options also work on other OS
   # TODO: check whether edf file can be read in directly
-  
+ 
   # create names for files
   if (env$exp$setup$tracker$software == "EB") {
     # edffile <- paste(filepath, "/", subid, "/", subid, ".edf", sep = "")

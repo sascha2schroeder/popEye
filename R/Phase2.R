@@ -6,16 +6,16 @@ Phase2 <- function(fix, stimmat) {
   crit1 <- mean((stimmat$ye[stimmat$line == 1] - stimmat$ys[stimmat$line == 1])) / 4
   crit2 <- mean((stimmat$ye[stimmat$line == 1] - stimmat$ys[stimmat$line == 1])) / 2
   
-  old <- length(table(fix$run)) + 1
-  new <- length(table(fix$run))
+  old <- length(table(fix$linerun)) + 1
+  new <- length(table(fix$linerun))
   
   while (new < old) {
     
     old <- new
     out <- NULL
     
-    long <- as.numeric(unlist(dimnames(table(fix$run)[table(fix$run) >= 3])))
-    run <- as.numeric(unlist(dimnames(table(fix$run))))
+    long <- as.numeric(unlist(dimnames(table(fix$linerun)[table(fix$linerun) >= 3])))
+    run <- as.numeric(unlist(dimnames(table(fix$linerun))))
     
     # outer loop
     for (i in 1:length(long)) {
@@ -23,7 +23,7 @@ Phase2 <- function(fix, stimmat) {
       # print(paste("Outer: ", i))
       
       # inner loop
-      for (j in 1:length(table(fix$run))) {
+      for (j in 1:length(table(fix$linerun))) {
         # j <- i + 1
         # print(paste("Inner: ", j))
         
@@ -37,9 +37,9 @@ Phase2 <- function(fix, stimmat) {
         tmp[1, 2] <- run[j]
         
         # compute regressions
-        fm1 <- lm(fix$yn[fix$run == long[i]] ~ 1)
-        fm2 <- lm(fix$yn[fix$run == run[j]] ~ 1)
-        fm <- lm(fix$yn[fix$run == long[i] | fix$run == run[j]] ~ 1)
+        fm1 <- lm(fix$yn[fix$linerun == long[i]] ~ 1)
+        fm2 <- lm(fix$yn[fix$linerun == run[j]] ~ 1)
+        fm <- lm(fix$yn[fix$linerun == long[i] | fix$linerun == run[j]] ~ 1)
         tmp[1, 3] <- round(sigma(fm), 3)
         tmp[1, 4] <- round(coef(fm)[1])
         tmp[1, 5] <- round(coef(fm1)[1])
@@ -62,10 +62,10 @@ Phase2 <- function(fix, stimmat) {
     
     cand <- out3[1, ]
   
-    fix$run[fix$run == cand[2]] <- cand[1]
-    fix$run <- as.numeric(as.factor(fix$run))
+    fix$linerun[fix$linerun == cand[2]] <- cand[1]
+    fix$linerun <- as.numeric(as.factor(fix$linerun))
     
-    new <- length(table(fix$run))
+    new <- length(table(fix$linerun))
     
     print(new)
     

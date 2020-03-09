@@ -3,11 +3,13 @@ Phase1 <- function(fix, stimmat) {
   
   print("Phase 1")
   
+  fix$linerun <- fix$run
+  
   crit1 <- mean((stimmat$ye[stimmat$line == 1] - stimmat$ys[stimmat$line == 1])) / 4
   crit2 <- mean((stimmat$ye[stimmat$line == 1] - stimmat$ys[stimmat$line == 1])) / 4
   crit3 <- mean((stimmat$ye[stimmat$line == 1] - stimmat$ys[stimmat$line == 1])) / 2
   
-  long <- as.numeric(unlist(dimnames(table(fix$run)[table(fix$run) >= 3])))
+  long <- as.numeric(unlist(dimnames(table(fix$linerun)[table(fix$linerun) >= 3])))
   old <- length(long) + 1
   new <- length(long)
   
@@ -31,18 +33,18 @@ Phase1 <- function(fix, stimmat) {
         tmp[1, 1] <- long[i]
         tmp[1, 2] <- long[j]
         
-        if (sd(fix$yn[fix$run == long[i]]) == 0 | 
-            sd(fix$xn[fix$run == long[i]]) == 0 | 
-            sd(fix$yn[fix$run == long[j]]) == 0 | 
-            sd(fix$xn[fix$run == long[j]]) == 0) {
+        if (sd(fix$yn[fix$linerun == long[i]]) == 0 | 
+            sd(fix$xn[fix$linerun == long[i]]) == 0 | 
+            sd(fix$yn[fix$linerun == long[j]]) == 0 | 
+            sd(fix$xn[fix$linerun == long[j]]) == 0) {
               next
             } 
             
         # compute regressions
-        fm1 <- lm(fix$yn[fix$run == long[i]] ~ scale(fix$xn[fix$run == long[i]]))
-        fm2 <- lm(fix$yn[fix$run == long[j]] ~ scale(fix$xn[fix$run == long[j]]))
-        fm <- lm(fix$yn[fix$run == long[i] | fix$run == long[j]] ~ 
-                   scale(fix$xn[fix$run == long[i] | fix$run == long[j]]))
+        fm1 <- lm(fix$yn[fix$linerun == long[i]] ~ scale(fix$xn[fix$linerun == long[i]]))
+        fm2 <- lm(fix$yn[fix$linerun == long[j]] ~ scale(fix$xn[fix$linerun == long[j]]))
+        fm <- lm(fix$yn[fix$linerun == long[i] | fix$linerun == long[j]] ~ 
+                   scale(fix$xn[fix$linerun == long[i] | fix$linerun == long[j]]))
         tmp[1, 3] <- round(sigma(fm), 3)
         tmp[1, 4] <- round(coef(fm)[1])
         tmp[1, 5] <- round(coef(fm)[2], 3)
@@ -68,19 +70,19 @@ Phase1 <- function(fix, stimmat) {
     
     cand <- out3[1, ]
     
-    # # plot
-    # plot(fix$xn, fix$yn, ylim = c(768, 0), type = "n", main = paste(cand[1], ":", cand[2]))
-    # points(fix$xn[fix$run == cand[1]], fix$yn[fix$run == cand[1]], col = "green",
-    #        pch = 1, type = "b", cex = 1, lty = 2)
-    # points(fix$xn[fix$run == cand[2]], fix$yn[fix$run == cand[2]], col = "green",
-    #        pch = 0, type = "b", cex = 1, lty = 3)
+    # plot
+    plot(fix$xn, fix$yn, ylim = c(768, 0), type = "n", main = paste(cand[1], ":", cand[2]))
+    points(fix$xn[fix$run == cand[1]], fix$yn[fix$run == cand[1]], col = "green",
+           pch = 1, type = "b", cex = 1, lty = 2)
+    points(fix$xn[fix$run == cand[2]], fix$yn[fix$run == cand[2]], col = "green",
+           pch = 0, type = "b", cex = 1, lty = 3)
     # points(fix$xn[fix$run == cand[1] | fix$run == cand[2]], 
     #        fix$yn[fix$run == cand[1] | fix$run == cand[2]], 
     #        col = "green", pch = 16, type = "b", cex = 1, lty = 1)
     
-    fix$run[fix$run == cand[2]] <- cand[1]
-    fix$run <- as.numeric(as.factor(fix$run))
-    long <- as.numeric(unlist(dimnames(table(fix$run)[table(fix$run) >= 3])))
+    fix$linerun[fix$linerun == cand[2]] <- cand[1]
+    fix$linerun <- as.numeric(as.factor(fix$linerun))
+    long <- as.numeric(unlist(dimnames(table(fix$linerun)[table(fix$linerun) >= 3])))
     
     new <- length(long)
     

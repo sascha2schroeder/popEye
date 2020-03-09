@@ -3,8 +3,6 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # trial <- 2
   
-  # print(trial)
-  
   # data
   fix <- dat$trial[[trial]]$fix
   stimmat <- dat$trial[[trial]]$meta$stimmat
@@ -55,11 +53,18 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # translate fixations
   # --------------------
   
+  fix <- CheckOutlier(fix, stimmat)
+  
+  
+  # translate fixations
+  # --------------------
+  
   # translate on xy axis
   if (env$exp$setup$analysis$translate == T) {
     
     # fix <- TranslateFixations(fix, stimmat)
     # fix <- MoveFixations(fix, stimmat)
+    # message(".... Translate fixtations")
     fix <- MoveFixations2(fix, stimmat)
     
   }
@@ -255,91 +260,16 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     
   }
   
-  # SpakovII
+  # SpakovII method
   if (env$exp$setup$analysis$lineMethod == "SpakovII") {
     
-    # compute distance
-    fix$distx <- NA
-    fix$distx[2:length(fix$distx)] <- diff(fix$xn)
-    fix$disty <- NA
-    fix$disty[2:length(fix$disty)] <- diff(fix$yn)
-    
-    # initialize variables
-    fix$type <- "in"
-    fix$run <- NA
-    fix$run[1] <- 1
-    
-    # segment into runs
-    for (i in 2:nrow(fix)) {
-      # i <- 2
-      
-      # determine run break
-      if (abs(fix$disty[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineY | 
-          abs(fix$distx[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineX) {
-        
-        fix$run[i] <- fix$run[i - 1] + 1
-        
-      } else {
-        
-        fix$run[i] <- fix$run[i - 1]
-        
-      }
-      
-    }
-    
-    fix$linerun <- fix$run
-    
-    # plot
-    plot(fix$xn, fix$yn, ylim = c(768, 0), type = "b", col = fix$linerun, cex = 1, pch = 16)
-    
-    run <- as.numeric(unlist(dimnames(table(fix$linerun))))
-    
-    plot(fix$xn, fix$yn, ylim = c(768, 0), type = "n")
-    for (i in 1:length(run)) {
-      print(run[i])
-      print(round(i/length(run),3)*100)
-      points(fix$xn[fix$linerun == run[i]], fix$yn[fix$linerun == run[i]],
-             pch = 16, type = "b", cex = .5, col = fix$linerun[fix$linerun == run[i]])
-      readline()
-    }
-    
-    
-    fix <- Phase1lin(fix, stimmat)
-    
-    
-    # plot long runs
-    long <- as.numeric(unlist(dimnames(table(fix$linerun)[table(fix$linerun) >= 3])))
-    plot(fix$xn, fix$yn, ylim = c(768, 0), type = "b", pch = 16, col = as.numeric(as.factor(fix$linerun)))
-    
-    plot(fix$xn, fix$yn, ylim = c(768, 0), type = "n")
-    for (i in 1:length(long)) {
-      print(long[i])
-      print(round(i/length(long),3)*100)
-      points(fix$xn[fix$linerun == long[i]], fix$yn[fix$linerun == long[i]],
-             pch = 16, type = "b", cex = .5, col = fix$linerun[fix$linerun == long[i]])
-      readline()
-    }
-    
-    fix <- Phase2lin(fix, stimmat)
-    
-    # plot long runs
-    long <- as.numeric(unlist(dimnames(table(fix$linerun)[table(fix$linerun) >= 3])))
-    plot(fix$xn, fix$yn, ylim = c(768, 0), type = "b", pch = 16, col = as.numeric(as.factor(fix$linerun)))
-    
-    plot(fix$xn, fix$yn, ylim = c(768, 0), type = "n")
-    for (i in 1:length(long)) {
-      print(long[i])
-      print(round(i/length(long),3)*100)
-      points(fix$xn[fix$linerun == long[i]], fix$yn[fix$linerun == long[i]],
-             pch = 16, type = "b", cex = .5, col = fix$linerun[fix$linerun == long[i]])
-      readline()
-      
-    }
-    
-    
-    fix <- Phase3(fix, stimmat)
-    fix <- Phase4(fix, stimmat)
-    fix <- AssignLine(fix)
+    fix <- BuildSequences_2(fix)
+    fix <- Phase1_2(fix, stimmat)
+    fix <- Phase2_2(fix, stimmat)
+    fix <- Phase3_2(fix, stimmat)
+    fix <- Phase5_2(fix, stimmat)
+    fix <- Phase4_2(fix, stimmat)
+    fix <- AssignLine(fix, stimmat)
     
   }
   

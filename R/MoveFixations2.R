@@ -1,8 +1,6 @@
 
 MoveFixations2 <- function(fix, stimmat) {
   
-  # fixmem <- fix
-  
   # compute line coordinates
   stimline <- stimmat[duplicated(stimmat$line) == F, c("line", "xs", "xe", "ys", "ye")]
   stimline$xe <- tapply(stimmat$xe, stimmat$line, max)
@@ -20,16 +18,16 @@ MoveFixations2 <- function(fix, stimmat) {
     out[k, 1] <- mx[k]
     
     hit <- 0
-    for (i in 1:nrow(fix)) {
+    for (i in 1:nrow(fix[fix$type == "in", ])) {
       # i <- 1
       
       for (j in 1:nrow(stimline)) {
         # j <- 1
         
-        if (fix$xn[i] + mx[k] > stimline$xs[j] & 
-            fix$xn[i] + mx[k] < stimline$xe[j] &
-            fix$yn[i] > stimline$ys[j] &
-            fix$yn[i] < stimline$ye[j]) {
+        if (fix$xn[fix$type == "in"][i] + mx[k] > stimline$xs[j] & 
+            fix$xn[fix$type == "in"][i] + mx[k] < stimline$xe[j] &
+            fix$yn[fix$type == "in"][i] > stimline$ys[j] &
+            fix$yn[fix$type == "in"][i] < stimline$ye[j]) {
           hit <- hit + 1
         }
         
@@ -41,7 +39,7 @@ MoveFixations2 <- function(fix, stimmat) {
     
   }
   
-  fix$xn <- fix$xn + out[which.max(out[,2]), 1]
+  fix$xn[fix$type == "in"] <- fix$xn[fix$type == "in"] + out[which.max(out[,2]), 1]
   
   
   
@@ -57,16 +55,16 @@ MoveFixations2 <- function(fix, stimmat) {
     out[k, 1] <- my[k]
     
     hit <- 0
-    for (i in 1:nrow(fix)) {
+    for (i in 1:nrow(fix[fix$type == "in", ])) {
       # i <- 1
       
       for (j in 1:nrow(stimline)) {
         # j <- 1
         
-        if (fix$xn[i] > stimline$xs[j] & 
-            fix$xn[i] < stimline$xe[j] &
-            fix$yn[i] + my[k] > stimline$ys[j] &
-            fix$yn[i] + my[k] < stimline$ye[j]) {
+        if (fix$xn[fix$type == "in"][i] > stimline$xs[j] & 
+            fix$xn[fix$type == "in"][i] < stimline$xe[j] &
+            fix$yn[fix$type == "in"][i] + my[k] > stimline$ys[j] &
+            fix$yn[fix$type == "in"][i] + my[k] < stimline$ye[j]) {
           hit <- hit + 1
         }
         
@@ -78,7 +76,7 @@ MoveFixations2 <- function(fix, stimmat) {
     
   }
   
-  fix$yn <- fix$yn + out[which.max(out[,2]), 1]
+  fix$yn[fix$type == "in"] <- fix$yn[fix$type == "in"] + out[which.max(out[,2]), 1]
   
   return(fix)    
   

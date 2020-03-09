@@ -155,13 +155,13 @@ PlotAlign <- function(exp, subject, trial, plot = NULL, interactive = F,
     
   }
   
-  # add blinks
-  blink <- tmp$sac[tmp$sac$msg == "BLINK", ]
-  if (nrow(blink) > 0) {
-    for (i in 1:nrow(blink)) {
-      arrows(blink$xsn[i], blink$ysn[i], blink$xen[i], blink$yen[i], col = "red", code = 0)
-    }
-  }
+  # # add blinks
+  # blink <- tmp$sac[tmp$sac$msg == "BLINK", ]
+  # if (nrow(blink) > 0) {
+  #   for (i in 1:nrow(blink)) {
+  #     arrows(blink$xsn[i], blink$ysn[i], blink$xen[i], blink$yen[i], col = "red", code = 0)
+  #   }
+  # }
   
   # turn off device  
   if (missing(plot) == F) {

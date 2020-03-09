@@ -5,12 +5,12 @@ Phase4 <- function(fix, stimmat) {
   
   nlines <- max(stimmat$line)
   
-  runs <- length(table(fix$run))
-  mrun <- tapply(fix$yn, fix$run, mean)
+  runs <- length(table(fix$linerun))
+  mrun <- tapply(fix$yn, fix$linerun, mean)
   
   while (runs > nlines) {
   
-    cand <- as.numeric(unlist(dimnames(sort(table(fix$run))))[1])
+    cand <- as.numeric(unlist(dimnames(sort(table(fix$linerun))))[1])
     # TODO: do not merge short sequences first
     
     dist <- NULL
@@ -30,11 +30,11 @@ Phase4 <- function(fix, stimmat) {
       
     }
     
-    fix$run[fix$run == cand] <- dist[which.min(dist[,2]), 1]
-    fix$run <- as.numeric(as.factor(fix$run))
+    fix$linerun[fix$linerun == cand] <- dist[which.min(dist[,2]), 1]
+    fix$linerun <- as.numeric(as.factor(fix$linerun))
     
-    mrun <- tapply(fix$yn, fix$run, mean)
-    runs <- length(table(fix$run))
+    mrun <- tapply(fix$yn, fix$linerun, mean)
+    runs <- length(table(fix$linerun))
     
     print(runs)
     

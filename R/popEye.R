@@ -179,7 +179,7 @@ popEye <- function(datpath,
                    analysis.outlierX = 2,
                    analysis.outlierY = 2,
                    analysis.lineX = 20,
-                   analysis.lineY = 2,
+                   analysis.lineY = 0.5,
                    clean.stage1Dur = 80, 
                    clean.stage1Dist = 1,
                    clean.stage2Dur = 40, 
@@ -259,7 +259,9 @@ popEye <- function(datpath,
     
     # v <- 2
     
-    message(paste("Version ", v, sep = ""))
+    if ((version.arg2 - version.arg1) > 0) {
+      message(paste("Version ", v, sep = ""))
+    }
     
     # list of subjects
     if (tracker.software == "EB") {
@@ -271,24 +273,43 @@ popEye <- function(datpath,
       sub.list <- sub.list[grep("asc", sub.list)]
     }
     
+    # select subjects
+    if (missing(select.subject) == F) {
+      sub.list <- sub.list[is.element(sub.list, select.subject)]
+    }
+    
     
     # ----------------------------------
     # subject loop
     # ----------------------------------
     
-    if (missing(select.subject) == T) {
+    # if (missing(select.subject) == T) {
+    #   subject.arg1 <- 1
+    #   subject.arg2 <- length(sub.list)
+    # } else {
+    #   if (length(select.subject) > 1) {
+    #     subject.arg1 <- select.subject[1]
+    #     subject.arg2 <- select.subject[2]
+    #   } else {
+    #     subject.arg1 <- select.subject
+    #     subject.arg2 <- select.subject
+    #   }
+    #   
+    # }
+    
+    # if (missing(select.subject) == T) {
       subject.arg1 <- 1
       subject.arg2 <- length(sub.list)
-    } else {
-      if (length(select.subject) > 1) {
-        subject.arg1 <- select.subject[1]
-        subject.arg2 <- select.subject[2]
-      } else {
-        subject.arg1 <- select.subject
-        subject.arg2 <- select.subject
-      }
-      
-    }
+    # } else {
+    #   if (length(select.subject) > 1) {
+    #     subject.arg1 <- select.subject[1]
+    #     subject.arg2 <- select.subject[2]
+    #   } else {
+    #     subject.arg1 <- select.subject
+    #     subject.arg2 <- select.subject
+    #   }
+    #   
+    # }
     
     for (s in subject.arg1:subject.arg2) {
       
