@@ -1,6 +1,6 @@
 
 BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
-  
+ 
   
   # retrieve variables
   # ------------------
@@ -106,7 +106,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   
-  
   # sentence
   # ---------
   
@@ -206,16 +205,18 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     }
     
     line.length <- sapply(unlist(strsplit(tmp, line.delim)), nchar)
-    
+
     nlines <- length(line.length)
     
     
     # line loop
     for (n in 1:(nlines - 1)) {
       
+      # line.length <- sapply(unlist(strsplit(tmp, line.delim)), nchar)
+      
       if (line.length[n] == 0) next 
       
-      stimmat$line[stimmat$line == n  & stimmat$letternum >= cumsum(line.length)[n]] <- stimmat$line[stimmat$line == n & stimmat$letternum >= line.length[n]] + 1
+      stimmat$line[stimmat$line == n  & stimmat$letternum >= cumsum(line.length)[n] + (n*-1) + 2] <- stimmat$line[stimmat$line == n & stimmat$letternum >= line.length[n]] + 1
       
       # delete blank before line break
       stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]

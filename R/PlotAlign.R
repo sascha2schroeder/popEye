@@ -36,7 +36,7 @@ PlotAlign <- function(exp, subject, trial, plot = NULL, interactive = F,
          ylim = c(max(tmp$meta$stimmat$ye) + 1 * exp$setup$font$size,
                   min(tmp$meta$stimmat$ys) - 1 * exp$setup$font$size),
          type = "n",
-         main = paste("Trial", trial), xlab = "x Position (px)", ylab = "y Position (py)")
+         main = paste("Trial", tmp$meta$itemid), xlab = "x Position (px)", ylab = "y Position (py)")
     
   } else {
     
@@ -69,8 +69,8 @@ PlotAlign <- function(exp, subject, trial, plot = NULL, interactive = F,
   # set colors
   if (max(stimmat$line) > 1) {
     palette("default")
-    # palette(topo.coltrilf02ors(max(stimmat$line)))
-    # palette(rainbow(max(stimmat$line)))
+    # library(RColorBrewer)
+    # palette(brewer.pal(max(stimmat$line), "Dark2"))
   } else {
     palette("default")
     # palette(topo.colors(2))

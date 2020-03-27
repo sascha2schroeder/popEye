@@ -10,6 +10,10 @@ Phase1_2 <- function(fix, stimmat, check = FALSE) {
   old <- length(long) + 1
   new <- length(long)
   
+  if (length(long) == 0) {
+    new <- new + 1
+  }
+  
   while (new < old) {
     
     if (check == TRUE) {

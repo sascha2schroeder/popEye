@@ -1,7 +1,7 @@
 
 Phase4 <- function(fix, stimmat) {
   
-  print("Phase 4")
+  # print("Phase 4")
   
   nlines <- max(stimmat$line)
   
@@ -36,7 +36,7 @@ Phase4 <- function(fix, stimmat) {
     mrun <- tapply(fix$yn, fix$linerun, mean)
     runs <- length(table(fix$linerun))
     
-    print(runs)
+    # print(runs)
     
   }
   

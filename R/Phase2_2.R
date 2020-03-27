@@ -20,6 +20,10 @@ Phase2_2 <- function(fix, stimmat, check = FALSE) {
     
     long <- as.numeric(unlist(dimnames(table(fix$linerun)[table(fix$linerun) >= 3])))
     
+    if (length(long) == 0) {
+      break
+    }
+    
     for (i in 1:(length(long) - 1)) {
       # i <- 1
       # print(i)

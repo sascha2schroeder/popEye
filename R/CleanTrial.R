@@ -16,13 +16,22 @@ CleanTrial <- function(dat, env = parent.frame(n = 2)) {
     # trial.calibration: if trial was not calibrated
     if (dat$trial[[trial]]$meta$calibration.method == "") {
       dat$trial[[trial]]$clean$trial$calibration <- 1
+      next
     }
+    
+    # trial.calibration: if no calibration value is available
+    if (length(dat$trial[[trial]]$meta$calibration.avg) == 0) {
+      dat$trial[[trial]]$clean$trial$calibration <- 1
+      next
+    }
+    
     
     # trial.calibration: if calibration accuracy was too bad 
     if (dat$trial[[trial]]$meta$calibration.avg > 1) {
       dat$trial[[trial]]$clean$trial$calibration <- 1
+      next
     }
-    
+   
     # trial.fix: check minimum number of fixations in trial (controlled by exclude.fix)
     if (max(dat$trial[[trial]]$fix$fixid) <  env$exp$setup$exclude$nfix) {
       dat$trial[[trial]]$clean$trial$nfix <- 1

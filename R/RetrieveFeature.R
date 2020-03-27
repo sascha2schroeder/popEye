@@ -5,7 +5,7 @@ RetrieveFeature <- function(exp, subject, trial, feature) {
   #                         "$trial$trial.", deparse(substitute(trial)), 
   #                         "$", deparse(substitute(feature)), sep = "")))
   
-  eval(parse(text = paste(exp, 
+  eval(parse(text = paste(deparse(substitute(exp)), 
                           "$subject$subject.", subject, 
                           "$trial$trial.", trial, 
                           "$", feature, sep = "")))

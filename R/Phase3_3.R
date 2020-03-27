@@ -26,9 +26,9 @@ Phase3_3 <- function(fix, stimmat, check = FALSE) {
       
       j <- i + 1
       
-      # if (table(fix$linerun)[run[i]] == 1 | table(fix$linerun)[run[j]] == 1) {
-      #   next
-      # }
+      if (table(fix$linerun)[run[i]] == 1 | table(fix$linerun)[run[j]] == 1) {
+        next
+      }
       
       tmp <- matrix(NA, 1, 5)
       
@@ -54,12 +54,12 @@ Phase3_3 <- function(fix, stimmat, check = FALSE) {
     out2 <- out[is.na(out[,3]) == F, ]
     out2 <- out2[order(abs(out2[, 3])), , drop = F]
     
-    if (sum(out2[,3] < crit1 & abs(out2[,5]) < crit2, na.rm = T) < 1) {
+    if (sum(out2[,3] <= crit1 & abs(out2[,5]) <= crit2, na.rm = T) < 1) {
       break
-    } else if (sum(out2[,3] < crit1 & abs(out2[,5]) < crit2, na.rm = T) == 1) {
-      cand <- out2[out2[,3] < crit1 & abs(out2[,5]) < crit2, ]
-    } else if (sum(out2[,3] < crit1 & abs(out2[,5]) < crit2, na.rm = T) > 1) {
-      cand <- out2[out2[,3] < crit1 & abs(out2[,5]) < crit2, ][1, ]
+    } else if (sum(out2[,3] <= crit1 & abs(out2[,5]) <= crit2, na.rm = T) == 1) {
+      cand <- out2[out2[,3] <= crit1 & abs(out2[,5]) <= crit2, ]
+    } else if (sum(out2[,3] <= crit1 & abs(out2[,5]) <= crit2, na.rm = T) > 1) {
+      cand <- out2[out2[,3] <= crit1 & abs(out2[,5]) <= crit2, ][1, ]
     }
     
     # plot

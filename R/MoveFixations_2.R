@@ -1,7 +1,7 @@
 
 # TODO: Make nice
 
-MoveFixations <- function(fix, stimmat, x_adj = F) {
+MoveFixations_2 <- function(fix, stimmat, x_adj = F) {
   
   fixtmp <- fix[c("xn", "yn")]
   stim <- stimmat[c("xs","xe", "ys", "ye")]
@@ -42,7 +42,8 @@ MoveFixations <- function(fix, stimmat, x_adj = F) {
   if (x_adj == F) {
     fixcor[,1] <- fixtmp[,1]
   } else {
-    fixcor[,1] <- fixtmpfixcor[,1] <- fixtmp[,1] * (c1[2,1] - c1[1,1]) / (c2[2,1] - c2[1,1])[,1] * (c1[2,1] - c1[1,1]) / (c2[2,1] - c2[1,1])
+    # fixcor[,1] <- fixtmpfixcor[,1] <- fixtmp[,1] * (c1[2,1] - c1[1,1]) / (c2[2,1] - c2[1,1])[,1] * (c1[2,1] - c1[1,1]) / (c2[2,1] - c2[1,1])
+    fixcor[,1] <- fixtmp[,1] * (c1[2,1] - c1[1,1]) / (c2[2,1] - c2[1,1]) * (c1[2,1] - c1[1,1]) / (c2[2,1] - c2[1,1])
   }
   
   fixcor[,2] <- fixtmp[,2] * (c1[2,2] - c1[1,2]) / (c2[2,2] - c2[1,2])

@@ -1,7 +1,7 @@
 
 Phase1 <- function(fix, stimmat) {
   
-  print("Phase 1")
+  # print("Phase 1")
   
   fix$linerun <- fix$run
   
@@ -70,12 +70,12 @@ Phase1 <- function(fix, stimmat) {
     
     cand <- out3[1, ]
     
-    # plot
-    plot(fix$xn, fix$yn, ylim = c(768, 0), type = "n", main = paste(cand[1], ":", cand[2]))
-    points(fix$xn[fix$run == cand[1]], fix$yn[fix$run == cand[1]], col = "green",
-           pch = 1, type = "b", cex = 1, lty = 2)
-    points(fix$xn[fix$run == cand[2]], fix$yn[fix$run == cand[2]], col = "green",
-           pch = 0, type = "b", cex = 1, lty = 3)
+    # # plot
+    # plot(fix$xn, fix$yn, ylim = c(768, 0), type = "n", main = paste(cand[1], ":", cand[2]))
+    # points(fix$xn[fix$run == cand[1]], fix$yn[fix$run == cand[1]], col = "green",
+    #        pch = 1, type = "b", cex = 1, lty = 2)
+    # points(fix$xn[fix$run == cand[2]], fix$yn[fix$run == cand[2]], col = "green",
+    #        pch = 0, type = "b", cex = 1, lty = 3)
     # points(fix$xn[fix$run == cand[1] | fix$run == cand[2]], 
     #        fix$yn[fix$run == cand[1] | fix$run == cand[2]], 
     #        col = "green", pch = 16, type = "b", cex = 1, lty = 1)
@@ -86,7 +86,7 @@ Phase1 <- function(fix, stimmat) {
     
     new <- length(long)
     
-    print(new)
+    # print(new)
     
   }
   

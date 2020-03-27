@@ -1,7 +1,7 @@
 
 Phase3 <- function(fix, stimmat) {
   
-  print("Phase 3")
+  # print("Phase 3")
   
   crit1 <- mean((stimmat$ye[stimmat$line == 1] - stimmat$ys[stimmat$line == 1])) / 4
   crit2 <- mean((stimmat$ye[stimmat$line == 1] - stimmat$ys[stimmat$line == 1])) / 2
@@ -74,7 +74,7 @@ Phase3 <- function(fix, stimmat) {
     
     new <- length(table(fix$linerun))
     
-    print(new)
+    # print(new)
     
   }
   

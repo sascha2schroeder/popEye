@@ -1,5 +1,5 @@
 
-TranslateFixations <- function(fix, stimmat) {
+MoveFixations_1 <- function(fix, stimmat) {
   
   # select fixations
   fixtmp <- fix
@@ -11,7 +11,7 @@ TranslateFixations <- function(fix, stimmat) {
   
   # compute relocated fixations
   fixcor <- TranslateXY(trans_est, fixtmp)
-
+  
   # return fixations
   fix$xn[fix$num > 1] <- round(fixcor[,1])
   fix$yn[fix$num > 1] <- round(fixcor[,2])

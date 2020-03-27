@@ -50,26 +50,29 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   
-  # translate fixations
-  # --------------------
+  # check outlier
+  # --------------
   
   fix <- CheckOutlier(fix, stimmat)
   
-  
-  # translate fixations
-  # --------------------
-  
-  # translate on xy axis
-  if (env$exp$setup$analysis$translate == T) {
+  if (mean(fix$type == "in") < .1) {
     
-    # fix <- TranslateFixations(fix, stimmat)
-    # fix <- MoveFixations(fix, stimmat)
-    # message(".... Translate fixtations")
-    fix <- MoveFixations2(fix, stimmat)
+    dat$trial[[trial]]$fix <- NULL
+    return(dat)
     
   }
   
-  # TODO: Maybe more sophisticated version (linear transformation with shear)
+  # move fixations
+  # --------------------
+  
+  if (env$exp$setup$analysis$translate == T) {
+    
+    # fix <- MoveFixations_1(fix, stimmat)
+    # fix <- MoveFixations_2(fix, stimmat)
+    # fix <- MoveFixations_3(fix, stimmat)
+    fix <- MoveFixations_4(fix, stimmat)
+    
+  }
   
 
   # line assignment 
@@ -81,6 +84,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     fix$type <- "in"
     fix$line <- NA
     fix$linerun <- NA
+    fix$run <- NA
     
     for (i in 1:nrow(fix)) {
       # i <- 2
@@ -98,35 +102,6 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     
   }
   
-  
-  # cluster method
-  if (env$exp$setup$analysis$lineMethod == "cluster") {
-
-    # NOTE: dependency library(fpc)
-
-    if (max(stimmat$line) > 1) {
-
-        clu <- kmeans(fix$yn[fix$type == "in"],
-                      fpc::pamk(fix$yn[fix$type == "in"],
-                                criterion="asw",
-                                krange = 1:max(stimmat$line),
-                                alpha = .1)$nc)
-        if (max(clu$cluster) > 1) {
-          cl_mean <- sort(round(clu$center))
-          clu <- kmeans(fix$yn[fix$type == "in"], cl_mean)
-        }
-
-        fix$line[fix$type == "in"] <- clu$cluster
-
-    } else {
-
-      fix$line <- 1
-
-    }
-
-  }
- 
-   
   # chain method
   if (env$exp$setup$analysis$lineMethod == "chain") {
     
@@ -141,6 +116,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     
     # initialize variables
     fix$type <- "in"
+    fix$run <- NA
     fix$linerun <- NA
     fix$linerun[1] <- 1
     fix$line <- NA
@@ -251,14 +227,16 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     # TODO: clean outliers (maybe related to MoveBox)
     fix$linerun <- 1
     
-    fix <- BuildSequences(fix, stimmat)
+    # fix <- BuildSequences(fix, stimmat)
+    fix <- BuildSequences_2(fix)
     fix <- Phase1(fix, stimmat)
     fix <- Phase2(fix, stimmat)
     fix <- Phase3(fix, stimmat)
     fix <- Phase4(fix, stimmat)
-    fix <- AssignLine(fix)
+    fix <- AssignLine(fix, stimmat)
     
   }
+  
   
   # SpakovII method
   if (env$exp$setup$analysis$lineMethod == "SpakovII") {
@@ -270,6 +248,27 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     fix <- Phase5_2(fix, stimmat)
     fix <- Phase4_2(fix, stimmat)
     fix <- AssignLine(fix, stimmat)
+    
+  }
+  
+  
+  # automatic
+  if (env$exp$setup$analysis$lineMethod == "automatic") {
+    
+    fix <- BuildSequences_2(fix)
+    fix <- Phase3_3(fix, stimmat)
+    fix <- SelectLine(fix, stimmat)
+    
+  }
+  
+  
+  # interactive
+  if (env$exp$setup$analysis$lineMethod == "interactive") {
+    
+    fix <- BuildSequences_2(fix)
+    # fix <- Phase3_3(fix, stimmat)
+    fix <- SelectLine(fix, stimmat)
+    fix <- LineInteractive_2(fix, stimmat)
     
   }
   

@@ -98,8 +98,11 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     }
     # FIX: select left eye if tracking was binocular (corresponds to sample data)
     
-    if (sum(tmp$event$msg == "SFIX") > 3) { # FIX: skip if there are less than three fixations in trial
+    if (sum(tmp$event$msg == "EFIX" & tmp$event$xs > 0 & tmp$event$ys > 0, na.rm = T) > 3) { 
+      
+    # FIX: skip if there are less than three fixations in trial
     # TODO: this only works for Eyelink -> FIX
+    # FIX: exclude trials with negative x and y values?
       
       if (nrow(tmp$samp) == 0 | mean(is.na(tmp$samp$x)) > .75) { # FIX: if trial is (nearly) empty
         
@@ -133,7 +136,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
      
       
       # clean
-      # -----------
+      # ------
       
       if (sum(out$msg == "SAC") > 0) { # FIX: do not clean if no saccade detected
         clean <- Cleaning(out)
@@ -148,7 +151,6 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
       clean <- NA
       
     }
-    
     
     # write out
       ret[[trial]] <- list(meta = meta,
