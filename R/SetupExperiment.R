@@ -265,7 +265,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                 "\u03cc", "\u038c", "\u03c0", "\u03a0", "\u03c1", "\u03a1", 
                 "\u03c3", "\u03a3", "\u03c2", "\u03c4", "\u03a4", "\u03c5", 
                 "\u03cd", "\u03c6", "\u03a6", "\u03c7", "\u03a7", "\u03c8", 
-                "\u03c9", "\u03a9", "\u03ce")
+                "\u03c9", "\u03a9", "\u03ce", "\u03ca", "\u03b2")
     pixel <- rep(15, length(letter))
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 24
