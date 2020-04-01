@@ -1,7 +1,6 @@
 
 SetupExperiment <- function(env = parent.frame(n = 1)) {
   
-  
   # setup tracker
   tracker <- list(model = env$tracker.model, 
                   software = env$tracker.software,

@@ -72,3 +72,4 @@ LineInteractive_2 <- function(fix, stimmat, env = parent.frame(n = 1)) {
   return(fix)
   
 }
+
