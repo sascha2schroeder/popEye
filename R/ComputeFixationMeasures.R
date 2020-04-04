@@ -171,8 +171,8 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
     
     dat$trial[[trial]]$fix <- dat$trial[[trial]]$fix[names]
     
-    # FIX: remove missings
-    dat$trial[[trial]]$fix <- dat$trial[[trial]]$fix[is.na(subid) == F, ]
+    # # FIX: remove missings
+    # dat$trial[[trial]]$fix <- dat$trial[[trial]]$fix[is.na(subid) == F, ]
     
     # print(trial)
     
