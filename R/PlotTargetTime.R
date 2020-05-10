@@ -57,7 +57,7 @@ PlotTargetTime <- function(exp, subject, trial, pdf = NULL, interactive = F,
   if (nrow(blink) > 0){
     for (i in 1:nrow(blink)){
       rect(blink$start[i], 1100, blink$stop[i], -100,
-           col= makeTransparent("darkred", alpha = .2))
+           col= MakeTransparent("darkred", alpha = .2))
     }
   }
 
@@ -88,7 +88,7 @@ PlotTargetTime <- function(exp, subject, trial, pdf = NULL, interactive = F,
   j <- tmp$meta$target
   rect(-300, min(tmp$meta$stimmat$xs[tmp$meta$stimmat$ianum == j]), 
        tmp$fix$stop[nrow(tmp$fix)] + 300, max(tmp$meta$stimmat$xe[tmp$meta$stimmat$ianum == j]),  
-       angle = NA, lwd = 2, col = makeTransparent("navyblue", alpha = .2))
+       angle = NA, lwd = 2, col = MakeTransparent("navyblue", alpha = .2))
        
   # turn off device
   if (sub == F) {

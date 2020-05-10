@@ -62,6 +62,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     
   }
   
+  
   # move fixations
   # --------------------
   
@@ -266,12 +267,20 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   if (env$exp$setup$analysis$lineMethod == "interactive") {
     
     fix <- BuildSequences_2(fix)
-    # fix <- Phase3_3(fix, stimmat)
-    fix <- SelectLine(fix, stimmat)
-    fix <- LineInteractive_2(fix, stimmat)
+    fix <- SelectLine_2(fix, stimmat)
+    fix <- LineInteractive_1(fix, stimmat)
     
   }
   
+  # temporary for testing: lines preselected
+  if (env$exp$setup$analysis$lineMethod == "interactive2") {
+    
+    fix <- BuildSequences_2(fix)
+    fix <- SelectLine_2(fix, stimmat)
+    fix <- LineInteractive_2(fix, stimmat)
+    
+  }
+
   
   # map letter and IA
   # ------------------

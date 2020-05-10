@@ -151,7 +151,7 @@ PlotFastX <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
   j <- tmp$meta$target
   rect(tmp$meta$letter.boundary[tmp$meta$word.boundary[j]], y - exp$setup$font$size / 2,
        tmp$meta$letter.boundary[tmp$meta$word.boundary[j + 1]], y + exp$setup$font$size / 2, 
-       angle = NA, lwd = 2, col = makeTransparent("navyblue", alpha = .2))
+       angle = NA, lwd = 2, col = MakeTransparent("navyblue", alpha = .2))
   
   # add boundary
   abline(v = tmp$meta$boundary, col = "navyblue", lwd = 2)

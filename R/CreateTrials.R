@@ -8,19 +8,26 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   # trial loop
   # -----------
   
+  # if (is.null(env$select.trial) == T) {
+  #   trial.arg1 <- 1
+  #   trial.arg2 <- length(table(dat$msg$trialnum))
+  # } else {
+  #   trial.arg1 <- env$select.trial
+  #   trial.arg2 <- env$select.trial
+  # }
+  
   if (is.null(env$select.trial) == T) {
-    trial.arg1 <- 1
-    trial.arg2 <- length(table(dat$msg$trialnum))
+    trials <- as.numeric(unlist(dimnames(table(dat$msg$trialnum))))
   } else {
-    trial.arg1 <- env$select.trial
-    trial.arg2 <- env$select.trial
+    trials <- env$select.trial
   }
   
-  for (trial in trial.arg1:trial.arg2) {
+  # for (trial in trial.arg1:trial.arg2) {
+  for (trial in trials) {
     
     start <- RetrieveStartStop(dat, trial)$start
     stop <- RetrieveStartStop(dat, trial)$stop
-
+    
     tmp <- SelectTrial(dat, start, stop)
     tmp <- TrialTime(tmp) # -> part of SelectTrial() ?
     
@@ -153,13 +160,22 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     }
     
     # write out
-      ret[[trial]] <- list(meta = meta,
-                          msg = tmp$msg,
-                          samp = tmp$samp,
-                          event = tmp$event,
-                          xy = xy,
-                          vxy = vxy,
-                          parse = clean)
+      # ret[[trial]] <- list(meta = meta,
+      #                     msg = tmp$msg,
+      #                     samp = tmp$samp,
+      #                     event = tmp$event,
+      #                     xy = xy,
+      #                     vxy = vxy,
+      #                     parse = clean)
+      
+    
+      ret[[as.numeric(trial)]] <- list(meta = meta,
+                           msg = tmp$msg,
+                           samp = tmp$samp,
+                           event = tmp$event,
+                           xy = xy,
+                           vxy = vxy,
+                           parse = clean)
       
   }
   
@@ -175,9 +191,10 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     dat$trial <- ret
     
   } else {
-    
-    dat$trial[[1]] <- ret[[env$select.trial]]
-    
+
+    # dat$trial[[1]] <- ret[[env$select.trial]]
+    dat$trial <- ret[env$select.trial]
+
   }
   
   dat$msg <- NULL

@@ -278,38 +278,12 @@ popEye <- function(datpath,
       sub.list <- sub.list[is.element(sub.list, select.subject)]
     }
     
-    
     # ----------------------------------
     # subject loop
     # ----------------------------------
     
-    # if (missing(select.subject) == T) {
-    #   subject.arg1 <- 1
-    #   subject.arg2 <- length(sub.list)
-    # } else {
-    #   if (length(select.subject) > 1) {
-    #     subject.arg1 <- select.subject[1]
-    #     subject.arg2 <- select.subject[2]
-    #   } else {
-    #     subject.arg1 <- select.subject
-    #     subject.arg2 <- select.subject
-    #   }
-    #   
-    # }
-    
-    # if (missing(select.subject) == T) {
-      subject.arg1 <- 1
-      subject.arg2 <- length(sub.list)
-    # } else {
-    #   if (length(select.subject) > 1) {
-    #     subject.arg1 <- select.subject[1]
-    #     subject.arg2 <- select.subject[2]
-    #   } else {
-    #     subject.arg1 <- select.subject
-    #     subject.arg2 <- select.subject
-    #   }
-    #   
-    # }
+    subject.arg1 <- 1
+    subject.arg2 <- length(sub.list)
     
     for (s in subject.arg1:subject.arg2) {
       
