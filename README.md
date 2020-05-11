@@ -67,7 +67,7 @@ Please contact me, if you are interested in this.
 
 ## Installation
 
-The easiest way to install the most recent version of popEye (current version is 0.6.4) 
+The easiest way to install the most recent version of popEye (current version is 0.6.5) 
 is via the devtools package:
 
 ``` R
