@@ -8,21 +8,17 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   # trial loop
   # -----------
   
-  # if (is.null(env$select.trial) == T) {
-  #   trial.arg1 <- 1
-  #   trial.arg2 <- length(table(dat$msg$trialnum))
-  # } else {
-  #   trial.arg1 <- env$select.trial
-  #   trial.arg2 <- env$select.trial
-  # }
+  print(head(dat$msg$itemid))
   
   if (is.null(env$select.trial) == T) {
-    trials <- as.numeric(unlist(dimnames(table(dat$msg$trialnum))))
+    # trials <- as.numeric(unlist(dimnames(table(dat$msg$itemid))))
+    trials <- 1:length(table(dat$msg$itemid))
   } else {
     trials <- env$select.trial
   }
   
-  # for (trial in trial.arg1:trial.arg2) {
+  print(trials)
+  
   for (trial in trials) {
     
     start <- RetrieveStartStop(dat, trial)$start
@@ -158,16 +154,6 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
       clean <- NA
       
     }
-    
-    # write out
-      # ret[[trial]] <- list(meta = meta,
-      #                     msg = tmp$msg,
-      #                     samp = tmp$samp,
-      #                     event = tmp$event,
-      #                     xy = xy,
-      #                     vxy = vxy,
-      #                     parse = clean)
-      
     
       ret[[as.numeric(trial)]] <- list(meta = meta,
                            msg = tmp$msg,
