@@ -8,16 +8,12 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   # trial loop
   # -----------
   
-  print(head(dat$msg$itemid))
-  
   if (is.null(env$select.trial) == T) {
     # trials <- as.numeric(unlist(dimnames(table(dat$msg$itemid))))
     trials <- 1:length(table(dat$msg$itemid))
   } else {
     trials <- env$select.trial
   }
-  
-  print(trials)
   
   for (trial in trials) {
     
