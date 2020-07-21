@@ -51,11 +51,12 @@ Experiment Builder and the UMass EyeTrack package. I hope I will be able to incl
 popEye supports both single- and multi-line experiments and works with 
 proportional and disproportional fonts. The following fonts are currently supported although not in all font sizes:
 
+- Arial
 - Courier New 
 - Consolas
-- Times New Roman
 - Symbol
 - Tahoma
+- Times New Roman
 
 (You have to understand that each font and font size combination has to be implemented separately). 
 Some special characters might still be missing which can cause problems during preprocessing. Please contact me,

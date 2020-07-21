@@ -278,6 +278,11 @@ popEye <- function(datpath,
       sub.list <- sub.list[is.element(sub.list, select.subject)]
     }
     
+    if (debug == "participants") {
+      return (sub.list)
+    }
+    
+    
     # ----------------------------------
     # subject loop
     # ----------------------------------

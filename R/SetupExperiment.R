@@ -75,6 +75,8 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$family <- "unknown"
   }
   
+  # Arial
+  # ------
   
   # Arial, 14 pt
   if (font$name == "Arial" & font$size == 14) {
@@ -287,6 +289,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$lead <- 8
     font$right <- F
   }
+  
   # CourierNew
   # -----------
   
