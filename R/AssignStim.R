@@ -13,7 +13,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   
   
   # drift correct 
-  # ---------------
+  # --------------
   
   if (is.null(dat$trial[[trial]]$meta$drift) == T) {
     dat$trial[[trial]]$meta$drift <- NA
@@ -64,14 +64,11 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   
   
   # move fixations
-  # --------------------
+  # ---------------
   
   if (env$exp$setup$analysis$translate == T) {
     
-    # fix <- MoveFixations_1(fix, stimmat)
-    # fix <- MoveFixations_2(fix, stimmat)
-    # fix <- MoveFixations_3(fix, stimmat)
-    fix <- MoveFixations_4(fix, stimmat)
+    fix <- MoveFixations(fix, stimmat)
     
   }
   
@@ -79,8 +76,8 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # line assignment 
   # ----------------
   
-  # default method: match single fixations
-  if (env$exp$setup$analysis$lineMethod == "match") {
+  # attach method
+  if (env$exp$setup$analysis$lineMethod == "attach") {
     
     fix$type <- "in"
     fix$line <- NA
@@ -134,7 +131,6 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
           abs(fix$distx[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineX) {
         
         # assign previous run to line
-        
         mean.y <- mean(fix$yn[fix$linerun == fix$linerun[i - 1]], na.rm = T)
         
         if (mean.y > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2) | 
@@ -151,38 +147,10 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
           }
           
           fix$line[fix$linerun == fix$linerun[i - 1]] <- which.min(out)
-          # mem <- which.min(out)
           
         }
         
-        # check movement direction 
-        
-        # NOTE: also determine how many lines have been moved?
-        # NOTE: mult als lineY?
-        
-        # if (fix$disty[i] >= env$exp$setup$font$height * env$exp$setup$analysis$lineY) {
-        #   
-        #   if (is.null(mem) == F) {
-        #     start <- 1
-        #   } else {
-        #     start <- 1
-        #   }
-        #   
-        #   stop <- nrow(linem)
-        #   
-        # } else if (fix$disty[i] <= -env$exp$setup$font$height * env$exp$setup$analysis$lineY) {
-        #   
-        #   start <- mem
-        #   stop <- 1
-        #   
-        # } else {
-        #   
-        #   # start <- mem
-        #   # stop <- mem
-        #   
-        # }
-        
-        fix$linerun[i] <- fix$linerun[i - 1] + 1
+                fix$linerun[i] <- fix$linerun[i - 1] + 1
         
       } else {
         
@@ -193,7 +161,6 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     }
     
     # assign last run
-    
     mean.y <- mean(fix$yn[fix$linerun == fix$linerun[nrow(fix)]], na.rm = T)
     
     if (mean.y > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2) | 
@@ -213,74 +180,41 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
       
     }
     
-    # fix$distx <- NULL
-    # fix$disty <- NULL
+  }
+  
+  # regress method
+  if (env$exp$setup$analysis$lineMethod == "regress") {
+   
+    fixation_XY <- fix[, c("xn", "yn")]
+    line_Y <- tapply(stimmat$ym, stimmat$line, max)
+    fix$line <- Regress(fixation_XY, line_Y)
+    fix$run <- NA
+    fix$linerun <- NA
     
   }
   
-  # TODO: FixAlign method (Cohen, 2013) 
-  
-  
-  # Spakov method
-  if (env$exp$setup$analysis$lineMethod == "Spakov") {
+  # merge method
+  if (env$exp$setup$analysis$lineMethod == "merge") {
     
-    fix$type <- "in"
-    # TODO: clean outliers (maybe related to MoveBox)
-    fix$linerun <- 1
-    
-    # fix <- BuildSequences(fix, stimmat)
-    fix <- BuildSequences_2(fix)
+    fix <- BuildSequences(fix)
     fix <- Phase1(fix, stimmat)
     fix <- Phase2(fix, stimmat)
     fix <- Phase3(fix, stimmat)
     fix <- Phase4(fix, stimmat)
+    fix <- Phase5(fix, stimmat)
     fix <- AssignLine(fix, stimmat)
     
   }
   
-  
-  # SpakovII method
-  if (env$exp$setup$analysis$lineMethod == "SpakovII") {
-    
-    fix <- BuildSequences_2(fix)
-    fix <- Phase1_2(fix, stimmat)
-    fix <- Phase2_2(fix, stimmat)
-    fix <- Phase3_2(fix, stimmat)
-    fix <- Phase5_2(fix, stimmat)
-    fix <- Phase4_2(fix, stimmat)
-    fix <- AssignLine(fix, stimmat)
-    
-  }
-  
-  
-  # automatic
-  if (env$exp$setup$analysis$lineMethod == "automatic") {
-    
-    fix <- BuildSequences_2(fix)
-    fix <- Phase3_3(fix, stimmat)
-    fix <- SelectLine(fix, stimmat)
-    
-  }
-  
-  
-  # interactive
+  # method interactive
   if (env$exp$setup$analysis$lineMethod == "interactive") {
     
-    fix <- BuildSequences_2(fix)
-    fix <- SelectLine_2(fix, stimmat)
-    fix <- LineInteractive_1(fix, stimmat)
+    fix <- BuildSequences(fix)
+    fix <- SelectLine(fix, stimmat)
+    fix <- LineInteractive(fix, stimmat)
     
   }
   
-  # temporary for testing: lines preselected
-  if (env$exp$setup$analysis$lineMethod == "interactive2") {
-    
-    fix <- BuildSequences_2(fix)
-    fix <- SelectLine_2(fix, stimmat)
-    fix <- LineInteractive_2(fix, stimmat)
-    
-  }
-
   
   # map letter and IA
   # ------------------
@@ -315,11 +249,12 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   fix$trial <- NA
   
   for (i in 1:nrow(fix)) {
+    
     # i <- 1
     
     # determine x outlier
     
-    if (fix$type[i] == "in") {
+    if (fix$type[i] == "in" & fix$line[i] > 0 & is.na(fix$line[i]) == F) {
       
       out <- abs(fix$xn[i] - stimmat$xm[stimmat$line == fix$line[i]])
       
@@ -389,31 +324,6 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   
-  # fit criterion
-  # --------------
-  
-  out <- NULL
-  crit.line <- NULL
-  
-  for (i in 1:nrow(fix)) {
-    # i <- 1
-    
-    # if (fix$type[i] == "in") {
-    #   
-    #   sel <- stimmat$line == fix$line[i] & stimmat$letternum == fix$letternum[i]
-    #   out[i] <- sqrt((fix$xn[i] - stimmat$xm[sel])^2 + (fix$yn[i] - stimmat$ym[sel])^2)
-    #   
-    # }
-    
-      out <- abs(fix$yn[i] - stimmat$ym)
-      crit.line[i] <- stimmat$line[which.min(out)]
-    
-  }
-  
-  # fix$fit <- round(mean(out, na.rm = T), 3)
-  fix$fit <- round((length(fix$line[is.na(fix$line) == F]) - sum(fix$line[is.na(fix$line) == F] == crit.line[is.na(fix$line) == F], na.rm = T)) / length(fix$line[is.na(fix$line) == F]), 3)
-  
-  
   # return
   # -------
   
@@ -429,7 +339,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     dat$trial[[trial]]$meta$stimmat$xm <- (dat$trial[[trial]]$meta$stimmat$xs + dat$trial[[trial]]$meta$stimmat$xe) / 2
   }
   
-  dat$trial[[trial]]$fix <- fix  
+  dat$trial[[trial]]$fix <- fix[is.na(fix$type) == F, ]  
   
   return(dat)
   

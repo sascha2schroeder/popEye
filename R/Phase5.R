@@ -1,8 +1,6 @@
 
-Phase4_2 <- function(fix, stimmat, check = FALSE) {
+Phase5 <- function(fix, stimmat, check = FALSE) {
  
-  # message(paste(".... Phase 4"))
-  
   crit1 <- mean((stimmat$ye[stimmat$line == 1] - stimmat$ys[stimmat$line == 1])) / 2.5
   crit2 <- mean((stimmat$ye[stimmat$line == 1] - stimmat$ys[stimmat$line == 1])) / 2.5
   

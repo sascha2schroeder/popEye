@@ -1,5 +1,5 @@
 
-MoveFixations_4 <- function(fix, stimmat) {
+MoveFixations <- function(fix, stimmat) {
   
   # fit textbox
   textbox <- matrix(NA, max(stimmat$line), 4)

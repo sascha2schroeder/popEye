@@ -49,8 +49,28 @@ SelectLine <- function(fix, stimmat) {
     
   } 
   
-  fix$type[fix$line == 0] <- "out"
-  fix$line[fix$line == 0] <- NA
+  
+  # assign unassigned line to nearest line
+  fixtmp <- fix[fix$line == 0, ]
+  runs <- unlist(dimnames(table(fixtmp$run)))
+  
+  mrun <- tapply(fixtmp$yn[fixtmp$type == "in"], fixtmp$linerun[fixtmp$type == "in"], mean)
+  mline <- tapply(stimmat$ys, stimmat$line, mean) + (tapply(stimmat$ye, stimmat$line, mean) - tapply(stimmat$ys, stimmat$line, mean)) / 2
+  
+  for (i in 1:length(mrun)) {
+    # i <- 9
+
+    out <- NULL
+    for (j in 1:length(mline)) {
+      # j <- 1
+
+      out[j] <- (mrun[i]  - mline[j])^2
+
+    }
+
+    fix$line[fix$linerun == runs[i]] <- which.min(out)
+
+  }
   
   return(fix)
   
