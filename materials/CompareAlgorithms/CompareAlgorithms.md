@@ -12,7 +12,7 @@ the overall performance of the different algorithms, but also
 demonstrate their strengths and weaknesses using concrete examples. All
 necessary data and the corresponding Rmarkdown file including all
 analyses can be found here:
-<https://github.com/sascha2schroeder/popEye/tree/materials/CompareAlgorithms>
+<https://github.com/sascha2schroeder/popEye/tree/master/materials/CompareAlgorithms>
 
 In the following, I will first briefly describe some relevant
 characteristics of the MECO corpus and review the different line

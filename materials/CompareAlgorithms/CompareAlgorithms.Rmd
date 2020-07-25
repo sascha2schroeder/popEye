@@ -13,7 +13,7 @@ output:
 
 # Introduction
 
-Carr et al. (under review) have recently compared different line assignment algorithms using natural text reading data from children and adults. Here, I would like to replicate some of their analyses using data from the MECO corpus (Kuperman et al., under review). I will report the overall performance of the different algorithms, but also demonstrate their strengths and weaknesses using concrete examples. All necessary data  and the corresponding Rmarkdown file including all analyses can be found here: https://github.com/sascha2schroeder/popEye/tree/materials/CompareAlgorithms
+Carr et al. (under review) have recently compared different line assignment algorithms using natural text reading data from children and adults. Here, I would like to replicate some of their analyses using data from the MECO corpus (Kuperman et al., under review). I will report the overall performance of the different algorithms, but also demonstrate their strengths and weaknesses using concrete examples. All necessary data  and the corresponding Rmarkdown file including all analyses can be found here: https://github.com/sascha2schroeder/popEye/tree/master/materials/CompareAlgorithms
 
 In the following, I will first briefly describe some relevant characteristics of the MECO corpus and review the different line assignment algorithms that have been used in the present analysis.
 
