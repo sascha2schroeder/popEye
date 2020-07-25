@@ -1,18 +1,9 @@
 
 AssignLine <- function(fix, stimmat) {
   
-  # message(".... Assign lines")
-  
   fix$line <- NA
   
-  # # Remove transitions (?)
-  # fix <- RemoveTransitions(fix, stimmat)
-  # add additional outlier
-  
-  
-  # 1. delete single fixations
-  
-  # print("Delete single fixations")
+  # 1. assign runs to lines
   
   while(length(table(fix$linerun)) > length(table(stimmat$line))) {
     
@@ -45,8 +36,6 @@ AssignLine <- function(fix, stimmat) {
         tmp[1,2] <- j
         tmp[1,3] <- (mrun[i]  - mrun[j])^2
         
-        # out[j] <- (mrun[i]  - mline[j])^2
-        
         out <- rbind(out, tmp)
         
       }
@@ -64,10 +53,7 @@ AssignLine <- function(fix, stimmat) {
     
   }
   
-  
   # 2. reduce lineruns to maximum number of lines
-  
-  # print("Minimize number of lines")
   
   while(length(table(fix$linerun)) > length(table(stimmat$line))) {
     
@@ -96,8 +82,6 @@ AssignLine <- function(fix, stimmat) {
         tmp[1,2] <- j
         tmp[1,3] <- (mrun[i]  - mrun[j])^2
         
-        # out[j] <- (mrun[i]  - mline[j])^2
-        
         out <- rbind(out, tmp)
         
       }
@@ -115,10 +99,7 @@ AssignLine <- function(fix, stimmat) {
     
   }
   
-  
   # 3. assign to lines by order
-  
-  # print("Assign lines")
   
   mrun <- tapply(fix$yn, fix$linerun, mean)
   lrun <- as.numeric(unlist(dimnames(mrun[order(mrun)])))

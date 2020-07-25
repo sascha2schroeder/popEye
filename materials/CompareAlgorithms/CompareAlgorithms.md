@@ -79,7 +79,7 @@ participant `ger10`*
 The data exhibit several characteristics that are representative for
 natural reading settings (e.g., the accuracy of the recorded fixation
 positions varies across the screen, lines are curved, participants
-reread extensively). However, `ger10` was a “good” participant,
+reread extensively). Overall, however, `ger10` was a “good” participant,
 i.e. calibration was fairly accurate and he read the texts in a more or
 less orderly fashion. Data from another, more problematic participant
 will be shown later.
@@ -166,7 +166,7 @@ have problems with skipping and rereading behavior.
 
 I used the algorithms as implemented in R by Carr et al. (see
 <https://github.com/jwcarr/vertical_drift/algorithms/R/drift_algorithms.R>)
-and also adopted their parameter settings (adjusted to smaller font size
+and also adopted their parameter settings (adjusted to the smaller font size
 in MECO). I do not report any data for the `compare` method as this
 algorithm glitched on most trials. Anyway, it was the worst performing
 method in Carr et al. and is clearly not competitive.

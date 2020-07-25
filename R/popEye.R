@@ -468,8 +468,8 @@ popEye <- function(datpath,
       # save in experiment slot
       exp$subjects[[nsub]] <- list(header = header, trials = dat$trial)
       
-      # names for subject slot
-      names(exp$subjects)[nsub] <- paste("subject", subid, sep = ".")
+      # names for participant slot
+      names(exp$subjects)[nsub] <- paste("Participant", subid, sep = ".")
       
       
       # -----------------------
@@ -599,10 +599,10 @@ popEye <- function(datpath,
   exp <- AggregateTrials(exp)
   
   
-  # aggregate subjects
+  # aggregate participants
   # ------------------
   
-  message("Aggregate subjects")
+  message("Aggregate participants")
   
   exp <- AggregateSubjects(exp)
   
