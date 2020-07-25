@@ -218,7 +218,8 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
       
       stimmat$line[stimmat$line == n  & stimmat$letternum >= cumsum(line.length)[n] + (n*-1) + 2] <- stimmat$line[stimmat$line == n & stimmat$letternum >= line.length[n]] + 1
       
-      # delete blank before line break
+      # delete blank after line break 
+      # NOTE: line breaks in the stimfile should be: word\n word
       stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
       
       # recompute letter number

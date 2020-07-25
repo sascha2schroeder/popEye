@@ -16,7 +16,7 @@ ComputeFirstskip <- function(dat, trial) {
   # fixation loop
   for (j in 1:nrow(dat$trial[[trial]]$fix)){
     # j <- 1
-
+    
     # skip outliers
     if(dat$trial[[trial]]$fix$type[j] == "out") next
     # NOTE: delete if outliers are excluded earlier

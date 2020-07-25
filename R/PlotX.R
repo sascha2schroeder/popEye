@@ -68,7 +68,7 @@ PlotX <- function(exp, subject, trial, sub = F, pdf = NULL, interactive = F) {
   if (nrow(blink) > 0){
     for (i in 1:nrow(blink)){
       rect(blink$start[i], 1100, blink$stop[i], -100, 
-           col= makeTransparent("darkred", alpha = .2))
+           col= MakeTransparent("darkred", alpha = .2))
     }    
   }
 

@@ -51,7 +51,7 @@ PlotFastTimeLarge <- function(exp, subject, trial, pdf = F, interactive = F, sub
   if (nrow(blink) > 0){
     for (i in 1:nrow(blink)){
       rect(blink$start[i], 1100, blink$stop[i], -100,
-           col= makeTransparent("darkred", alpha = .2))
+           col= MakeTransparent("darkred", alpha = .2))
     }
   }
 
@@ -77,7 +77,7 @@ PlotFastTimeLarge <- function(exp, subject, trial, pdf = F, interactive = F, sub
   j <- tmp$meta$target
   rect(-300, tmp$meta$letter.boundary[tmp$meta$word.boundary[j]], 
        tmp$all$start[nrow(tmp$all)], tmp$meta$letter.boundary[tmp$meta$word.boundary[j + 1]],  
-       angle = NA, lwd = 2, border = "navyblue", col = makeTransparent("navyblue", alpha = .2))
+       angle = NA, lwd = 2, border = "navyblue", col = MakeTransparent("navyblue", alpha = .2))
   
   # add boundary
   abline(v = tmp$all$start[tmp$all$msg == exp$setup$message$boundary], col = "royalblue", lwd = 2)

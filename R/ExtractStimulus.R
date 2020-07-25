@@ -65,6 +65,7 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
       }
     }
     
+    
     # parse out indicator characters from preview display
     if (env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
       for (trial in 1:length(dat$trial)) {

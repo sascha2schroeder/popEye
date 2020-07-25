@@ -45,7 +45,6 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "line.change",
                  "letternum", 
                  "letter", 
-                 "fit",
                  "wordnum", 
                  "word", 
                  "ianum", 
@@ -122,7 +121,6 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "line.word",
                  "letternum", 
                  "letter", 
-                 "fit",
                  "wordnum", 
                  "word", 
                  "ianum", 
@@ -170,8 +168,6 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
     }
     
     dat$trial[[trial]]$fix <- dat$trial[[trial]]$fix[names]
-    
-    # print(trial)
     
   }
   

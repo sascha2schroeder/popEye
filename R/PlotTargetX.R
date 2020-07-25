@@ -40,7 +40,7 @@ PlotTargetX <- function(exp, subject, trial, pdf = NULL, interactive = F,
     
     rect(tmp$meta$stimmat$xs[i], tmp$meta$stimmat$ys[i] + 0.5*exp$setup$font$size, 
          tmp$meta$stimmat$xe[i], tmp$meta$stimmat$ye[i] - 0.5*exp$setup$font$size,
-         border = "navyblue", col = makeTransparent("cornflowerblue", alpha = .1))  
+         border = "navyblue", col = MakeTransparent("cornflowerblue", alpha = .1))  
     
     text(tmp$meta$stimmat$xm[i], tmp$meta$stimmat$ym[i], 
          tmp$meta$stimmat$letter[i], family = "Courier", cex = .9)
@@ -80,7 +80,7 @@ PlotTargetX <- function(exp, subject, trial, pdf = NULL, interactive = F,
        min(tmp$meta$stimmat$ys[tmp$meta$stimmat$wordnum == words[j]]), 
        max(tmp$meta$stimmat$xe[tmp$meta$stimmat$wordnum == words[j]]),
        max(tmp$meta$stimmat$ye[tmp$meta$stimmat$wordnum == words[j]]), 
-       angle = NA, lwd = 2, col = makeTransparent("navyblue", alpha = .2))
+       angle = NA, lwd = 2, col = MakeTransparent("navyblue", alpha = .2))
   
   # turn off device  
   if (sub == F) {

@@ -43,7 +43,7 @@ PlotText <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
     
     rect(tmp$meta$stimmat$xs[i], tmp$meta$stimmat$ys[i] + 0.5*exp$setup$font$size, 
          tmp$meta$stimmat$xe[i], tmp$meta$stimmat$ye[i] - 0.5*exp$setup$font$size,
-         border = NA, col = makeTransparent(tmp$meta$stimmat$sent[i], alpha = .1))  
+         border = NA, col = MakeTransparent(tmp$meta$stimmat$sent[i], alpha = .1))  
     
     text(tmp$meta$stimmat$xm[i], tmp$meta$stimmat$ym[i], 
          tmp$meta$stimmat$letter[i], family = "Courier", cex = .9)

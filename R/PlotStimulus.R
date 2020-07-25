@@ -44,7 +44,7 @@ PlotStimulus <- function(exp, subject, trial, plot = NULL, interactive = F, sub 
     
     rect(tmp$meta$stimmat$xs[i], tmp$meta$stimmat$ys[i] + 0.5*exp$setup$font$size, 
          tmp$meta$stimmat$xe[i], tmp$meta$stimmat$ye[i] - 0.5*exp$setup$font$size,
-         border = "navyblue", col = makeTransparent("cornflowerblue", alpha = .1))  
+         border = "navyblue", col = MakeTransparent("cornflowerblue", alpha = .1))  
     
     text(tmp$meta$stimmat$xm[i], tmp$meta$stimmat$ym[i], 
          tmp$meta$stimmat$letter[i], family = "Courier", cex = .9)

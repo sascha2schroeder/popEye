@@ -1,4 +1,4 @@
-makeTransparent = function(..., alpha=0.5) {
+MakeTransparent = function(..., alpha=0.5) {
   
   if(alpha<0 | alpha>1) stop("alpha must be between 0 and 1")
   
@@ -14,5 +14,3 @@ makeTransparent = function(..., alpha=0.5) {
   return(newColor)
   
 }
-
-makeTransparent("yellow")

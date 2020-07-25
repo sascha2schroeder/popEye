@@ -28,26 +28,15 @@ PlotAlign <- function(exp, subject, trial, plot = NULL, interactive = F,
   fix <- tmp$fix
   stimmat <- tmp$meta$stimmat
   
+  
   # basic plot
-  if (outlier == F) {
-    
-    plot(fix$xn, fix$yn, 
-         xlim = c(0, exp$setup$display$resolutionX), 
-         ylim = c(max(tmp$meta$stimmat$ye) + 1 * exp$setup$font$size,
-                  min(tmp$meta$stimmat$ys) - 1 * exp$setup$font$size),
-         type = "n",
-         main = paste("Trial", tmp$meta$itemid), xlab = "x Position (px)", ylab = "y Position (py)")
-    
-  } else {
-    
-    plot(fix$xn, fix$yn, 
-         xlim = c(0, exp$setup$display$resolutionX), 
-         ylim = c(max(fix$yn) + 2 * exp$setup$font$size,
-                  min(fix$yn) - 1 * exp$setup$font$size), 
-         type = "n",
-         main = paste("Trial", trial), xlab = "x Position (px)", ylab = "y Position (py)")
-    
-  }
+  plot(fix$xn, fix$yn, 
+       xlim = c(0, exp$setup$display$resolutionX), 
+       ylim = c(max(tmp$meta$stimmat$ye) + 1 * exp$setup$font$size,
+                min(tmp$meta$stimmat$ys) - 1 * exp$setup$font$size),
+       type = "n",
+       main = paste("Trial", tmp$meta$itemid), xlab = "x Position (px)", ylab = "y Position (py)")
+  
   
   # add letters
   for (i in 1:nrow(stimmat)){
@@ -66,14 +55,12 @@ PlotAlign <- function(exp, subject, trial, plot = NULL, interactive = F,
          angle = NA, lwd = 2, border = "navyblue")
   }
   
+  
   # set colors
   if (max(stimmat$line) > 1) {
     palette("default")
-    # library(RColorBrewer)
-    # palette(brewer.pal(max(stimmat$line), "Dark2"))
   } else {
     palette("default")
-    # palette(topo.colors(2))
   }
   
   
@@ -129,15 +116,62 @@ PlotAlign <- function(exp, subject, trial, plot = NULL, interactive = F,
     
   } else {
     
-    points(fix$xn,
-           fix$yn,
-           col = "black",
-           pch = 16, type = "l")
+    inc <- fix[fix$type == "in", ]
     
-    points(fix$xn[fix$type == "in"],
-           fix$yn[fix$type == "in"],
-           col = fix$line[fix$type == "in"],
-           pch = 16, type = "p")
+    if (align == F) {
+      
+      points(inc$xn,
+             inc$yn,
+             col = "black",
+             pch = 16, type = "l")
+      
+      points(inc$xn,
+             inc$yn,
+             col = inc$line,
+             pch = 16, type = "p")
+      
+      for (i in 1:nrow(inc)) {
+        text(inc$xn[i], inc$yn[i] - 3, 
+             labels = inc$fixid[i],
+             col = "black", cex = .75)
+      }
+      
+    } else {
+      
+      inc$ytmp <- NA
+      inc$ytmp <- jitter(inc$ym, .5)
+      
+      points(inc$xn, inc$yn, cex = .75, 
+             type = "p", col = "black", pch = 16)
+      points(inc$xn, 
+             inc$ytmp, 
+             col = "black", 
+             pch = 16, type = "l")
+      points(inc$xn, 
+             inc$ytmp, 
+             col = inc$line,
+             pch = 16, type = "p")
+      arrows(inc$xn, inc$yn, 
+             inc$xn, inc$ytmp,
+             code = 2, length = .07 )
+      
+      for (i in 1:nrow(inc)) {
+        text(inc$xn[i], inc$yn[i] - 3, 
+             labels = inc$fixid[i],
+             col = "black", cex = .75)
+      }
+      
+    }
+    
+    # points(fix$xn,
+    #        fix$yn,
+    #        col = "black",
+    #        pch = 16, type = "l")
+    # 
+    # points(fix$xn[fix$type == "in"],
+    #        fix$yn[fix$type == "in"],
+    #        col = fix$line[fix$type == "in"],
+    #        pch = 16, type = "p")
     
     # add outlier
     out <- fix[fix$type == "out", ]
@@ -155,7 +189,7 @@ PlotAlign <- function(exp, subject, trial, plot = NULL, interactive = F,
     
   }
   
-  # # add blinks
+  # # TODO: add blinks
   # blink <- tmp$sac[tmp$sac$msg == "BLINK", ]
   # if (nrow(blink) > 0) {
   #   for (i in 1:nrow(blink)) {

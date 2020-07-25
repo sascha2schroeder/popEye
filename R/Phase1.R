@@ -1,91 +1,97 @@
 
-Phase1 <- function(fix, stimmat) {
+Phase1 <- function(fix, stimmat, check = FALSE) {
   
-  # print("Phase 1")
-  
-  fix$linerun <- fix$run
+  # message(paste(".... Phase 1"))
   
   crit1 <- mean((stimmat$ye[stimmat$line == 1] - stimmat$ys[stimmat$line == 1])) / 4
   crit2 <- mean((stimmat$ye[stimmat$line == 1] - stimmat$ys[stimmat$line == 1])) / 4
-  crit3 <- mean((stimmat$ye[stimmat$line == 1] - stimmat$ys[stimmat$line == 1])) / 2
   
   long <- as.numeric(unlist(dimnames(table(fix$linerun)[table(fix$linerun) >= 3])))
   old <- length(long) + 1
   new <- length(long)
   
+  if (length(long) == 0) {
+    new <- new + 1
+  }
+  
   while (new < old) {
+    
+    if (check == TRUE) {
+      ReadKey()
+    }
     
     old <- new
     out <- NULL
+    
+    long <- as.numeric(unlist(dimnames(table(fix$linerun)[table(fix$linerun) >= 3])))
     
     # outer loop
     for (i in 1:(length(long) - 1)) {
       # i <- 1
       # print(i)
       
-      # inner loop
-      for (j in (i + 1):length(long)) {
-        # j <- i + 1
-        # print(j)
-        
-        tmp <- matrix(NA, 1, 9)
-        
-        tmp[1, 1] <- long[i]
-        tmp[1, 2] <- long[j]
-        
-        if (sd(fix$yn[fix$linerun == long[i]]) == 0 | 
-            sd(fix$xn[fix$linerun == long[i]]) == 0 | 
-            sd(fix$yn[fix$linerun == long[j]]) == 0 | 
-            sd(fix$xn[fix$linerun == long[j]]) == 0) {
-              next
-            } 
-            
-        # compute regressions
-        fm1 <- lm(fix$yn[fix$linerun == long[i]] ~ scale(fix$xn[fix$linerun == long[i]]))
-        fm2 <- lm(fix$yn[fix$linerun == long[j]] ~ scale(fix$xn[fix$linerun == long[j]]))
-        fm <- lm(fix$yn[fix$linerun == long[i] | fix$linerun == long[j]] ~ 
-                   scale(fix$xn[fix$linerun == long[i] | fix$linerun == long[j]]))
-        tmp[1, 3] <- round(sigma(fm), 3)
-        tmp[1, 4] <- round(coef(fm)[1])
-        tmp[1, 5] <- round(coef(fm)[2], 3)
-        tmp[1, 6] <- round(coef(fm1)[1])
-        tmp[1, 7] <- round(coef(fm1)[2], 3)
-        tmp[1, 8] <- round(coef(fm2)[1])
-        tmp[1, 9] <- round(coef(fm2)[2], 3)
-        
-        out <- rbind(out, tmp)
-        
+      j <- i + 1
+      
+      # if long runs are not adjecent
+      if (long[j] != (long[i] + 1)) {
+        next
       }
+      
+      tmp <- matrix(NA, 1, 5)
+      
+      tmp[1, 1] <- long[i]
+      tmp[1, 2] <- long[j]
+
+      # TODO: necessary?      
+      if (sd(fix$yn[fix$linerun == long[i]], na.rm = T) == 0 |
+          sd(fix$xn[fix$linerun == long[i]], na.rm = T) == 0 |
+          sd(fix$yn[fix$linerun == long[j]], na.rm = T) == 0 |
+          sd(fix$xn[fix$linerun == long[j]], na.rm = T) == 0) {
+        next
+      }
+      
+      # compute regressions
+      fm <- lm(fix$yn[fix$linerun == long[i] | fix$linerun == long[j]] ~ 
+                 scale(fix$xn[fix$linerun == long[i] | fix$linerun == long[j]]))
+      tmp[1, 3] <- round(sigma(fm))
+      tmp[1, 4] <- round(coef(fm)[1])
+      tmp[1, 5] <- round(coef(fm)[2])
+      
+      out <- rbind(out, tmp)
       
     }
     
-    # select candidate
-    out2 <- out[order(out[, 3]), ]
-    
-    if (sum(out2[,3] < crit1 & abs(out2[,5]) < crit2 & abs(out2[,6] - out2[,8]) < crit3) <= 1) {
-      break
+    if(is.null(out)) {
+      next
     }
     
-    out3 <- out2[out2[,3] < crit1 & abs(out2[,5]) < crit2 & abs(out2[,6] - out2[,8]) < crit3, ]
+    # select candidate
+    out2 <- out[order(abs(out[, 5])), , drop = F]
     
-    cand <- out3[1, ]
+    if (sum(out2[,3] < crit1 & abs(out2[,5]) < crit2) < 1) {
+      break
+    } else if (sum(out2[,3] < crit1 & abs(out2[,5]) < crit2) == 1) {
+      cand <- out2[out2[,3] < crit1 & abs(out2[,5]) < crit2, ]
+    } else if (sum(out2[,3] < crit1 & abs(out2[,5]) < crit2) > 1) {
+      cand <- out2[out2[,3] < crit1 & abs(out2[,5]) < crit2, ][1, ]
+    }
     
-    # # plot
-    # plot(fix$xn, fix$yn, ylim = c(768, 0), type = "n", main = paste(cand[1], ":", cand[2]))
-    # points(fix$xn[fix$run == cand[1]], fix$yn[fix$run == cand[1]], col = "green",
-    #        pch = 1, type = "b", cex = 1, lty = 2)
-    # points(fix$xn[fix$run == cand[2]], fix$yn[fix$run == cand[2]], col = "green",
-    #        pch = 0, type = "b", cex = 1, lty = 3)
-    # points(fix$xn[fix$run == cand[1] | fix$run == cand[2]], 
-    #        fix$yn[fix$run == cand[1] | fix$run == cand[2]], 
-    #        col = "green", pch = 16, type = "b", cex = 1, lty = 1)
+    # plot
+    if (check == TRUE) {
+      plot(fix$xn, fix$yn, ylim = c(768, 0), type = "l", main = paste(cand[1], ":", cand[2]))
+      points(fix$xn[fix$linerun == cand[1]], fix$yn[fix$linerun == cand[1]],
+             col = "green", pch = 16, type = "b", cex = 1, lty = 1)
+      points(fix$xn[fix$linerun == cand[2]], fix$yn[fix$linerun == cand[2]],
+             col = "red", pch = 16, type = "b", cex = 1, lty = 1)
+      abline(lm(fix$yn[fix$linerun == cand[1] | fix$linerun == cand[2]] ~
+                  (fix$xn[fix$linerun == cand[1] | fix$linerun == cand[2]])),
+             col = "red")
+    }
     
     fix$linerun[fix$linerun == cand[2]] <- cand[1]
     fix$linerun <- as.numeric(as.factor(fix$linerun))
-    long <- as.numeric(unlist(dimnames(table(fix$linerun)[table(fix$linerun) >= 3])))
     
-    new <- length(long)
-    
+    new <- length(table(fix$linerun)[table(fix$linerun) >= 3])
     # print(new)
     
   }

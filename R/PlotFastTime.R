@@ -60,7 +60,7 @@ PlotFastTime <- function(exp, subject, trial, pdf = F, interactive = F, sub = F)
   
   # change saccade
   rect(fix.before, 0, fix.after, exp$setup$display$resolutionX,
-       angle = NA, lwd = 2, col = makeTransparent("lightblue", alpha = .2))
+       angle = NA, lwd = 2, col = MakeTransparent("lightblue", alpha = .2))
   
   i# add text
   letters <- unlist(strsplit(tmp$meta$text, ""))
@@ -77,11 +77,11 @@ PlotFastTime <- function(exp, subject, trial, pdf = F, interactive = F, sub = F)
   
   # boundary
   rect(boundary.time, 0, prime.time, exp$setup$display$resolutionX,
-       angle = NA, lwd = 2, col = makeTransparent("cornflowerblue", alpha = .2))
+       angle = NA, lwd = 2, col = MakeTransparent("cornflowerblue", alpha = .2))
   
   # target
   rect(prime.time, 0, target.time, exp$setup$display$resolutionX,
-       angle = NA, lwd = 2, col = makeTransparent("navyblue", alpha = .2))
+       angle = NA, lwd = 2, col = MakeTransparent("navyblue", alpha = .2))
   
   
   # turn off device  

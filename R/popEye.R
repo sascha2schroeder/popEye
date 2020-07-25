@@ -278,38 +278,17 @@ popEye <- function(datpath,
       sub.list <- sub.list[is.element(sub.list, select.subject)]
     }
     
+    if (debug == "participants") {
+      return (sub.list)
+    }
+    
     
     # ----------------------------------
     # subject loop
     # ----------------------------------
     
-    # if (missing(select.subject) == T) {
-    #   subject.arg1 <- 1
-    #   subject.arg2 <- length(sub.list)
-    # } else {
-    #   if (length(select.subject) > 1) {
-    #     subject.arg1 <- select.subject[1]
-    #     subject.arg2 <- select.subject[2]
-    #   } else {
-    #     subject.arg1 <- select.subject
-    #     subject.arg2 <- select.subject
-    #   }
-    #   
-    # }
-    
-    # if (missing(select.subject) == T) {
-      subject.arg1 <- 1
-      subject.arg2 <- length(sub.list)
-    # } else {
-    #   if (length(select.subject) > 1) {
-    #     subject.arg1 <- select.subject[1]
-    #     subject.arg2 <- select.subject[2]
-    #   } else {
-    #     subject.arg1 <- select.subject
-    #     subject.arg2 <- select.subject
-    #   }
-    #   
-    # }
+    subject.arg1 <- 1
+    subject.arg2 <- length(sub.list)
     
     for (s in subject.arg1:subject.arg2) {
       
@@ -489,8 +468,8 @@ popEye <- function(datpath,
       # save in experiment slot
       exp$subjects[[nsub]] <- list(header = header, trials = dat$trial)
       
-      # names for subject slot
-      names(exp$subjects)[nsub] <- paste("subject", subid, sep = ".")
+      # names for participant slot
+      names(exp$subjects)[nsub] <- paste("Participant", subid, sep = ".")
       
       
       # -----------------------
@@ -620,10 +599,10 @@ popEye <- function(datpath,
   exp <- AggregateTrials(exp)
   
   
-  # aggregate subjects
+  # aggregate participants
   # ------------------
   
-  message("Aggregate subjects")
+  message("Aggregate participants")
   
   exp <- AggregateSubjects(exp)
   
