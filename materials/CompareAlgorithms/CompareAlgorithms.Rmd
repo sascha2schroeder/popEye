@@ -46,7 +46,7 @@ The data exhibit several characteristics that are representative for natural rea
 
 ## Line assignment algorithms
 
-A excellent and comprehensive description of the different line assignment method used in this analysis can be found in Carr et al. (under review). Here, I will merely summarize their main characteristics.
+An excellent and comprehensive description of the different line assignment methods used in this analysis can be found in Carr et al. (under review). Here, I will merely summarize their main characteristics.
 
 `atttach`: This method serves as a baseline method. Here, fixations are assigned to lines solely based on their vertical distance. As can be imagined, this method will have problems with curved lines (see Fig. 2, where some of the fixations from line 1 are located on line 2). 
 
@@ -56,7 +56,7 @@ A excellent and comprehensive description of the different line assignment metho
 
 `compare`: This method is based on an algorithm proposed by Lima Sanches et al. (2015). Here, fixations are first segmented into sequences by detecting return sweeps, i.e. regressions that are longer than some threshold value (32 letters by default). After that, the fixation sequences are matched to lines based on the horizontal distance between the fixations and the centers of the words in each line. Carr et al. use dynamic time warping as a distance metric (which is explained below). The major problem of this approach is that the distribution of words within lines is very similar due to the grid-like nature of texts. As a consequence, lines are easily confused.  
 
-`merge`: This method has been proposed by Spakov et al. (2019). Similar to `chain`, fixations are first grouped into sequences which are then recursively merged with each other. The merging decision in each step is regression-based and controlled by different hyperparameters.
+`merge`: This method has been proposed by Spakov et al. (2019). Similar to `chain`, fixations are first grouped into sequences which are then recursively merged with each other. The merging decision in each step is regression-based and controlled by different parameters.
 
 `regress`: This method has been proposed by Cohen (2013) and is used in the `FixAlign` package. Here, regression lines are fit to all lines of the text simultaneously and fixations are assigned to individual lines based on their residual vertical distance. The regression lines are assumed to be linear and to have a constant slope (an assumption which is typically not realistic, see Fig. 2).
 
@@ -66,7 +66,7 @@ A excellent and comprehensive description of the different line assignment metho
 
 `warp`: This method has also been proposed by Carr et al. (under review) and is based on dynamic time warping. Dynamic time warping is a distance metric that is often used in computer science and is used to align points in two time series even if they have different spatial and temporal characteristics. In its application to the line assignment problem, one of the time series is the fixation sequence and the second is the order of the words in the text. The approach assumes that texts are read from top to bottom and from left to right and will thus also have problems with skipping and rereading behavior.
 
-I used the algorithms as implemented in R by Carr et al. (see https://github.com/jwcarr/vertical_drift/algorithms/R/drift_algorithms.R) and also adopted their parameter settings (adjusted to the smaller font size in MECO). I do not report any data for the `compare` method as this algorithm glitched on most trials. Anyway, it was the worst performing method in Carr et al. and is clearly not competitive.
+I used the algorithms as implemented in R by Carr et al. (see https://github.com/jwcarr/vertical_drift/algorithms/R/drift_algorithms.R) and also adopted their parameter settings (adjusted to the smaller font size in MECO). I do not report any data for the `compare` method as this algorithm glitched on most of the trials. Anyway, it was the worst performing method in Carr et al. and is clearly not competitive.
 
 # Fitting process
 
@@ -81,7 +81,7 @@ library(RColorBrewer)
 
 The following code was used to assign fixations to lines using the different algorithms. The `popEye` package is needed to retrieve the pre-processed data from `popEye`'s output file. The functions provided by Carr et al. were retrieved from the corresponding GitHub repository. They return the new y position of the fixations which were recoded into their corresponding line numbers. Please note that the fitting process can take some time as some of the algorithms (particularly, `merge` and `warp`) are computationally expensive.
 
-```{r fit , echo=T, eval=F, warnings=F, message=F}
+```{r fit , echo=T, eval=F, warnings=F, message=F, error=F}
 
 library(popEye)
 source("drift_algorithms.R")
@@ -127,6 +127,10 @@ for (s in 1:length(sub)) {
     new_cluster <- cluster(fixation_XY, line_Y)
     fix$line_cluster <- as.numeric(as.factor(new_cluster$yn))
     
+    # cluster2
+    new_cluster2 <- cluster2(fixation_XY, line_Y)
+    fix$line_cluster2 <- as.numeric(as.factor(new_cluster2$yn))
+    
     # merge
     new_merge <- merge(fixation_XY, line_Y, 
                        y_thresh=30, 
@@ -161,7 +165,7 @@ for (s in 1:length(sub)) {
 
 ```
 
-The output of this step is a matrix in which each line represents a fixation and which comprises columns for the gold standard and the eight assignment methods. The automatic assignments were then evaluated against the gold standard, aggregated on the trial level, and transformed into long format. The final data frame thus provides the average accuracy for each participant-trial combination and each algorithm.
+The output of this step is a matrix in which each line represents a fixation and which comprises columns providing the assignments of the gold standard and the eight assignment methods. The automatic assignments were then evaluated against the gold standard, aggregated on the trial level, and transformed into long format. The final data frame thus provides the average accuracy for each participant-trial combination and each algorithm.
 
 ```{r save, echo=F, eval=F}
 
@@ -192,6 +196,12 @@ all_cluster <- data.frame(cbind(id, cluster))
 all_cluster$type <- "cluster"
 colnames(all_cluster)[2] <- "correct"
 all_cluster$correct <- as.numeric(all_cluster$correct)
+
+cluster2 <- round(tapply(out$line == out$line_cluster2, out$id, mean), 3)
+all_cluster2 <- data.frame(cbind(id, cluster2))
+all_cluster2$type <- "cluster2"
+colnames(all_cluster2)[2] <- "correct"
+all_cluster2$correct <- as.numeric(all_cluster2$correct)
 
 merge <- round(tapply(out$line == out$line_merge, out$id, mean), 3)
 all_merge <- data.frame(cbind(id, merge))
@@ -224,7 +234,7 @@ colnames(all_warp)[2] <- "correct"
 all_warp$correct <- as.numeric(all_warp$correct)
 
 # combine
-all <- rbind(all_attach, all_chain, all_cluster, all_merge, all_regress,
+all <- rbind(all_attach, all_chain, all_cluster, all_cluster2, all_merge, all_regress,
              all_segment, all_split, all_warp)
 rownames(all) <- NULL
 
@@ -240,7 +250,7 @@ Fig. 3 shows the overall accuracy of the eight methods (means and 95% CIs) and t
 
 ```{r plot3, echo=F, plot=T, fig.cap = "*Fig 3.: Assignment accuracy of the different methods for all trials*", fig.width=12, fig.height =6, fig.align = "center"}
 par(cex = .8)
-pirateplot(correct ~ type, all, theme = 1, ylim = c(0, 1), pal = "xmen",
+pirateplot(correct ~ type, all[all$type != "cluster2", ], theme = 1, ylim = c(0, 1), pal = "xmen",
            ylab = "Proportion correct", xlab = "Method", cex.names = .8)
 
 ```
@@ -253,13 +263,13 @@ This plot shows several key observations (see also Tab. 1):
 - The `cluster` method shows the worst performance of all methods. The performance of the `segment` method is also very bad.
 - Some methods (e.g., `attach` and `chain`) have a more consistent behavior, i.e. they perform similarly on all trials. Other methods, by contrast, show good performance on some trials, but perform poorly on others.
 
-```{r table, echo=F, results="asis"}
+```{r table1, echo=F, results="asis"}
 
-tmp <- cbind(round(tapply(all$correct, all$type, mean), 3),
-             round(tapply(all$correct, all$type, sd), 3),
-             round(tapply(all$correct, all$type, median), 3),
-             round(tapply(all$correct > .95, all$type, mean), 3),
-             round(tapply(all$correct > .99, all$type, mean), 3)
+tmp <- cbind(round(tapply(all$correct[all$type != "cluster2"], all$type[all$type != "cluster2"], mean), 3),
+             round(tapply(all$correct[all$type != "cluster2"], all$type[all$type != "cluster2"], sd), 3),
+             round(tapply(all$correct[all$type != "cluster2"], all$type[all$type != "cluster2"], median), 3),
+             round(tapply(all$correct[all$type != "cluster2"] > .95, all$type[all$type != "cluster2"], mean), 3),
+             round(tapply(all$correct[all$type != "cluster2"] > .99, all$type[all$type != "cluster2"], mean), 3)
              )
 colnames(tmp) <- c("M", "SD", "Median", ">.95", ">.99")
 kable(tmp, caption = "*Tab. 1: Descriptive Statistics*")
@@ -272,7 +282,7 @@ However, from a practical perspective, average accuracy across trials is not the
 Another important question is how consistently the different methods perform for different participants. In order to investigate this, Fig. 4 shows the mean accuracy of the various methods for each of the six participants.
 
 ```{r bar, echo=F, plot=T, fig.width=12, fig.height=8, fig.cap="*Fig. 4: Mean accuracy for the different participants for each algorithm respectively*", fig.align = "center"}
-tmp <- tapply(all$correct, list(all$subid, all$type), mean)
+tmp <- tapply(all$correct[all$type != "cluster2"], list(all$subid[all$type != "cluster2"], all$type[all$type != "cluster2"]), mean)
 par(cex = .8)
 
 barplot(tmp, beside=T, col = brewer.pal(name="RdBu", n = 6), ylim = c(0,1),
@@ -283,7 +293,7 @@ legend(1, .4, fill = brewer.pal(name="RdBu", n = 6), bg = "white",
 
 As can be seen, some of the participants are generally more difficult to align than others. In addition, the different algorithms all have their strengths and weaknesses with regard to specific participants. `chain` and `regress` have a rather similar profile with very good performance for participants `ger10`, `ger11`, and `ger13`, but rather poor performance for participants `ger12`, `ger14`, and `ger15`. By contrast, `warp` has a rather different profile: It performs much better for participants `ger12` and `ger14`, but surprisingly poor for participant `ger10`. Thus, the different methods have relative advantages for different reading patterns.
 
-However, the *type* of errors the different methods make are also important. Even a single error can seriously undermine later steps in the analysis. For example, if a fixation on line 1 is erroneously assigned to line 10, all words on lines 2-9 will be regarded as skipped during first-pass reading. In order to analyze whether the various methods make different kinds of errors, Fig. 5 displays the confusion matrices of four more promising algorithms, i.e., `chain`, `regress`, `merge`, and `warp`. The plots show quite clearly that four methods have characteristic confusion patterns. Again, `chain` and `regress` behave similarly: Most confusions are local, i.e. incorrectly assigned fixations are typically assigned to the next or the previous line. By contrasts, the errors made by the `warp` method (and to a lesser extent by the `merge` method) are qualitatively different: Although most confusions are local, these methods are characterized by a larger proportion of global confusions, i.e. fixations that are assigned to very distant lines. For example, of the errors made by the `warp` method on line 1, 65% are local confusions (i.e., were assigned to line 2 or 3), but 30% are global (i.e., were assigned to lines 10-13). Thus, the errors made by `warp` and `merge` are more likely to have serious consequences downstream in the analysis. 
+However, the *type* of errors the different methods make is also important. Even a single error can seriously undermine later steps in the analysis. For example, if a fixation on line 1 is erroneously assigned to line 10, all words on lines 2-9 will be regarded as skipped during first-pass reading. In order to analyze whether the various methods make different kinds of errors, Fig. 5 displays the confusion matrices of four more promising algorithms, i.e., `chain`, `regress`, `merge`, and `warp`. The plots show quite clearly that the four methods have characteristic confusion patterns. Again, `chain` and `regress` behave similarly: Most confusions are local, i.e. incorrectly assigned fixations are typically assigned to the next or the previous line. By contrasts, the errors made by the `warp` method (and to a lesser extent by the `merge` method) are qualitatively different: Although most confusions are also local, these methods are characterized by a larger proportion of global confusions, i.e. fixations that are assigned to very distant lines. For example, of the errors made by the `warp` method on line 1, 65% are local confusions (i.e., they were assigned to line 2 or 3), but 30% are global (i.e., they were assigned to lines 10-13). Thus, the errors made by `warp` and `merge` are more likely to have serious consequences downstream in the analysis. 
 
 ```{r mosaic, echo=F, plot=T, fig.width=10, fig.height=10, fig.cap="*Fig. 5: Confusion matrices between the manual assignment and different automatic line assignment methods*", fig.align = "center"}
 par(cex = .75, mfrow = c(2,2), oma=c(1,.1,.1,.1), mar=c(3,2,1,0))
@@ -315,7 +325,7 @@ x <- readRDS(paste("Data/ger12.RDS", sep = ""))
 PlotAlign(x, "ger12", 10, cex = .75)
 ```
 
-Fig. 7 shows the fixations as assigned by the eight algorithms for this trial. Deviations from the manual assignment are highlighted in red. As can be seen, the `attach`, `chain`, and `regress` methods clearly have huge problems with the curved lines in the upper left quadrant of the screen. This behavior is expected because these algorithms assign sequences based on their absolute position. Compared to the other two methods, the `chain` method is better in dealing with the more local deviations, but the method is not able to show its full potential here. Apparently, the distance between the fixations in the middle of the lines are too large in order to establish a single fixation sequence and the left sequence is assigned to the following line. This problem could potentially be ameliorated by increasing the `thresh_x` parameter (see below). With regard to the other methods, the `cluster` method obviously misaligns most of the fixation in the trial right from the beginning. The `merge` method is doing very well, it only misses some transition fixations which are ambiguous anyway. However, it also fails to assign the final sequence to the last line, which is a more serious error. The `segment`, `split`, and `warp` methods all make the same, single error and fail to detect that the pre-final line is reread. Instead, these fixations are assigned to the final line although it does not even have any words at the corresponding x positions. Please note that none of the analyses would be acceptable although the errors made by `merge`, `segment`, `split`, and `warp` are more minor.
+Fig. 7 shows the fixations as assigned by the eight algorithms for this trial. Deviations from the manual assignment are highlighted in red. As can be seen, the `attach`, `chain`, and `regress` methods clearly have huge problems with the curved lines in the upper left quadrant of the screen. This behavior is expected because these algorithms assign sequences based on their absolute position. Compared to the other two methods, the `chain` method is better in dealing with the more local deviations, but the method is not able to show its full potential here. Apparently, the distance between the fixations in the middle of the lines is too large in order to establish a single fixation sequence and the left sequence is assigned to the following line. This problem could potentially be ameliorated by increasing the `thresh_x` parameter (see below). With regard to the other methods, the `cluster` method obviously misaligns most of the fixation in the trial right from the beginning. The `merge` method is doing very well, it only misses some transition fixations which are ambiguous anyway. However, it also fails to assign the final sequence to the last line, which is a more serious error. The `segment`, `split`, and `warp` methods all make the same, single error and fail to detect that the pre-final line is reread. Instead, these fixations are assigned to the final line although it does not even have any words at the corresponding x positions. Please note that none of the analyses would constitute an acceptable analysis of the trial even though `merge`, `segment`, `split`, and `warp` made fewer errors.
 
 ```{r ex1, echo=F, plot=T, fig.width=36, fig.height=48, fig.cap="*Fig. 7: Automatic line assigned for trial 10 of participant `ger12`*", fig.align = "center"}
 
@@ -357,14 +367,14 @@ points(tmp$xn[tmp$line == tmp$line_warp], tmp$yn[tmp$line == tmp$line_warp],type
 points(tmp$xn[tmp$line != tmp$line_warp], tmp$yn[tmp$line != tmp$line_warp],type = "p", col = "red", pch = 16)
 ```
 
-The second example (Fig. 8) is trial 3 of participant `ger10` in which the `chain` method performed better than the `warp` method. This is trial is characterized by erratic initial fixations and a high amount of rereading.
+The second example (Fig. 8) is trial 3 of participant `ger10` in which the `chain` method performed better than the `warp` method. This trial is characterized by erratic initial fixations and a high amount of rereading.
 
 ```{r gold2, echo=F, plot=T, fig.width=12, fig.height=8, fig.cap="*Fig. 8: Manual line assignment for trial 3 of participant `ger10`*", fig.align = "center"}
 x <- readRDS(paste("Data/ger10.RDS", sep = ""))
 PlotAlign(x, "ger10", 3, cex = .75)
 ```
 
-Fig. 9 shows the fixations as assigned by the eight algorithms for this trial. Deviations from the manual assignment are again plotted in red. Both `chain` and `regress` are nearly perfect and they miss only some of the transition fixations. `attach` is also doing well, but makes two errors at the end of the initial lines which are slightly curved downwards. `merge` is performing reasonable well, but misaligns a rereading sequence at the beginning of the second line. However, the data are quite messy here and it is not clear whether the manual assignment is correct. With regard to the other methods, `cluster` has serious problems in the bottom half of the screen. `segment` and `warp` have a huge amount of misalignment at the beginning of the trial which are caused by extensive rereading. Interestingly, `split` is doing much better here, but it misses some of the line transitions during rereading which are initiated by upward- or rightward-movements. Overall, only the `chain` and the `regress` analyses are usable, while `attach` and `merge` make minor, and all other methods major errors which are clearly unacceptable.
+Fig. 9 shows the fixations as assigned by the eight algorithms for this trial. Deviations from the manual assignment are again plotted in red. Both `chain` and `regress` are nearly perfect and they miss only some of the transition fixations. `attach` is also doing well, but makes two errors at the end of the initial lines which are slightly curved downwards. `merge` is performing reasonably well, but misaligns a rereading sequence at the beginning of the second line. However, the data are quite messy here and it is not clear whether the manual assignment is correct. With regard to the other methods, `cluster` has serious problems in the bottom half of the screen. `segment` and `warp` have a huge amount of misalignment at the beginning of the trial which are caused by extensive rereading. Interestingly, `split` is doing much better here, but it misses some of the line transitions during rereading which are initiated by upward- or rightward-movements. Overall, only the `chain` and the `regress` analyses are usable, while `attach` and `merge` make minor, and all other methods major errors which are clearly unacceptable.
 
 ```{r ex2, echo=F, plot=T, fig.width=36, fig.height=48, fig.cap="*Fig. 9: Automatic line assigned for trial 3 of participant `ger10`*", fig.align = "center"}
 
@@ -433,6 +443,32 @@ It would certainly be possible to improve the performance of some of the algorit
 
 Similarly, it might be possible to increase the performance of the `chain` method by using higher values for the `thresh_x` parameter. This would allow to build up longer and more stable fixation sequences which is particularly helpful for participants such as `ger12`. Again, I reran the analysis and increased both the `thresh_x` (to 20 letters as is the default in `popEye`) and the `thresh_y` parameter (to 48 px). The results are provided in row 5 of Tab. 2 (with the corresponding values for the Carr et al. parameters in row 6). They indicate that increasing the thresholds does indeed improve the performance of this method for participant `ger12`. At the same time, however, this seems to decrease the flexibility of the algorithm to deal with local rereading sequences initiated by short upward saccades which are characteristic of participant `ger10`. As a consequence, the overall increase in accuracy is rather modest. Such trade-off relationships between different kinds of errors is characteristic for algorithms when they are applied to heterogeneous data and no single strategy is optimal.
 
-Given that the various methods all have complementary strengths and weakness, it might be an promising idea to combine the results of different approaches in order to create some more stable "meta"-alignment. However, it is not immediately clear how this could be done. One possibility would be to fit several algorithms simultaneously and establish some kind of "voting" system. Another possibility would be to use the methods sequentially. For example, it would be possible to use the converging assignments of two different, complimentary methods in order to establish a preliminary assignment grid. In a second step, these anchoring fixations could be used to disambiguate the remaining fixations. Indeed, the present data indicate that such a procedure might be reasonable starting point as the `chain` and `warp` methods agree on ca. 87% of all fixations and the error rate within this intersection is extremely low (ca. 0.2%). 
+Given that the various methods all have complementary strengths and weaknesses, it might be an promising idea to combine the results of different approaches in order to create some more stable "meta"-alignment. However, it is not immediately clear how this could be done. One possibility would be to fit several algorithms simultaneously and establish some kind of "voting" system. Another possibility would be to use the methods sequentially. For example, it would be possible to use the converging assignments of two different, complimentary methods in order to establish a preliminary assignment grid. In a second step, these anchoring fixations could be used to disambiguate the remaining fixations. Indeed, the present data indicate that such a procedure might be a reasonable starting point as the `chain` and `warp` methods agree on ca. 87% of all fixations and the error rate within this intersection is extremely low (ca. 0.2%). 
 
-Finally, I would like to remind everybody that the accuracy level on the trial-level (which is the most important output criterion) is very low for all algorithms. It would be naive to expect that only using an automatic alignment method will allow to make realistic inferences about participants' reading behavior. Eye-tracking researchers still have to be prepared to invest a substantial amount of effort into the line assignment process. All what the different software solutions can do at the moment is to ease this process by a) reducing the amount of trials that have to be analyzed manually and b) providing assistance during the assignment process.
+Finally, I would like to remind everybody that the accuracy level on the trial-level (which is the most important output criterion) is very low for all algorithms. It would be naive to expect that only using an automatic alignment method will allow to make valid inferences about participants' reading behavior. Eye-tracking researchers still have to be prepared to invest a substantial amount of effort into the line assignment process. All what the different software solutions can do at the moment is to ease this process by a) reducing the amount of trials that have to be analyzed manually and b) providing assistance during the assignment process.
+
+## Edit (July 25, 2020)
+
+Jon Carr (personal communication, July 25 2020) has confirmed that the discrepancy between the two regarding the `cluster` method might indeed by due to the (more conservative) way the kmeans method is implemented in `R`. If the default control parameters of the algorithm are set to `max.iter=300, nstart=100` the results are very similar to the `Python` implementation in their data set. I thus repeated the analysis using the new parameter settings (`cluster2`, see Fig. 4b and Tab. 1b below):
+
+```{r plot3b, echo=F, plot=T, fig.cap = "*Fig 3b.: Assignment accuracy of the different methods for all trials (including the new cluster method)*", fig.width=12, fig.height =6, fig.align = "center"}
+
+par(cex = .8)
+pirateplot(correct ~ type, all, theme = 1, ylim = c(0, 1), pal = "xmen",
+           ylab = "Proportion correct", xlab = "Method", cex.names = .8)
+
+```
+
+```{r table1b, echo=F, results="asis"}
+
+tmp <- cbind(round(tapply(all$correct, all$type, mean), 3),
+             round(tapply(all$correct, all$type, sd), 3),
+             round(tapply(all$correct, all$type, median), 3),
+             round(tapply(all$correct > .95, all$type, mean), 3),
+             round(tapply(all$correct > .99, all$type, mean), 3)
+             )
+colnames(tmp) <- c("M", "SD", "Median", ">.95", ">.99")
+kable(tmp, caption = "*Tab. 1b: Descriptive Statistics (including the new cluster method*")
+```
+
+Results show the performance of the the algorithm does indeed change dramatically. Its overall performance was similar to the `regress` method with a median accuracy of .958. More importantly, on the trial-level (i.e., accuracy > .99) the performance of the method was relatively good with ca. 24% of the trials analyzed correctly. This indicates, that the `cluster` method with the correct parameter settings performed on a similar level as reported by Carr et al. (under review) and is generally competitive. However, for a substantial number of trials, the algorithm did not converge within 300 iterations and presumably provided sub-optimal results. As a consequence, the accuracy distribution is more skewed with a longer tail. While this problem might be solved by increasing the number of iterations, it indicates that the `cluster` method might have special problems with a certain subtype of trials. 
