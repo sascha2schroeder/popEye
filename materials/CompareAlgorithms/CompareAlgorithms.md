@@ -668,7 +668,7 @@ settings (`cluster2`, see Fig. 4b and Tab. 1b below):
 
 *Tab. 1b: Descriptive Statistics (including the new cluster method)*
 
-Results show the performance of the the algorithm did indeed change
+Results show that the performance of the the algorithm did indeed change
 dramatically. Its overall performance was similar to the `regress`
 method with a median accuracy of .958. More importantly, on the
 trial-level (i.e., accuracy \> .99) the performance of the method was
@@ -679,6 +679,6 @@ competitive. However, for a substantial number of trials, the algorithm
 did not converge within the specified 300 iterations and presumably
 provided sub-optimal results. As a consequence, the accuracy
 distribution is more skewed than for other algorithms. While this
-problem might be solved by increasing the number of iterations, it also
+problem might be solved by increasing the number of iterations, it
 indicates that the `cluster` method might have special problems with a
 certain sub-type of trials.
