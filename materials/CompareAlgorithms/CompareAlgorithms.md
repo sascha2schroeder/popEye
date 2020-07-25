@@ -633,13 +633,13 @@ assignment process.
 
 ## Edit (July 25, 2020)
 
-Jon Carr (personal communication, July 25 2020) has confirmed that the
-discrepancy between the two regarding the `cluster` method might indeed
-by due to the (more conservative) way the kmeans method is implemented
-in `R`. If the default control parameters of the algorithm are set to
-`max.iter=300, nstart=100` the results are very similar to the `Python`
-implementation in their data set. I thus repeated the analysis using the
-new parameter settings (`cluster2`, see Fig. 4b and Tab. 1b below):
+Jon Carr (personal communication, July 25, 2020) has confirmed that the
+discrepancy between the two regarding the `cluster` method is due to the
+(more conservative) way the k-means method is implemented in `R`. If the
+control parameters of the algorithm are set to `max.iter=300,
+nstart=100` the results are very similar to the `Python` implementation
+in their data. I also repeated the analysis using the new parameter
+settings (`cluster2`, see Fig. 4b and Tab. 1b below):
 
 <div class="figure" style="text-align: center">
 
@@ -666,19 +666,19 @@ new parameter settings (`cluster2`, see Fig. 4b and Tab. 1b below):
 | split    | 0.854 | 0.228 |  0.940 | 0.458 | 0.125 |
 | warp     | 0.920 | 0.109 |  0.960 | 0.528 | 0.139 |
 
-*Tab. 1b: Descriptive Statistics (including the new cluster method*
+*Tab. 1b: Descriptive Statistics (including the new cluster method)*
 
-Results show the performance of the the algorithm does indeed change
+Results show the performance of the the algorithm did indeed change
 dramatically. Its overall performance was similar to the `regress`
 method with a median accuracy of .958. More importantly, on the
 trial-level (i.e., accuracy \> .99) the performance of the method was
-relatively good with ca. 24% of the trials analyzed correctly. This
-indicates, that the `cluster` method with the correct parameter settings
-performed on a similar level as reported by Carr et al. (under review)
-and is generally competitive. However, for a substantial number of
-trials, the algorithm did not converge within 300 iterations and
-presumably provided sub-optimal results. As a consequence, the accuracy
-distribution is more skewed with a longer tail. While this problem might
-be solved by increasing the number of iterations, it indicates that the
-`cluster` method might have special problems with a certain subtype of
-trials.
+relatively good with ca. 24% of the trials analyzed correctly. Overall,
+the `cluster` method with the new parameter settings performed on a
+similar level as reported by Carr et al. (under review) and is generally
+competitive. However, for a substantial number of trials, the algorithm
+did not converge within the specified 300 iterations and presumably
+provided sub-optimal results. As a consequence, the accuracy
+distribution is more skewed than for other algorithms. While this
+problem might be solved by increasing the number of iterations, it also
+indicates that the `cluster` method might have special problems with a
+certain sub-type of trials.
