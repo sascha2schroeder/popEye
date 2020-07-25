@@ -13,7 +13,7 @@ output:
 
 # Introduction
 
-Carr et al. (under review) have recently compared different line assignment algorithms using natural text reading data from children and adults. Here, I would like to replicate some of their analyses using data from the MECO corpus (Kuperman et al., under review). I will report the overall performance of the different algorithms, but also demonstrate their strengths and weaknesses using concrete examples. All necessary data  and the corresponding Rmarkdown file including all analyses can be found here:  https://github.com/sascha2schroeder/popEye/materials/CompareAlgorithms
+Carr et al. (under review) have recently compared different line assignment algorithms using natural text reading data from children and adults. Here, I would like to replicate some of their analyses using data from the MECO corpus (Kuperman et al., under review). I will report the overall performance of the different algorithms, but also demonstrate their strengths and weaknesses using concrete examples. All necessary data  and the corresponding Rmarkdown file including all analyses can be found here: https://github.com/sascha2schroeder/popEye/tree/materials/CompareAlgorithms
 
 In the following, I will first briefly describe some relevant characteristics of the MECO corpus and review the different line assignment algorithms that have been used in the present analysis.
 
@@ -42,7 +42,7 @@ PlotAlign(x, "ger10", 1, cex = .75)
  
 ```
 
-The data exhibit several characteristics that are representative for natural reading settings (e.g., the accuracy of the recorded fixation positions varies across the screen, lines are curved, participants reread extensively). However, `ger10` was a "good" participant, i.e. calibration was fairly accurate and he read the texts in a more or less orderly fashion. Data from another, more problematic participant will be shown later.
+The data exhibit several characteristics that are representative for natural reading settings (e.g., the accuracy of the recorded fixation positions varies across the screen, lines are curved, participants reread extensively). Overall, however, `ger10` was a "good" participant, i.e. calibration was fairly accurate and he read the texts in a more or less orderly fashion. Data from another, more problematic participant will be shown later.
 
 ## Line assignment algorithms
 
@@ -66,7 +66,7 @@ A excellent and comprehensive description of the different line assignment metho
 
 `warp`: This method has also been proposed by Carr et al. (under review) and is based on dynamic time warping. Dynamic time warping is a distance metric that is often used in computer science and is used to align points in two time series even if they have different spatial and temporal characteristics. In its application to the line assignment problem, one of the time series is the fixation sequence and the second is the order of the words in the text. The approach assumes that texts are read from top to bottom and from left to right and will thus also have problems with skipping and rereading behavior.
 
-I used the algorithms as implemented in R by Carr et al. (see https://github.com/jwcarr/vertical_drift/algorithms/R/drift_algorithms.R) and also adopted their parameter settings (adjusted to smaller font size in MECO). I do not report any data for the `compare` method as this algorithm glitched on most trials. Anyway, it was the worst performing method in Carr et al. and is clearly not competitive.
+I used the algorithms as implemented in R by Carr et al. (see https://github.com/jwcarr/vertical_drift/algorithms/R/drift_algorithms.R) and also adopted their parameter settings (adjusted to the smaller font size in MECO). I do not report any data for the `compare` method as this algorithm glitched on most trials. Anyway, it was the worst performing method in Carr et al. and is clearly not competitive.
 
 # Fitting process
 

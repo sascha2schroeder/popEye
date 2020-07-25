@@ -12,7 +12,7 @@ the overall performance of the different algorithms, but also
 demonstrate their strengths and weaknesses using concrete examples. All
 necessary data and the corresponding Rmarkdown file including all
 analyses can be found here:
-<https://github.com/sascha2schroeder/popEye/materials/CompareAlgorithms>
+<https://github.com/sascha2schroeder/popEye/tree/materials/CompareAlgorithms>
 
 In the following, I will first briefly describe some relevant
 characteristics of the MECO corpus and review the different line
@@ -166,8 +166,8 @@ have problems with skipping and rereading behavior.
 
 I used the algorithms as implemented in R by Carr et al. (see
 <https://github.com/jwcarr/vertical_drift/algorithms/R/drift_algorithms.R>)
-and also adopted their parameter settings (adjusted to the smaller font size
-in MECO). I do not report any data for the `compare` method as this
+and also adopted their parameter settings (adjusted to the smaller font
+size in MECO). I do not report any data for the `compare` method as this
 algorithm glitched on most trials. Anyway, it was the worst performing
 method in Carr et al. and is clearly not competitive.
 
