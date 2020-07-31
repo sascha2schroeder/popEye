@@ -634,12 +634,12 @@ assignment process.
 ## Edit (July 25, 2020)
 
 Jon Carr (personal communication, July 25, 2020) has confirmed that the
-discrepancy between the two regarding the `cluster` method is due to the
-(more conservative) way the k-means method is implemented in `R`. If the
-control parameters of the algorithm are set to `max.iter=300,
-nstart=100` the results are very similar to the `Python` implementation
-in their data. I also repeated the analysis using the new parameter
-settings (`cluster2`, see Fig. 4b and Tab. 1b below):
+discrepancy between the two analyses regarding the `cluster` method is
+due to the (more conservative) way the k-means method is implemented in
+`R`. If the control parameters of the algorithm are set to
+`max.iter=300, nstart=100` the results are very similar to the `Python`
+implementation in their data. I also repeated the analysis using the new
+parameter settings (`cluster2`, see Fig. 4b and Tab. 1b below):
 
 <div class="figure" style="text-align: center">
 
