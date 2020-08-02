@@ -25,7 +25,6 @@ CleanTrial <- function(dat, env = parent.frame(n = 2)) {
       next
     }
     
-    
     # trial.calibration: if calibration accuracy was too bad 
     if (dat$trial[[trial]]$meta$calibration.avg > 1) {
       dat$trial[[trial]]$clean$trial$calibration <- 1
