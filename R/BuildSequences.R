@@ -1,6 +1,8 @@
 
 BuildSequences <- function(fix, env = parent.frame(n = 3)) {
   
+  # message(paste(".... Build sequences"))
+  
   # compute distance
   fix$distx <- NA
   fix$distx[2:length(fix$distx)] <- diff(fix$xn)

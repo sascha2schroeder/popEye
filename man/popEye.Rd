@@ -196,8 +196,8 @@ which the drift correct element is used)}
 \item{analysis.translate}{If TRUE fixations are moved to fit into text area
 (TRUE or FALSE, default is FALSE)}
 
-\item{analysis.lineMethod}{Method used to assign fixations to lines ("match",
-"cluster" or "chain", "chain" is default; see Vignette)}
+\item{analysis.lineMethod}{Method used to assign fixations to lines ("attach",
+"chain" or "merge", "chain" is default; see Vignette)}
 
 \item{analysis.outlierX}{Parameter for outlier detection on the x axis 
 (number of line heights a fixation is allowed to deviate from last letter 

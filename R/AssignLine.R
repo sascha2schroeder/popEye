@@ -1,6 +1,8 @@
 
 AssignLine <- function(fix, stimmat) {
   
+  # message(paste(".... Assign line"))
+  
   fix$line <- NA
   
   # 1. assign runs to lines
@@ -46,7 +48,11 @@ AssignLine <- function(fix, stimmat) {
       break
     }
     
-    cand <- out[order(out[,3]), ][1,]
+    if (nrow(out) == 1) {
+      cand <- out
+    } else {
+      cand <- out[order(out[,3]), ][1,]
+    }
     
     fix$linerun[fix$linerun == cand[1]] <- cand[2]
     fix$linerun <- as.numeric(as.factor(fix$linerun))
@@ -102,13 +108,17 @@ AssignLine <- function(fix, stimmat) {
   # 3. assign to lines by order
   
   mrun <- tapply(fix$yn, fix$linerun, mean)
+  
+  if (length(mrun) == 1) {
+    fix$line <- 1
+    return(fix)
+  }
+  
   lrun <- as.numeric(unlist(dimnames(mrun[order(mrun)])))
   
   for (i in 1:length(lrun)) {
     # i <- 1
-    
     fix$line[fix$linerun == lrun[i]] <- i
-    
   }
   
   # # assign short runs by distance

@@ -23,7 +23,11 @@ Phase1 <- function(fix, stimmat, check = FALSE) {
     old <- new
     out <- NULL
     
-    long <- as.numeric(unlist(dimnames(table(fix$linerun)[table(fix$linerun) >= 3])))
+    if (length(table(fix$linerun)[table(fix$linerun) >= 3]) == 1) {
+      break
+    } else {
+      long <- as.numeric(unlist(dimnames(table(fix$linerun)[table(fix$linerun) >= 3])))
+    }
     
     # outer loop
     for (i in 1:(length(long) - 1)) {
@@ -66,7 +70,7 @@ Phase1 <- function(fix, stimmat, check = FALSE) {
     }
     
     # select candidate
-    out2 <- out[order(abs(out[, 5])), , drop = F]
+    out2 <- out[order(abs(out[, 5])), , drop = F]  
     
     if (sum(out2[,3] < crit1 & abs(out2[,5]) < crit2) < 1) {
       break
@@ -92,7 +96,6 @@ Phase1 <- function(fix, stimmat, check = FALSE) {
     fix$linerun <- as.numeric(as.factor(fix$linerun))
     
     new <- length(table(fix$linerun)[table(fix$linerun) >= 3])
-    # print(new)
     
   }
   

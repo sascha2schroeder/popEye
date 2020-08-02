@@ -20,9 +20,13 @@ Phase3 <- function(fix, stimmat, check = FALSE) {
     
     run <- as.numeric(unlist(dimnames(table(fix$linerun))))
     
+    if (length(run) == 1) {
+      fix$linerun <- 1
+      next
+    }
+    
     for (i in 1:(length(run) - 1)) {
       # i <- 1
-      # print(i)
       
       j <- i + 1
       

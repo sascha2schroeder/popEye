@@ -1,6 +1,8 @@
 
 Phase4 <- function(fix, stimmat, check = FALSE) {
   
+  # message(paste(".... Phase 4"))
+  
   crit1 <- mean((stimmat$ye[stimmat$line == 1] - stimmat$ys[stimmat$line == 1])) / 1.5
   
   old <- length(table(fix$linerun)) + 1
