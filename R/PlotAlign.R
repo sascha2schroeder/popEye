@@ -35,7 +35,7 @@ PlotAlign <- function(exp, subject, trial, plot = NULL, interactive = F,
        ylim = c(max(tmp$meta$stimmat$ye) + 1 * exp$setup$font$size,
                 min(tmp$meta$stimmat$ys) - 1 * exp$setup$font$size),
        type = "n",
-       main = paste("Trial ", tmp$meta$itemid, ": ", tmp$meta$itemid, sep = ""), xlab = "x Position (px)", ylab = "y Position (py)")
+       main = paste("Trial ", tmp$meta$trialid, ": ", tmp$meta$itemid, sep = ""), xlab = "x Position (px)", ylab = "y Position (py)")
   
   
   # add letters
