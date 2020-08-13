@@ -261,8 +261,9 @@ operator (e.g., select.subject = 1:4).}
 
 \item{select.trial}{Restrict analysis to a specific trial (numeric; internal for debugging)}
 
-\item{debug}{Perform analysis only for specific steps of the analysis ("setup", 
-"read", "remove", "create")}
+\item{debug}{Perform analysis only for specific steps of the analysis 
+("setup", "participants", "read", "remove", "create", "add", "extract", "assign",
+"aggregate")}
 
 \item{exclude.blink}{If TRUE a trial is flagged as critical if at least one
 blink has occured on it (default is FALSE)}

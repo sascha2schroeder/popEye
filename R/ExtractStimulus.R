@@ -8,16 +8,35 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
     stimfile$match <- stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))]
     
   } else {
+   
+    if (length(env$exp$setup$stimulus$cond) == 1) {
+      
+      # create match variable (itemid:cond)
+      stimfile$match <- paste(stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))],
+                              stimfile[, match(env$exp$setup$stimulus$cond, colnames(stimfile))], sep = ":")
+      
+    } else if (length(env$exp$setup$stimulus$cond) == 2) {
+      
+      # create combined condition variable
+      cond1 <- env$exp$setup$stimulus$cond[1]
+      cond2 <- env$exp$setup$stimulus$cond[2]
+      
+      stimfile$cond <- paste(stimfile[, match(cond1, colnames(stimfile))],
+                             stimfile[, match(cond2, colnames(stimfile))], sep = ":")
+                             
+      # create match variable (itemid:cond)
+      stimfile$match <- paste(stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))],
+                              stimfile$cond, sep = ":")
+     
+    }
     
-    # create match variable (itemid:cond)
-    stimfile$match <- paste(stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))],
-                       stimfile[, match(env$exp$setup$stimulus$cond, colnames(stimfile))], sep = ":")
   }
   
   if (is.na(env$exp$setup$stimulus$cond) == TRUE) {
     
     # parse out indicator characters from text display
     for (trial in 1:length(dat$trial)) {
+      
       dat$trial[[trial]]$meta$stim <- stimfile[, match(env$exp$setup$stimulus$text, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == dat$trial[[trial]]$meta$itemid]  
       dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$target, "", dat$trial[[trial]]$meta$stim)  
       dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$word, " ", dat$trial[[trial]]$meta$text) 
@@ -63,6 +82,7 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
       if (env$exp$setup$indicator$ia != " ") {
         dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$ia, "", dat$trial[[trial]]$meta$text)
       }
+      
     }
     
     

@@ -127,8 +127,9 @@
 #' number (e.g., select.subject = 4). Select a range of subjects by using the colon 
 #' operator (e.g., select.subject = 1:4).
 #' @param select.trial Restrict analysis to a specific trial (numeric; internal for debugging)
-#' @param debug Perform analysis only for specific steps of the analysis ("setup", 
-#' "read", "remove", "create")
+#' @param debug Perform analysis only for specific steps of the analysis 
+#' ("setup", "participants", "read", "remove", "create", "add", "extract", "assign",
+#' "aggregate")
 
 popEye <- function(datpath, 
                    stimulus.file,
