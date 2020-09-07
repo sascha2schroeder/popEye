@@ -16,11 +16,13 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
     env$header$trial$trialnum <- env$header$trial$trialnum - practice
     env$header$trial <- env$header$trial[env$header$trial$itemid %in% keep, ]
     
+    # NOTE: fix for trials without stimulus data
+    env$header$trial <- env$header$trial[duplicated(env$header$trial$itemid) == F, ]
+    
   } else if (env$exp$setup$tracker$software == "ET") {
     
     practice <- env$exp$setup$clean$practice
     keep <- unlist(env$exp$setup$stimulus$file[env$exp$setup$stimulus$id])
-    
     
     # msg
     # ----

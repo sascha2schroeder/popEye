@@ -123,7 +123,8 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     for (i in 1:nrow(trial)) {
       
       sel <- abs(trial$time[i] - drifttime)
-      if (min(sel) > 200) next
+      
+      if (min(sel) > 300) next
       if (abs(drift[which.min(sel)]) > 10) next
       
       trial$drift[i] <- drift[which.min(sel)]

@@ -36,7 +36,6 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
     
     # parse out indicator characters from text display
     for (trial in 1:length(dat$trial)) {
-      
       dat$trial[[trial]]$meta$stim <- stimfile[, match(env$exp$setup$stimulus$text, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == dat$trial[[trial]]$meta$itemid]  
       dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$target, "", dat$trial[[trial]]$meta$stim)  
       dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$word, " ", dat$trial[[trial]]$meta$text) 
@@ -84,7 +83,6 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
       }
       
     }
-    
     
     # parse out indicator characters from preview display
     if (env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {

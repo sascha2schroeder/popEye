@@ -1,7 +1,6 @@
 
 BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
  
-  
   # retrieve variables
   # ------------------
   
@@ -232,7 +231,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     }
     
   }
-  
   
   # Stage 2: compute wrap-up line breaks
   

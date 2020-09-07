@@ -4,16 +4,17 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   # prepare slots for trials
   ret <- rep(list(NA), length(table(dat$msg$trialnum)))
   
-  
   # trial loop
   # -----------
   
   if (is.null(env$select.trial) == T) {
-    # trials <- as.numeric(unlist(dimnames(table(dat$msg$itemid))))
+    # trials <- as.numeric(unlist(dimnames(table(dat$msg$trialnum))))
     trials <- 1:length(table(dat$msg$itemid))
   } else {
     trials <- env$select.trial
   }
+  
+  
   
   for (trial in trials) {
     

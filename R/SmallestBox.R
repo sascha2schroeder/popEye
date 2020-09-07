@@ -1,4 +1,6 @@
 
+# box function
+
 SmallestBox <- function(fix) {
   
   lx = min(fix[,1])

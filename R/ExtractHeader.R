@@ -30,12 +30,10 @@ ExtractHeader <- function(infile, env = parent.frame(n = 2)){
     
     tmp <- gsub("  ", " ", tmp)
     
-    
     # check for aborted calibrations
     if (length(grep("ABORTED", tmp)) > 0) {
       tmp <- tmp[-grep("ABORTED", tmp)]  
     }
-    
     
     # set up calibration matrix
     env$header$calibration <- data.frame(matrix(NA, length(tmp), 8))

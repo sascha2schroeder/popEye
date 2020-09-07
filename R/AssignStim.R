@@ -68,7 +68,8 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   
   if (env$exp$setup$analysis$translate == T) {
     
-    fix <- MoveFixations(fix, stimmat)
+    # fix <- MoveFixations(fix, stimmat)
+    fix <- MoveFixations_4(fix, stimmat)
     
   }
   
