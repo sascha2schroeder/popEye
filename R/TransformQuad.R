@@ -1,5 +1,5 @@
 
-TransformQuad <- function(points, x.old, y.old, x.new, y.new, x.adj = T){
+TransformQuad <- function(points, x.old, y.old, x.new, y.new, x.adj = F, y.adj = F){
   
   row.names(x.old) <- row.names(y.old) <- NULL
   
@@ -16,12 +16,18 @@ TransformQuad <- function(points, x.old, y.old, x.new, y.new, x.adj = T){
     A[1,] <- c(1,0,0)
   }
   
+  if (y.adj == F) {
+    A[2,] <- c(0,1,0)
+  }
+  
   n <- apply(points, 1, function(x) { solve(A) %*% c(x, 1) } )
   n <- t(n)
   if (x.adj == T) {
     n[,1] <- n[,1] / n[,3]
   }
-  n[,2] <- n[,2] / n[,3]
+  if (y.adj == T) {
+    n[,2] <- n[,2] / n[,3]
+  }
   n <- round(n[, 1:2])
   
   return(n)

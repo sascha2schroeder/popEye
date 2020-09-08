@@ -80,10 +80,15 @@
 #' @param analysis.driftY If TRUE fixation is corrected for drift on the y
 #' axis (TRUE or FALSE, default is FALSE; only relevant for EB experiments in
 #' which the drift correct element is used)
-#' @param analysis.translate If TRUE fixations are moved to fit into text area
-#'(TRUE or FALSE, default is FALSE)
+#' @param analysis.translateX If TRUE fixations are moved on the x axis to fit 
+#' into text area (TRUE or FALSE, default is FALSE)
+#' @param analysis.translateY If TRUE fixations are moved on the y axis to fit 
+#' into text area (TRUE or FALSE, default is FALSE)
 #' @param analysis.lineMethod Method used to assign fixations to lines ("attach",
 #' "chain" or "merge", "chain" is default; see Vignette)
+#' @param analysis.outlier Parameter if outlier detection should be carried out
+#' (fixations deviating more than 20% from the text box in the x and y dimension
+#' are flagged as outliers, default is TRUE)
 #' @param analysis.outlierX Parameter for outlier detection on the x axis 
 #' (number of line heights a fixation is allowed to deviate from last letter 
 #' on a line; default is 2)
@@ -175,8 +180,11 @@ popEye <- function(datpath,
                    analysis.sparse = TRUE,
                    analysis.driftX = FALSE, 
                    analysis.driftY = FALSE,
-                   analysis.translate = FALSE,
+                   analysis.translateMethod = "hit",
+                   analysis.translateX = FALSE,
+                   analysis.translateY = FALSE,
                    analysis.lineMethod = "chain",
+                   analysis.outlier = TRUE,
                    analysis.outlierX = 100,
                    analysis.outlierY = 100,
                    analysis.lineX = 20,
@@ -196,7 +204,7 @@ popEye <- function(datpath,
                    exclude.sac = 150,
                    outpath = getwd(), 
                    outname = "",
-                   # NOTE: Maybe combine outpath and outname to one parameter
+                   # NOTE: Maybe combine outpath and outname to one parameter?
                    select.version = NULL,
                    select.subject = NULL,
                    select.trial = NULL,

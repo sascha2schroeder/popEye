@@ -46,8 +46,11 @@ popEye(
   analysis.sparse = TRUE,
   analysis.driftX = FALSE,
   analysis.driftY = FALSE,
-  analysis.translate = FALSE,
+  analysis.translateMethod = "hit",
+  analysis.translateX = FALSE,
+  analysis.translateY = FALSE,
   analysis.lineMethod = "chain",
+  analysis.outlier = TRUE,
   analysis.outlierX = 100,
   analysis.outlierY = 100,
   analysis.lineX = 20,
@@ -193,11 +196,18 @@ which the drift correct element is used)}
 axis (TRUE or FALSE, default is FALSE; only relevant for EB experiments in
 which the drift correct element is used)}
 
-\item{analysis.translate}{If TRUE fixations are moved to fit into text area
-(TRUE or FALSE, default is FALSE)}
+\item{analysis.translateX}{If TRUE fixations are moved on the x axis to fit 
+into text area (TRUE or FALSE, default is FALSE)}
+
+\item{analysis.translateY}{If TRUE fixations are moved on the y axis to fit 
+into text area (TRUE or FALSE, default is FALSE)}
 
 \item{analysis.lineMethod}{Method used to assign fixations to lines ("attach",
 "chain" or "merge", "chain" is default; see Vignette)}
+
+\item{analysis.outlier}{Parameter if outlier detection should be carried out
+(fixations deviating more than 20% from the text box in the x and y dimension
+are flagged as outliers, default is TRUE)}
 
 \item{analysis.outlierX}{Parameter for outlier detection on the x axis 
 (number of line heights a fixation is allowed to deviate from last letter 

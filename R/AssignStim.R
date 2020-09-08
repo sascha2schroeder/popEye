@@ -29,9 +29,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     }
     
   } else {
-    
     fix$xn <- fix$xs 
-    
   }
   
   # y axis
@@ -44,36 +42,59 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     }
     
   } else {
-    
     fix$yn <- fix$ys
-    
   }
   
   
   # check outlier
   # --------------
   
-  fix <- CheckOutlier(fix, stimmat)
+  if (env$exp$setup$analysis$outlier == T) {
+    fix <- CheckOutlier(fix, stimmat, crit=0.2)
+  } else {
+    fix$type <- "in"
+  }
   
   if (mean(fix$type == "in") < .1) {
-    
     dat$trial[[trial]]$fix <- NULL
     return(dat)
-    
   }
   
   
   # move fixations
   # ---------------
   
-  if (env$exp$setup$analysis$translate == T) {
+  if (env$exp$setup$analysis$translateMethod == "hit") {
     
-    # fix <- MoveFixations(fix, stimmat)
-    fix <- MoveFixations_4(fix, stimmat)
+    if (env$exp$setup$analysis$translateY == T) {
+      fix <- MoveFixationsY(fix, stimmat)
+    } 
+    
+    if (env$exp$setup$analysis$translateX == T) {
+      fix <- MoveFixationsX(fix, stimmat)
+    } 
     
   }
   
+  if (env$exp$setup$analysis$translateMethod == "area") {
+    
+    if (env$exp$setup$analysis$translateY == T) {
+      moveY <- TRUE
+    } else {
+      moveY <- FALSE
+    }
+    
+    if (env$exp$setup$analysis$translateX == T) {
+      moveX <- TRUE
+    } else {
+      moveX <- FALSE
+    }
+    
+    fix <- MoveFixations(fix, stimmat, x.adj=moveX, y.adj=moveY)
+    
+  }
 
+  
   # line assignment 
   # ----------------
   
