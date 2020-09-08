@@ -20,7 +20,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   # x axis
-  if (env$exp$setup$analysis$driftX == T) {
+  if (env$exp$setup$assign$driftX == T) {
     
     if (is.na(dat$trial[[trial]]$meta$drift) == F) {
       fix$xn <- fix$xs - dat$trial[[trial]]$meta$drift.x
@@ -33,7 +33,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   # y axis
-  if (env$exp$setup$analysis$driftY == T) {
+  if (env$exp$setup$assign$driftY == T) {
     
     if (is.na(dat$trial[[trial]]$meta$drift) == F) {
       fix$yn <- fix$ys - dat$trial[[trial]]$meta$drift.y + env$exp$setup$font$height / 2
@@ -49,8 +49,8 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # check outlier
   # --------------
   
-  if (env$exp$setup$analysis$outlier == T) {
-    fix <- CheckOutlier(fix, stimmat, crit=0.2)
+  if (env$exp$setup$assign$outlier == T) {
+    fix <- CheckOutlier(fix, stimmat, env$exp$setup$assign$outlierDist)
   } else {
     fix$type <- "in"
   }
@@ -64,27 +64,27 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # move fixations
   # ---------------
   
-  if (env$exp$setup$analysis$translateMethod == "hit") {
+  if (env$exp$setup$assign$translateMethod == "hit") {
     
-    if (env$exp$setup$analysis$translateY == T) {
+    if (env$exp$setup$assign$translateY == T) {
       fix <- MoveFixationsY(fix, stimmat)
     } 
     
-    if (env$exp$setup$analysis$translateX == T) {
+    if (env$exp$setup$assign$translateX == T) {
       fix <- MoveFixationsX(fix, stimmat)
     } 
     
   }
   
-  if (env$exp$setup$analysis$translateMethod == "area") {
+  if (env$exp$setup$assign$translateMethod == "area") {
     
-    if (env$exp$setup$analysis$translateY == T) {
+    if (env$exp$setup$assign$translateY == T) {
       moveY <- TRUE
     } else {
       moveY <- FALSE
     }
     
-    if (env$exp$setup$analysis$translateX == T) {
+    if (env$exp$setup$assign$translateX == T) {
       moveX <- TRUE
     } else {
       moveX <- FALSE
@@ -99,7 +99,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # ----------------
   
   # attach method
-  if (env$exp$setup$analysis$lineMethod == "attach") {
+  if (env$exp$setup$assign$lineMethod == "attach") {
     
     fix$type <- "in"
     fix$line <- NA
@@ -111,7 +111,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
       
       out <- abs(fix$yn[i] - stimmat$ym)
       
-      if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierY) {
+      if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$assign$outlierY) {
         fix$type[i] <- "out"
         fix$line[i] <- NA
       } else {
@@ -123,7 +123,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   # chain method
-  if (env$exp$setup$analysis$lineMethod == "chain") {
+  if (env$exp$setup$assign$lineMethod == "chain") {
     
     # compute distance
     fix$distx <- NA
@@ -149,8 +149,8 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     for (i in 2:nrow(fix)) {
       
       # determine run break
-      if (abs(fix$disty[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineY | 
-          abs(fix$distx[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineX) {
+      if (abs(fix$disty[i]) >= env$exp$setup$font$height * env$exp$setup$assign$lineY | 
+          abs(fix$distx[i]) >= env$exp$setup$font$height * env$exp$setup$assign$lineX) {
         
         # assign previous run to line
         mean.y <- mean(fix$yn[fix$linerun == fix$linerun[i - 1]], na.rm = T)
@@ -205,7 +205,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   # regress method
-  if (env$exp$setup$analysis$lineMethod == "regress") {
+  if (env$exp$setup$assign$lineMethod == "regress") {
    
     fixation_XY <- fix[, c("xn", "yn")]
     line_Y <- tapply(stimmat$ym, stimmat$line, max)
@@ -216,7 +216,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   # merge method
-  if (env$exp$setup$analysis$lineMethod == "merge") {
+  if (env$exp$setup$assign$lineMethod == "merge") {
     
     fix <- BuildSequences(fix)
     fix <- Phase1(fix, stimmat)
@@ -229,7 +229,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   # method interactive
-  if (env$exp$setup$analysis$lineMethod == "interactive") {
+  if (env$exp$setup$assign$lineMethod == "interactive") {
     
     fix <- BuildSequences(fix)
     fix <- SelectLine(fix, stimmat)
@@ -303,7 +303,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
       fix$trial.nwords[i] <- stimmat$trial.nwords[stimmat$line == fix$line[i]][which.min(out)]
       fix$trial[i] <- stimmat$trial[stimmat$line == fix$line[i]][which.min(out)]
       
-      if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$analysis$outlierX) {
+      if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$assign$outlierX) {
         
         fix$type[i] <- "out"
         

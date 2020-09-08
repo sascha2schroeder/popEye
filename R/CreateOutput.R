@@ -32,7 +32,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
   # clean
   if (env$exp$setup$type == "text") {
     
-    # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
+    # if (env$exp$setup$assign$driftX == T | env$exp$setup$assign$driftY == T) {
       
       env$clean <- data.frame(matrix(NA, 1, 16))
       colnames(env$clean) <- c("subid", 
@@ -57,7 +57,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
   
   if (env$exp$setup$type == "sentence") {
     
-    # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
+    # if (env$exp$setup$assign$driftX == T | env$exp$setup$assign$driftY == T) {
       
     env$clean <- data.frame(matrix(NA, 1, 16))
     colnames(env$clean) <- c("subid", 
@@ -81,7 +81,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
   
   if (env$exp$setup$type == "target") {
     
-    # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
+    # if (env$exp$setup$assign$driftX == T | env$exp$setup$assign$driftY == T) {
       
     env$clean <- data.frame(matrix(NA, 1, 27))
     colnames(env$clean) <- c("subid", 
@@ -116,7 +116,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
   
   if (env$exp$setup$type == "boundary") {
     
-    # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
+    # if (env$exp$setup$assign$driftX == T | env$exp$setup$assign$driftY == T) {
       
     env$clean <- data.frame(matrix(NA, 1, 39))
     colnames(env$clean) <- c("subid", 
@@ -164,7 +164,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
   # TODO: fast priming outdated
   if (env$exp$setup$type == "fast") {
     
-    # if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
+    # if (env$exp$setup$assign$driftX == T | env$exp$setup$assign$driftY == T) {
     
     env$clean <- data.frame(matrix(NA, 1, 40))
     

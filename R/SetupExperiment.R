@@ -1017,18 +1017,21 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                    mindur = env$analysis.mindur, 
                    postdur = env$analysis.postdur,
                    drift = env$analysis.drift, 
-                   sparse = env$analysis.sparse,
-                   driftX = env$analysis.driftX, 
-                   driftY = env$analysis.driftY,
-                   translateMethod = env$analysis.translateMethod,
-                   translateX = env$analysis.translateX,
-                   translateY = env$analysis.translateY,
-                   lineMethod = env$analysis.lineMethod,
-                   outlier = env$analysis.outlier,
-                   outlierX = env$analysis.outlierX,
-                   outlierY = env$analysis.outlierY,
-                   lineX = env$analysis.lineX,
-                   lineY= env$analysis.lineY)
+                   sparse = env$analysis.sparse)
+  
+  # assign
+  assign <- list(driftX = env$assign.driftX, 
+                 driftY = env$assign.driftY,
+                 outlier = env$assign.outlier,
+                 outlierDist = env$assign.outlierDist,
+                 translateMethod = env$assign.translateMethod,
+                 translateX = env$assign.translateX,
+                 translateY = env$assign.translateY,
+                 lineMethod = env$assign.lineMethod,
+                 outlierX = env$assign.outlierX,
+                 outlierY = env$assign.outlierY,
+                 lineX = env$assign.lineX,
+                 lineY= env$assign.lineY)
   
   # cleaning
   clean <- list(stage1Dur = env$clean.stage1Dur, 
@@ -1052,7 +1055,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   setup <- list(tracker = tracker, type = type, message = message, item = item,
                 variable = variable, stimulus = stimulus, indicator = indicator, 
                 display = display, font = font, clean = clean, 
-                analysis = analysis, exclude = exclude)
+                analysis = analysis, assign = assign, exclude = exclude)
   
   return(setup)
   

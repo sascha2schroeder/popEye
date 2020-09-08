@@ -42,7 +42,7 @@ RetrieveSaccades <- function(dat, trial, env = parent.frame(n = 2)) {
   # ---------------
   
   # x axis
-  if (env$exp$setup$analysis$driftX == T) {
+  if (env$exp$setup$assign$driftX == T) {
     
     if (is.na(dat$trial[[trial]]$meta$drift) == F) {
       
@@ -63,7 +63,7 @@ RetrieveSaccades <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   # y axis
-  if (env$exp$setup$analysis$driftY == T) {
+  if (env$exp$setup$assign$driftY == T) {
     
     if (is.na(dat$trial[[trial]]$meta$drift) == F) {
       

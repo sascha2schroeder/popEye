@@ -18,8 +18,8 @@ BuildSequences <- function(fix, env = parent.frame(n = 3)) {
     # i <- 2
     
     # determine run break
-    if (abs(fix$disty[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineY | 
-        abs(fix$distx[i]) >= env$exp$setup$font$height * env$exp$setup$analysis$lineX) {
+    if (abs(fix$disty[i]) >= env$exp$setup$font$height * env$exp$setup$assign$lineY | 
+        abs(fix$distx[i]) >= env$exp$setup$font$height * env$exp$setup$assign$lineX) {
       
       fix$run[i] <- fix$run[i - 1] + 1
       

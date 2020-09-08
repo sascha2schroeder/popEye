@@ -74,30 +74,35 @@
 #' (TRUE or FALSE; default is TRUE. See Engbert & Kliegl, 2003)
 #' @param analysis.sparse If TRUE, the msg, sample, and event slots are cleaned
 #' during the analysis (TRUE or FALSE, default is TRUE)
-#' @param analysis.driftX If TRUE fixation is corrected for drift on the x
+#' @param assign.driftX If TRUE fixation is corrected for drift on the x
 #' axis (TRUE or FALSE, default is FALSE; only relevant for EB experiments in
 #' which the drift correct element is used) 
-#' @param analysis.driftY If TRUE fixation is corrected for drift on the y
+#' @param assign.driftY If TRUE fixation is corrected for drift on the y
 #' axis (TRUE or FALSE, default is FALSE; only relevant for EB experiments in
 #' which the drift correct element is used)
-#' @param analysis.translateX If TRUE fixations are moved on the x axis to fit 
-#' into text area (TRUE or FALSE, default is FALSE)
-#' @param analysis.translateY If TRUE fixations are moved on the y axis to fit 
-#' into text area (TRUE or FALSE, default is FALSE)
-#' @param analysis.lineMethod Method used to assign fixations to lines ("attach",
-#' "chain" or "merge", "chain" is default; see Vignette)
-#' @param analysis.outlier Parameter if outlier detection should be carried out
-#' (fixations deviating more than 20% from the text box in the x and y dimension
+#' @param assign.outlier Indicates whether outlier detection should be carried out
+#' (fixations deviating from the text box in the x and y dimension by a certain amount
 #' are flagged as outliers, default is TRUE)
-#' @param analysis.outlierX Parameter for outlier detection on the x axis 
+#' @param assign.outlierDist Parameter that controls the definition of the outlier 
+#' (i.e., the necessary distance to the text area in % of the text area; 
+#' input values 0-1, default is 0.2)
+#' @param assign.translateMethod If TRUE fixations are moved on the x axis to fit 
+#' into text area (TRUE or FALSE, default is FALSE)
+#' @param assign.translateX If TRUE fixations are moved on the x axis to fit 
+#' into text area (TRUE or FALSE, default is FALSE)
+#' @param assign.translateY If TRUE fixations are moved on the y axis to fit 
+#' into text area (TRUE or FALSE, default is FALSE)
+#' @param assign.lineMethod Method used to assign fixations to lines ("attach",
+#' "chain" or "merge", "chain" is default; see Vignette)
+#' @param assign.outlierX Parameter for outlier detection on the x axis 
 #' (number of line heights a fixation is allowed to deviate from last letter 
 #' on a line; default is 2)
-#' @param analysis.outlierY Parameter for outlier detection on the y axis
+#' @param assign.outlierY Parameter for outlier detection on the y axis
 #' (number of line heights a fixation is allowed to deviate from the first or
 #' last line on a screen, default is 2)
-#' @param analysis.lineX Parameter used to detect runs on the x axsis 
+#' @param assign.lineX Parameter used to detect runs on the x axsis 
 #' if "chain" method is used (default is 20)
-#' @param analysis.lineY Parameter used to detect runs on the y axsis 
+#' @param assign.lineY Parameter used to detect runs on the y axsis 
 #' if "chain" method is used (default is 2)
 #' @param clean.stage1Dur Minimum duration for fixation during stage 1 
 #' cleaning (default: 80 ms)
@@ -178,17 +183,21 @@ popEye <- function(datpath,
                    analysis.postdur = 30,
                    analysis.drift = TRUE, 
                    analysis.sparse = TRUE,
-                   analysis.driftX = FALSE, 
-                   analysis.driftY = FALSE,
-                   analysis.translateMethod = "hit",
-                   analysis.translateX = FALSE,
-                   analysis.translateY = FALSE,
-                   analysis.lineMethod = "chain",
-                   analysis.outlier = TRUE,
-                   analysis.outlierX = 100,
-                   analysis.outlierY = 100,
-                   analysis.lineX = 20,
-                   analysis.lineY = 0.5,
+                   
+                   assign.driftX = FALSE, 
+                   assign.driftY = FALSE,
+                   assign.outlier = TRUE,
+                   assign.outlierDist = 0.2,
+                   assign.translateMethod = "hit",
+                   assign.translateX = FALSE,
+                   assign.translateY = FALSE,
+                   assign.lineMethod = "chain",
+                   
+                   assign.outlierX = 100,
+                   assign.outlierY = 100,
+                   assign.lineX = 20,
+                   assign.lineY = 0.5,
+                   
                    clean.stage1Dur = 80, 
                    clean.stage1Dist = 1,
                    clean.stage2Dur = 40, 

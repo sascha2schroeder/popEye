@@ -19,7 +19,7 @@ CreateClean <- function(dat, env = parent.frame(n = 1)) {
     cleantmp$calibration.avg <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "calibration.avg"))
     cleantmp$calibration.max <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "calibration.max"))
     
-    if (env$exp$setup$analysis$driftX == T | env$exp$setup$analysis$driftY == T) {
+    if (env$exp$setup$assign$driftX == T | env$exp$setup$assign$driftY == T) {
       
       cleantmp$drift <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "drift"))
       cleantmp$drift.x <- unlist(lapply(lapply(dat$trial, "[[", "meta"), "[[", "drift.x"))
