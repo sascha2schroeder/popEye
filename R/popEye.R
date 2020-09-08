@@ -86,11 +86,11 @@
 #' @param assign.outlierDist Parameter that controls the definition of the outlier 
 #' (i.e., the necessary distance to the text area in % of the text area; 
 #' input values 0-1, default is 0.2)
-#' @param assign.translateMethod If TRUE fixations are moved on the x axis to fit 
+#' @param assign.moveMethod If TRUE fixations are moved on the x axis to fit 
 #' into text area (TRUE or FALSE, default is FALSE)
-#' @param assign.translateX If TRUE fixations are moved on the x axis to fit 
+#' @param assign.moveX If TRUE fixations are moved on the x axis to fit 
 #' into text area (TRUE or FALSE, default is FALSE)
-#' @param assign.translateY If TRUE fixations are moved on the y axis to fit 
+#' @param assign.moveY If TRUE fixations are moved on the y axis to fit 
 #' into text area (TRUE or FALSE, default is FALSE)
 #' @param assign.lineMethod Method used to assign fixations to lines ("attach",
 #' "chain" or "merge", "chain" is default; see Vignette)
@@ -188,9 +188,9 @@ popEye <- function(datpath,
                    assign.driftY = FALSE,
                    assign.outlier = TRUE,
                    assign.outlierDist = 0.2,
-                   assign.translateMethod = "hit",
-                   assign.translateX = FALSE,
-                   assign.translateY = FALSE,
+                   assign.moveMethod = "hit",
+                   assign.moveX = FALSE,
+                   assign.moveY = FALSE,
                    assign.lineMethod = "chain",
                    
                    assign.outlierX = 100,

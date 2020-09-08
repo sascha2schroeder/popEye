@@ -5,8 +5,6 @@ MoveFixationsX <- function(fix, stimmat, env = parent.frame(n = 1)) {
   stimline <- stimmat[duplicated(stimmat$line) == F, c("line", "xs", "xe", "ys", "ye")]
   stimline$xe <- tapply(stimmat$xe, stimmat$line, max)
   
-  yrange <- (stimline$ye[stimline$line == 1] - stimline$ys[stimline$line == 1]) / 2
-  
   mx <- seq(-50, 50, 1)
 
   out <- matrix(NA, length(mx), 2)

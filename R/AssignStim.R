@@ -64,27 +64,27 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # move fixations
   # ---------------
   
-  if (env$exp$setup$assign$translateMethod == "hit") {
+  if (env$exp$setup$assign$moveMethod == "hit") {
     
-    if (env$exp$setup$assign$translateY == T) {
+    if (env$exp$setup$assign$moveY == T) {
       fix <- MoveFixationsY(fix, stimmat)
     } 
     
-    if (env$exp$setup$assign$translateX == T) {
+    if (env$exp$setup$assign$moveX == T) {
       fix <- MoveFixationsX(fix, stimmat)
     } 
     
   }
   
-  if (env$exp$setup$assign$translateMethod == "area") {
+  if (env$exp$setup$assign$moveMethod == "area") {
     
-    if (env$exp$setup$assign$translateY == T) {
+    if (env$exp$setup$assign$moveY == T) {
       moveY <- TRUE
     } else {
       moveY <- FALSE
     }
     
-    if (env$exp$setup$assign$translateX == T) {
+    if (env$exp$setup$assign$moveX == T) {
       moveX <- TRUE
     } else {
       moveX <- FALSE
