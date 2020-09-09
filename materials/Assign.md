@@ -10,11 +10,11 @@ Most of the text assignment within in popEye is done by the function `AssignStim
 
 The first thing you have to decide if you want to use drift correction. Some eye tracking experiments - in particular, those created using SR's Experiment Builder software - comprise a so called `Drift Check` element. Here, a fixation point is presented before a trial and the task of the participant is fixate the point. Usually, the experimenter confirms that the participant is looking at the fixation point (e.g. by pressing the space bar). When the key is pressed, the deviation between the position of the fixation point and the actual gaze position is computed and the difference (in degree visual angle) is shown to the experimenter in order to inform him or her whether recalibration is needed. If the deviation is too high (1° by default, I believe), the trial will not be started. Thus, the main purpose of the element is provide feedback about the quality of the analysis. Next to this checking function, the drift values can be used to correct, i.e. move all fixations in a trial, during recording. Indeed, this was the default behavior for the Eyelink II where this element was called `Drift Correct`. For newer Eyelink eye-trackers, the correction is disabled by default. Even if the drift correct option is not enabled in your experiment, the difference values are recorded (and saved by `popEye` on the trial level) and can be used to correct fixation offline during the analysis. This can be done separately for the `x`and the `y` dimension. The corresponding arguments in the `popEye` function are
 
-`analysis.driftX = T`
+`assign.driftX = T`
 
 and
 
-`analysis.driftY = T`
+`assign.driftY = T`
 
 which will correct for vertical and horizontal drift respectively. The default is that drift is not corrected. However, if all fixations in a trial are shifted in a systematic way, it might make sense to enable this option (especially for the `y` axis). At the same time, however, drift correction can seriously affect the position of your fixations and should be used with caution (especially for drift on the `x` axis).
 
@@ -30,11 +30,11 @@ where a sentence was displayed at the top of the screen and some instruction whi
 
 Outlier detection can be enable by specifying 
 
-`analysis.outlier = T` 
+`assign.outlier = T` 
 
 in your `popEye` call (which is the default). Screening for outliers is typically helpful and not likely to have any negative consequences. If necessary, the outlier criterion (i.e., the distance to the text area, see above) can be set using 
 
-`analysis.outlierDist = 0.2`
+`assign.outlierDist = 0.2`
 
 with 20% as the default (which is a reasonable value in many situations).
 
@@ -80,9 +80,9 @@ In order to be able to assign fixations to lines in a semi-automatic fashion, th
 
 The different input options are:
 
-1. Confirm pre-selection: Enter
-2. Change line: Enter line and confirm with Enter (e.g. "1" + "2" + "Enter" for line 12)
-3. Go back to last run: "b" (back)
+1. Confirm pre-selection: "Enter"
+2. Change line: Assign line and confirm with "Enter" (e.g. "1" + "2" + "Enter" for line 12)
+3. Go back to last run: "b" (back) + "Enter"
 4. Quit alignment: "Esc" (escape). Be careful, this will abort the complete `popEye` process.
 
 ## Recommended workflow
@@ -95,4 +95,5 @@ In general, I would recommend the following workflow:
 
 3. Manually realign those trials that were misaligned. You can use the `select.subject` and `select.trial` arguments in the `popEye()` function to select just those participants and trials and save them in separate `RDS` files.
 
-4. Merge the different `RDS` files using the `MergeExperiment()` function. 
+4. Merge the different `RDS` files using the `MergeExperiment()` or `SubstituteTrials()` functions (which have to implemented yet). 
+
