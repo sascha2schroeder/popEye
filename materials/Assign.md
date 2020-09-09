@@ -58,8 +58,41 @@ In `popEye` two algorithms are available which develop the general idea to map t
 
 `area`: Here, the method tries to maximize the overlap between the fixation and the text area. In order to do this, a rectangle is fit to the fixation data which is then projected on the text area using projective transformations (see Strang, 2016, for an overview). In contrast to the `hit` method, the fixation area is not only moved but also stretched and rotated if necessary. However, transformations are restricted to be linear, i.e. non-linear distortions cannot be corrected. 
 
-Both methods can be applied to the `x` and the `y` dimension separately by using `assign.moveX = T` and `assign.moveY = T`. One of these arguments has to be used, i.e. only specifying the method is not sufficient. The default is that fixations are not moved. You should be particularly cautious if you use the `area` method and carefully check your data. Generally, it is less problematic to move fixations vertically on the `y` axis.    
+Both methods can be applied to the `x` and the `y` dimension separately by using `assign.moveX = T` and `assign.moveY = T`. The default is that fixations are not moved. You should be particularly cautious if you use the `area` method and carefully check your data. Generally, it is less problematic to move fixations vertically on the `y` axis.    
 
 ### 4. Line assignment
 
-## Workflow
+The most important decision is about the method to assign fixation to lines. Carr et al. (under review) have recently compared different line assignment algorithms using natural text reading data from children and adults. They provide an excellent and comprehensive description of the different line assignment methods. Here, I will summarize the main characteristics of the methods provided in `popEye` at present.
+
+`atttach`: This method serves as a baseline method. Here, fixations are assigned to lines solely based on their vertical distance. As can be imagined, this method will have problems with curved lines (see Fig. 3).
+
+`chain`: This method has been proposed by Schroeder (2019) and is based on similar approaches developed by Beymer and Russell (2005) and Hyrskykari (2006). In a first step, subsequent fixations are “chained” together if they lie within a spatial window defined by a horizontal and vertical distance parameter. In a second step, fixations are mapped to lines based on their absolute vertical distance. This approach is similar to the `attach` method, but the assignment is supposedly more stable as fixations are grouped into sequences before they are mapped to lines
+
+`regress`: This method has been proposed by Cohen (2013) and is used in the `FixAlign` package. Here, regression lines are fit to all lines of the text simultaneously and fixations are assigned to individual lines based on their residual vertical distance. The regression lines are assumed to be linear and to have a constant slope. 
+
+`merge`: This method has been proposed by Spakov et al. (2019). Similar to `chain`, fixations are first grouped into sequences which are then recursively merged with each other. The merging decision in each step is regression-based and controlled by different parameters.
+
+A brief comparison of the performance of the different methods can be found [here](CompareAlgorithms/CompareAlgorithms.md). In summary, each method has its own strengths and weaknessess. However, the accuracy level of all algorithms on the trial level is quite low, i.e., there is a high percentage of trials in which at least some fixations are seriously misassigned and will need correction.
+
+### 5. Interactive mode
+
+In order to be able to assign fixations to lines in a semi-automatic fashion, there is an additional `interactive` method. Here, fixations are grouped into relatively small groups and pre-assigned to lines. For each group of fixations, you can either confirm or change the pre-selected line.
+
+The different input options are:
+
+1. Confirm pre-selection: Enter
+2. Change line: Enter line and confirm with Enter (e.g. "1" + "2" + "Enter" for line 12)
+3. Go back to last run: "b" (back)
+4. Quit alignment: "Esc" (escape). Be careful, this will abort the complete `popEye` process.
+
+## Recommended workflow
+
+In general, I would recommend the following workflow:
+
+1. Inspect your data and experiment which combination of assignment options (drift correct, move fixations, line assignment method) works best for your data.
+
+2. Inspect the quality of the alignment using the `PlotAlign()` or `PlotAlignSubject()` functions.
+
+3. Manually realign those trials that were misaligned. You can use the `select.subject` and `select.trial` arguments in the `popEye()` function to select just those participants and trials and save them in separate `RDS` files.
+
+4. Merge the different `RDS` files using the `MergeExperiment()` function. 

@@ -68,7 +68,7 @@ Please contact me, if you are interested in this.
 
 ## Installation
 
-The easiest way to install the most recent version of popEye (current version is 0.6.5) 
+The easiest way to install the most recent version of popEye (current version is 0.6.9) 
 is via the devtools package:
 
 ``` R
@@ -96,6 +96,9 @@ Example scripts for EyeTrack can be found here for
 
 
 ## Use
+
+Some short comments about the text assignment process in `popEye`can be found [here](materials/Assign.md).
+
 
 A short introduction explaining how to use popEye to preprocess your data can be found [here](materials/Preprocessing.md).
 

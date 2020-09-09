@@ -48,9 +48,9 @@ popEye(
   assign.driftY = FALSE,
   assign.outlier = TRUE,
   assign.outlierDist = 0.2,
-  assign.translateMethod = "hit",
-  assign.translateX = FALSE,
-  assign.translateY = FALSE,
+  assign.moveMethod = "hit",
+  assign.moveX = FALSE,
+  assign.moveY = FALSE,
   assign.lineMethod = "chain",
   assign.outlierX = 100,
   assign.outlierY = 100,
@@ -205,13 +205,13 @@ are flagged as outliers, default is TRUE)}
 (i.e., the necessary distance to the text area in % of the text area; 
 input values 0-1, default is 0.2)}
 
-\item{assign.translateMethod}{If TRUE fixations are moved on the x axis to fit 
+\item{assign.moveMethod}{If TRUE fixations are moved on the x axis to fit 
 into text area (TRUE or FALSE, default is FALSE)}
 
-\item{assign.translateX}{If TRUE fixations are moved on the x axis to fit 
+\item{assign.moveX}{If TRUE fixations are moved on the x axis to fit 
 into text area (TRUE or FALSE, default is FALSE)}
 
-\item{assign.translateY}{If TRUE fixations are moved on the y axis to fit 
+\item{assign.moveY}{If TRUE fixations are moved on the y axis to fit 
 into text area (TRUE or FALSE, default is FALSE)}
 
 \item{assign.lineMethod}{Method used to assign fixations to lines ("attach",
