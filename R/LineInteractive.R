@@ -105,7 +105,7 @@ LineInteractive <- function(fix, stimmat, env = parent.frame(n = 1)) {
     rect(min(stimmat$xs[stimmat$line == j]), max(stimmat$ye[stimmat$line == j]), 
          max(stimmat$xe[stimmat$line == j]), min(stimmat$ys[stimmat$line == j]),
          border = lines[j], lwd = 2,
-         col = MakeTransparent(palette()[lines[j]], alpha = .1))  
+         col = MakeTransparent(palette()[lines[j] %% 8], alpha = .1))  
   }
   text(ym, labels = unlist(dimnames(ym)), col = lines)
   
