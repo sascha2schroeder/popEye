@@ -95,5 +95,23 @@ In general, I would recommend the following workflow:
 
 3. Manually realign those trials that were misaligned. You can use the `select.subject` and `select.trial` arguments in the `popEye()` function to select just those participants and trials and save them in separate `RDS` files.
 
-4. Merge the different `RDS` files using the `MergeExperiment()` or `SubstituteTrials()` functions (which have to implemented yet). 
+4. Merge the different `RDS` files using the `AddSubjects()` or `ReplaceTrials()` (see below).
+
+## Convenience functions
+
+In order to ease your work with the semi-automatic line assignment, there are some convenience functions available:
+
+`DeleteSubjects(exp, sub)`: This function removes the participant corresponding to subject ID `sub` from RDS file `exp`.
+
+`AddSubjects(exp1, exp2)`: This function adds the participants in RDS file `exp2` to the the participants already included in `exp1`. This functions is particularly suited to combine several sub-experiments within the same study (e.g., different experimental versions). Be careful, only the `header` information of `exp1` is included in the output file.
+
+`ReplaceSubjects(exp1, exp2)`: This function replaces all participants included in `exp1` by the corresponding participants in `exp2`. If additional participants are included in `exp2`, they are added to the output file. Essentially, this funcitons combines the capabilities of `DeleteSubjects()` and `AddSubjects()`.
+
+`DeleteTrials(exp, sub, trials)`: This function removes trials indicated by item IDs `trials` (provided as a single value or a vector) of participant indicated by subject ID `sub` (the function assumes that you only want to delete trials from a single participant).
+
+`AddTrials(exp1, exp2, sub)`: This function adds trials in `exp2` of participant with subject ID `sub` to the RDS file `exp1`. This function is usually only used internally.
+
+`ReplaceTrials(exp1, exp2)`: This function replaces all trials in RDS file `exp1` which are also included in RDS file `exp2`. These trials can be from multiple participants. Essentially, this function combines the funcationality from `DeleteTrials()` and `AddTrials()`.
+
+
 
