@@ -1,25 +1,27 @@
 
 CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   
-  # prepare slots for trials
-  ret <- rep(list(NA), length(table(dat$msg$trialnum)))
-  
   # trial loop
   # -----------
   
-  if (is.null(env$select.trial) == T) {
+  if (is.null(env$select.trials) == T) {
     # trials <- as.numeric(unlist(dimnames(table(dat$msg$trialnum))))
-    trials <- 1:length(table(dat$msg$itemid))
+    # trials <- 1:length(table(dat$msg$itemid))
+    trials <- unique(dat$msg$itemid)
   } else {
-    trials <- env$select.trial
+    trials <- env$select.trials
   }
   
+  # prepare slots for trials
+  ret <- rep(list(NA), length(trials))
   
-  
+  num <- 0
   for (trial in trials) {
+
+    num <- num + 1
     
-    start <- RetrieveStartStop(dat, trial)$start
-    stop <- RetrieveStartStop(dat, trial)$stop
+    start <- min(dat$msg$time[dat$msg$itemid == trial])
+    stop <- max(dat$msg$time[dat$msg$itemid == trial])
     
     tmp <- SelectTrial(dat, start, stop)
     tmp <- TrialTime(tmp) # -> part of SelectTrial() ?
@@ -28,7 +30,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     # create meta slot
     # ------------------
     
-    time <- env$header$trial$time[trial]
+    time <- env$header$trial$time[env$header$trial$itemid == trial]
     
     if (is.null(env$header$calibration$time) == F) {
       
@@ -36,7 +38,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
       
       if(length(sel$method) == 0) {
         
-        meta <- list(trialid = trial, 
+        meta <- list(trialid = trial,
                      trialnum = max(tmp$msg$trialnum), 
                      itemid = max(tmp$msg$itemid), 
                      condition = max(tmp$msg$condition), 
@@ -53,7 +55,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
         
       } else {
         
-        meta <- list(trialid = trial, 
+        meta <- list(trialid = trial,
                      trialnum = max(tmp$msg$trialnum), 
                      itemid = max(tmp$msg$itemid), 
                      condition = max(tmp$msg$condition), 
@@ -63,16 +65,16 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                      calibration.eye = sel$eye,
                      calibration.avg = as.numeric(sel$avg),
                      calibration.max = as.numeric(sel$max),
-                     drift = env$header$trial$drift[trial],
-                     drift.x = as.numeric(as.character(env$header$trial$drift.x[trial])),
-                     drift.y = as.numeric(as.character(env$header$trial$drift.y[trial]))
+                     drift = env$header$trial$drift[env$header$trial$itemid == trial],
+                     drift.x = as.numeric(as.character(env$header$trial$drift.x[env$header$trial$itemid == trial])),
+                     drift.y = as.numeric(as.character(env$header$trial$drift.y[env$header$trial$itemid == trial]))
         )    
         
       }
       
     } else {
      
-      meta <- list(trialid = trial, 
+      meta <- list(trialid = trial,
                    trialnum = max(tmp$msg$trialnum), 
                    itemid = max(tmp$msg$itemid), 
                    condition = max(tmp$msg$condition), 
@@ -152,7 +154,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
       
     }
     
-      ret[[as.numeric(trial)]] <- list(meta = meta,
+      ret[[num]] <- list(meta = meta,
                            msg = tmp$msg,
                            samp = tmp$samp,
                            event = tmp$event,
@@ -163,22 +165,17 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   }
   
   # check for empty slots and save
-  if (is.null(env$select.trial) == T) {
-    
-    for (i in length(ret):1) {
-      if (length(ret[[i]]$parse) == 1) {
-        ret[[i]] <- NULL
-      }
+  for (i in length(ret):1) {
+    if (nrow(ret[[i]]$parse) == 1) {
+      ret[[i]] <- NULL
     }
-    
-    dat$trial <- ret
-    
-  } else {
-
-    # dat$trial[[1]] <- ret[[env$select.trial]]
-    dat$trial <- ret[env$select.trial]
-
   }
+  
+  # for (i in 1:length(ret)) {
+  #   names(ret)[i] <- NULL
+  # }
+  
+  dat$trial <- ret
   
   dat$msg <- NULL
   dat$samp <- NULL

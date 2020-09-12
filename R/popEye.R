@@ -132,11 +132,12 @@
 #' @param outname Name of output file
 #' @param select.version Restrict analysis to a specific version of the experiment
 #' (numeric; internal for debugging; only relevant for EB experiments)
-#' @param select.subject Restrict analysis to a specific subject (within a version)
-#' (numeric; internal for debugging). Select a single subject by specifying a single
-#' number (e.g., select.subject = 4). Select a range of subjects by using the colon 
-#' operator (e.g., select.subject = 1:4).
-#' @param select.trial Restrict analysis to a specific trial (numeric; internal for debugging)
+#' @param select.subjects Restrict analysis to a subset of subjects (within a version).
+#' Select a single subject by providing the corresponding subject ID, e.g., select.subjects = "t01". 
+#' Select a set of subjects by providing a vector, e.g., select.subjects = c("t01", t02").
+#' @param select.trials Restrict analysis to a subset of trials (usually within a single subject).
+#' Select a single trial by providing the corresponding item ID, e.g., select.trials = "item01". 
+#' Select a set of trials by providing a vector, e.g., select.trials = c("item01", item02").
 #' @param debug Perform analysis only for specific steps of the analysis 
 #' ("setup", "participants", "read", "remove", "create", "add", "extract", "assign",
 #' "aggregate")
@@ -215,8 +216,8 @@ popEye <- function(datpath,
                    outname = "",
                    # NOTE: Maybe combine outpath and outname to one parameter?
                    select.version = NULL,
-                   select.subject = NULL,
-                   select.trial = NULL,
+                   select.subjects = NULL,
+                   select.trials = NULL,
                    debug = "none"
                    
 ) {
@@ -292,8 +293,8 @@ popEye <- function(datpath,
     }
     
     # select subjects
-    if (missing(select.subject) == F) {
-      sub.list <- sub.list[is.element(sub.list, select.subject)]
+    if (missing(select.subjects) == F) {
+      sub.list <- sub.list[is.element(sub.list, select.subjects)]
     }
     
     if (debug == "participants") {
@@ -471,7 +472,7 @@ popEye <- function(datpath,
       # names for trial slots
       for (i in 1:length(dat$trial)) {
         
-        names(dat$trial)[i] <- paste("trial", i, sep = ".")
+        names(dat$trial)[i] <- paste("trial", dat$trial[[i]]$meta$itemid, sep = ".")
         # NOTE: select by trialid or itemid?
         
         dat$trial[[i]]$fix$trialid <- i
@@ -487,7 +488,7 @@ popEye <- function(datpath,
       exp$subjects[[nsub]] <- list(header = header, trials = dat$trial)
       
       # names for participant slot
-      names(exp$subjects)[nsub] <- paste("Participant", subid, sep = ".")
+      names(exp$subjects)[nsub] <- paste("subject", subid, sep = ".")
       
       
       # -----------------------
@@ -550,10 +551,10 @@ popEye <- function(datpath,
   
   exp$out$word.item <- word.item[-1, ]
   row.names(exp$out$word.item) <- NULL
-  
+
   exp$out$ia.item <- ia.item[-1, ]
   row.names(exp$out$ia.item) <- NULL
-  
+
   exp$out$sent.item <- sent.item[-1, ]
   row.names(exp$out$sent.item) <- NULL
   
@@ -628,9 +629,9 @@ popEye <- function(datpath,
   # clean up
   # ----------
   
-  # exp$out$ia.item <- NULL
-  # exp$out$word.item <- NULL
-  # exp$out$sent.item <- NULL
+  exp$out$ia.item <- NULL
+  exp$out$word.item <- NULL
+  exp$out$sent.item <- NULL
   
   
   # save

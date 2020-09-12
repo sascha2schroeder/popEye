@@ -72,8 +72,8 @@ popEye(
   outpath = getwd(),
   outname = "",
   select.version = NULL,
-  select.subject = NULL,
-  select.trial = NULL,
+  select.subjects = NULL,
+  select.trials = NULL,
   debug = "none"
 )
 }
@@ -272,12 +272,13 @@ received (deleted otherwise; default is 3)}
 \item{select.version}{Restrict analysis to a specific version of the experiment
 (numeric; internal for debugging; only relevant for EB experiments)}
 
-\item{select.subject}{Restrict analysis to a specific subject (within a version)
-(numeric; internal for debugging). Select a single subject by specifying a single
-number (e.g., select.subject = 4). Select a range of subjects by using the colon 
-operator (e.g., select.subject = 1:4).}
+\item{select.subjects}{Restrict analysis to a subset of subjects (within a version).
+Select a single subject by providing the corresponding subject ID, e.g., select.subjects = "t01". 
+Select a set of subjects by providing a vector, e.g., select.subjects = c("t01", t02").}
 
-\item{select.trial}{Restrict analysis to a specific trial (numeric; internal for debugging)}
+\item{select.trials}{Restrict analysis to a subset of trials (usually within a single subject).
+Select a single trial by providing the corresponding item ID, e.g., select.trials = "item01". 
+Select a set of trials by providing a vector, e.g., select.trials = c("item01", item02").}
 
 \item{debug}{Perform analysis only for specific steps of the analysis 
 ("setup", "participants", "read", "remove", "create", "add", "extract", "assign",
