@@ -8,7 +8,7 @@ ReplaceTrials <- function(exp1, exp2) {
     
     trials <- exp2$out$trials$itemid[exp2$trials$subid == sub[s]]
     
-    exp <- RemoveTrials(exp, sub[s], trials)
+    exp <- DeleteTrials(exp, sub[s], trials)
     exp <- AddTrials(exp, exp2, sub[s])
     
   }

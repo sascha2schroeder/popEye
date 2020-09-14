@@ -1,5 +1,5 @@
 
-RemoveTrials <- function(exp, sub, trials) {
+DeleteTrials <- function(exp, sub, trials) {
 
   subname <- paste("subject.", sub, sep="")
   subpos <- match(subname, names(exp$subjects))

@@ -1,5 +1,5 @@
 
-RemoveSubjects <- function(exp, sub) {
+DeleteSubjects <- function(exp, sub) {
 
   subname <- paste("subject.", sub, sep="")
   subpos <- match(subname, names(exp$subjects))
