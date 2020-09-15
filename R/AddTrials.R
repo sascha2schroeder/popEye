@@ -3,7 +3,7 @@ AddTrials <- function(exp1, exp2, sub) {
 
   exp <- exp1
   
-  subname <- sub
+  subname <- paste("subject.", sub, sep = "")
   subpos <- match(subname, names(exp$subjects))
   trialnames <- names(exp2$subjects[[1]]$trials)
   triallength <- length(exp$subjects[[subpos]]$trials)
