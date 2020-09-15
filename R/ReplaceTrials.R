@@ -6,9 +6,9 @@ ReplaceTrials <- function(exp1, exp2) {
   
   for (s in 1:sublength) {
     
-    trials <- exp2$out$trials$itemid[exp2$trials$subid == sub[s]]
+    trials <- exp2$out$trials$itemid[exp2$out$trials$subid == sub[s]]
     
-    exp <- DeleteTrials(exp, sub[s], trials)
+    exp <- DeleteTrials(exp1, sub[s], trials)
     exp <- AddTrials(exp, exp2, sub[s])
     
   }
