@@ -73,7 +73,11 @@ popEye(
   outname = "",
   select.version = NULL,
   select.subjects = NULL,
+  skip.subjects = NULL,
+  select.items = NULL,
+  skip.items = NULL,
   select.trials = NULL,
+  skip.trials = NULL,
   debug = "none"
 )
 }
@@ -276,9 +280,28 @@ received (deleted otherwise; default is 3)}
 Select a single subject by providing the corresponding subject ID, e.g., select.subjects = "t01". 
 Select a set of subjects by providing a vector, e.g., select.subjects = c("t01", t02").}
 
+\item{skip.subjects}{Remove a subset of subjects (within a version) from the analysis.
+Select a single subject by providing the corresponding subject ID, e.g., skip.subjects = "t01". 
+Select a set of subjects by providing a vector, e.g., skip.subjects = c("t01", t02").}
+
+\item{select.items}{Restrict analysis to a subset of trials (usually within a single subject).
+Select a single item by providing the corresponding item ID, e.g., select.items = "item01". 
+Select a set of itemss by providing a vector, e.g., select.items = c("item01", item02").}
+
+\item{skip.items}{Remove a subset of items (within a version) from the analysis.
+Select a single item by providing the corresponding item ID, e.g., skip.subjects = "t01". 
+Select a set of items by providing a vector, e.g., skip.items = c("t01", t02").}
+
 \item{select.trials}{Restrict analysis to a subset of trials (usually within a single subject).
-Select a single trial by providing the corresponding item ID, e.g., select.trials = "item01". 
-Select a set of trials by providing a vector, e.g., select.trials = c("item01", item02").}
+The difference between "items" and "trials" is just that the trials are selected
+by their item ID and "trials" by the position within the analysis. Both arguments
+can also be combined.
+Select a single trial by providing the corresponding trial ID, e.g., select.trials = 1. 
+Select a set of trials by providing a vector, e.g., select.trials = c(1, 2).}
+
+\item{skip.trials}{Remove a subset of trials (within a version) from the analysis.
+Select a single trial by providing the corresponding trial ID, e.g., skip.trials = 10. 
+Select a set of trials by providing a vector, e.g., skip.trials = c(10, 11).}
 
 \item{debug}{Perform analysis only for specific steps of the analysis 
 ("setup", "participants", "read", "remove", "create", "add", "extract", "assign",

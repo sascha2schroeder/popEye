@@ -4,18 +4,29 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
   if (env$exp$setup$tracker$software == "EB") {
     
     practice <- env$exp$setup$clean$practice
-    keep <- unlist(env$exp$setup$stimulus$file[env$exp$setup$stimulus$id])
+    
+    if (is.null(env$select.items) == T) {
+      keep <- unlist(env$exp$setup$stimulus$file[env$exp$setup$stimulus$id])
+    } else {
+      keep <- env$select.items
+    }
+    
+    if (is.null(env$skip.items) == F) {
+      keep <- keep[(keep %in% env$skip.items) == F]
+    }
     
     # msg
     dat$msg <- dat$msg[dat$msg$trialnum > practice, ]
     dat$msg$trialnum <- dat$msg$trialnum - practice
     dat$msg <- dat$msg[dat$msg$itemid %in% keep, ]
+    dat$msg$trialid <- as.numeric(as.factor(dat$msg$trialnum))
     
     # trial
     env$header$trial <- env$header$trial[env$header$trial$trialnum > practice, ]
     env$header$trial$trialnum <- env$header$trial$trialnum - practice
     env$header$trial <- env$header$trial[env$header$trial$itemid %in% keep, ]
-    
+    env$header$trial$trialid <- as.numeric(as.factor(env$header$trial$trialnum))
+      
     # NOTE: fix for trials without stimulus data
     env$header$trial <- env$header$trial[duplicated(env$header$trial$itemid) == F, ]
     
@@ -53,6 +64,9 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
     # keep items in stimulus file
     dat$msg <- dat$msg[dat$msg$itemid %in% keep, ]
     
+    # compute trialid
+    dat$msg$trialid <- as.numeric(as.factor(dat$msg$trialnum))
+    
      
     # trial
     # ------
@@ -84,6 +98,9 @@ RemoveTrials <- function(dat, env = parent.frame(n = 2)){
     
     # keep items in stimulus file
     env$header$trial <- env$header$trial[env$header$trial$itemid %in% keep, ]
+    
+    # compute trialid
+    dat$msg$trialid <- as.numeric(as.factor(dat$msg$trialnum))
     
   }
   

@@ -5,11 +5,13 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   # -----------
   
   if (is.null(env$select.trials) == T) {
-    # trials <- as.numeric(unlist(dimnames(table(dat$msg$trialnum))))
-    # trials <- 1:length(table(dat$msg$itemid))
-    trials <- unique(dat$msg$itemid)
+    trials <- unique(dat$msg$trialid)
   } else {
     trials <- env$select.trials
+  }
+  
+  if (is.null(env$skip.trials) == F) {
+    trials <- trials[(trials %in% env$skip.trials) == F]
   }
   
   # prepare slots for trials
@@ -20,8 +22,8 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
 
     num <- num + 1
     
-    start <- min(dat$msg$time[dat$msg$itemid == trial])
-    stop <- max(dat$msg$time[dat$msg$itemid == trial])
+    start <- min(dat$msg$time[dat$msg$trialid == trial])
+    stop <- max(dat$msg$time[dat$msg$trialid == trial])
     
     tmp <- SelectTrial(dat, start, stop)
     tmp <- TrialTime(tmp) # -> part of SelectTrial() ?
@@ -30,7 +32,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     # create meta slot
     # ------------------
     
-    time <- env$header$trial$time[env$header$trial$itemid == trial]
+    time <- env$header$trial$time[env$header$trial$trialid == trial]
     
     if (is.null(env$header$calibration$time) == F) {
       
@@ -38,7 +40,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
       
       if(length(sel$method) == 0) {
         
-        meta <- list(trialid = trial,
+        meta <- list(trialid = max(tmp$msg$trialid),
                      trialnum = max(tmp$msg$trialnum), 
                      itemid = max(tmp$msg$itemid), 
                      condition = max(tmp$msg$condition), 
@@ -55,7 +57,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
         
       } else {
         
-        meta <- list(trialid = trial,
+        meta <- list(trialid = max(tmp$msg$trialid), 
                      trialnum = max(tmp$msg$trialnum), 
                      itemid = max(tmp$msg$itemid), 
                      condition = max(tmp$msg$condition), 
@@ -65,16 +67,16 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                      calibration.eye = sel$eye,
                      calibration.avg = as.numeric(sel$avg),
                      calibration.max = as.numeric(sel$max),
-                     drift = env$header$trial$drift[env$header$trial$itemid == trial],
-                     drift.x = as.numeric(as.character(env$header$trial$drift.x[env$header$trial$itemid == trial])),
-                     drift.y = as.numeric(as.character(env$header$trial$drift.y[env$header$trial$itemid == trial]))
+                     drift = env$header$trial$drift[env$header$trial$trialid == trial],
+                     drift.x = as.numeric(as.character(env$header$trial$drift.x[env$header$trial$trialid == trial])),
+                     drift.y = as.numeric(as.character(env$header$trial$drift.y[env$header$trial$trialid == trial]))
         )    
         
       }
       
     } else {
      
-      meta <- list(trialid = trial,
+      meta <- list(trialid = max(tmp$msg$trialid),
                    trialnum = max(tmp$msg$trialnum), 
                    itemid = max(tmp$msg$itemid), 
                    condition = max(tmp$msg$condition), 
@@ -95,16 +97,17 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     # create event slot
     # ------------------
     
+    # FIX: select left eye if tracking was binocular (corresponds to sample data)
     if (env$header$calibration$eye == "LR") {
       tmp$event <- tmp$event[tmp$event$eye == "L", ]
     }
-    # FIX: select left eye if tracking was binocular (corresponds to sample data)
     
+    # FIX: skip if there are less than three fixations in trial
+    # FIX: exclude trials with negative x and y values?
     if (sum(tmp$event$msg == "EFIX" & tmp$event$xs > 0 & tmp$event$ys > 0, na.rm = T) > 3) { 
       
-    # FIX: skip if there are less than three fixations in trial
     # TODO: this only works for Eyelink -> FIX
-    # FIX: exclude trials with negative x and y values?
+    # TODO: define as parameter?
       
       if (nrow(tmp$samp) == 0 | mean(is.na(tmp$samp$x)) > .75) { # FIX: if trial is (nearly) empty
         
@@ -161,20 +164,18 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                            xy = xy,
                            vxy = vxy,
                            parse = clean)
-      
+
   }
   
   # check for empty slots and save
   for (i in length(ret):1) {
-    if (nrow(ret[[i]]$parse) == 1) {
+    
+    if (is.na(ret[[i]]$parse) == T) {
       ret[[i]] <- NULL
-    }
+    } 
+    
   }
-  
-  # for (i in 1:length(ret)) {
-  #   names(ret)[i] <- NULL
-  # }
-  
+    
   dat$trial <- ret
   
   dat$msg <- NULL
