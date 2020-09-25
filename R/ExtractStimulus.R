@@ -35,38 +35,38 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
   if (is.na(env$exp$setup$stimulus$cond) == TRUE) {
     
     # parse out indicator characters from text display
-    for (trial in 1:length(dat$trial)) {
-      dat$trial[[trial]]$meta$stim <- stimfile[, match(env$exp$setup$stimulus$text, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == dat$trial[[trial]]$meta$itemid]  
-      dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$target, "", dat$trial[[trial]]$meta$stim)  
-      dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$word, " ", dat$trial[[trial]]$meta$text) 
-      dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$line, " ", dat$trial[[trial]]$meta$text) 
+    for (trial in 1:length(dat$item)) {
+      dat$item[[trial]]$meta$stim <- stimfile[, match(env$exp$setup$stimulus$text, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == dat$item[[trial]]$meta$itemid]  
+      dat$item[[trial]]$meta$text <- gsub(env$exp$setup$indicator$target, "", dat$item[[trial]]$meta$stim)  
+      dat$item[[trial]]$meta$text <- gsub(env$exp$setup$indicator$word, " ", dat$item[[trial]]$meta$text) 
+      dat$item[[trial]]$meta$text <- gsub(env$exp$setup$indicator$line, " ", dat$item[[trial]]$meta$text) 
       if (env$exp$setup$indicator$ia != " ") {
-        dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$ia, "", dat$trial[[trial]]$meta$text)    
+        dat$item[[trial]]$meta$text <- gsub(env$exp$setup$indicator$ia, "", dat$item[[trial]]$meta$text)    
       }
     }
     
     # parse out indicator characters from preview display
     if (env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
-      for (trial in 1:length(dat$trial)) {
-        dat$trial[[trial]]$meta$preview <- stimfile[, match(env$exp$setup$stimulus$preview, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == dat$trial[[trial]]$meta$itemid]  
-        dat$trial[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$target, "", dat$trial[[trial]]$meta$preview)  
-        dat$trial[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$word, " ", dat$trial[[trial]]$meta$preview)  
-        dat$trial[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$line, " ", dat$trial[[trial]]$meta$preview) 
+      for (trial in 1:length(dat$item)) {
+        dat$item[[trial]]$meta$preview <- stimfile[, match(env$exp$setup$stimulus$preview, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == dat$item[[trial]]$meta$itemid]  
+        dat$item[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$target, "", dat$item[[trial]]$meta$preview)  
+        dat$item[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$word, " ", dat$item[[trial]]$meta$preview)  
+        dat$item[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$line, " ", dat$item[[trial]]$meta$preview) 
         if (env$exp$setup$indicator$ia != " "){
-          dat$trial[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$ia, "", dat$trial[[trial]]$meta$preview) 
+          dat$item[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$ia, "", dat$item[[trial]]$meta$preview) 
         }
       }  
     }
     
     # parse out indicator characters from prime display
     if (env$exp$setup$type == "fast") {
-      for (trial in 1:length(dat$trial)) {
-        dat$trial[[trial]]$meta$prime <- stimfile[, match(env$exp$setup$stimulus$prime, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == dat$trial[[trial]]$meta$itemid]  
-        dat$trial[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$target, "", dat$trial[[trial]]$meta$prime)  
-        dat$trial[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$word, " ", dat$trial[[trial]]$meta$prime)  
-        dat$trial[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$line, " ", dat$trial[[trial]]$meta$prime)  
+      for (trial in 1:length(dat$item)) {
+        dat$item[[trial]]$meta$prime <- stimfile[, match(env$exp$setup$stimulus$prime, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == dat$item[[trial]]$meta$itemid]  
+        dat$item[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$target, "", dat$item[[trial]]$meta$prime)  
+        dat$item[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$word, " ", dat$item[[trial]]$meta$prime)  
+        dat$item[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$line, " ", dat$item[[trial]]$meta$prime)  
         if (env$exp$setup$indicator$ia != " "){
-          dat$trial[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$ia, "", dat$trial[[trial]]$meta$prime)
+          dat$item[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$ia, "", dat$item[[trial]]$meta$prime)
         }
       }  
     }
@@ -74,36 +74,36 @@ ExtractStimulus <- function(dat, stimfile, env = parent.frame(n = 2)) {
   } else {
     
     # parse out indicator characters from text display
-    for (trial in 1:length(dat$trial)) {
-      dat$trial[[trial]]$meta$stim <- stimfile[, match(env$exp$setup$stimulus$text, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == paste(dat$trial[[trial]]$meta$itemid, dat$trial[[trial]]$meta$cond, sep = ":")]  
-      dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$target, "", dat$trial[[trial]]$meta$stim)  
-      dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$word, " ", dat$trial[[trial]]$meta$text)  
+    for (trial in 1:length(dat$item)) {
+      dat$item[[trial]]$meta$stim <- stimfile[, match(env$exp$setup$stimulus$text, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == paste(dat$item[[trial]]$meta$itemid, dat$item[[trial]]$meta$cond, sep = ":")]  
+      dat$item[[trial]]$meta$text <- gsub(env$exp$setup$indicator$target, "", dat$item[[trial]]$meta$stim)  
+      dat$item[[trial]]$meta$text <- gsub(env$exp$setup$indicator$word, " ", dat$item[[trial]]$meta$text)  
       if (env$exp$setup$indicator$ia != " ") {
-        dat$trial[[trial]]$meta$text <- gsub(env$exp$setup$indicator$ia, "", dat$trial[[trial]]$meta$text)
+        dat$item[[trial]]$meta$text <- gsub(env$exp$setup$indicator$ia, "", dat$item[[trial]]$meta$text)
       }
       
     }
     
     # parse out indicator characters from preview display
     if (env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
-      for (trial in 1:length(dat$trial)) {
-        dat$trial[[trial]]$meta$preview <- stimfile[, match(env$exp$setup$stimulus$preview, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == paste(dat$trial[[trial]]$meta$itemid, dat$trial[[trial]]$meta$cond, sep = ":")]  
-        dat$trial[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$target, "", dat$trial[[trial]]$meta$preview)  
-        dat$trial[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$word, " ", dat$trial[[trial]]$meta$preview)  
+      for (trial in 1:length(dat$item)) {
+        dat$item[[trial]]$meta$preview <- stimfile[, match(env$exp$setup$stimulus$preview, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == paste(dat$item[[trial]]$meta$itemid, dat$item[[trial]]$meta$cond, sep = ":")]  
+        dat$item[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$target, "", dat$item[[trial]]$meta$preview)  
+        dat$item[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$word, " ", dat$item[[trial]]$meta$preview)  
         if (env$exp$setup$indicator$ia != " ") {
-          dat$trial[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$ia, "", dat$trial[[trial]]$meta$preview)  
+          dat$item[[trial]]$meta$preview <- gsub(env$exp$setup$indicator$ia, "", dat$item[[trial]]$meta$preview)  
         }
       }  
     }
     
     # parse out indicator characters from prime display
     if (env$exp$setup$type == "fast") {
-      for (trial in 1:length(dat$trial)) {
-        dat$trial[[trial]]$meta$prime <- stimfile[, match(env$exp$setup$stimulus$prime, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == paste(dat$trial[[trial]]$meta$itemid, dat$trial[[trial]]$meta$cond, sep = ":")]  
-        dat$trial[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$target, "", dat$trial[[trial]]$meta$prime)  
-        dat$trial[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$word, " ", dat$trial[[trial]]$meta$prime)  
+      for (trial in 1:length(dat$item)) {
+        dat$item[[trial]]$meta$prime <- stimfile[, match(env$exp$setup$stimulus$prime, colnames(stimfile))][stimfile[, match("match", colnames(stimfile))] == paste(dat$item[[trial]]$meta$itemid, dat$item[[trial]]$meta$cond, sep = ":")]  
+        dat$item[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$target, "", dat$item[[trial]]$meta$prime)  
+        dat$item[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$word, " ", dat$item[[trial]]$meta$prime)  
         if (env$exp$setup$indicator$ia != " "){
-          dat$trial[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$ia, "", dat$trial[[trial]]$meta$prime) 
+          dat$item[[trial]]$meta$prime <- gsub(env$exp$setup$indicator$ia, "", dat$item[[trial]]$meta$prime) 
         }
       }  
     }

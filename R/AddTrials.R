@@ -5,13 +5,13 @@ AddTrials <- function(exp1, exp2, sub) {
   
   subname <- paste("subject.", sub, sep = "")
   subpos <- match(subname, names(exp$subjects))
-  trialnames <- names(exp2$subjects[[1]]$trials)
-  triallength <- length(exp$subjects[[subpos]]$trials)
+  trialnames <- names(exp2$subjects[[1]]$items)
+  triallength <- length(exp$subjects[[subpos]]$items)
   
   for (i in 1:length(trialnames)) {
   
-    exp$subjects[[subpos]]$trials[[triallength + i]] <- exp2$subjects[[1]]$trials[[i]]
-    names(exp$subjects[[subpos]]$trials)[triallength + i] <- names(exp2$subjects[[1]]$trials)[i]
+    exp$subjects[[subpos]]$items[[triallength + i]] <- exp2$subjects[[1]]$items[[i]]
+    names(exp$subjects[[subpos]]$items)[triallength + i] <- names(exp2$subjects[[1]]$items)[i]
       
   }
   

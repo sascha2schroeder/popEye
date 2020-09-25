@@ -3,7 +3,7 @@ ComputeRegression <- function(dat, trial) {
   
   # initialize
   
-  tmp <- dat$trial[[trial]]$fix[dat$trial[[trial]]$fix$type == "in", ]
+  tmp <- dat$item[[trial]]$fix[dat$item[[trial]]$fix$type == "in", ]
   
   tmp$word.reg.out <- 0
   tmp$word.reg.in <- 0
@@ -47,7 +47,7 @@ ComputeRegression <- function(dat, trial) {
   names <- c("num", "word.reg.out", "word.reg.in", "ia.reg.out", "ia.reg.in",
              "sent.reg.out", "sent.reg.in")
   tmp <- tmp[names]
-  dat$trial[[trial]]$fix <- merge(dat$trial[[trial]]$fix, tmp, by = "num", all.x = T)
+  dat$item[[trial]]$fix <- merge(dat$item[[trial]]$fix, tmp, by = "num", all.x = T)
   
   return(dat)
   

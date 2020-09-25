@@ -2,7 +2,7 @@
 ComputeRun <- function(dat, trial) {
   # trial = 1
   
-  tmp <- dat$trial[[trial]]$fix[dat$trial[[trial]]$fix$type == "in", ]
+  tmp <- dat$item[[trial]]$fix[dat$item[[trial]]$fix$type == "in", ]
   
   # run
   # ----
@@ -111,7 +111,7 @@ ComputeRun <- function(dat, trial) {
              "word.run.fix", "ia.run.fix", "sent.run.fix")
   tmp <- tmp[names]
   
-  dat$trial[[trial]]$fix <- merge(dat$trial[[trial]]$fix, tmp, by = "num", all.x = T)
+  dat$item[[trial]]$fix <- merge(dat$item[[trial]]$fix, tmp, by = "num", all.x = T)
   
   return(dat)
   

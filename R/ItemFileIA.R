@@ -14,11 +14,11 @@ ItemFileIA <- function(dat, env = parent.frame(n = 1)) {
   }
   
   # trial loop
-  for (trial in 1:length(dat$trial)) {
+  for (trial in 1:length(dat$item)) {
     # trial = 1
     
     itemtmp <- 
-      dat$trial[[trial]]$meta$stimmat[duplicated(dat$trial[[trial]]$meta$stimmat$ianum) == F, ]
+      dat$item[[trial]]$meta$stimmat[duplicated(dat$item[[trial]]$meta$stimmat$ianum) == F, ]
     
     if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
       names <- c("subid", "trialid", "trialnum", "itemid", 

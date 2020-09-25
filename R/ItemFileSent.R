@@ -7,11 +7,11 @@ ItemFileSent <- function(dat, env = parent.frame(n = 1)) {
   colnames(item) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent")
   
   # trial loop
-  for (trial in 1:length(dat$trial)) {
+  for (trial in 1:length(dat$item)) {
     # trial = 1
     
     itemtmp <- 
-      dat$trial[[trial]]$meta$stimmat[duplicated(dat$trial[[trial]]$meta$stimmat$sentnum) == F, ]
+      dat$item[[trial]]$meta$stimmat[duplicated(dat$item[[trial]]$meta$stimmat$sentnum) == F, ]
     
     names <- c("subid", "trialid", "trialnum", "itemid", 
                "cond", "sentnum", "sent")

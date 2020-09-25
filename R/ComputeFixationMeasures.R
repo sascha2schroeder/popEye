@@ -1,7 +1,7 @@
 
 ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
   
-  for (trial in 1:length(dat$trial)) {
+  for (trial in 1:length(dat$item)) {
     # trial <- 2
     
     dat <- OutlierAsBlinks(dat, trial)
@@ -17,8 +17,8 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
     dat <- ComputeLandingPosition(dat, trial)
     
     # rename fixid
-    dat$trial[[trial]]$fix$fixid <- dat$trial[[trial]]$fix$num
-    dat$trial[[trial]]$fix$num <- NULL
+    dat$item[[trial]]$fix$fixid <- dat$item[[trial]]$fix$num
+    dat$item[[trial]]$fix$num <- NULL
     
     if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
       names <- c("subid", 
@@ -167,7 +167,7 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
       )
     }
     
-    dat$trial[[trial]]$fix <- dat$trial[[trial]]$fix[names]
+    dat$item[[trial]]$fix <- dat$item[[trial]]$fix[names]
     
   }
   

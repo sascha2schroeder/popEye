@@ -1,7 +1,7 @@
 
 MatchStim <- function(dat, trial, env = parent.frame(n = 1)) {
   
-  for (trial in 1:length(dat$trial)) {
+  for (trial in 1:length(dat$item)) {
       
     # message(paste("... Trial ", trial, sep = ""))
     
@@ -11,9 +11,9 @@ MatchStim <- function(dat, trial, env = parent.frame(n = 1)) {
   }
   
   # check for empty trials 
-  for (i in length(dat$trial):1) {
-    if (length(dat$trial[[i]]$fix) == 0) {
-      dat$trial[[i]] <- NULL
+  for (i in length(dat$item):1) {
+    if (length(dat$item[[i]]$fix) == 0) {
+      dat$item[[i]] <- NULL
     }
   }
   

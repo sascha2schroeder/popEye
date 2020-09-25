@@ -4,8 +4,8 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # trial <- 2
   
   # data
-  fix <- dat$trial[[trial]]$fix
-  stimmat <- dat$trial[[trial]]$meta$stimmat
+  fix <- dat$item[[trial]]$fix
+  stimmat <- dat$item[[trial]]$meta$stimmat
   
   if (env$exp$setup$font$right == T) {
     fix$xs <- env$exp$setup$display$resolutionX - fix$xs
@@ -15,15 +15,15 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # drift correct 
   # --------------
   
-  if (is.null(dat$trial[[trial]]$meta$drift) == T) {
-    dat$trial[[trial]]$meta$drift <- NA
+  if (is.null(dat$item[[trial]]$meta$drift) == T) {
+    dat$item[[trial]]$meta$drift <- NA
   }
   
   # x axis
   if (env$exp$setup$assign$driftX == T) {
     
-    if (is.na(dat$trial[[trial]]$meta$drift) == F) {
-      fix$xn <- fix$xs - dat$trial[[trial]]$meta$drift.x
+    if (is.na(dat$item[[trial]]$meta$drift) == F) {
+      fix$xn <- fix$xs - dat$item[[trial]]$meta$drift.x
     } else {
       fix$xn <- fix$xs 
     }
@@ -35,8 +35,8 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # y axis
   if (env$exp$setup$assign$driftY == T) {
     
-    if (is.na(dat$trial[[trial]]$meta$drift) == F) {
-      fix$yn <- fix$ys - dat$trial[[trial]]$meta$drift.y + env$exp$setup$font$height / 2
+    if (is.na(dat$item[[trial]]$meta$drift) == F) {
+      fix$yn <- fix$ys - dat$item[[trial]]$meta$drift.y + env$exp$setup$font$height / 2
     } else {
       fix$yn <- fix$ys
     }
@@ -56,7 +56,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   }
   
   if (mean(fix$type == "in") < .1) {
-    dat$trial[[trial]]$fix <- NULL
+    dat$item[[trial]]$fix <- NULL
     return(dat)
   }
   
@@ -352,16 +352,16 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   if (env$exp$setup$font$right == T) {
     fix$xs <- env$exp$setup$display$resolutionX - fix$xs
     fix$xn <- env$exp$setup$display$resolutionX - fix$xn
-    dat$trial[[trial]]$meta$stimmat$xsn <- env$exp$setup$display$resolutionX - dat$trial[[trial]]$meta$stimmat$xs
-    dat$trial[[trial]]$meta$stimmat$xen <- env$exp$setup$display$resolutionX - dat$trial[[trial]]$meta$stimmat$xe
-    dat$trial[[trial]]$meta$stimmat$xs <- dat$trial[[trial]]$meta$stimmat$xen
-    dat$trial[[trial]]$meta$stimmat$xe <- dat$trial[[trial]]$meta$stimmat$xsn
-    dat$trial[[trial]]$meta$stimmat$xsn <- NULL
-    dat$trial[[trial]]$meta$stimmat$xen <- NULL
-    dat$trial[[trial]]$meta$stimmat$xm <- (dat$trial[[trial]]$meta$stimmat$xs + dat$trial[[trial]]$meta$stimmat$xe) / 2
+    dat$item[[trial]]$meta$stimmat$xsn <- env$exp$setup$display$resolutionX - dat$item[[trial]]$meta$stimmat$xs
+    dat$item[[trial]]$meta$stimmat$xen <- env$exp$setup$display$resolutionX - dat$item[[trial]]$meta$stimmat$xe
+    dat$item[[trial]]$meta$stimmat$xs <- dat$item[[trial]]$meta$stimmat$xen
+    dat$item[[trial]]$meta$stimmat$xe <- dat$item[[trial]]$meta$stimmat$xsn
+    dat$item[[trial]]$meta$stimmat$xsn <- NULL
+    dat$item[[trial]]$meta$stimmat$xen <- NULL
+    dat$item[[trial]]$meta$stimmat$xm <- (dat$item[[trial]]$meta$stimmat$xs + dat$item[[trial]]$meta$stimmat$xe) / 2
   }
   
-  dat$trial[[trial]]$fix <- fix[is.na(fix$type) == F, ]  
+  dat$item[[trial]]$fix <- fix[is.na(fix$type) == F, ]  
   
   return(dat)
   

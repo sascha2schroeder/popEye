@@ -417,7 +417,7 @@ popEye <- function(datpath,
       
       message(".. Extract fixations")
       
-      dat <- ExtractFixation(dat)
+      dat <- ExtractFixations(dat)
       
       if (debug == "extract") {
         return (dat)
@@ -494,22 +494,22 @@ popEye <- function(datpath,
       # ---------
       
       # names for trial slots
-      for (i in 1:length(dat$trial)) {
+      for (i in 1:length(dat$item)) {
         
-        names(dat$trial)[i] <- paste("trial", dat$trial[[i]]$meta$itemid, sep = ".")
+        names(dat$item)[i] <- paste("item", dat$item[[i]]$meta$itemid, sep = ".")
         # NOTE: select by trialid or itemid?
         
-        dat$trial[[i]]$fix$trialid <- i
-        dat$trial[[i]]$sac$trialid <- i
-        dat$trial[[i]]$meta$stimmat$trialid <- i
+        dat$item[[i]]$fix$trialid <- i
+        dat$item[[i]]$sac$trialid <- i
+        dat$item[[i]]$meta$stimmat$trialid <- i
         
-        fix <- rbind(fix, dat$trial[[i]]$fix)
-        sac <- rbind(sac, dat$trial[[i]]$sac)
+        fix <- rbind(fix, dat$item[[i]]$fix)
+        sac <- rbind(sac, dat$item[[i]]$sac)
         
       }
       
       # save in experiment slot
-      exp$subjects[[nsub]] <- list(header = header, trials = dat$trial)
+      exp$subjects[[nsub]] <- list(header = header, items = dat$item)
       
       # names for participant slot
       names(exp$subjects)[nsub] <- paste("subject", subid, sep = ".")

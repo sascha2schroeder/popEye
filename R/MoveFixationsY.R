@@ -37,7 +37,7 @@ MoveFixationsY <- function(fix, stimmat, env = parent.frame(n = 1)) {
     
   }
   
-  env$dat$trial[[env$trial]]$meta$move.y <- out[which.max(out[,2]), 1]
+  env$dat$item[[env$trial]]$meta$move.y <- out[which.max(out[,2]), 1]
   fix$yn[fix$type == "in"] <- fix$yn[fix$type == "in"] + out[which.max(out[,2]), 1]
   
   return(fix)    

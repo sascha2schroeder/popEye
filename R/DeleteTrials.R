@@ -3,12 +3,12 @@ DeleteTrials <- function(exp, sub, trials) {
 
   subname <- paste("subject.", sub, sep="")
   subpos <- match(subname, names(exp$subjects))
-  trialname <- paste("trial.", trials, sep="")
+  trialname <- paste("item.", trials, sep="")
   
   # remove trial slots
   for (i in 1:length(trials)) {
-    trialpos <- match(trialname, names(exp$subjects[[subpos]]$trials))
-    exp$subjects[[subpos]]$trials[[trialpos[[i]]]] <- NULL
+    trialpos <- match(trialname, names(exp$subjects[[subpos]]$items))
+    exp$subjects[[subpos]]$items[[trialpos[[i]]]] <- NULL
   }
   
   exp$out$word.item <- exp$out$word.item[(is.element(exp$out$word.item$subid, sub) & is.element(exp$out$word.item$itemid, trials)) == F, ]

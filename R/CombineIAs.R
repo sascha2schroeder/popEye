@@ -58,23 +58,6 @@ CombineIAs <- function(exp) {
   exp$out$ias$gopast <- NULL
   exp$out$ias$gopast.sel <- NULL
   
-  # # delete firstrun measures if firstrun.skip
-  # exp$out$ias$firstrun.nfix[exp$out$ias$firstrun.skip == 1] <- NA
-  # exp$out$ias$firstrun.refix[exp$out$ias$firstrun.skip == 1] <- NA
-  # exp$out$ias$firstrun.reg.in[exp$out$ias$firstrun.skip == 1] <- NA  
-  # exp$out$ias$firstrun.reg.out[exp$out$ias$firstrun.skip == 1] <- NA  
-  # exp$out$ias$firstrun.dur[exp$out$ias$firstrun.skip == 1] <- NA  
-  # exp$out$ias$firstrun.gopast[exp$out$ias$firstrun.skip == 1] <- NA  
-  # exp$out$ias$firstrun.gopast.sel[exp$out$ias$firstrun.skip == 1] <- NA  
-
-  # # delete firstfix measures if firstrun.skip
-  # exp$out$ias$firstfix.sac.in[exp$out$ias$firstrun.skip == 1] <- NA
-  # exp$out$ias$firstfix.sac.out[exp$out$ias$firstrun.skip == 1] <- NA
-  # exp$out$ias$firstfix.launch[exp$out$ias$firstrun.skip == 1] <- NA  
-  # exp$out$ias$firstfix.land[exp$out$ias$firstrun.skip == 1] <- NA  
-  # exp$out$ias$firstfix.cland[exp$out$ias$firstrun.skip == 1] <- NA  
-  # exp$out$ias$firstfix.dur[exp$out$ias$firstrun.skip == 1] <- NA  
-  
   
   # compute single fixation measures
   # ---------------------------------

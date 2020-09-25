@@ -176,7 +176,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     
   }
     
-  dat$trial <- ret
+  dat$item <- ret
   
   dat$msg <- NULL
   dat$samp <- NULL

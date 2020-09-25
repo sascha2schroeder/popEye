@@ -4,7 +4,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   # retrieve variables
   # ------------------
   
-  stim <- dat$trial[[trial]]$meta$stim
+  stim <- dat$item[[trial]]$meta$stim
   
   x.offset <- env$exp$setup$display$marginLeft
   y.offset <- env$exp$setup$display$marginTop
@@ -61,10 +61,10 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   # -------------------
   
   stimmat$subid <- env$subid
-  stimmat$trialid <- dat$trial[[trial]]$meta$trialid
-  stimmat$trialnum <- dat$trial[[trial]]$meta$trialnum
-  stimmat$itemid <- dat$trial[[trial]]$meta$itemid
-  stimmat$cond <- dat$trial[[trial]]$meta$cond
+  stimmat$trialid <- dat$item[[trial]]$meta$trialid
+  stimmat$trialnum <- dat$item[[trial]]$meta$trialnum
+  stimmat$itemid <- dat$item[[trial]]$meta$itemid
+  stimmat$cond <- dat$item[[trial]]$meta$cond
   
   
   # compute word
@@ -311,12 +311,12 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     
     stimmat$target <- NA
     
-    dat$trial[[trial]]$meta$target <- 
+    dat$item[[trial]]$meta$target <- 
       grep(env$exp$setup$indicator$target, unlist(strsplit(stim, env$exp$setup$indicator$ia)))
     
-    stimmat$target[stimmat$ianum == dat$trial[[trial]]$meta$target] <- "n"
-    stimmat$target[stimmat$ianum == dat$trial[[trial]]$meta$target - 1] <- "n-1"
-    stimmat$target[stimmat$ianum == dat$trial[[trial]]$meta$target + 1] <- "n+1"
+    stimmat$target[stimmat$ianum == dat$item[[trial]]$meta$target] <- "n"
+    stimmat$target[stimmat$ianum == dat$item[[trial]]$meta$target - 1] <- "n-1"
+    stimmat$target[stimmat$ianum == dat$item[[trial]]$meta$target + 1] <- "n+1"
     
   }
   
@@ -384,7 +384,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
                "letline", "letword", "letia", "wordline", "wordsent")
   }
   
-  dat$trial[[trial]]$meta$stimmat <- stimmat
+  dat$item[[trial]]$meta$stimmat <- stimmat
   
   return(dat)
   

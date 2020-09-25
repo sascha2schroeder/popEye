@@ -9,11 +9,11 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
   target.label <- env$exp$setup$message$target
   
   # trial loop  
-  for (trial in 1:length(dat$trial)) {
+  for (trial in 1:length(dat$item)) {
     # trial <- 94
     
     # set up output slot
-    dat$trial[[trial]]$clean$fast <- list(trigger = 0, blink = 0, seq = 0, 
+    dat$item[[trial]]$clean$fast <- list(trigger = 0, blink = 0, seq = 0, 
                                               pattern = 0, time = 0, hook = 0, 
                                               crit = 0, sac.dur = 0, 
                                               pre.time = 0, pre.prime = 0,
@@ -21,7 +21,7 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
                                               fix.dur = 0, fix.target = 0)
     
     # variables
-    tmp <- dat$trial[[trial]]$all
+    tmp <- dat$item[[trial]]$all
     boundary <- tmp[tmp$msg == boundary.label, ]
     pre.boundary <- tmp[tmp$num[tmp$msg == boundary.label] - 1, ]
     post.boundary <- tmp[tmp$num[tmp$msg == boundary.label] + 1, ]
@@ -33,7 +33,7 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
     post.target <- tmp[tmp$num[tmp$msg == target.label] + 1, ]
     
     # compute boundary position
-    dat$trial[[trial]]$meta$boundary <- dat$trial[[trial]]$meta$letter.boundary[dat$trial[[trial]]$meta$ia.boundary[dat$trial[[trial]]$meta$target]]
+    dat$item[[trial]]$meta$boundary <- dat$item[[trial]]$meta$letter.boundary[dat$item[[trial]]$meta$ia.boundary[dat$item[[trial]]$meta$target]]
     
     # cleaning criteria
     # ------------------
@@ -41,20 +41,20 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
     # 0. trigger problems (skips rest)
     
     # retrieve fixations    
-    fix <- dat$trial[[trial]]$fix
+    fix <- dat$item[[trial]]$fix
     
     # check if boundary has been triggered
     if (nrow(boundary) == 0) {
-      dat$trial[[trial]]$clean$fast$trigger <- 1
-      dat$trial[[trial]]$clean$fast$crit <- 1
+      dat$item[[trial]]$clean$fast$trigger <- 1
+      dat$item[[trial]]$clean$fast$crit <- 1
       next
     }
 
     # check if boundary change occured before first fixation
     # (not sure how this is possible, but it happened once)
     if (fix$start[1] > boundary$start) {
-      dat$trial[[trial]]$clean$fast$trigger <- 1
-      dat$trial[[trial]]$clean$fast$crit <- 1
+      dat$item[[trial]]$clean$fast$trigger <- 1
+      dat$item[[trial]]$clean$fast$crit <- 1
       next
     }
     
@@ -62,8 +62,8 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
     # (response button pressed too early)
     
     if (fix$start[nrow(fix)] < boundary$start) {
-      dat$trial[[trial]]$clean$fast$trigger <- 1
-      dat$trial[[trial]]$clean$fast$crit <- 1
+      dat$item[[trial]]$clean$fast$trigger <- 1
+      dat$item[[trial]]$clean$fast$crit <- 1
       next
     }
     
@@ -73,7 +73,7 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
     blink.after <- head(fix$blink[fix$start > boundary$start], n = 1)
     
     if (blink.before == 1 | blink.after == 1) {
-      dat$trial[[trial]]$clean$fast$blink <- 1
+      dat$item[[trial]]$clean$fast$blink <- 1
     }
     
     # 2. remove trials with non-standard pattern
@@ -83,25 +83,25 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
     stack <- paste(tmp$msg, collapse = "")
     
     if (length(grep(find1, stack)) > 0) {
-      dat$trial[[trial]]$clean$fast$seq <- 
+      dat$item[[trial]]$clean$fast$seq <- 
         paste(boundary.label, prime.label, "FIX", sep = "-")
     } else if (length(grep(find2, stack)) > 0) {
-      dat$trial[[trial]]$clean$fast$seq <- 
+      dat$item[[trial]]$clean$fast$seq <- 
         paste(boundary.label, "FIX", prime.label, sep = "-")
     } else {
-      dat$trial[[trial]]$clean$fast$seq <- 0
+      dat$item[[trial]]$clean$fast$seq <- 0
     }
     
-    if (dat$trial[[trial]]$clean$fast$seq == 0) {
-      dat$trial[[trial]]$clean$fast$pattern <- 1
-      dat$trial[[trial]]$clean$fast$seq <- paste(pre.prime$msg, 
+    if (dat$item[[trial]]$clean$fast$seq == 0) {
+      dat$item[[trial]]$clean$fast$pattern <- 1
+      dat$item[[trial]]$clean$fast$seq <- paste(pre.prime$msg, 
                                                      prime$msg, post.prime$msg, sep = "-")
     }
     
     # 3. remove if display change occured after 10 ms in fixation (Slattery et al., 2011)
     
     if (pre.prime$msg == "FIX" & (prime$start - pre.prime$start) > 10) {
-      dat$trial[[trial]]$clean$fast$time <- 1
+      dat$item[[trial]]$clean$fast$time <- 1
     }
     
     # 4. check for J-hooks 
@@ -114,17 +114,17 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
       }
     }
     
-    if (fix.after$xs <= as.numeric(dat$trial[[trial]]$meta$boundary)) {
-      dat$trial[[trial]]$clean$fast$hook <-  1
+    if (fix.after$xs <= as.numeric(dat$item[[trial]]$meta$boundary)) {
+      dat$item[[trial]]$clean$fast$hook <-  1
     }   
     
     # combine
-    if (sum(c(dat$trial[[trial]]$clean$fast$trigger, 
-              dat$trial[[trial]]$clean$fast$blink, 
-              dat$trial[[trial]]$clean$fast$pattern,
-              dat$trial[[trial]]$clean$fast$time, 
-              dat$trial[[trial]]$clean$fast$hook)) > 0) {
-      dat$trial[[trial]]$clean$fast$crit <- 1   
+    if (sum(c(dat$item[[trial]]$clean$fast$trigger, 
+              dat$item[[trial]]$clean$fast$blink, 
+              dat$item[[trial]]$clean$fast$pattern,
+              dat$item[[trial]]$clean$fast$time, 
+              dat$item[[trial]]$clean$fast$hook)) > 0) {
+      dat$item[[trial]]$clean$fast$crit <- 1   
     }
     
     
@@ -133,50 +133,50 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
     
     # duration of change saccade
     if (pre.boundary$msg == "SAC") {
-      dat$trial[[trial]]$clean$fast$sac.dur <- pre.boundary$stop - pre.boundary$start  
+      dat$item[[trial]]$clean$fast$sac.dur <- pre.boundary$stop - pre.boundary$start  
     }
-    dat$trial[[trial]]$clean$fast$sac.dur[length(dat$trial[[trial]]$clean$fast$sac.dur) == 0] = -999
+    dat$item[[trial]]$clean$fast$sac.dur[length(dat$item[[trial]]$clean$fast$sac.dur) == 0] = -999
     
     # time between saccade onset and boundary
-    dat$trial[[trial]]$clean$fast$pre.time <- 
+    dat$item[[trial]]$clean$fast$pre.time <- 
       boundary$start - pre.boundary$start[pre.boundary$msg == "SAC"]
-    dat$trial[[trial]]$clean$fast$pre.time[length(dat$trial[[trial]]$clean$fast$pre.time) == 0] = -999
+    dat$item[[trial]]$clean$fast$pre.time[length(dat$item[[trial]]$clean$fast$pre.time) == 0] = -999
     
     # time between boundary and prime
-    dat$trial[[trial]]$clean$fast$pre.prime <- 
+    dat$item[[trial]]$clean$fast$pre.prime <- 
       prime$start - boundary$start
-    dat$trial[[trial]]$clean$fast$pre.prime[length(dat$trial[[trial]]$clean$fast$pre.prime) == 0] = -999
+    dat$item[[trial]]$clean$fast$pre.prime[length(dat$item[[trial]]$clean$fast$pre.prime) == 0] = -999
     
     # time between prime and target
-    dat$trial[[trial]]$clean$fast$prime.time <- 
+    dat$item[[trial]]$clean$fast$prime.time <- 
       target$start - prime$start
-    dat$trial[[trial]]$clean$fast$prime.time[length(dat$trial[[trial]]$clean$fast$prime.time) == 0] = -999
+    dat$item[[trial]]$clean$fast$prime.time[length(dat$item[[trial]]$clean$fast$prime.time) == 0] = -999
     
     # time between prime and fixation onset (negative if prime occured in fixation)
     if (post.prime$msg == "FIX") {
-      dat$trial[[trial]]$clean$fast$post.prime <-
+      dat$item[[trial]]$clean$fast$post.prime <-
         post.prime$start - prime$start
     } else if (pre.prime$msg == "FIX") {
-      dat$trial[[trial]]$clean$fast$post.prime <-
+      dat$item[[trial]]$clean$fast$post.prime <-
         pre.prime$start - prime$start 
     }
-    dat$trial[[trial]]$clean$fast$pre.prime[length(dat$trial[[trial]]$clean$fast$pre.prime) == 0] = -999
+    dat$item[[trial]]$clean$fast$pre.prime[length(dat$item[[trial]]$clean$fast$pre.prime) == 0] = -999
     
     # duration of target fixation
     if (pre.target$msg == "FIX") {
-      dat$trial[[trial]]$clean$fast$fix.dur <- pre.target$stop - pre.target$start  
+      dat$item[[trial]]$clean$fast$fix.dur <- pre.target$stop - pre.target$start  
     } else if (pre.prime$msg == "FIX") {
-      dat$trial[[trial]]$clean$fast$fix.dur <- pre.prime$stop - pre.prime$start  
+      dat$item[[trial]]$clean$fast$fix.dur <- pre.prime$stop - pre.prime$start  
     }
-    dat$trial[[trial]]$clean$fast$fix.dur[length(dat$trial[[trial]]$clean$fast$fix.dur) == 0] = -999
+    dat$item[[trial]]$clean$fast$fix.dur[length(dat$item[[trial]]$clean$fast$fix.dur) == 0] = -999
     
     # time between fixation and target onset
     if (pre.target$msg == "FIX") {
-      dat$trial[[trial]]$clean$fast$fix.target <- pre.target$start - target$start  
+      dat$item[[trial]]$clean$fast$fix.target <- pre.target$start - target$start  
     } else if (pre.prime$msg == "FIX") {
-      dat$trial[[trial]]$clean$fast$fix.target <- pre.prime$start - target$start  
+      dat$item[[trial]]$clean$fast$fix.target <- pre.prime$start - target$start  
     }
-    dat$trial[[trial]]$clean$fast$fix.target[length(dat$trial[[trial]]$clean$fast$fix.target) == 0] = -999
+    dat$item[[trial]]$clean$fast$fix.target[length(dat$item[[trial]]$clean$fast$fix.target) == 0] = -999
     
     # print(trial)
     
