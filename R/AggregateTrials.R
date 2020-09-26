@@ -28,7 +28,7 @@ AggregateTrials <- function(exp, env = parent.frame(n = 1)) {
   trial$nfix <- as.numeric(tapply(tmp$fixid[tmp$type == "in"], list(tmp$id[tmp$type == "in"]), length))
 
   # number of outliers  
-  nout <- aggregate(tmp$type == "out", list(tmp$id), sum)
+  nout <- aggregate(trialtmp$type == "out", list(trialtmp$id), sum)
   colnames(nout) <- c("id", "nout")
   trial <- merge(trial, nout, all.x = T)
   
