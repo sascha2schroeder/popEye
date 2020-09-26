@@ -2,7 +2,6 @@
 CleanTrial <- function(dat, env = parent.frame(n = 2)) {
   
   for (trial in 1:length(dat$item)) {
-  # for (trial in 69:69) {
     # trial = 48
     # print(trial)
     
@@ -16,24 +15,28 @@ CleanTrial <- function(dat, env = parent.frame(n = 2)) {
     # trial.calibration: if trial was not calibrated
     if (dat$item[[trial]]$meta$calibration.method == "") {
       dat$item[[trial]]$clean$trial$calibration <- 1
+      dat$item[[trial]]$clean$trial$crit <- 1
       next
     }
     
     # trial.calibration: if no calibration value is available
     if (length(dat$item[[trial]]$meta$calibration.avg) == 0) {
       dat$item[[trial]]$clean$trial$calibration <- 1
+      dat$item[[trial]]$clean$trial$crit <- 1
       next
     }
     
     # trial.calibration: if calibration accuracy was too bad 
     if (dat$item[[trial]]$meta$calibration.avg > 1) {
       dat$item[[trial]]$clean$trial$calibration <- 1
+      dat$item[[trial]]$clean$trial$crit <- 1
       next
     }
    
     # trial.fix: check minimum number of fixations in trial (controlled by exclude.fix)
     if (max(dat$item[[trial]]$fix$fixid) <  env$exp$setup$exclude$nfix) {
       dat$item[[trial]]$clean$trial$nfix <- 1
+      dat$item[[trial]]$clean$trial$crit <- 1
     }
     # NOTE: maybe integrate this screening in earlier steps (after outliers are excluded) 
     
@@ -41,12 +44,6 @@ CleanTrial <- function(dat, env = parent.frame(n = 2)) {
     if (sum(dat$item[[trial]]$fix$blink == 1) > 0) {
       dat$item[[trial]]$clean$trial$blink <- 1
     } 
-    
-    # combine
-    if (sum(c(dat$item[[trial]]$clean$trial$calibration, 
-              dat$item[[trial]]$clean$trial$nfix)) > 0) {
-        dat$item[[trial]]$clean$trial$crit = 1
-    }
     
   }
   
