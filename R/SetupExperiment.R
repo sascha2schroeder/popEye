@@ -1028,7 +1028,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                  moveX = env$assign.moveX,
                  moveY = env$assign.moveY,
                  lineMethod = env$assign.lineMethod,
-                 outlierX = env$assign.outlierX,
                  outlierY = env$assign.outlierY,
                  lineX = env$assign.lineX,
                  lineY= env$assign.lineY)

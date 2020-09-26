@@ -14,6 +14,7 @@ MatchStim <- function(dat, trial, env = parent.frame(n = 1)) {
   for (i in length(dat$item):1) {
     if (length(dat$item[[i]]$fix) == 0) {
       dat$item[[i]] <- NULL
+      env$header$exclusion <- env$header$exclusion + 1
     }
   }
   

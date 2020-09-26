@@ -94,9 +94,6 @@
 #' into text area (TRUE or FALSE, default is FALSE)
 #' @param assign.lineMethod Method used to assign fixations to lines ("attach",
 #' "chain" or "merge", "chain" is default; see Vignette)
-#' @param assign.outlierX Parameter for outlier detection on the x axis 
-#' (number of line heights a fixation is allowed to deviate from last letter 
-#' on a line; default is 2)
 #' @param assign.outlierY Parameter for outlier detection on the y axis
 #' (number of line heights a fixation is allowed to deviate from the first or
 #' last line on a screen, default is 2)

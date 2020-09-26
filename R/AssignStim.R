@@ -155,8 +155,8 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
         # assign previous run to line
         mean.y <- mean(fix$yn[fix$linerun == fix$linerun[i - 1]], na.rm = T)
         
-        if (mean.y > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2) | 
-            mean.y < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)) {
+        if (mean.y > (max(stimmat$ye) + env$exp$setup$font$height * env$exp$setup$assign$outlierY) | 
+            mean.y < (min(stimmat$ys) - env$exp$setup$font$height * env$exp$setup$assign$outlierY)) {
           
           fix$type[fix$linerun == fix$linerun[i - 1]] <- "out"
           
@@ -185,8 +185,8 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     # assign last run
     mean.y <- mean(fix$yn[fix$linerun == fix$linerun[nrow(fix)]], na.rm = T)
     
-    if (mean.y > (max(stimmat$ye) + (stimmat$ye[1] - stimmat$ys[1]) * 2) | 
-        mean.y < (min(stimmat$ys) - (stimmat$ye[1] - stimmat$ys[1]) * 2)) {
+    if (mean.y > (max(stimmat$ye) + env$exp$setup$font$height * env$exp$setup$assign$outlierY) | 
+        mean.y < (min(stimmat$ys) - env$exp$setup$font$height * env$exp$setup$assign$outlierY)) {
       
       fix$type[fix$linerun == fix$linerun[nrow(fix)]] <- "out"
       
@@ -271,10 +271,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   fix$trial <- NA
   
   for (i in 1:nrow(fix)) {
-    
     # i <- 1
-    
-    # determine x outlier
     
     if (fix$type[i] == "in" & fix$line[i] > 0 & is.na(fix$line[i]) == F) {
       
@@ -303,35 +300,35 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
       fix$trial.nwords[i] <- stimmat$trial.nwords[stimmat$line == fix$line[i]][which.min(out)]
       fix$trial[i] <- stimmat$trial[stimmat$line == fix$line[i]][which.min(out)]
       
-      if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$assign$outlierX) {
-        
-        fix$type[i] <- "out"
-        
-        fix$line[i] <- NA
-        fix$letternum[i] <- NA
-        fix$letter[i] <- NA
-        fix$wordnum[i] <- NA
-        fix$word[i] <- NA
-        fix$sentnum[i] <- NA
-        fix$sent[i] <- NA
-        fix$sent.nwords[i] <- NA
-        fix$ianum[i] <- NA
-        fix$ia[i] <- NA
-        
-        if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
-          fix$target[i] <- NA
-        }
-        
-        fix$line.let[i] <- NA
-        fix$word.land[i] <- NA
-        fix$ia.land[i] <- NA
-        fix$line.word[i] <- NA
-        fix$sent.word[i] <- NA
-        
-        fix$trial.nwords[i] <- NA
-        fix$trial[i] <- NA
-        
-      }
+      # if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$assign$outlierX) {
+      #   
+      #   fix$type[i] <- "out"
+      #   
+      #   fix$line[i] <- NA
+      #   fix$letternum[i] <- NA
+      #   fix$letter[i] <- NA
+      #   fix$wordnum[i] <- NA
+      #   fix$word[i] <- NA
+      #   fix$sentnum[i] <- NA
+      #   fix$sent[i] <- NA
+      #   fix$sent.nwords[i] <- NA
+      #   fix$ianum[i] <- NA
+      #   fix$ia[i] <- NA
+      #   
+      #   if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
+      #     fix$target[i] <- NA
+      #   }
+      #   
+      #   fix$line.let[i] <- NA
+      #   fix$word.land[i] <- NA
+      #   fix$ia.land[i] <- NA
+      #   fix$line.word[i] <- NA
+      #   fix$sent.word[i] <- NA
+      #   
+      #   fix$trial.nwords[i] <- NA
+      #   fix$trial[i] <- NA
+      #   
+      # }
       
     }
     
