@@ -14,12 +14,12 @@ CreateClean <- function(dat, env = parent.frame(n = 1)) {
   
   cleantmp$calibration.method <- unlist(lapply(lapply(dat$item, "[[", "meta"), "[[", "calibration.method"))
   
-  if (is.null(unlist(lapply(lapply(dat$item, "[[", "meta"), "[[", "calibration.avg"))) == F ) {
+  if (is.null(unlist(lapply(lapply(dat$item, "[[", "meta"), "[[", "calibration.avg"))) == F) {
     
     cleantmp$calibration.avg <- unlist(lapply(lapply(dat$item, "[[", "meta"), "[[", "calibration.avg"))
     cleantmp$calibration.max <- unlist(lapply(lapply(dat$item, "[[", "meta"), "[[", "calibration.max"))
     
-    if (env$exp$setup$assign$driftX == T | env$exp$setup$assign$driftY == T) {
+    if (is.na(unlist(lapply(lapply(dat$item, "[[", "meta"), "[[", "drift"))) == F) {
       
       cleantmp$drift <- unlist(lapply(lapply(dat$item, "[[", "meta"), "[[", "drift"))
       cleantmp$drift.x <- unlist(lapply(lapply(dat$item, "[[", "meta"), "[[", "drift.x"))

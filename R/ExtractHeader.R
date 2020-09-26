@@ -9,15 +9,11 @@ ExtractHeader <- function(infile, env = parent.frame(n = 2)){
   # calibration
   # ------------
   
-  tmp <- infile[grep("MSG", infile)]
-  tmp <- tmp[grep("VALIDATION", tmp)]
-  
   if (sum(grepl("CALIBRATION", infile)) > 0) {
   
     tmp <- infile[grep("MSG", infile)]
     tmp <- tmp[grep("CALIBRATION", tmp)]
     tmp <- tmp[length(tmp)]
-    # tmp <- tmp[grep("GOOD", tmp)]
     
     env$header$calibration$method <- sapply(strsplit(tmp, " "), "[[", 4)
     env$header$calibration$eye <- sapply(strsplit(tmp, " "), "[[", 5)

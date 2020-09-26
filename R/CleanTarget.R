@@ -58,11 +58,25 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
       next  
     }
     
+    # # blink before target
+    # for (i in 1:nrow(dat$item[[trial]]$sac)) {
+    #   # i <- 1
+    #   if (dat$item[[trial]]$sac$msg[i] == "BLINK" & dat$item[[trial]]$sac$start[i] < target.start$start) {
+    #     blink.range <- seq(from = dat$item[[trial]]$sac$xs[i], to = dat$item[[trial]]$sac$xe[i])
+    #     if (blink.range[1] < min(target.range) | blink.range[1] < min(min.range)) {
+    #       dat$item[[trial]]$clean$target$blink <- 1
+    #       dat$item[[trial]]$clean$target$crit <- 1
+    #     }
+    #   }
+    #   # print(i)
+    # }
+    
+    # blink overlaps target
     for (i in 1:nrow(dat$item[[trial]]$sac)) {
       # i <- 1
       if (dat$item[[trial]]$sac$msg[i] == "BLINK" & dat$item[[trial]]$sac$start[i] < target.start$start) {
         blink.range <- seq(from = dat$item[[trial]]$sac$xs[i], to = dat$item[[trial]]$sac$xe[i])
-        if (blink.range[1] < min(target.range) | blink.range[1] < min(min.range)) {
+        if (sum(target.range %in% blink.range) > 0) {
           dat$item[[trial]]$clean$target$blink <- 1
           dat$item[[trial]]$clean$target$crit <- 1
         }

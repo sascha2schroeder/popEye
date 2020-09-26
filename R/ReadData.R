@@ -18,9 +18,7 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
   
   if (env$exp$setup$tracker$software == "EB") {
     newwd <- paste(filepath, subid, "/",sep = "")
-    # setwd(newwd)
   } else if (env$exp$setup$tracker$software == "ET") {
-    # setwd(paste(filepath, sep = ""))  
   }
   
   # # check whether EDF file exists

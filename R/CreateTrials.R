@@ -32,7 +32,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     # create meta slot
     # ------------------
     
-    time <- env$header$trial$time[env$header$trial$trialid == trial]
+    time <- env$header$trial$time[trial]
     
     if (is.null(env$header$calibration$time) == F) {
       
@@ -67,9 +67,9 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                      calibration.eye = sel$eye,
                      calibration.avg = as.numeric(sel$avg),
                      calibration.max = as.numeric(sel$max),
-                     drift = env$header$trial$drift[env$header$trial$trialid == trial],
-                     drift.x = as.numeric(as.character(env$header$trial$drift.x[env$header$trial$trialid == trial])),
-                     drift.y = as.numeric(as.character(env$header$trial$drift.y[env$header$trial$trialid == trial]))
+                     drift = env$header$trial$drift[trial],
+                     drift.x = as.numeric(as.character(env$header$trial$drift.x[trial])),
+                     drift.y = as.numeric(as.character(env$header$trial$drift.y[trial]))
         )    
         
       }
