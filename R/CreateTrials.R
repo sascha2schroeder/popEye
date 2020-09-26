@@ -104,7 +104,8 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     
     # FIX: skip if there are less than three fixations in trial
     # FIX: exclude trials with negative x and y values?
-    if (sum(tmp$event$msg == "EFIX" & tmp$event$xs > 0 & tmp$event$ys > 0, na.rm = T) > 3) { 
+    count <- 0
+    if (sum(tmp$event$msg == "EFIX" & tmp$event$xs > 0 & tmp$event$ys > 0, na.rm = T) > 2) { 
       
     # TODO: this only works for Eyelink -> FIX
     # TODO: define as parameter?
@@ -151,6 +152,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
       
     } else {
       
+      count <- count + 1
       xy <- NA
       vxy <- NA
       clean <- NA
@@ -177,12 +179,12 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   }
     
   dat$item <- ret
+  env$header$exclusion <- env$header$exclusion + count
   
   dat$msg <- NULL
   dat$samp <- NULL
   dat$event <- NULL
   env$header$trial <- NULL
-  env$header$calibration <- NULL
   env$meta <- NULL
   
   return(dat)

@@ -84,6 +84,13 @@ AggregateSubjects <- function(exp) {
   # number of trials
   sagg$ntrial <- tapply(exp$out$trial$trialnum, exp$out$trial$subid, length)
   
+  # number of exclusions
+  sagg$nexc <- sapply(lapply(exp$subjects, "[[", 1), "[[", "exclusion")
+  
+  # mean calibration accuracy
+  sagg$mcal <- sapply(lapply(lapply(lapply(exp$subjects, "[[", 1), "[[", "calibration"), "[[", "avg"), function(x) round(mean(as.numeric(x), na.rm = T), 2))
+  # NOTE: weighted mean based on duration of the trial?
+  
   # results
   if (exp$setup$tracker$software == "EB" & exp$setup$tracker$results == T) {
     sagg$quest.acc <- round(as.numeric(tapply(exp$out$results$quest$quest.acc, 
@@ -96,11 +103,11 @@ AggregateSubjects <- function(exp) {
   exp$out$subjects <- merge(cagg, sagg, by = "subid")
   
   if (exp$setup$tracker$software == "EB" & exp$setup$tracker$results == T) {
-    names <- c("subid", "ntrial", "pcrit", "pblink", "pout", "nrun", 
+    names <- c("subid", "ntrial", "nexc", "mcal", "pcrit", "pblink", "pout", "nrun", 
                "nfix", "skip", "sac", "refix", "reg", "mfix", "total", "rate", 
                "quest.acc", "quest.rt")
   } else {
-    names <- c("subid", "ntrial", "pcrit", "pblink", "pout", "nrun", 
+    names <- c("subid", "ntrial", "nexc", "mcal", "pcrit", "pblink", "pout", "nrun", 
                "nfix", "skip", "sac", "refix", "reg", "mfix", "total", "rate")
   }
   
