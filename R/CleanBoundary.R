@@ -9,8 +9,7 @@ CleanBoundary <- function(dat, env = parent.frame(n = 2)) {
   
   # trial loop  
   for (trial in 1:length(dat$item)) {
-  # for (trial in 94:95) {
-    # trial <- 2
+  # trial <- 2
     
     # set up output slot
     dat$item[[trial]]$clean$boundary <- list(trigger = 0, blink = 0, seq = 0, 

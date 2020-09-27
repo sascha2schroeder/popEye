@@ -30,7 +30,7 @@ popEye uses a cleaning procedure that is very similar to the 4-stage cleaning in
 
 2. In the second step, fixations shorter than 40 ms are merged with longer fixation if they are within a distance of 3 letters by default. Again, these settings are identical to the default values from EyeDoctor. They can be adjusted using the `clean.stage2Dur`and `clean.stage2Dist` parameters when calling `popEye`.    
 
-3. In the third step, fixations within the same interest area are merged with each other, if there are at least 3 fixations below the threshold and no fixation above the threshold. This step is not executed by default (see below). You can enable it by setting the `clean.stage3` parameter to true. The threshold can be controlled via `clean.stage3Dur`. The default value is 140 ms (as in DataViewer). Please be aware that only the detection, but not the merging step is implemented at present. If you use this option, fixations are flagged to be merged, which has to be done in a later step during your analysis.
+3. In the third step, fixations within the same interest area are merged with each other, if there are at least 3 fixations below the threshold and no fixations above the threshold. This step is not executed by default (see below). You can enable it by setting the `clean.stage3` parameter to true. The threshold can be controlled via `clean.stage3Dur`. The default value is 140 ms (as in DataViewer). Please be aware that only the detection, but not the merging step is implemented at present. If you use this option, fixations are flagged to be merged, which has to be done in a later step during your analysis.
 
 4. In the fourth step, fixations below or above some threshold are deleted. Again, this step is not executed by default. You can enable it by setting the `clean.stage4` parameter `TRUE`. The minimum and maximum threshold can be controlled by setting `clean.stage4Min` and `clean.stage4Max` respectively (with 80 ms and 800 ms as default values as in DataViewer). 
 
@@ -41,32 +41,60 @@ Steps 3 and 4 are not executed by default. The reason is that fixations are dele
 There are two situations where fixations are flagged as `outliers` in `popEye`:
 
 - If `assign.outlier` is `TRUE`(which is the default), fixations 20% away from the text area are flagged as outliers (see [here](Assign.md) for a detailed description).
-- Fixations might be flagged as outliers during line assignment. In particular, for `lineMethod` `assign` and `chain` fixations that are more than two line distances away from the top or the bottom of the text field are considered outliers. The distance can be controlled using the `assign.outlierY` parameter which specifies how many lines the fixations have to deviate from the text field (the default is 2).
+- Fixations might be flagged as outliers during line assignment. In particular, for `lineMethod` `assign` and `chain` fixations that are more than two line distances away from the top or the bottom of the text field are considered outliers. The distance can be controlled using the `assign.outlierY` parameter which specifies how many lines the fixations have to deviate from the text field (the default is 2). Similarly, fixations might not be assigned to lines using the `interactive` method, which are then regarded as outliers.
 
 If `clean.outlier = T` is used, outliers at the beginning and the end of the trial are discarded. All other outlying fixations are kept in the data file and flagged as outliers (by setting `type=out` in the fixation table). Again, this is to preserve the original sequence of fixations. However, outliers are not used during some steps of the later analysis analysis, but are treated similarly as blinks.
 
 
 ## 4. Trial cleaning
 
-Based on type of experiment.
+One of the most powerful tools within popEye is that it automatically looks for problematic aspects in your data and records them so they can later be used to exclude trials prior to your main analysis. Typical patterns include whether a trial was read properly, whether there was a blink prior to the target word, or whether the boundary was triggered appropriately. What aspects are important obviously depends on the type of experiment you are running. So the output will vary based on what you specified as `type` in your `popEye`call.
 
-Clean file.
+During pre-processing popEye generates a `clean` file in the output slot of the RDS file that can be used during the analysis. In this file, there is one row for each trial in your experiment and each column represents a different aspect that popEye has checked. So structurally, the file is similar to the `trial` report. For each of the variables `0` indicates no problem, `1` indicates a problem. The variables are structured in different sections.
 
-Generally: `0` indicates no problem, `1` indicates a problem.
+### General information
+
+The first section of the `clean` file provides general information about each the trial including subject ID, trial ID, item ID etc. similar to the trial report. However, there is also information about the calibration method, the average quality of the last calibration before the trial was run, the maximum accuracy of this calibration, and the offset for each trial (combined in degree visual angle and separately in pixels for the x- and the y-dimension) if driftcheck was enabled in your experimen the maximum accuracy of this calibration, and the offset for each trial (combined in degree visual angle and separately in pixels for the x- and the y-dimension) if driftcheck was enabled in your experiment. 
+
+<!-- Maybe use screen shots for the different sections? -->
 
 ### Trial
 
-These variables are computed for trials in all types of experiments. Variables related to this level all start with `trial` in the clean file. 
+Variables in the next section pertain to the trial level and are computed for all types of experiments. Variables related to this level all start with `trial` in the clean file. 
 
 `trial.calibration`: This variable indicates whether there is valid calibration data for the trial. (In case you are wondering why this variable exists: Yes, it is apparently possible to collect data using an EyeLink without initial calibration!). A trial is also flagged if the calibration was very bad (> 1° degree). If this variable is flagged, the trial is considered `critical` (see below).
 
-`trial.fix`: This variable indicates whether a minimum number of fixations was detected on the trial. This number is controlled by the `exclude.nfix` parameter in `popEye()` with 3 fixations as the default value. If this variable is flagged, the trial is considered `critical` (see below).
+`trial.fix`: This variable indicates whether a minimum number of fixations was detected on the trial. This number is controlled by the `exclude.nfix` parameter in `popEye` with 3 fixations as the default value. If this variable is flagged, the trial is considered `critical` (see below).
 
 `trial.blink`: This variable indicates whether there was a blink during the trial (independent of its position within the trial). 
 
-`trial.crit`: This is a summary variable indicating whether a trial is `critical` on the trial level. This variable can be used in higher-level cleaning functions (see below).
+`trial.crit`: This is a summary variable indicating whether a trial is `critical` on the trial level. This variable can be used to exclude trials or in higher-level cleaning functions (see below).
 
 ### Target 
+
+The next level of analysis is only done for experiments that have a target word (i.e., type `target` or higher) and are relevant if there is one word in your item, that is of particular interest to you. Variables in this section all start with `target`. In addition, there are variables related to processing of the target word in general, to the behavior of the eyes before reading the target word (`pre`) and after leaving it (`post`). 
+
+`target.blink`: This variable indicates whether there is a blink directly involving the target word or right before or after it. If this variable is flagged, the trial is considered `critical`. 
+
+`target.out`: This variable indicates whether there is an outlying fixation right before or after the target word. If yes, the trial is considered `critical`. 
+
+`target.first`: This variable indicates whether the first fixation on the trial is on or a region after the target word, i.e. whether the trial has been not been read before reading the target word. If yes, the trial is considered `critical`.  
+
+`target.pre.blink`: This variable indicates whether there is a blink (anywhere) before the target word has been fixated for the first time.
+
+`target.pre.out`: This variable indicates whether there is an outlying fixation (anywhere) before the target word has been fixated for the first time. 
+
+`target.pre.launch`: This variable indicates whether the launch fixation was not located on word n-1 or n-2. This variable can be used in order to exclude trials with very distant launch sites. 
+
+`target.pre.refix`: This variable indicates whether the word of the pre-target fixation has been refixated. In this case the target word might have got more parafoveal preview than expected from its launch site. This is particularly true if the first fixation on the word was nearer to the target word.
+
+`target.pre.reg`: This variable indicates whether a letter nearer to the target word has been visited before the launch saccade. In this case the target word might have got more parafoveal preview than expected from its launch site (see also `target.pre.refix`).
+
+`target.post.fix`: This variable indicates whether there is a fixation on an interest area after the target word, i.e. whether reading of sentence has stopped before or on the target word. If this variable is flagged, the trial is considered `critical`. 
+
+`target.post.reg`: This variable indicates whether the target word has been exited forwards or backwards, i.e. whether a regression has been launched from the target words. 
+
+`target.crit`: This is a summary variable indicating whether a trial is `critical` on the target level. This variable can be used to exclude trials or in higher-level cleaning functions.
 
 ### Boundary
 

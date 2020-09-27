@@ -1,7 +1,7 @@
 
 CheckOutlier <- function(fix, stimmat, crit=0.2) {
   
-   compute text field coordinates
+  # compute text field coordinates
   left <- min(stimmat$xs)
   right <- max(stimmat$xe)
   top <- min(stimmat$ys)
