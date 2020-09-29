@@ -53,12 +53,12 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
                         to = max(dat$item[[trial]]$meta$stimmat$xe[dat$item[[trial]]$meta$stimmat$ianum == target.ia]))
     
     # target.post.fix: check whether there is a fixation on or after target IA
-    # NOTE: this case is slightly different from the case below, but it is not worth to distinguish between them
     if (length(tmpin$ianum[tmpin$ianum >= target.ia]) == 0) {
       dat$item[[trial]]$clean$target$post.fix <- 1
       dat$item[[trial]]$clean$target$crit <- 1
       next  
     }
+    # NOTE: this case is slightly different from the case below, but it is not worth to distinguish between them
     
     # blinks
     blink <- dat$item[[trial]]$sac[dat$item[[trial]]$sac$msg == "BLINK", ]
@@ -85,6 +85,7 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
           dat$item[[trial]]$clean$target$blink <- 1
           dat$item[[trial]]$clean$target$crit <- 1
         }
+        # NOTE: maybe restrict to blinks after first run?
         
         # print(i)
       }

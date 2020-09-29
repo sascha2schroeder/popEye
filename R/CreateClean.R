@@ -65,6 +65,10 @@ CreateClean <- function(dat, env = parent.frame(n = 1)) {
   if (env$exp$setup$type == "boundary") {
     cleantmp$boundary.trigger <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "trigger"))
     cleantmp$boundary.seq <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "seq"))
+    cleantmp$boundary.blink <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "blink"))
+    cleantmp$boundary.out <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "out"))
+    cleantmp$boundary.time <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "time"))
+    cleantmp$boundary.hook <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "hook"))
     cleantmp$boundary.change.sac <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "change.sac"))
     cleantmp$boundary.change.sac[cleantmp$boundary.change.sac == -999] <- NA
     cleantmp$boundary.pre.time <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "pre.time"))
@@ -75,22 +79,25 @@ CreateClean <- function(dat, env = parent.frame(n = 1)) {
     cleantmp$boundary.post.time[cleantmp$boundary.post.time == -999] <- NA
     cleantmp$boundary.target.fix <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "target.fix"))
     cleantmp$boundary.target.fix[cleantmp$boundary.target.fix == -999] <- NA
-    cleantmp$boundary.blink <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "blink"))
-    cleantmp$boundary.pattern <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "pattern"))
-    cleantmp$boundary.time <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "time"))
-    cleantmp$boundary.hook <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "hook"))
     cleantmp$boundary.crit <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "boundary"), "[[", "crit"))
   }
   
   if (env$exp$setup$type == "fast") {
     cleantmp$fast.trigger <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "trigger"))
+    cleantmp$fast.blink <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "blink"))
+    cleantmp$fast.out <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "out"))
     cleantmp$fast.seq <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "seq"))
+    cleantmp$fast.time <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "time"))
+    cleantmp$fast.hook <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "hook"))
     
-    cleantmp$fast.sac.dur <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "sac.dur"))
+    cleantmp$fast.sac.dur <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "change.sac"))
     cleantmp$fast.sac.dur[cleantmp$fast.sac.dur == -999] <- NA
     
     cleantmp$fast.pre.time <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "pre.time"))
     cleantmp$fast.pre.time[cleantmp$fast.pre.time == -999] <- NA
+    
+    cleantmp$fast.pre.prime <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "pre.prime"))
+    cleantmp$fast.pre.prime[cleantmp$fast.pre.prime == -999] <- NA
     
     cleantmp$fast.prime.time <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "prime.time"))
     cleantmp$fast.prime.time[cleantmp$fast.prime.time == -999] <- NA
@@ -104,10 +111,7 @@ CreateClean <- function(dat, env = parent.frame(n = 1)) {
     cleantmp$fast.fix.target <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "fix.target"))
     cleantmp$fast.fix.target[cleantmp$fast.fix.target == -999] <- NA
     
-    cleantmp$fast.blink <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "blink"))
-    cleantmp$fast.pattern <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "pattern"))
-    cleantmp$fast.time <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "time"))
-    cleantmp$fast.hook <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "hook"))
+    
     cleantmp$fast.crit <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "crit"))
   }
   
