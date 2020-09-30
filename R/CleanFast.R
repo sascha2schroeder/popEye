@@ -117,10 +117,10 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
     
     if (length(grep(find1, stack)) > 0) {
       dat$item[[trial]]$clean$fast$seq <- 
-        paste(boundary.label, prime.label, "FIX", sep = "-")
+        paste("SAC", boundary.label, prime.label, "FIX", sep = "-")
     } else if (length(grep(find2, stack)) > 0) {
       dat$item[[trial]]$clean$fast$seq <- 
-        paste(boundary.label, "FIX", prime.label, sep = "-")
+        paste("SAC", boundary.label, "FIX", prime.label, sep = "-")
     } else {
       dat$item[[trial]]$clean$fast$crit <- 1
     }
@@ -191,8 +191,13 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
       dat$item[[trial]]$clean$fast$post.prime <-
         pre.prime$start - prime$start 
     }
+    if (dat$item[[trial]]$clean$fast$post.prime < -10) {
+      dat$item[[trial]]$clean$fast$time <- 1
+      dat$item[[trial]]$clean$fast$crit <- 1
+    }
     dat$item[[trial]]$clean$fast$post.prime[length(dat$item[[trial]]$clean$fast$post.prime) == 0] = -999
     dat$item[[trial]]$clean$fast$post.prime[dat$item[[trial]]$clean$fast$seq == 1] = -999
+    
     
     # duration of target fixation
     if (pre.target$msg == "FIX") {
@@ -205,7 +210,7 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
     
     # time between fixation and target onset
     if (pre.target$msg == "FIX") {
-      dat$item[[trial]]$clean$fast$fix.target <- pre.target$start - target$start  
+      dat$item[[trial]]$clean$fast$fix.target <- target$start - pre.target$start
     } else if (pre.prime$msg == "FIX") {
       dat$item[[trial]]$clean$fast$fix.target <- pre.prime$start - target$start  
     }

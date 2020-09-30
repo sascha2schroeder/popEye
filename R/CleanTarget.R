@@ -173,7 +173,7 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     # post-target behavior
     # ---------------------
     
-    # target.post.fix: check whether there is a fixation after target IA
+    # target.post.fix: check whether there is a fixation after ther target IA
     if (length(tmpin$fixid[tmpin$fixid > target.end$fixid]) == 0) {
       dat$item[[trial]]$clean$target$post.fix <- 1
       dat$item[[trial]]$clean$target$crit <- 1
@@ -189,7 +189,7 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     #   next
     # }
     
-    # post.fix: check whether there is a fixation on an IA after target IA
+    # post.fix: check whether there is a fixation on an IA after the target IA
     if (sum(tmpin$ianum[tmpin$fixid >= target.end$fixid] > target.ia) == 0)  {
       dat$item[[trial]]$clean$target$post.fix <- 1
       dat$item[[trial]]$clean$target$crit <- 1

@@ -98,7 +98,7 @@ The next level of analysis is only done for experiments that have a target word 
 
 ### Boundary
 
-The next level of analysis pertains only to boundary change and fast priming experiments in which a display change occurs during reading the text (i.e., type `boundary` or higher). Variables in this section all start with `boundary`. 
+The next level of analysis pertains only to boundary change experiments in which a display change occurs during reading the text (i.e., type `boundary`). Variables in this section all start with `boundary`. 
 
 `boundary.trigger`: This variable indicates whether the boundary has not been triggered. If yes, the trial is considered `critical`. 
 
@@ -127,11 +127,42 @@ The next level of analysis pertains only to boundary change and fast priming exp
 
 ### Fast Priming
 
+The next level of analysis pertains only to fast priming experiments in which a letter mask is shown during preview, than a prime, and than the target (i.e., type `fast`). Variables in this section all start with `fast`. Most of the variables are similar to the corresponding variables in the `boundary` section. However, there are also variables that are specific to the fast priming paradigm.  
 
-### Convenience functions
+`fast.trigger`: This variable indicates whether the boundary has not been triggered. If yes, the trial is considered `critical`. 
+
+`fast.seq`: This variable provides the labels of the events right before or after the boundary change. There are two standard patterns: saccade-boundary-prime-fixation-target (if the prime was displayed before target fixation has started) and saccade-boundary-fixation-prime-target (if the prime was displayed during the target fixation). `1` indicates all non-standard sequences. If a non-standard pattern is observed, the trial is considered `critical`.
+
+`fast.blink`: This variable indicates whether there was a blink right before or after the boundary. If yes, the trial is considered `critical`. 
+
+`fast.out`: This variable indicates whether there was an outlying fixation right before or after the boundary. If yes, the trial is considered `critical`. 
+
+`fast.time`: This variable indicates whether the boundary was triggered more than 10 ms too late. If yes, the trial is considered `critical` (see Slattery et al., 2011).
+
+`fast.hook`: This indicates whether the boundary was triggered during a saccade, but the eye landed on the pre-target word (a so called J-hook). If yes, the trial is considered `critical`. 
+
+`fast.change.sac`: This variable indicates the duration of the change saccade. If the duration is longer than 80 ms, it is considered a blink (see `fast.blink`) and, therefore, `critical`. 
+
+`fast.pre.time`: This variable provides the difference between the time of the onset of the change saccade and the time the boundary was triggered. 
+
+`fast.pre.prime`: This variable provides the difference between the time of boundary onset and the time the prime was triggered. 
+
+`fast.prime.time`: This variable indicates the duration of the prime.
+
+`fast.post.time`: This is the time between the onset of the prime and onset of the target fixation (negative if prime was displayed after fixation onset).
+
+`fast.fix.dur`: This variable indicates the time of target fixation.
+
+`fast.fix.target`: This variable indicates the time between fixation onset and the onset of target fixation.
+
+`fast.crit`: This is a summary variable indicating whether a trial `critical`on this level. This variable can be used to exclude trials or in higher-level cleaning functions.
+
+
+<!--- ### Convenience functions
 
 Convenience function `CleanData()`
 
+--->
 
 <!-- Example text for manuscript -->
 
