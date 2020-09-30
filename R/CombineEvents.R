@@ -57,11 +57,11 @@ CombineEvents <- function(dat) {
     # create variables
     # ---------------
     
-    dat$item[[trial]]$all$dur <- dat$item[[trial]]$all$stop - dat$item[[trial]]$all$start + 1
+    dat$item[[trial]]$all$dur <- abs(dat$item[[trial]]$all$stop - dat$item[[trial]]$all$start + 1)
     dat$item[[trial]]$all$dur[is.na(dat$item[[trial]]$all$stop) == T] <- NA
     
-    # recode negative durations for msg events
-    dat$item[[trial]]$all$dur[is.na(dat$item[[trial]]$all$msgnum) == F] <- dat$item[[trial]]$all$dur[is.na(dat$item[[trial]]$all$msgnum) == F] * -1
+    # # recode negative durations for msg events
+    # dat$item[[trial]]$all$dur[is.na(dat$item[[trial]]$all$msgnum) == F] <- dat$item[[trial]]$all$dur[is.na(dat$item[[trial]]$all$msgnum) == F] * -1
     
     dat$item[[trial]]$all$type <- 3
     dat$item[[trial]]$all$type[dat$item[[trial]]$all$msg == "FIX"] <- 1

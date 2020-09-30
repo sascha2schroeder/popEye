@@ -13,7 +13,8 @@ CleanTrial <- function(dat, env = parent.frame(n = 2)) {
                                            crit = 0)
     
     # trial.calibration: if trial was not calibrated
-    if (dat$item[[trial]]$meta$calibration.method == "") {
+    if (is.na(dat$item[[trial]]$meta$calibration.method) == T | 
+        dat$item[[trial]]$meta$calibration.method == "") {
       dat$item[[trial]]$clean$trial$calibration <- 1
       dat$item[[trial]]$clean$trial$crit <- 1
       next

@@ -155,7 +155,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
   
   if (env$exp$setup$type == "fast") {
     
-    env$clean <- data.frame(matrix(NA, 1, 40))
+    env$clean <- data.frame(matrix(NA, 1, 41))
     
     colnames(env$clean) <- c("subid", 
                              "trialid", 
@@ -169,9 +169,9 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                              "drift.x",
                              "drift.y",
                              "trial.calibration",
+                             "trial.fix",
                              "trial.blink", 
                              "trial.crit", 
-                             "target.fix",
                              "target.blink",
                              "target.out",
                              "target.first",
@@ -191,6 +191,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
                              "fast.hook", 
                              "fast.change.sac", 
                              "fast.pre.time", 
+                             "fast.pre.prime", 
                              "fast.prime.time", 
                              "fast.post.prime", 
                              "fast.fix.dur", 

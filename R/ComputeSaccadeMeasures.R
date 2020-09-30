@@ -35,56 +35,61 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
     if (is.na(dat$item[[trial]]$xy$x[a:b]) == FALSE) {
       
       # saccade peak velocity (vpeak)
-      if (dat$item[[trial]]$meta$calibration.method != "H3") {
-        sac$peak.vel[s] <- round(max(sqrt(dat$item[[trial]]$vxy$x[a:b]^2
-                                          + dat$item[[trial]]$vxy$y[a:b]^2), 
-                                     na.rm = T))
-      } else {
-        sac$peak.vel[s] <- round(max(sqrt(dat$item[[trial]]$vxy$x[a:b]^2), 
-                                     na.rm = T))
-      }
       
-      # saccade distance (dx, dy)
-      sac$dx[s] <- round(dat$item[[trial]]$xy[b, 2] - dat$item[[trial]]$xy[a, 2])
-      if (dat$item[[trial]]$meta$calibration.method != "H3") {
-        sac$dy[s] <- round(dat$item[[trial]]$xy[b, 3] - dat$item[[trial]]$xy[a, 3])
-      }
-      
-      # saccade amplitude (dX, dY)
-      i <- sac[s, 2]:sac[s, 3]
-      minx <- min(dat$item[[trial]]$xy[i, 2])
-      maxx <- max(dat$item[[trial]]$xy[i, 2])
-      if (dat$item[[trial]]$meta$calibration.method != "H3") {
-        miny <- min(dat$item[[trial]]$xy[i, 3])
-        maxy <- max(dat$item[[trial]]$xy[i, 3])
-      }
-      ix1 <- which.min(dat$item[[trial]]$xy[i, 2])
-      ix2 <- which.max(dat$item[[trial]]$xy[i, 2])
-      if (dat$item[[trial]]$meta$calibration.method != "H3") {
-        iy1 <- which.min(dat$item[[trial]]$xy[i, 3])
-        iy2 <- which.max(dat$item[[trial]]$xy[i, 3])
-      }
-      sac$dX[s] <- round(sign(ix2 - ix1) * (maxx - minx))
-      if (dat$item[[trial]]$meta$calibration.method != "H3") {
-        sac$dY[s] <- round(sign(iy2 - iy1) * (maxy - miny))
-      }
-      
-      # saccade distance/angle
-      if (dat$item[[trial]]$meta$calibration.method != "H3") {
-        sac$dist.px[s] <- round(sqrt(sac$dx[s]^2 + sac$dy[s]^2))
-        sac$dist.angle[s] <- round(atan2(sac$dy[s], sac$dx[s]), 2)
-      } else {
-        sac$dist.px[s] <- NA
-        sac$dist.angle[s] <- NA
-      }
-      
-      # saccade amplitude/angle
-      if (dat$item[[trial]]$meta$calibration.method != "H3" ) {
-        sac$amp.px[s] <- round(sqrt(sac$dX[s]^2 + sac$dY[s]^2))
-        sac$amp.angle[s] <- round(atan2(sac$dY[s], sac$dX[s]), 2)
-      } else {
-        sac$amp.px[s] <- NA
-        sac$amp.angle[s] <- NA
+      if (is.na(dat$item[[trial]]$meta$calibration.method) == F) {
+        
+        if (dat$item[[trial]]$meta$calibration.method != "H3") {
+          sac$peak.vel[s] <- round(max(sqrt(dat$item[[trial]]$vxy$x[a:b]^2
+                                            + dat$item[[trial]]$vxy$y[a:b]^2), 
+                                       na.rm = T))
+        } else {
+          sac$peak.vel[s] <- round(max(sqrt(dat$item[[trial]]$vxy$x[a:b]^2), 
+                                       na.rm = T))
+        }
+        
+        # saccade distance (dx, dy)
+        sac$dx[s] <- round(dat$item[[trial]]$xy[b, 2] - dat$item[[trial]]$xy[a, 2])
+        if (dat$item[[trial]]$meta$calibration.method != "H3") {
+          sac$dy[s] <- round(dat$item[[trial]]$xy[b, 3] - dat$item[[trial]]$xy[a, 3])
+        }
+        
+        # saccade amplitude (dX, dY)
+        i <- sac[s, 2]:sac[s, 3]
+        minx <- min(dat$item[[trial]]$xy[i, 2])
+        maxx <- max(dat$item[[trial]]$xy[i, 2])
+        if (dat$item[[trial]]$meta$calibration.method != "H3") {
+          miny <- min(dat$item[[trial]]$xy[i, 3])
+          maxy <- max(dat$item[[trial]]$xy[i, 3])
+        }
+        ix1 <- which.min(dat$item[[trial]]$xy[i, 2])
+        ix2 <- which.max(dat$item[[trial]]$xy[i, 2])
+        if (dat$item[[trial]]$meta$calibration.method != "H3") {
+          iy1 <- which.min(dat$item[[trial]]$xy[i, 3])
+          iy2 <- which.max(dat$item[[trial]]$xy[i, 3])
+        }
+        sac$dX[s] <- round(sign(ix2 - ix1) * (maxx - minx))
+        if (dat$item[[trial]]$meta$calibration.method != "H3") {
+          sac$dY[s] <- round(sign(iy2 - iy1) * (maxy - miny))
+        }
+        
+        # saccade distance/angle
+        if (dat$item[[trial]]$meta$calibration.method != "H3") {
+          sac$dist.px[s] <- round(sqrt(sac$dx[s]^2 + sac$dy[s]^2))
+          sac$dist.angle[s] <- round(atan2(sac$dy[s], sac$dx[s]), 2)
+        } else {
+          sac$dist.px[s] <- NA
+          sac$dist.angle[s] <- NA
+        }
+        
+        # saccade amplitude/angle
+        if (dat$item[[trial]]$meta$calibration.method != "H3" ) {
+          sac$amp.px[s] <- round(sqrt(sac$dX[s]^2 + sac$dY[s]^2))
+          sac$amp.angle[s] <- round(atan2(sac$dY[s], sac$dX[s]), 2)
+        } else {
+          sac$amp.px[s] <- NA
+          sac$amp.angle[s] <- NA
+        }
+        
       }
       
     }

@@ -32,7 +32,7 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
     post.target <- tmp[tmp$num[tmp$msg == target.label] + 1, ]
     
     # compute boundary position
-    dat$item[[trial]]$meta$boundary <- dat$item[[trial]]$meta$letter.boundary[dat$item[[trial]]$meta$ia.boundary[dat$item[[trial]]$meta$target]]
+    dat$item[[trial]]$meta$boundary <- dat$item[[trial]]$meta$stimmat$xs[min(dat$item[[trial]]$meta$stimmat$letternum[dat$item[[trial]]$meta$stimmat$wordnum  == dat$item[[trial]]$meta$target])]
     
     
     # cleaning criteria
@@ -65,7 +65,6 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
       next
     }
     # NOTE: This can happen if the response button pressed too early
-    
     
     # 2. boundary.blink (critical): 
     # check for blinks before/after boundary saccade
@@ -109,7 +108,6 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
       dat$item[[trial]]$clean$fast$crit <- 1
     }
     
-    
     # 3. remove trials with non-standard pattern
     # remove trials with non-standard pattern
     
@@ -127,14 +125,12 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
       dat$item[[trial]]$clean$fast$crit <- 1
     }
     
-    
     # 4. fast.time (critical):
     # remove if display change occured after 10 ms in fixation (Slattery et al., 2011)
     if (pre.prime$msg == "FIX" & (prime$start - pre.prime$start) > 10) {
       dat$item[[trial]]$clean$fast$time <- 1
       dat$item[[trial]]$clean$boundary$crit <- 1
     }
-    
     
     # 5. fast.hook (critical):
     # check for J-hooks 
@@ -146,7 +142,6 @@ CleanFast <- function(dat, env = parent.frame(n = 2)) {
         break
       }
     }
-    
     if (fix.after$xs <= as.numeric(dat$item[[trial]]$meta$boundary)) {
       dat$item[[trial]]$clean$fast$hook <-  1
       dat$item[[trial]]$clean$fast$crit <-  1

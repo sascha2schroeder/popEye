@@ -47,7 +47,7 @@ AggregateSubjects <- function(exp) {
                         "prob.all")
     cagg$ncrit.trial <- round(cagg$prob.trial, 3)
     cagg$ncrit.target <- round(cagg$prob.target, 3)
-    cagg$ncrit.boundary <- round(cagg$prob.boundary, 3)
+    # cagg$ncrit.boundary <- round(cagg$prob.boundary, 3)
     cagg$ncrit.fast <- round(cagg$prob.fast, 3)
     cagg$pcrit <- round(cagg$prob.all, 3)  
   }

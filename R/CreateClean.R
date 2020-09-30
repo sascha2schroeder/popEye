@@ -90,8 +90,8 @@ CreateClean <- function(dat, env = parent.frame(n = 1)) {
     cleantmp$fast.time <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "time"))
     cleantmp$fast.hook <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "hook"))
     
-    cleantmp$fast.sac.dur <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "change.sac"))
-    cleantmp$fast.sac.dur[cleantmp$fast.sac.dur == -999] <- NA
+    cleantmp$fast.change.sac <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "change.sac"))
+    cleantmp$fast.change.sac[cleantmp$fast.change.sac == -999] <- NA
     
     cleantmp$fast.pre.time <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "pre.time"))
     cleantmp$fast.pre.time[cleantmp$fast.pre.time == -999] <- NA
@@ -110,7 +110,6 @@ CreateClean <- function(dat, env = parent.frame(n = 1)) {
     
     cleantmp$fast.fix.target <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "fix.target"))
     cleantmp$fast.fix.target[cleantmp$fast.fix.target == -999] <- NA
-    
     
     cleantmp$fast.crit <- unlist(lapply(lapply(lapply(dat$item, "[[", "clean"), "[[", "fast"), "[[", "crit"))
   }
