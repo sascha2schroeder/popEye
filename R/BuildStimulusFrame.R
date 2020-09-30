@@ -1,10 +1,10 @@
 
 BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
- 
+  
   # retrieve variables
   # ------------------
   
-  stim <- dat$item[[trial]]$meta$stim
+  stim <- trimws(dat$item[[trial]]$meta$stim, which = "both")
   
   x.offset <- env$exp$setup$display$marginLeft
   y.offset <- env$exp$setup$display$marginTop
@@ -180,7 +180,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$xs <- c(x.offset, cumsum(stimmat$width) + x.offset)[1:length(stimmat$width)]
   stimmat$xe <- cumsum(stimmat$width) + x.offset
   # NOTE: seperate start and end positions necessary?
-
+  
   
   # compute lines
   # --------------
