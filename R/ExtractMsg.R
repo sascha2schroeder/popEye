@@ -110,26 +110,30 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
       tmp <- tmp[-grep("ABORTED", tmp)]
     }
     
-    drifttime <- as.numeric(sapply(strsplit(sapply(strsplit(
-      tmp, " "), "[[", 1), "\t"), "[[", 2))
-    drift <- as.numeric(sapply(strsplit(tmp, " "), "[[", 8))
-    x <- as.numeric(sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 10), ","), "[[", 1))
-    y <- as.numeric(sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 10), ","), "[[", 2))
+    if (length(tmp) > 0) {
     
-    trial$drift <- NA
-    trial$drift.x <- NA
-    trial$drift.y <- NA
-    
-    for (i in 1:nrow(trial)) {
+      drifttime <- as.numeric(sapply(strsplit(sapply(strsplit(
+        tmp, " "), "[[", 1), "\t"), "[[", 2))
+      drift <- as.numeric(sapply(strsplit(tmp, " "), "[[", 8))
+      x <- as.numeric(sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 10), ","), "[[", 1))
+      y <- as.numeric(sapply(strsplit(sapply(strsplit(tmp, " "), "[[", 10), ","), "[[", 2))
       
-      sel <- abs(trial$time[i] - drifttime)
+      trial$drift <- NA
+      trial$drift.x <- NA
+      trial$drift.y <- NA
       
-      if (min(sel) > 300) next
-      if (abs(drift[which.min(sel)]) > 10) next
-      
-      trial$drift[i] <- drift[which.min(sel)]
-      trial$drift.x[i] <- x[which.min(sel)]
-      trial$drift.y[i] <- y[which.min(sel)]
+      for (i in 1:nrow(trial)) {
+        
+        sel <- abs(trial$time[i] - drifttime)
+        
+        if (min(sel) > 300) next
+        if (abs(drift[which.min(sel)]) > 10) next
+        
+        trial$drift[i] <- drift[which.min(sel)]
+        trial$drift.x[i] <- x[which.min(sel)]
+        trial$drift.y[i] <- y[which.min(sel)]
+        
+      }  
       
     }
     
