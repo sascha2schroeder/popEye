@@ -18,7 +18,7 @@ PlotX <- function(exp, subject, trial, sub = F, pdf = NULL, interactive = F) {
   xy2 <- SmoothData(SmoothData(tmp$xy))
   
   # create plot
-  plot(xy2$x, type = "l", 
+  plot(xy2$time, xy2$x, type = "l", 
        ylim = c(max(tmp$meta$stimmat$xs) + 3*exp$setup$font$size,
                 min(tmp$meta$stimmat$xs) - 3*exp$setup$font$size),
        main = "X Plot", 
@@ -26,7 +26,7 @@ PlotX <- function(exp, subject, trial, sub = F, pdf = NULL, interactive = F) {
   
   # add start/stop
   abline (v = 0, col = "navyblue", lwd = 2)
-  abline (v = nrow(tmp$xy), col = "navyblue", lwd = 2)
+  abline (v = max(tmp$xy$time), col = "navyblue", lwd = 2)
   
   # add start saccade
   sac <- tmp$parse[tmp$parse$msg == "SAC", ]

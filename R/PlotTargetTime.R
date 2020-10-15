@@ -18,7 +18,7 @@ PlotTargetTime <- function(exp, subject, trial, pdf = NULL, interactive = F,
   tmp <- SelectSubjectTrial(exp, subject, trial)
   
   # create plot
-  plot(tmp$xy$x, 
+  plot(tmp$xy$time, tmp$xy$x, 
        type = "l", 
        ylim = c(exp$setup$display$resolutionX, 1),
        xlim = c(-50, tmp$fix$stop[nrow(tmp$fix)]) , 

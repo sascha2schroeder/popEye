@@ -8,12 +8,12 @@ CleanAll <- function(dat, env = parent.frame(n = 1)) {
   if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
     dat <- CleanTarget(dat)
   }
-
+  
   # boundary cleaning
   if (env$exp$setup$type == "boundary") {
     dat <- CleanBoundary(dat)
   }
-
+  
   # fast priming cleaning
   if (env$exp$setup$type == "fast") {
     dat <- CleanFast(dat)

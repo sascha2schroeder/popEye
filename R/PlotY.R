@@ -18,7 +18,7 @@ PlotY <- function(exp, subject, trial, sub = F, pdf = pdf, interactive = F) {
   xy2 <- SmoothData(SmoothData(tmp$xy))
   
   # create basic plot
-  plot(xy2$y, type = "l", 
+  plot(xy2$time, xy2$y, type = "l", 
        ylim = c(max(tmp$meta$stimmat$ys) + 3*exp$setup$font$size,
                 min(tmp$meta$stimmat$ys) - 3*exp$setup$font$size), 
        main = "Y Plot", xlab = "Time (ms)", 
@@ -26,7 +26,7 @@ PlotY <- function(exp, subject, trial, sub = F, pdf = pdf, interactive = F) {
   
   # add start/stop
   abline (v = 0, col = "navyblue", lwd = 2)
-  abline (v = nrow(tmp$xy), col = "navyblue", lwd = 2)
+  abline (v = max(tmp$xy$time), col = "navyblue", lwd = 2)
   
   # add line
   abline (h = exp$setup$display$marginY, col = "cornflowerblue", lwd = 2)
