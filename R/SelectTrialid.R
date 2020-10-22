@@ -1,7 +1,7 @@
 
 SelectTrialid <- function(sub, trialid) {
   
-  tr <- sub$items[[trialid]]
+  tr <- sub$trials[[trialid]]
   
   return(tr)
   
