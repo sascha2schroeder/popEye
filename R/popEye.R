@@ -151,7 +151,7 @@
 #' Select a single trial by providing the corresponding trial ID, e.g., skip.trials = 10. 
 #' Select a set of trials by providing a vector, e.g., skip.trials = c(10, 11).
 #' @param debug Perform analysis only for specific steps of the analysis 
-#' ("setup", "participants", "read", "remove", "create", "add", "extract", "assign",
+#' ("setup", "subjects", "read", "remove", "create", "add", "extract", "assign",
 #' "aggregate")
 
 popEye <- function(datpath, 

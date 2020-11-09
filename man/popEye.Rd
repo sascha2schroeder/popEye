@@ -300,7 +300,7 @@ Select a single trial by providing the corresponding trial ID, e.g., skip.trials
 Select a set of trials by providing a vector, e.g., skip.trials = c(10, 11).}
 
 \item{debug}{Perform analysis only for specific steps of the analysis 
-("setup", "participants", "read", "remove", "create", "add", "extract", "assign",
+("setup", "subjects", "read", "remove", "create", "add", "extract", "assign",
 "aggregate")}
 
 \item{exclude.blink}{If TRUE a trial is flagged as critical if at least one
