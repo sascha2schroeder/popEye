@@ -95,7 +95,7 @@ In general, I would recommend the following workflow:
 
 3. Manually realign those trials that were misaligned. You can use the `select.subject` and `select.trial` arguments in the `popEye()` function to select just those participants and trials and save them in separate `RDS` files.
 
-4. Merge the different `RDS` files using the `AddSubjects()` or `ReplaceTrials()` (see below).
+4. Merge the different `RDS` files using the `ReplaceSubjects()` or `ReplaceTrials()` (see below).
 
 ## Convenience functions
 
@@ -113,5 +113,4 @@ In order to ease your work with the semi-automatic line assignment, there are so
 
 `ReplaceTrials(exp1, exp2)`: This function replaces all trials in RDS file `exp1` which are also included in RDS file `exp2`. These trials can be from multiple participants. Essentially, this function combines the funcationality from `DeleteTrials()` and `AddTrials()`.
 
-
-
+The difference between the `Subjects` and the `Trials` functions is whether you want replace all or just a subset of trials. If you want to change all trials of a participant, you have to use `ReplaceSubjects`, not `ReplaceTrials`.
