@@ -7,8 +7,8 @@ DeleteTrials <- function(exp, sub, trials) {
   
   # remove trial slots
   for (i in 1:length(trials)) {
-    trialpos <- match(trialname, names(exp$subjects[[subpos]]$items))
-    exp$subjects[[subpos]]$items[[trialpos[[i]]]] <- NULL
+    trialpos <- match(trialname[i], names(exp$subjects[[subpos]]$items))
+    exp$subjects[[subpos]]$items[[trialpos]] <- NULL
   }
   
   exp$out$word.item <- exp$out$word.item[(is.element(exp$out$word.item$subid, sub) & is.element(exp$out$word.item$itemid, trials)) == F, ]
