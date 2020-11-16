@@ -1,8 +1,8 @@
 
-SelectTrialid <- function(sub, trialid) {
+SelectTrialid <- function(subject, trial) {
   
-  tr <- sub$trials[[trialid]]
+  out <- subject$items[[trial]]
   
-  return(tr)
+  return(out)
   
 }
