@@ -29,34 +29,34 @@ PlotStimulus <- function(exp, subject, trial, plot = NULL, interactive = F, sub 
   # basic plot
   plot(stimmat$xs, stimmat$ys, 
        xlim = c(0, exp$setup$display$resolutionX), 
-       ylim = c(max(tmp$meta$stimmat$ye) + 1*exp$setup$font$size,
-                min(tmp$meta$stimmat$ys) - 1*exp$setup$font$size), 
+       ylim = c(max(stimmat$ye) + 1*exp$setup$font$size,
+                min(stimmat$ys) - 1*exp$setup$font$size), 
        type = "n",
        main = paste("Trial", trial), xlab = "x Position (px)", ylab = "y Position (py)")
   
   # add letters
-  letters <- tmp$meta$stimmat$letter
+  letters <- stimmat$letter
   y <- exp$setup$display$marginTop 
   
-  for (i in 1:nrow(tmp$meta$stimmat)){
-    rect(tmp$meta$stimmat$xs[i], tmp$meta$stimmat$ye[i], 
-         tmp$meta$stimmat$xe[i], tmp$meta$stimmat$ys[i])  
+  for (i in 1:nrow(stimmat)){
+    rect(stimmat$xs[i], stimmat$ye[i], 
+         stimmat$xe[i], stimmat$ys[i])  
     
-    rect(tmp$meta$stimmat$xs[i], tmp$meta$stimmat$ys[i] + 0.5*exp$setup$font$size, 
-         tmp$meta$stimmat$xe[i], tmp$meta$stimmat$ye[i] - 0.5*exp$setup$font$size,
+    rect(stimmat$xs[i], stimmat$ys[i] + 0.5*exp$setup$font$size, 
+         stimmat$xe[i], stimmat$ye[i] - 0.5*exp$setup$font$size,
          border = "navyblue", col = MakeTransparent("cornflowerblue", alpha = .1))  
     
-    text(tmp$meta$stimmat$xm[i], tmp$meta$stimmat$ym[i], 
-         tmp$meta$stimmat$letter[i], family = "Courier", cex = .9)
+    text(stimmat$xm[i], stimmat$ym[i], 
+         stimmat$letter[i], family = "Courier", cex = .9)
   }
 
   # add words
-  words <- as.numeric(unlist(dimnames(table(tmp$meta$stimmat$wordnum))))
+  words <- as.numeric(unlist(dimnames(table(stimmat$wordnum))))
   for (j in 1:max(words)) {
-    rect(min(tmp$meta$stimmat$xs[tmp$meta$stimmat$wordnum == words[j]]),
-         min(tmp$meta$stimmat$ys[tmp$meta$stimmat$wordnum == words[j]]), 
-         max(tmp$meta$stimmat$xe[tmp$meta$stimmat$wordnum == words[j]]),
-         max(tmp$meta$stimmat$ye[tmp$meta$stimmat$wordnum == words[j]]), 
+    rect(min(stimmat$xs[stimmat$wordnum == words[j]]),
+         min(stimmat$ys[stimmat$wordnum == words[j]]), 
+         max(stimmat$xe[stimmat$wordnum == words[j]]),
+         max(stimmat$ye[stimmat$wordnum == words[j]]), 
          angle = NA, lwd = 2, border = "navyblue")
   }
   
