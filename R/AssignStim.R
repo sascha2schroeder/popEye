@@ -228,6 +228,35 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     
   }
   
+  # warp method
+  if (env$exp$setup$assign$lineMethod == "warp") {
+    
+    # extract xy position of fixation and words and y position of lines
+    # fixation_XY <- fix[, c("xn", "yn")]
+    fixation_XY <- fix[c("xn", "yn")]
+    word_XY <- data.frame(cbind(
+      tapply(stimmat$xm, stimmat$ianum, mean), 
+      tapply(stimmat$ym, stimmat$ianum, mean)
+    ))
+    
+    fix$line <- as.numeric(as.factor(Warp(fixation_XY, word_XY)$yn))
+    fix$run <- NA
+    fix$linerun <- NA
+    
+  }
+  
+  # slice method
+  if (env$exp$setup$assign$lineMethod == "slice") {
+    
+    # extract xy position of fixation and words and y position of lines
+    fixation_XY <- fix[c("xn", "yn")]
+    
+    fix$line <- as.numeric(as.factor(Slice(fixation_XY, stimmat)$yn))
+    fix$run <- NA
+    fix$linerun <- NA
+    
+  }
+  
   # method interactive
   if (env$exp$setup$assign$lineMethod == "interactive") {
     
@@ -269,7 +298,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   
   fix$trial.nwords <- NA
   fix$trial <- NA
-  
+
   for (i in 1:nrow(fix)) {
     # i <- 1
     
