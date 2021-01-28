@@ -1,5 +1,5 @@
 
-# Adapted from Carr et al.
+# Adapted from Carr et al. (under review), Behavior Research Methods
 
 Regress <- function(fixation_XY, line_Y, k_bounds=c(-0.1, 0.1), o_bounds=c(-50, 50), s_bounds=c(1, 20)) {
   n <- nrow(fixation_XY)

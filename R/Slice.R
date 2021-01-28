@@ -59,6 +59,7 @@ Slice = function(fix, stim) {
   }
   
   # chunk lines
+  
   nr = 1
   for (sec in slices) {
     lefts = s[(sec - s$x) < (2 * lineHeight) & (sec - s$x) > 0,]
@@ -78,20 +79,30 @@ Slice = function(fix, stim) {
       }
     }
   }
+  
   for (l in unique(s$l)) {
     p = s[s$l == l, c("x", "y")]
     if (nrow(p) < 2 & sum(p$y < (min(line_Y) + 0.5 * lineHeight)) > 0) {
       s = s[!s$l == l,]
     }
   }
+  
   # reduce to N lines
   lineSizes = as.data.frame(table(s$l))
   linenr = lineSizes$Var1[which.max(lineSizes$Freq)]
   s = addMissing(s, linenr, slices)
   lastUp = nextUp = linenr
   lastDown = nextDown = linenr
+  
+  print(lineSizes)
+  print(nextUp)
+  print(nextDown)
+  
   a = 1
   while(length(unique(s$l)) > length(line_Y) | a <= length(lines)) {
+      
+    # print(a)
+  
     if (nextUp == FALSE & nextDown == FALSE) {
       lineHeight = lineHeight + 1
       nextUp = linenr
