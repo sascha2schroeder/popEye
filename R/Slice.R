@@ -94,15 +94,9 @@ Slice = function(fix, stim) {
   lastUp = nextUp = linenr
   lastDown = nextDown = linenr
   
-  print(lineSizes)
-  print(nextUp)
-  print(nextDown)
-  
   a = 1
   while(length(unique(s$l)) > length(line_Y) | a <= length(lines)) {
       
-    # print(a)
-  
     if (nextUp == FALSE & nextDown == FALSE) {
       lineHeight = lineHeight + 1
       nextUp = linenr
@@ -122,25 +116,38 @@ Slice = function(fix, stim) {
       nextDown = res$nextnr
       a = a + 1
     }
+    
+    if (a > 300) break
+    
   }
   
-  # assign line number
-  means = aggregate(s, list(line = s$l), mean)
-  nr = 1
-  lnr = rep(NA, nrow(s))
-  for (l in means$l[order(means$y)]) {
-    lnr[s$l == l] = nr
-    nr = nr + 1
+  if (a <= 300) {
+    
+    # assign line number
+    means = aggregate(s, list(line = s$l), mean)
+    nr = 1
+    lnr = rep(NA, nrow(s))
+    for (l in means$l[order(means$y)]) {
+      lnr[s$l == l] = nr
+      nr = nr + 1
+    }
+    s$l = lnr
+    
+    # assign fixations
+    for (i in 1:nrow(fix)) {
+      f = fix[i,]
+      m = matrix(c(f$xn, s$x, f$yn, s$y), nrow=nrow(s)+1, ncol=2)
+      fix$yn[i] = s$l[which.min(as.matrix(dist(m))[-1,1])]
+    }
+    
+  } else {
+    
+    fix$yn <- NA
+    
   }
-  s$l = lnr
   
-  # assign fixations
-  for (i in 1:nrow(fix)) {
-    f = fix[i,]
-    m = matrix(c(f$xn, s$x, f$yn, s$y), nrow=nrow(s)+1, ncol=2)
-    fix$yn[i] = s$l[which.min(as.matrix(dist(m))[-1,1])]
-  }
   return(fix)
+  
 }
 
 

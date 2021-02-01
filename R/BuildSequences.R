@@ -1,5 +1,5 @@
 
-BuildSequences <- function(fix, env = parent.frame(n = 3)) {
+BuildSequences <- function(fix, env = parent.frame(n = 4)) {
   
   # message(paste(".... Build sequences"))
   

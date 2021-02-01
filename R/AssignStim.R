@@ -100,108 +100,12 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # attach method
   if (env$exp$setup$assign$lineMethod == "attach") {
-    
-    fix$type <- "in"
-    fix$line <- NA
-    fix$linerun <- NA
-    fix$run <- NA
-    
-    for (i in 1:nrow(fix)) {
-      # i <- 2
-      
-      out <- abs(fix$yn[i] - stimmat$ym)
-      
-      if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$assign$outlierY) {
-        fix$type[i] <- "out"
-        fix$line[i] <- NA
-      } else {
-        fix$line[i] <- stimmat$line[which.min(out)]
-      }
-      
-    }
-    
+    fix <- Attach(fix, stimmat)
   }
   
   # chain method
   if (env$exp$setup$assign$lineMethod == "chain") {
-    
-    # compute distance
-    fix$distx <- NA
-    fix$distx[2:length(fix$distx)] <- diff(fix$xn)
-    fix$disty <- NA
-    fix$disty[2:length(fix$disty)] <- diff(fix$yn)
-    
-    # compute mean y position of lines
-    linem <- tapply(stimmat$ym, stimmat$line, mean)
-    
-    # initialize variables
-    fix$type <- "in"
-    fix$run <- NA
-    fix$linerun <- NA
-    fix$linerun[1] <- 1
-    fix$line <- NA
-    
-    mem <- NULL
-    start <- 1
-    stop <- nrow(linem)
-    
-    # segment into runs
-    for (i in 2:nrow(fix)) {
-      
-      # determine run break
-      if (abs(fix$disty[i]) >= env$exp$setup$font$height * env$exp$setup$assign$lineY | 
-          abs(fix$distx[i]) >= env$exp$setup$font$height * env$exp$setup$assign$lineX) {
-        
-        # assign previous run to line
-        mean.y <- mean(fix$yn[fix$linerun == fix$linerun[i - 1]], na.rm = T)
-        
-        if (mean.y > (max(stimmat$ye) + env$exp$setup$font$height * env$exp$setup$assign$outlierY) | 
-            mean.y < (min(stimmat$ys) - env$exp$setup$font$height * env$exp$setup$assign$outlierY)) {
-          
-          fix$type[fix$linerun == fix$linerun[i - 1]] <- "out"
-          
-        } else {
-          
-          out <- NULL
-          
-          for (j in start:stop) {
-            out[j] <- (mean.y - linem[j])^2
-          }
-          
-          fix$line[fix$linerun == fix$linerun[i - 1]] <- which.min(out)
-          
-        }
-        
-                fix$linerun[i] <- fix$linerun[i - 1] + 1
-        
-      } else {
-        
-        fix$linerun[i] <- fix$linerun[i - 1]
-        
-      }
-      
-    }
-    
-    # assign last run
-    mean.y <- mean(fix$yn[fix$linerun == fix$linerun[nrow(fix)]], na.rm = T)
-    
-    if (mean.y > (max(stimmat$ye) + env$exp$setup$font$height * env$exp$setup$assign$outlierY) | 
-        mean.y < (min(stimmat$ys) - env$exp$setup$font$height * env$exp$setup$assign$outlierY)) {
-      
-      fix$type[fix$linerun == fix$linerun[nrow(fix)]] <- "out"
-      
-    } else {
-      
-      out <- NULL
-      
-      for (j in 1:nrow(linem)) {
-        out[j] <- (mean.y - linem[j])^2
-      }
-      
-      fix$line[fix$linerun == fix$linerun[nrow(fix)]] <- which.min(out)
-      
-    }
-    
+    fix <- Chain(fix, stimmat)
   }
   
   # regress method
@@ -210,6 +114,11 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     fixation_XY <- fix[, c("xn", "yn")]
     line_Y <- tapply(stimmat$ym, stimmat$line, max)
     fix$line <- Regress(fixation_XY, line_Y)
+    
+    if (sum(is.na(fix$line)) > 0) {
+      fix <- Attach(fix, stimmat)
+    }
+    
     fix$run <- NA
     fix$linerun <- NA
     
@@ -217,22 +126,13 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # merge method
   if (env$exp$setup$assign$lineMethod == "merge") {
-    
-    fix <- BuildSequences(fix)
-    fix <- Phase1(fix, stimmat)
-    fix <- Phase2(fix, stimmat)
-    fix <- Phase3(fix, stimmat)
-    fix <- Phase4(fix, stimmat)
-    fix <- Phase5(fix, stimmat)
-    fix <- AssignLine(fix, stimmat)
-    
+    fix <- Merge(fix, stimmat)
   }
   
   # warp method
   if (env$exp$setup$assign$lineMethod == "warp") {
     
     # extract xy position of fixation and words and y position of lines
-    # fixation_XY <- fix[, c("xn", "yn")]
     fixation_XY <- fix[c("xn", "yn")]
     word_XY <- data.frame(cbind(
       tapply(stimmat$xm, stimmat$ianum, mean), 
@@ -252,6 +152,11 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     fixation_XY <- fix[c("xn", "yn")]
     
     fix$line <- as.numeric(as.factor(Slice(fixation_XY, stimmat)$yn))
+    
+    if (sum(is.na(fix$line)) > 0) {
+      fix <- Attach(fix, stimmat)
+    }
+    
     fix$run <- NA
     fix$linerun <- NA
     
