@@ -1,6 +1,8 @@
 
 BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
+  # trial <- 13
+  
   # retrieve variables
   # ------------------
   
@@ -15,148 +17,180 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # calculate cut-off
   x.cut <- env$exp$setup$display$resolutionX - env$exp$setup$display$marginRight
+  # x.cut <- 1180
   
   
   # compute letter
   # ---------------
   
   # parse out ia delimiter and target indicator and split into letters
-  tmp <- stim
-  tmp <- gsub(env$exp$setup$indicator$target, "", tmp)
-  tmp <- gsub(env$exp$setup$indicator$line, "", tmp)
-  if (env$exp$setup$indicator$ia != " ") {
-    tmp <- gsub(env$exp$setup$indicator$ia, "", tmp)
-  }
+  tmp_letter <- stim
+  # tmp <- gsub(env$exp$setup$indicator$target, "", tmp)
+  tmp_letter <- gsub(env$exp$setup$indicator$line, "", tmp_letter)
+  # tmp <- gsub(env$exp$setup$indicator$word, "", tmp)
+  # if (env$exp$setup$indicator$ia != " ") {
+  #   tmp <- gsub(env$exp$setup$indicator$ia, "", tmp)
+  # }
   
-  # replace hyphen within word with different character
-  tmp2 <- unlist(strsplit(tmp, " "))
-  sel <- grep(".-.", tmp2)
-  tmp2[sel] <- gsub("[-]", "\u20de", tmp2[sel])
-  tmp3 <- paste(tmp2, collapse = " ")
+  # TODO: Include target in letter loop or parse out target indicator
   
-  # replace hyphen within words with blank
-  tmp2 <- unlist(strsplit(tmp, " "))
-  sel <- grep(".-.", tmp2)
-  tmp2[sel] <- gsub("-", "- ", tmp2[sel])
-  tmp4 <- paste(tmp2, collapse = " ")
   
   # compute letters
-  letters <- unlist(strsplit(tmp, ""))
-  letters2 <- unlist(strsplit(tmp3, ""))
+  letters <- unlist(strsplit(tmp_letter, ""))
+  
+  tmp_word <- stim
+  tmp_word <- gsub(env$exp$setup$indicator$target, "", tmp_word)
+  tmp_word <- gsub(env$exp$setup$indicator$line, "", tmp_word)
+  if (env$exp$setup$indicator$ia != " ") {
+    tmp_word <- gsub(env$exp$setup$indicator$ia, "", tmp_word)
+  }
+  
+  tmp_sent <- stim
+  tmp_sent <- gsub(env$exp$setup$indicator$target, "", tmp_sent)
+  tmp_sent <- gsub(env$exp$setup$indicator$line, "", tmp_sent)
+  tmp_sent <- gsub(env$exp$setup$indicator$word, "", tmp_sent)
+  if (env$exp$setup$indicator$ia != " ") {
+    tmp_sent <- gsub(env$exp$setup$indicator$ia, "", tmp_sent)
+  }
+  
+  tmp_sent2 <- stim
+  tmp_sent2 <- gsub(env$exp$setup$indicator$target, "", tmp_sent2)
+  tmp_sent2 <- gsub(env$exp$setup$indicator$line, "", tmp_sent2)
+  if (env$exp$setup$indicator$ia != " ") {
+    tmp_sent2 <- gsub(env$exp$setup$indicator$ia, "", tmp_sent2)
+  }
+  
+  # TODO: check hyphen treatment
+  
+  # # replace hyphen within word with different character
+  # tmp2 <- unlist(strsplit(tmp, " "))
+  # sel <- grep(".-.", tmp2)
+  # tmp2[sel] <- gsub("[-]", "\u20de", tmp2[sel])
+  # tmp3 <- paste(tmp2, collapse = " ")
+  # 
+  # # replace hyphen within words with blank
+  # tmp2 <- unlist(strsplit(tmp, " "))
+  # sel <- grep(".-.", tmp2)
+  # tmp2[sel] <- gsub("-", "- ", tmp2[sel])
+  # tmp4 <- paste(tmp2, collapse = " ")
+  # 
+  # letters2 <- unlist(strsplit(tmp3, ""))
   
   
-  # set up stimmat matrix
-  # ----------------------
+  # compute stimmat
+  # ---------------
   
   stimmat <- data.frame(matrix(NA, length(letters), 1))
   colnames(stimmat) <- c("subid")
   # TODO: assign screen, assign text
   # TODO: only one letter loop?
   
-  stimmat$letternum <- 1:length(letters)
-  stimmat$letter <- letters
-  
-  
-  # add other variables
-  # -------------------
-  
+  # structural variables
   stimmat$subid <- env$subid
   stimmat$trialid <- dat$item[[trial]]$meta$trialid
   stimmat$trialnum <- dat$item[[trial]]$meta$trialnum
   stimmat$itemid <- dat$item[[trial]]$meta$itemid
   stimmat$cond <- dat$item[[trial]]$meta$cond
   
-  
-  # compute word
-  # -------------
-  
-  # TODO: word.delim as parameter
-  # TODO: punctuation part of word?
-  
-  words <- unlist(strsplit(tmp4, " "))
-  wordnum <- 1
-  
-  stimmat$wordnum <- NA
-  stimmat$word <- NA
+  # letter
+  stimmat$letternum <- 1:length(letters)
+  stimmat$letter <- letters
   stimmat$width <- NA
   
-  # first letter
-  stimmat$wordnum[1] <- wordnum
-  stimmat$word[1] <- words[1]
+  # words
+  # TODO: punctuation part of word?
+  words <- unlist(strsplit(tmp_word, env$exp$setup$indicator$word))
+  wordnum <- 1
+  stimmat$wordnum <- NA
+  stimmat$word <- NA
   
-  if (is.element(stimmat$letter[1], letpix$letter) == F) {
-    print(paste("Letter", stimmat$letter[1], "missing.", sep = " "))
-  }
+  # sentences
+  # sent.sep <- env$exp$setup$separator$sentence
+  # delim <- unlist(strsplit(sent.sep, ""))
+  # sent.delim <- " "
+  # for (i in 1:length(delim)) {
+  #   sent.delim <- c(sent.delim, paste(delim[i], " ", sep = ""))
+  # }
+  # sent.delim <- sent.delim[-1]
+  # sent.bound <- unlist(strsplit(sent.sep, ""))
   
-  stimmat$width[1] <- letpix$pixel[letpix$letter == stimmat$letter[1]]
-  
-  for (i in 2:length(letters2)) {
-    
-    if (is.element(stimmat$letter[i], letpix$letter) == F) {
-      print(paste("Letter", stimmat$letter[i], "missing.", sep = " "))
-    }
-    
-    if (letters2[i] == " ") wordnum <- wordnum + 1
-    if (letters2[i - 1] == "\u20de") wordnum <- wordnum + 1
-    stimmat$wordnum[i] <- wordnum
-    stimmat$word[i] <- words[stimmat$wordnum[i]]
-    stimmat$width[i] <- letpix$pixel[letpix$letter == stimmat$letter[i]]
-    # print(i)
-  }
-  
-  
-  # sentence
-  # ---------
-  
-  sent.sep <- ".?!"
-  # TODO: as parameter?
-  
-  delim <- unlist(strsplit(sent.sep, ""))
-  sent.delim <- " "
-  for (i in 1:length(delim)) {
-    sent.delim <- c(sent.delim, paste(delim[i], " ", sep = ""))
-  }
-  sent.delim <- sent.delim[-1]
-  sent.bound <- unlist(strsplit(sent.sep, ""))
-  
+  # TODO: How to deal with character combinations?
+  sent <- unlist(strsplit(tmp_sent, paste("[", paste(env$exp$setup$separator$sentence, collapse= ""), "]", collapse = "")))
+  sent.nwords <- sapply(strsplit(unlist(strsplit(tmp_sent2, paste("[", paste(env$exp$setup$separator$sentence, collapse= ""), "]", collapse = ""))), env$exp$setup$indicator$word), length)
+  sent.nletters <- sapply(strsplit(unlist(strsplit(tmp_sent, paste("[", paste(env$exp$setup$separator$sentence, collapse= ""), "]", collapse = ""))), ""), length)
   sentnum <- 1
-  stimmat$sentnum[1] <- 1
-  sent <- unlist(strsplit(tmp, paste(paste("[", sent.sep, "]", sep = ""), " ", sep = "")))
+  stimmat$sentnum <- NA
+  stimmat$sent <- NA
   
-  for (i in 1:(length(letters) - 1)) {
-    if (is.element(stimmat$letter[i], sent.bound) & stimmat$letter[i + 1] == " ") {
-      sentnum <- sentnum + 1
-    }
-    stimmat$sentnum[i + 1] <- sentnum
-    stimmat$sent[i] <- paste(unlist(strsplit(sent[stimmat$sentnum[i]], ""))[1:20], collapse = "")
-    stimmat$sent.nwords[i] <- sapply(strsplit(sent[stimmat$sentnum[i]], " "), length)
-    stimmat$sent.nletters[i] <- sapply(strsplit(sent[stimmat$sentnum[i]], ""), length)
-    # print(i)
-  }
-  
-  
-  # compute IA
-  # -----------
-  
+  # IA
   ia.delim <- env$exp$setup$indicator$ia
   
-  if (ia.delim == " ") {
+  if (ia.delim != "") {
     
-    stimmat$ianum <- stimmat$wordnum
-    stimmat$ia <- stimmat$word
+    tmp_ia <- stim
+    tmp_ia <- gsub(env$exp$setup$indicator$target, "", tmp_ia)
+    tmp_ia <- gsub(env$exp$setup$indicator$line, "", tmp_ia)
+    tmp_ia <- gsub(env$exp$setup$indicator$word, "", tmp_ia)
     
-  } else {
-    
-    tmp <- stim
-    # tmp <- gsub("-", " ", tmp)
-    tmp <- gsub(env$exp$setup$indicator$target, "", tmp)
-    tmp <- gsub(env$exp$setup$indicator$line, "", tmp)
-    
-    ias <- unlist(strsplit(tmp, ia.delim))
+    ias <- unlist(strsplit(tmp_ia, ia.delim))
     ianum <- 1
+    stimmat$ianum <- NA
+    stimmat$ia <- NA
     mem <- nchar(ias[ianum])
     
-    for (i in 1:nrow(stimmat)) {
+  } 
+    
+  
+  # letter loop
+  # -------------
+  
+  i <- 1
+  while (i <= nrow(stimmat)) {
+    
+    # print(i)
+    
+    # words
+    
+    # check indicator
+    if (is.element(stimmat$letter[i], env$exp$setup$indicator$word)) {
+      wordnum <- wordnum + 1
+      stimmat <- stimmat[-i, ]
+      #i <- i - 1
+      next
+    }
+    
+    # check separator
+    if (is.element(stimmat$letter[i], env$exp$setup$separator$word)) wordnum <- wordnum + 1
+    # TODO: Check hyphens
+    if (i > 1) {
+      if (stimmat$letter[i - 1] == "\u20de") wordnum <- wordnum + 1
+    }
+      
+    stimmat$wordnum[i] <- wordnum
+    stimmat$word[i] <- words[wordnum]
+  
+    # sentence
+    stimmat$sentnum[i] <- sentnum
+    sent.let <- unlist(strsplit(sent[sentnum], ""))
+    sent.n <- length(sent.let)
+    if (sent.n > 20) sent.n <- 20
+    stimmat$sent[i] <- paste(sent.let[1:sent.n], collapse = "")
+    # stimmat$sent[i] <- sent[sentnum]
+    stimmat$sent.nwords[i] <- sent.nwords[sentnum]
+    stimmat$sent.nletters[i] <- sent.nletters[sentnum]
+    
+    # check sentence separator
+    if (is.element(stimmat$letter[i], env$exp$setup$separator$sentence)) {
+      sentnum <- sentnum + 1
+    }
+    
+    # IA
+    if (ia.delim == "") {
+      
+      stimmat$ianum[i] <- stimmat$wordnum[i]
+      stimmat$ia[i] <- stimmat$word[i]
+      
+    } else {
       
       if (stimmat$letternum[i] > mem) {
         ianum <- ianum + 1
@@ -164,16 +198,47 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
       }
       
       stimmat$ianum[i] <- ianum
-      ia.let <- unlist(strsplit(ias[stimmat$ianum[i]], ""))
+      ia.let <- unlist(strsplit(ias[ianum], ""))
       ia.n <- length(ia.let)
       if (ia.n > 20) ia.n <- 20
       stimmat$ia[i] <- paste(ia.let[1:ia.n], collapse = "")
-      # print(i)
       
     }
     
+    # compute width
+    if (env$exp$setup$font$fixed == F) {
+      
+      if (is.element(stimmat$letter[i], letpix$letter) == F) {
+        print(paste("Letter", stimmat$letter[i], "missing.", sep = " "))
+      }
+      stimmat$width[i] <- letpix$pixel[letpix$letter == stimmat$letter[i]]
+      
+    } else {
+      
+      # env$exp$setup$font$half <- NULL
+      # env$exp$setup$font$half <- c("１", "３","９")
+      
+      # if (exists("env$exp$setup$font$half") == F) {
+      #   # env$exp$setup$font$half <- NULL
+      #   env$exp$setup$font$half <- c("")
+      # }
+      
+      if (is.element(stimmat$letter[i], env$exp$setup$font$half) == T) {
+        weight <- .5
+      } else {
+        weight <- 1
+      }
+      stimmat$width[i] <- letpix$pixel[1]*weight
+      
+    }
+    
+    i <- i + 1
+    
   }
-
+    
+  stimmat$letternum <- 1:nrow(stimmat)
+  row.names(stimmat) <- NULL
+  
   
   # compute initial x positions
   # ----------------------------
@@ -185,44 +250,45 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   # compute lines
   # --------------
   
-  stimmat$line <- 1
-  
-  # NOTE: does not work if there is a mixture between explicit and implicit
-  # line breaks
-  
   # NOTE: maybe condition on software (ET vs EB)
+  
+  stimmat$line <- 1
   
   # Stage 1: compute manual line breaks
   
   if (grepl(line.delim, stim)) {
     
-    tmp <- stim
-    tmp <- gsub(env$exp$setup$indicator$target, "", tmp)
-    
+    # TODO: move up?
+    tmp_line <- stim
+    tmp_line <- gsub(env$exp$setup$indicator$target, "", tmp_line)
+    tmp_line <- gsub(env$exp$setup$indicator$word, "", tmp_line)
     if (env$exp$setup$indicator$ia != " ") {
-      tmp <- gsub(env$exp$setup$indicator$ia, "", tmp)
+      tmp_line <- gsub(env$exp$setup$indicator$ia, "", tmp_line)
     }
     
-    line.length <- sapply(unlist(strsplit(tmp, line.delim)), nchar)
+    line.length <- sapply(unlist(strsplit(tmp_line, line.delim)), nchar)
 
     nlines <- length(line.length)
     
     
     # line loop
     for (n in 1:(nlines - 1)) {
+      # n <- 1
       
       # line.length <- sapply(unlist(strsplit(tmp, line.delim)), nchar)
       
       if (line.length[n] == 0) next 
       
-      stimmat$line[stimmat$line == n  & stimmat$letternum >= cumsum(line.length)[n] + (n*-1) + 2] <- stimmat$line[stimmat$line == n & stimmat$letternum >= line.length[n]] + 1
+      # stimmat$line[stimmat$line == n  & stimmat$letternum >= cumsum(line.length)[n] + (n*-1) + 2] <- stimmat$line[stimmat$line == n & stimmat$letternum >= line.length[n]] + 1
+      stimmat$line[stimmat$line == n  & stimmat$letternum > cumsum(line.length)[n]] <- n + 1
       
-      # delete blank after line break 
-      # NOTE: line breaks in the stimfile should be: word\n word
-      stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
-      
-      # recompute letter number
-      stimmat$letternum <- 1:nrow(stimmat)
+      # TODO: delete blanks at line beginnings
+      # # delete blank after line break 
+      # # NOTE: line breaks in the stimfile should be: word\n word
+      # stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
+      # 
+      # # recompute letter number
+      # stimmat$letternum <- 1:nrow(stimmat)
       
       # recompute x positions
       stimmat$xs[stimmat$line == n + 1] <- c(x.offset, cumsum(stimmat$width[stimmat$line == n + 1]) + x.offset)[1:length(stimmat$width[stimmat$line == n + 1])]
@@ -237,32 +303,51 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   n <- 1; m <- 1
   while (n == m) {
     
-    # set line break
-    line.cut <- max(stimmat$wordnum[stimmat$line == n & stimmat$xe <= x.cut])
+    # env$exp$setup$font$wrap <- F
     
-    if (stimmat$letter[max(stimmat$letternum[stimmat$wordnum == line.cut])] == "-") {
-      line.cut <- line.cut + 1
-    }
-    
-    if (max(stimmat$xe[stimmat$line == n]) > x.cut) {
+    if (env$exp$setup$font$wrap == T) {
       
-      # set new line
-      # stimmat$line[stimmat$line == n & stimmat$wordnum >= line.cut] <- stimmat$line[stimmat$line == n & stimmat$wordnum >= line.cut] + 1
-      stimmat$line[stimmat$wordnum >= line.cut] <- stimmat$line[stimmat$wordnum >= line.cut] + 1
+      # set line break
+      line.cut <- max(stimmat$wordnum[stimmat$line == n & stimmat$xe <= x.cut])
       
-      # delete blank before line break
-      if (stimmat$letter[min(stimmat$letternum[stimmat$line == n + 1]) - 1] != "-") {
-        stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
+      if (stimmat$letter[max(stimmat$letternum[stimmat$wordnum == line.cut])] == "-") {
+        line.cut <- line.cut + 1
       }
-     
-      # recompute letter number
-      stimmat$letternum <- 1:nrow(stimmat)
       
-      # recompute x positions
-      stimmat$xs[stimmat$line == n + 1] <- c(x.offset, cumsum(stimmat$width[stimmat$line == n + 1]) + x.offset)[1:length(stimmat$width[stimmat$line == n + 1])]
-      stimmat$xe[stimmat$line == n + 1] <- cumsum(stimmat$width[stimmat$line == n + 1]) + x.offset
+      if (max(stimmat$xe[stimmat$line == n]) > x.cut) {
+        
+        # set new line
+        stimmat$line[stimmat$wordnum >= line.cut] <- stimmat$line[stimmat$wordnum >= line.cut] + 1
+        
+        # delete blank before line break
+        if (stimmat$letter[min(stimmat$letternum[stimmat$line == n + 1]) - 1] != "-") {
+          stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
+        }
+        
+        # recompute letter number
+        stimmat$letternum <- 1:nrow(stimmat)
+        
+        # recompute x positions
+        stimmat$xs[stimmat$line == n + 1] <- c(x.offset, cumsum(stimmat$width[stimmat$line == n + 1]) + x.offset)[1:length(stimmat$width[stimmat$line == n + 1])]
+        stimmat$xe[stimmat$line == n + 1] <- cumsum(stimmat$width[stimmat$line == n + 1]) + x.offset
+        
+      }
       
-      # m <- m + 1
+    } else {
+      
+      # set line break
+      line.cut <- max(stimmat$letternum[stimmat$line == n & stimmat$xe <= x.cut])
+      
+      if (max(stimmat$xe[stimmat$line == n]) > x.cut) {
+        
+        # set new line
+        stimmat$line[stimmat$letternum > line.cut] <- stimmat$line[stimmat$letternum > line.cut] + 1
+        
+        # recompute x positions
+        stimmat$xs[stimmat$line == n + 1] <- c(x.offset, cumsum(stimmat$width[stimmat$line == n + 1]) + x.offset)[1:length(stimmat$width[stimmat$line == n + 1])]
+        stimmat$xe[stimmat$line == n + 1] <- cumsum(stimmat$width[stimmat$line == n + 1]) + x.offset
+        
+      }
       
     }
     
@@ -336,19 +421,22 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$letline <- ave(stimmat$letternum, stimmat$line, FUN = rank)
   
   # letter in word
-  stimmat$letword <- ave(stimmat$letternum, stimmat$wordnum, FUN = rank) - 1
-  for (i in 1:max(stimmat$line)) {
-    tmp <- stimmat$word[stimmat$line == i][1]
-    stimmat$letword[stimmat$word == tmp] <- stimmat$letword[stimmat$word == tmp] + 1
+  stimmat$letword <- ave(stimmat$letternum, stimmat$wordnum, FUN = rank)
+  for (i in 1:max(stimmat$wordnum)) {
+    # i <- 1
+    if (is.element(stimmat$letter[stimmat$wordnum == i & stimmat$letword == 1], env$exp$setup$separator$word)) {
+      stimmat$letword[stimmat$wordnum == i] <- stimmat$letword[stimmat$wordnum == i] - 1
+    }
   }
   
   # letter in IA
-  stimmat$letia <- ave(stimmat$letternum, stimmat$ianum, FUN = rank) - 1
-  for (i in 1:max(stimmat$line)) {
-    tmp <- stimmat$ia[stimmat$line == i][1]
-    stimmat$letia[stimmat$ia == tmp] <- stimmat$letia[stimmat$ia == tmp] + 1
+  stimmat$letia <- ave(stimmat$letternum, stimmat$ianum, FUN = rank)
+  for (i in 1:max(stimmat$ianum)) {
+    # i <- 1
+    if (is.element(stimmat$letter[stimmat$ianum == i & stimmat$letia == 1], env$exp$setup$separator$word)) {
+      stimmat$letia[stimmat$ianum == i] <- stimmat$letia[stimmat$ianum == i] - 1
+    }
   }
-  
   
   # word positions
   # ---------------

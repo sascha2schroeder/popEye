@@ -46,7 +46,11 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                     ia = env$indicator.ia,
                     target = env$indicator.target,
                     line = env$indicator.line)                 
-  
+ 
+  # TODO: seperators (word, sentence)
+  separator <- list(word = env$separator.word,
+                    sentence = env$separator.sentence)    
+   
   # display
   display <- list(marginLeft = env$display.marginLeft,
                   marginTop = env$display.marginTop,
@@ -65,7 +69,8 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # font type
   font <- list(name = env$font.name, 
                size = env$font.size,
-               spacing = env$font.spacing)
+               spacing = env$font.spacing,
+               wrap = env$font.wrap)
   
   if (env$font.name == "CourierNew") {
     font$family <- "mono"
@@ -106,6 +111,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 18
     font$lead <- 4
     font$right <- F
+    font$fixed <- F
   }
   
   # Arial, 15 pt
@@ -137,6 +143,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 19
     font$lead <- 5
     font$right <- F
+    font$fixed <- F
   }
   # Arial, 16 pt
   if (font$name == "Arial" & font$size == 16) {
@@ -166,6 +173,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 19
     font$lead <- 5
     font$right <- F
+    font$fixed <- F
   }
   
   # Arial, 18 pt
@@ -196,6 +204,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 22
     font$lead <- 7
     font$right <- F
+    font$fixed <- F
   }
   # Arial, 20 pt
   if (font$name == "Arial" & font$size == 20) {
@@ -226,6 +235,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 25
     font$lead <- 6
     font$right <- F
+    font$fixed <- F
   }
   
   # Arial, 22 pt
@@ -257,6 +267,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 27
     font$lead <- 7
     font$right <- F
+    font$fixed <- F
   }
   
   # Arial, 24 pt
@@ -288,6 +299,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 29
     font$lead <- 8
     font$right <- F
+    font$fixed <- F
   }
   
   # CourierNew
@@ -310,6 +322,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 16
     font$lead <- 3
     font$right <- F
+    font$fixed <- T
   }
   
   # CourierNew, 16 pt
@@ -329,6 +342,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 18
     font$lead <- 4
     font$right <- F
+    font$fixed <- T
   }
   
   # CourierNew, 18 pt
@@ -348,6 +362,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 20
     font$lead <- 5
     font$right <- F
+    font$fixed <- T
   }
   
   # CourierNew, 20 pt
@@ -367,6 +382,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 22
     font$lead <- 6
     font$right <- F
+    font$fixed <- T
   }
   
   # CourierHebrew 20 pt
@@ -382,6 +398,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 22
     font$lead <- 5
     font$right <- T
+    font$fixed <- T
   }
   
   
@@ -405,6 +422,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 22
     font$lead <- 7
     font$right <- F
+    font$fixed <- T
   }
   
   # Consolas, 20 pt
@@ -424,6 +442,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 24
     font$lead <- 9
     font$right <- F
+    font$fixed <- T
   }
   
   # Consolas, 22 pt
@@ -443,6 +462,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 25
     font$lead <- 9
     font$right <- F
+    font$fixed <- T
   } 
   
   # ConsolasRussian 20 pt
@@ -463,6 +483,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 24
     font$lead <- 9
     font$right <- F
+    font$fixed <- T
   }
   
   # ConsolasGreek 20 pt
@@ -484,6 +505,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 24
     font$lead <- 9
     font$right <- F
+    font$fixed <- T
   }
   
   
@@ -517,6 +539,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 17
     font$lead <- 6
     font$right <- F
+    font$fixed <- F
   }
   
   # TimesNewRoman, 15 pt
@@ -546,6 +569,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 18
     font$lead <- 6
     font$right <- F
+    font$fixed <- F
   }
   
   # TimesNewRoman, 16 pt
@@ -576,6 +600,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 20
     font$lead <- 5
     font$right <- F
+    font$fixed <- F
   }
   
   # TimesNewRoman, 18 pt
@@ -607,6 +632,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 22
     font$lead <- 6
     font$right <- F
+    font$fixed <- F
   }
   
   # TimesNewRoman, 20 pt
@@ -638,6 +664,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 25
     font$lead <- 7
     font$right <- F
+    font$fixed <- F
   }
   
   # TimesNewRoman, 22 pt
@@ -669,6 +696,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 26
     font$lead <- 8
     font$right <- F
+    font$fixed <- F
   }
   
   # TimesNewRoman, 24 pt
@@ -700,6 +728,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 29
     font$lead <- 9
     font$right <- F
+    font$fixed <- F
   }
   
   # Symbol
@@ -723,6 +752,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- NA
     font$lead <- NA
     font$right <- F
+    font$fixed <- F
   }
   
   # Symbol, 14 pt
@@ -743,6 +773,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- NA
     font$lead <- NA
     font$right <- F
+    font$fixed <- F
   }
   
   
@@ -758,11 +789,13 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                 " ", ",",".","?","!","–", "-","’","´","„","“",":","\"",";","”",
                 "(", ")","'",
                 "1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
+    # TODO: Check is Tahoma really a monospaced font?
     pixel <- rep(11, length(letter))
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 14
     font$lead <- 2
     font$right <- F
+    font$fixed <- T
   }
   
   # TahomaArabic 13 pt
@@ -837,6 +870,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 14
     font$lead <- 2
     font$right <- T
+    font$fixed <- T
   }
   
   # TahomaKorean 24 pt
@@ -999,6 +1033,18 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 26
     font$lead <- 10
     font$right <- F
+    font$fixed <- F
+  }
+  
+  # TahomaChinese 10 pt
+  if (font$name == "TahomaTraditionalChinese" & font$size == 10) {
+    font$letpix <- data.frame(letter = " ", pixel = 27)
+    font$height <- 26
+    font$lead <- 10
+    font$right <- FALSE
+    font$fixed <- T
+    font$half <- c("１", "３","９", "(", ")")
+    font$wrap <- FALSE
   }
   
   
@@ -1053,7 +1099,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # write out
   setup <- list(tracker = tracker, type = type, message = message, item = item,
                 variable = variable, stimulus = stimulus, indicator = indicator, 
-                display = display, font = font, clean = clean, 
+                separator = separator, display = display, font = font, clean = clean, 
                 analysis = analysis, assign = assign, exclude = exclude)
   
   return(setup)
