@@ -1039,14 +1039,13 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # TahomaChinese 10 pt
   if (font$name == "TahomaTraditionalChinese" & font$size == 10) {
     font$letpix <- data.frame(letter = " ", pixel = 27)
-    font$height <- 26
+    font$height <- 25
     font$lead <- 10
     font$right <- FALSE
     font$fixed <- T
-    font$half <- c("１", "３","９", "(", ")")
+    font$half <- c("１", "３","９", "６", "(", ")")
     font$wrap <- FALSE
   }
-  
   
   # print classes
   font$print$up <- c("A","E","I","O","U","Q","W","R","T","Z","P","S","D","F",
