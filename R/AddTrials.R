@@ -19,8 +19,8 @@ AddTrials <- function(exp1, exp2, sub) {
   exp$out$fix <- exp$out$fix[order(exp$out$fix$subid, exp$out$fix$trialnum), ]
   exp$out$sac <- rbind(exp1$out$sac, exp2$out$sac)
   exp$out$sac <- exp$out$sac[order(exp$out$sac$subid, exp$out$sac$trialnum), ]
-  exp1$out$clean$transformed <- 0
-  exp2$out$clean$transformed <- 1
+  # exp1$out$clean$transformed <- 0
+  # exp2$out$clean$transformed <- 1
   exp$out$clean <- rbind(exp1$out$clean, exp2$out$clean)
   exp$out$clean <- exp$out$clean[order(exp$out$clean$subid, exp$out$clean$trialnum), ]
   exp$out$words <- rbind(exp1$out$words, exp2$out$words)

@@ -27,10 +27,12 @@ popEye(
   stimulus.preview = "preview",
   stimulus.prime = "prime",
   stimulus.text = "text",
-  indicator.word = " ",
-  indicator.ia = " ",
+  indicator.word = "",
+  indicator.ia = "",
   indicator.target = "\\\\*",
   indicator.line = "\\\\\\\\n",
+  separator.word = " ",
+  separator.sentence = c(".!?"),
   display.marginLeft = 150,
   display.marginTop = 300,
   display.marginRight = 50,
@@ -38,6 +40,7 @@ popEye(
   font.name = "CourierNew",
   font.size = 16,
   font.spacing = 2,
+  font.font = TRUE,
   analysis.eyelink = TRUE,
   analysis.vfac = 5,
   analysis.mindur = 10,
@@ -147,15 +150,21 @@ stimulus file (only relevant for fast priming experiments)}
 in the stimulus file}
 
 \item{indicator.word}{Indicator used to separate words from each other
-(blank by default)}
+(empty by default)}
 
 \item{indicator.ia}{Indicator used to separate interest areas from each other
-("§" by default)}
+(words are used as interest areas by default)}
 
 \item{indicator.target}{Indicator used to denote the target interest area 
 ("*" by default)}
 
 \item{indicator.line}{Indicator used for manual line breaks ("\\n" by default)}
+
+\item{separator.word}{Characters used to separate words from each other
+(white space by default)}
+
+\item{separator.sentence}{Characters used to separate sentences
+(.!? by default)}
 
 \item{display.marginLeft}{Size of the margin at the left of the screen
 (in pixels)}
@@ -168,12 +177,13 @@ in the stimulus file}
 \item{display.marginBottom}{Size of the margin at the bottom of the screen
 (in pixels)}
 
-\item{font.name}{Name of the font used in the experiment (currently, "CourierNew",
-"Consolas", and "Symbol" are supported)}
+\item{font.name}{Name of the font used in the experiment (currently, "Arial", 
+"CourierNew","Consolas", "Times New Roman", and "Symbol" are supported for most
+font sizes between 12 and 24 pt in steps of 2)}
 
-\item{font.size}{Size of the font (in pixels)}
+\item{font.size}{Size of the font (in pixels, 16 by default)}
 
-\item{font.spacing}{Spacing between lines (1, 1.5, or 2)}
+\item{font.spacing}{Spacing between lines (1, 1.5, or 2, 2 by default)}
 
 \item{analysis.eyelink}{Should the real-time parsing from the eyelink system 
 be used? (TRUE or FALSE, default is TRUE)}
