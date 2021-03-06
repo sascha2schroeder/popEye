@@ -99,25 +99,24 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # words
   # TODO: punctuation part of word?
-  words <- unlist(strsplit(tmp_word, env$exp$setup$indicator$word))
+  if (env$exp$setup$indicator$word != "") {
+    words <- unlist(strsplit(tmp_word, env$exp$setup$indicator$word))
+  } else {
+    words <- unlist(strsplit(tmp_word, env$exp$setup$separator$word))
+  }
   wordnum <- 1
   stimmat$wordnum <- NA
   stimmat$word <- NA
   
   # sentences
-  # sent.sep <- env$exp$setup$separator$sentence
-  # delim <- unlist(strsplit(sent.sep, ""))
-  # sent.delim <- " "
-  # for (i in 1:length(delim)) {
-  #   sent.delim <- c(sent.delim, paste(delim[i], " ", sep = ""))
-  # }
-  # sent.delim <- sent.delim[-1]
-  # sent.bound <- unlist(strsplit(sent.sep, ""))
-  
-  # TODO: How to deal with character combinations?
-  sent <- unlist(strsplit(tmp_sent, paste("[", paste(env$exp$setup$separator$sentence, collapse= ""), "]", collapse = "")))
-  sent.nwords <- sapply(strsplit(unlist(strsplit(tmp_sent2, paste("[", paste(env$exp$setup$separator$sentence, collapse= ""), "]", collapse = ""))), env$exp$setup$indicator$word), length)
-  sent.nletters <- sapply(strsplit(unlist(strsplit(tmp_sent, paste("[", paste(env$exp$setup$separator$sentence, collapse= ""), "]", collapse = ""))), ""), length)
+  sep_sent <- paste("[", paste(env$exp$setup$separator$sentence, collapse= ""), "]", collapse = "", sep = "")
+  sent <- unlist(strsplit(tmp_sent, sep_sent))
+  if (env$exp$setup$indicator$word != "") {
+    sent.nwords <- sapply(strsplit(unlist(strsplit(tmp_sent2, sep_sent)), env$exp$setup$indicator$word), length)
+  } else {
+    sent.nwords <- sapply(strsplit(unlist(strsplit(tmp_sent2, sep_sent)), env$exp$setup$separator$word), length)
+  }
+  sent.nletters <- sapply(strsplit(unlist(strsplit(tmp_sent, sep_sent)), ""), length)
   sentnum <- 1
   stimmat$sentnum <- NA
   stimmat$sent <- NA
@@ -147,8 +146,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   i <- 1
   while (i <= nrow(stimmat)) {
     
-    # print(i)
-    
     # words
     
     # check indicator
@@ -175,13 +172,19 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     sent.n <- length(sent.let)
     if (sent.n > 20) sent.n <- 20
     stimmat$sent[i] <- paste(sent.let[1:sent.n], collapse = "")
-    # stimmat$sent[i] <- sent[sentnum]
     stimmat$sent.nwords[i] <- sent.nwords[sentnum]
     stimmat$sent.nletters[i] <- sent.nletters[sentnum]
     
     # check sentence separator
     if (is.element(stimmat$letter[i], env$exp$setup$separator$sentence)) {
       sentnum <- sentnum + 1
+      if (i < (nrow(stimmat) - 1)) {
+        # NOTE: maybe use separate sentence indicator (in order to deal with quotes)
+        if(is.element(stimmat$letter[i + 1], env$exp$setup$separator$word) == F & 
+           is.element(stimmat$letter[i + 1], env$exp$setup$indicator$word) == F) {
+          sentnum <- sentnum - 1
+        }
+      }
     }
     
     # IA
@@ -206,7 +209,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     }
     
     # compute width
-    if (env$exp$setup$font$fixed == F) {
+    if (env$exp$setup$font$fixed == FALSE) {
       
       if (is.element(stimmat$letter[i], letpix$letter) == F) {
         print(paste("Letter", stimmat$letter[i], "missing.", sep = " "))
@@ -214,14 +217,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
       stimmat$width[i] <- letpix$pixel[letpix$letter == stimmat$letter[i]]
       
     } else {
-      
-      # env$exp$setup$font$half <- NULL
-      # env$exp$setup$font$half <- c("１", "３","９")
-      
-      # if (exists("env$exp$setup$font$half") == F) {
-      #   # env$exp$setup$font$half <- NULL
-      #   env$exp$setup$font$half <- c("")
-      # }
       
       if (is.element(stimmat$letter[i], env$exp$setup$font$half) == T) {
         weight <- .5
