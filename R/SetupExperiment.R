@@ -330,8 +330,8 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # pixel <- rep(13, length(letter))
     # font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$letpix <- data.frame(letter = " ", pixel = 13)
-    font$height <- 18
-    font$lead <- 4
+    font$height <- 17
+    font$lead <- 5
     font$right <- FALSE
     font$fixed <- TRUE
   }
