@@ -33,6 +33,7 @@ popEye(
   indicator.line = "\\\\\\\\n",
   separator.word = " ",
   separator.sentence = c(".", "!", "?"),
+  separator.sentence2 = c(" ", "\\""),
   display.marginLeft = 150,
   display.marginTop = 300,
   display.marginRight = 50,

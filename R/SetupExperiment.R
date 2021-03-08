@@ -47,9 +47,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                     target = env$indicator.target,
                     line = env$indicator.line)                 
  
-  # TODO: seperators (word, sentence)
+  # separator
   separator <- list(word = env$separator.word,
-                    sentence = env$separator.sentence)    
+                    sentence = env$separator.sentence,
+                    sentence2 = env$separator.sentence2)    
    
   # display
   display <- list(marginLeft = env$display.marginLeft,

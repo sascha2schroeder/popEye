@@ -109,7 +109,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$word <- NA
   
   # sentences
-  sep_sent <- paste("[", paste(env$exp$setup$separator$sentence, collapse= ""), "]", collapse = "", sep = "")
+  sep_sent <- paste(paste("\\", apply(expand.grid(env$exp$setup$separator$sentence, env$exp$setup$separator$sentence2), 1, paste, collapse = ""), sep = ""), collapse = "|")
   sent <- unlist(strsplit(tmp_sent, sep_sent))
   if (env$exp$setup$indicator$word != "") {
     sent.nwords <- sapply(strsplit(unlist(strsplit(tmp_sent2, sep_sent)), env$exp$setup$indicator$word), length)
@@ -120,6 +120,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   sentnum <- 1
   stimmat$sentnum <- NA
   stimmat$sent <- NA
+  sentmem <- FALSE
   
   # IA
   ia.delim <- env$exp$setup$indicator$ia
@@ -175,16 +176,16 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     stimmat$sent.nwords[i] <- sent.nwords[sentnum]
     stimmat$sent.nletters[i] <- sent.nletters[sentnum]
     
+    if(is.element(stimmat$letter[i], env$exp$setup$separator$sentence2) & sentmem == TRUE) {
+      stimmat$sentnum[i] <- sentnum - 1
+    }
+    
     # check sentence separator
     if (is.element(stimmat$letter[i], env$exp$setup$separator$sentence)) {
       sentnum <- sentnum + 1
-      if (i < (nrow(stimmat) - 1)) {
-        # NOTE: maybe use separate sentence indicator (in order to deal with quotes)
-        if(is.element(stimmat$letter[i + 1], env$exp$setup$separator$word) == F & 
-           is.element(stimmat$letter[i + 1], env$exp$setup$indicator$word) == F) {
-          sentnum <- sentnum - 1
-        }
-      }
+      sentmem <- TRUE
+    } else {
+      sentmem <- FALSE
     }
     
     # IA
