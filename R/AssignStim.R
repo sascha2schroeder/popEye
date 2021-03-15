@@ -234,36 +234,6 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
       fix$trial.nwords[i] <- stimmat$trial.nwords[stimmat$line == fix$line[i]][which.min(out)]
       fix$trial[i] <- stimmat$trial[stimmat$line == fix$line[i]][which.min(out)]
       
-      # if (out[which.min(out)] > env$exp$setup$font$height * env$exp$setup$assign$outlierX) {
-      #   
-      #   fix$type[i] <- "out"
-      #   
-      #   fix$line[i] <- NA
-      #   fix$letternum[i] <- NA
-      #   fix$letter[i] <- NA
-      #   fix$wordnum[i] <- NA
-      #   fix$word[i] <- NA
-      #   fix$sentnum[i] <- NA
-      #   fix$sent[i] <- NA
-      #   fix$sent.nwords[i] <- NA
-      #   fix$ianum[i] <- NA
-      #   fix$ia[i] <- NA
-      #   
-      #   if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
-      #     fix$target[i] <- NA
-      #   }
-      #   
-      #   fix$line.let[i] <- NA
-      #   fix$word.land[i] <- NA
-      #   fix$ia.land[i] <- NA
-      #   fix$line.word[i] <- NA
-      #   fix$sent.word[i] <- NA
-      #   
-      #   fix$trial.nwords[i] <- NA
-      #   fix$trial[i] <- NA
-      #   
-      # }
-      
     }
     
   }

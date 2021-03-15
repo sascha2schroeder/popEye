@@ -52,7 +52,7 @@ SelectLine <- function(fix, stimmat) {
   
   # assign unassigned line to nearest line
   fixtmp <- fix[fix$line == 0, ]
-  runs <- unlist(dimnames(table(fixtmp$run)))
+  runs <- unlist(dimnames(table(fixtmp$linerun)))
   
   mrun <- tapply(fixtmp$yn[fixtmp$type == "in"], fixtmp$linerun[fixtmp$type == "in"], mean)
   mline <- tapply(stimmat$ys, stimmat$line, mean) + (tapply(stimmat$ye, stimmat$line, mean) - tapply(stimmat$ys, stimmat$line, mean)) / 2
