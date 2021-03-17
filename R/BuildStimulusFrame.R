@@ -278,17 +278,27 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
       # stimmat$line[stimmat$line == n  & stimmat$letternum >= cumsum(line.length)[n] + (n*-1) + 2] <- stimmat$line[stimmat$line == n & stimmat$letternum >= line.length[n]] + 1
       stimmat$line[stimmat$line == n  & stimmat$letternum > cumsum(line.length)[n]] <- n + 1
       
-      # TODO: delete blanks at line beginnings
-      # # delete blank after line break 
-      # # NOTE: line breaks in the stimfile should be: word\n word
-      # stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
-      # 
-      # # recompute letter number
-      # stimmat$letternum <- 1:nrow(stimmat)
-      
       # recompute x positions
       stimmat$xs[stimmat$line == n + 1] <- c(x.offset, cumsum(stimmat$width[stimmat$line == n + 1]) + x.offset)[1:length(stimmat$width[stimmat$line == n + 1])]
       stimmat$xe[stimmat$line == n + 1] <- cumsum(stimmat$width[stimmat$line == n + 1]) + x.offset
+      
+    }
+    
+    for (n in 1:nlines) {
+      
+      if (stimmat$letter[min(stimmat$letternum[stimmat$line == n])] == " ") {
+        
+        # delete blank at begin of line
+        stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n]), ]
+        
+        # recompute letternum
+        stimmat$letternum <- 1:nrow(stimmat)
+        
+        # recompute x positions
+        stimmat$xs[stimmat$line == n] <- c(x.offset, cumsum(stimmat$width[stimmat$line == n]) + x.offset)[1:length(stimmat$width[stimmat$line == n])]
+        stimmat$xe[stimmat$line == n] <- cumsum(stimmat$width[stimmat$line == n]) + x.offset
+        
+      }
       
     }
     

@@ -6,6 +6,11 @@ MatchStim <- function(dat, trial, env = parent.frame(n = 1)) {
     # message(paste("... Trial ", trial, sep = ""))
     
     dat <- BuildStimulusFrame(dat, trial)
+    
+    if (env$debug == "line") {
+      return (dat)
+    }
+    
     dat <- AssignStim(dat, trial)
     
   }

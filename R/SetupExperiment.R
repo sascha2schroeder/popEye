@@ -109,6 +109,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                8,11,7,6,6,5,19,11,12)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 18
+    font$width <- 10
     font$lead <- 4
     font$right <- FALSE
     font$fixed <- FALSE
@@ -135,10 +136,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                11,11,11,11,11,11,11,11,11,11,
                6,6,6,6,7,11,11,8,12,12,7,6,11,18,
                13,6,7,7,11,6,6,12,6,11,4,12,12,6,
-               8,11,8,7,7,6,20,11,12
-    )
+               8,11,8,7,7,6,20,11,12)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 19
+    font$width <- 10.5
     font$lead <- 5
     font$right <- FALSE
     font$fixed <- FALSE
@@ -168,6 +169,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                8,12,8,7,7,6,21,11,13)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 19
+    font$width <- 11
     font$lead <- 5
     font$right <- FALSE
     font$fixed <- FALSE
@@ -197,6 +199,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                10,13,12,8,8,7,24,14,15)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 22
+    font$width <- 13
     font$lead <- 7
     font$right <- FALSE
     font$fixed <- FALSE
@@ -223,10 +226,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                15,15,15,15,15,15,15,15,15,15,
                8,8,8,8,9,15,15,11,16,16,10,8,15,24,
                18,8,9,9,15,8,8,16,8,15,5,16,16,6,
-               11,15,12,9,9,8,27,16,17
-    )
+               11,15,12,9,9,8,27,16,17)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 25
+    font$width <- 14.5
     font$lead <- 6
     font$right <- FALSE
     font$fixed <- FALSE
@@ -253,10 +256,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                16,16,16,16,16,16,16,16,16,16,
                8,8,8,8,10,16,16,11,17,17,10,9,16,26,
                19,8,10,10,16,8,8,17,8,16,6,17,17,8,
-               12,16,14,10,10,8,29,17,18
-    )
+               12,16,14,10,10,8,29,17,18)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 27
+    font$width <- 15.5
     font$lead <- 7
     font$right <- FALSE
     font$fixed <- FALSE
@@ -283,14 +286,15 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                18,18,18,18,18,18,18,18,18,18,
                9,9,9,9,11,18,18,12,19,19,11,11,18,28,
                21,9,11,11,18,9,9,19,9,18,6,19,19,8,
-               13,18,14,11,11,9,32,18,20
-    )
+               13,18,14,11,11,9,32,18,20)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 29
+    font$width <- 17
     font$lead <- 8
     font$right <- FALSE
     font$fixed <- FALSE
   }
+  
   
   # CourierNew
   # -----------
@@ -311,6 +315,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$letpix <- data.frame(letter = " ", pixel = 11)
     font$height <- 16
+    font$width <- 11
     font$lead <- 3
     font$right <- FALSE
     font$fixed <- TRUE
@@ -332,6 +337,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$letpix <- data.frame(letter = " ", pixel = 13)
     font$height <- 17
+    font$width <- 13
     font$lead <- 5
     font$right <- FALSE
     font$fixed <- TRUE
@@ -353,6 +359,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$letpix <- data.frame(letter = " ", pixel = 14)
     font$height <- 20
+    font$width <- 14
     font$lead <- 5
     font$right <- FALSE
     font$fixed <- TRUE
@@ -374,6 +381,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$letpix <- data.frame(letter = " ", pixel = 16)
     font$height <- 22
+    font$width <- 16
     font$lead <- 6
     font$right <- FALSE
     font$fixed <- TRUE
@@ -391,6 +399,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$letpix <- data.frame(letter = " ", pixel = 16)
     font$height <- 22
+    font$width <- 16
     font$lead <- 5
     font$right <- TRUE
     font$fixed <- TRUE
@@ -416,6 +425,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$letpix <- data.frame(letter = " ", pixel = 13)
     font$height <- 22
+    font$width <- 13
     font$lead <- 7
     font$right <- FALSE
     font$fixed <- TRUE
@@ -437,6 +447,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$letpix <- data.frame(letter = " ", pixel = 15)
     font$height <- 24
+    font$width <- 15
     font$lead <- 9
     font$right <- FALSE
     font$fixed <- TRUE
@@ -459,6 +470,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$letpix <- data.frame(letter = " ", pixel = 15)
     font$height <- 24
+    font$width <- 15
     font$lead <- 9
     font$right <- FALSE
     font$fixed <- TRUE
@@ -482,6 +494,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$letpix <- data.frame(letter = " ", pixel = 15)
     font$height <- 24
+    font$width <- 15
     font$lead <- 9
     font$right <- FALSE
     font$fixed <- TRUE
@@ -503,6 +516,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$letpix <- data.frame(letter = " ", pixel = 16)
     font$height <- 25
+    font$width <- 16
     font$lead <- 9
     font$right <- FALSE
     font$fixed <- TRUE
@@ -536,6 +550,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                8,9,8,9,9,5,17,11)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 17
+    font$width <- 10.5
     font$lead <- 6
     font$right <- FALSE
     font$fixed <- FALSE
@@ -565,6 +580,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                8,10,8,10,10,5,18,11,10)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 18
+    font$width <- 10
     font$lead <- 6
     font$right <- FALSE
     font$fixed <- FALSE
@@ -594,6 +610,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                8, 11, 10, 10, 10)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 20
+    font$width <- 10.5
     font$lead <- 5
     font$right <- FALSE
     font$fixed <- FALSE
@@ -620,10 +637,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                12,12,12,12,12,12,12,12,12,12,
                6,6,7,6,8,12,12,12,14,13,10,8,10,20,
                19,7,8,8,12,8,8,14,7,12,4,14,14,5,
-               9,12,10,12,12,12,6,22,14,12
-    )
+               9,12,10,12,12,12,6,22,14,12)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 22
+    font$width <- 12
     font$lead <- 6
     font$right <- FALSE
     font$fixed <- FALSE
@@ -650,10 +667,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                14,14,14,14,14,14,14,14,14,14,
                7,7,8,6,9,14,14,13,15,15,10,8,12,22,
                21,8,9,9,13,9,9,15,7,13,4,15,15,5,
-               10,14,12,13,13,7,25,16,14
-    )
+               10,14,12,13,13,7,25,16,14)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 25
+    font$width <- 14
     font$lead <- 7
     font$right <- FALSE
     font$fixed <- FALSE
@@ -680,10 +697,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                14,14,14,14,14,14,14,14,14,14,
                7,7,8,8,9,15,15,15,16,16,10,8,12,24,
                23,8,10,10,15,9,9,16,8,14,4,16,16,5,
-               11,14,14,14,14,7,27,17,14
-    )
+               11,14,14,14,14,7,27,17,14)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 26
+    font$width <- 14.5
     font$lead <- 8
     font$right <- FALSE
     font$fixed <- FALSE
@@ -710,10 +727,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                16,16,16,16,16,16,16,16,16,16,
                8,8,9,9,10,16,16,15,18,17,13,11,14,27,
                25,9,11,11,16,11,11,18,8,16,5,18,18,5,
-               12,16,15,15,15,8,29,18,17
-    )
+               12,16,15,15,15,8,29,18,17)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 29
+    font$width <- 16
     font$lead <- 9
     font$right <- FALSE
     font$fixed <- FALSE
@@ -738,6 +755,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # NOTE: "Ö" correct?
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- NA
+    font$width <- 15
     font$lead <- NA
     font$right <- FALSE
     font$fixed <- FALSE
@@ -759,6 +777,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     # NOTE: "I" correct?
     font$letpix <- data.frame(letter = letter, pixel = pixel) 
     font$height <- NA
+    font$width <- 15
     font$lead <- NA
     font$right <- FALSE
     font$fixed <- FALSE
@@ -1027,6 +1046,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   if (font$name == "TahomaKorean" & font$size == 24) {
     font$letpix <- data.frame(letter = " ", pixel = 32)
     font$height <- 26
+    font$width <- 32
     font$lead <- 10
     font$right <- FALSE
     font$fixed <- TRUE
@@ -1040,6 +1060,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   if (font$name == "TahomaTraditionalChinese" & font$size == 10) {
     font$letpix <- data.frame(letter = " ", pixel = 27)
     font$height <- 25
+    font$width <- 27
     font$lead <- 10
     font$right <- FALSE
     font$fixed <- TRUE
@@ -1073,9 +1094,8 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                  moveX = env$assign.moveX,
                  moveY = env$assign.moveY,
                  lineMethod = env$assign.lineMethod,
-                 outlierY = env$assign.outlierY,
                  lineX = env$assign.lineX,
-                 lineY= env$assign.lineY)
+                 lineY = env$assign.lineY)
   
   # cleaning
   clean <- list(stage1Dur = env$clean.stage1Dur, 

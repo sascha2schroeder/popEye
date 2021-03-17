@@ -99,13 +99,8 @@
 #' into text area (TRUE or FALSE, default is FALSE)
 #' @param assign.lineMethod Method used to assign fixations to lines ("attach",
 #' "chain" or "merge", "chain" is default; see Vignette)
-#' @param assign.outlierY Parameter for outlier detection on the y axis
-#' (number of line heights a fixation is allowed to deviate from the first or
-#' last line on a screen, default is 2)
-#' @param assign.lineX Parameter used to detect runs on the x axsis 
-#' if "chain" method is used (default is 20)
-#' @param assign.lineY Parameter used to detect runs on the y axsis 
-#' if "chain" method is used (default is 2)
+#' @param assign.lineX Parameter used to detect runs on the x axsis (default is 35)
+#' @param assign.lineY Parameter used to detect runs on the y axsis (default is 2)
 #' @param clean.stage1Dur Minimum duration for fixation during stage 1 
 #' cleaning (default: 80 ms)
 #' @param clean.stage1Dist Minimum distance between fixations (in number
@@ -157,7 +152,7 @@
 #' Select a set of trials by providing a vector, e.g., skip.trials = c(10, 11).
 #' @param debug Perform analysis only for specific steps of the analysis 
 #' ("setup", "subjects", "read", "remove", "create", "add", "extract", "assign",
-#' "aggregate")
+#' "line", "aggregate")
 
 popEye <- function(datpath, 
                    stimulus.file,
@@ -215,9 +210,7 @@ popEye <- function(datpath,
                    assign.moveY = FALSE,
                    assign.lineMethod = "chain",
                    
-                   assign.outlierX = 100,
-                   assign.outlierY = 100,
-                   assign.lineX = 20,
+                   assign.lineX = 35,
                    assign.lineY = 0.5,
                    
                    clean.stage1Dur = 80, 
@@ -437,7 +430,7 @@ popEye <- function(datpath,
       
       dat <- MatchStim(dat)
       
-      if (debug == "assign") {
+      if (debug == "assign" | debug == "line") {
         return (dat)
       }
       

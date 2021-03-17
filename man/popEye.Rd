@@ -56,9 +56,7 @@ popEye(
   assign.moveX = FALSE,
   assign.moveY = FALSE,
   assign.lineMethod = "chain",
-  assign.outlierX = 100,
-  assign.outlierY = 100,
-  assign.lineX = 20,
+  assign.lineX = 35,
   assign.lineY = 0.5,
   clean.stage1Dur = 80,
   clean.stage1Dist = 1,
@@ -232,15 +230,9 @@ into text area (TRUE or FALSE, default is FALSE)}
 \item{assign.lineMethod}{Method used to assign fixations to lines ("attach",
 "chain" or "merge", "chain" is default; see Vignette)}
 
-\item{assign.outlierY}{Parameter for outlier detection on the y axis
-(number of line heights a fixation is allowed to deviate from the first or
-last line on a screen, default is 2)}
+\item{assign.lineX}{Parameter used to detect runs on the x axsis (default is 35)}
 
-\item{assign.lineX}{Parameter used to detect runs on the x axsis 
-if "chain" method is used (default is 20)}
-
-\item{assign.lineY}{Parameter used to detect runs on the y axsis 
-if "chain" method is used (default is 2)}
+\item{assign.lineY}{Parameter used to detect runs on the y axsis (default is 2)}
 
 \item{clean.stage1Dur}{Minimum duration for fixation during stage 1 
 cleaning (default: 80 ms)}
@@ -312,7 +304,7 @@ Select a set of trials by providing a vector, e.g., skip.trials = c(10, 11).}
 
 \item{debug}{Perform analysis only for specific steps of the analysis 
 ("setup", "subjects", "read", "remove", "create", "add", "extract", "assign",
-"aggregate")}
+"line", "aggregate")}
 
 \item{exclude.blink}{If TRUE a trial is flagged as critical if at least one
 blink has occured on it (default is FALSE)}

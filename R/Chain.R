@@ -26,17 +26,17 @@ Chain <- function (fix, stimmat, env = parent.frame(n = 3)) {
     
     # determine run break
     if (abs(fix$disty[i]) >= env$exp$setup$font$height * env$exp$setup$assign$lineY | 
-        abs(fix$distx[i]) >= env$exp$setup$font$height * env$exp$setup$assign$lineX) {
+        abs(fix$distx[i]) >= env$exp$setup$font$width * env$exp$setup$assign$lineX) {
       
       # assign previous run to line
       mean.y <- mean(fix$yn[fix$linerun == fix$linerun[i - 1]], na.rm = T)
       
-      if (mean.y > (max(stimmat$ye) + env$exp$setup$font$height * env$exp$setup$assign$outlierY) | 
-          mean.y < (min(stimmat$ys) - env$exp$setup$font$height * env$exp$setup$assign$outlierY)) {
-        
-        fix$type[fix$linerun == fix$linerun[i - 1]] <- "out"
-        
-      } else {
+      # if (mean.y > (max(stimmat$ye) + env$exp$setup$font$height * env$exp$setup$assign$outlierY) | 
+      #     mean.y < (min(stimmat$ys) - env$exp$setup$font$height * env$exp$setup$assign$outlierY)) {
+      #   
+      #   fix$type[fix$linerun == fix$linerun[i - 1]] <- "out"
+      #   
+      # } else {
         
         out <- NULL
         
@@ -46,7 +46,7 @@ Chain <- function (fix, stimmat, env = parent.frame(n = 3)) {
         
         fix$line[fix$linerun == fix$linerun[i - 1]] <- which.min(out)
         
-      }
+      # }
       
       fix$linerun[i] <- fix$linerun[i - 1] + 1
       
@@ -61,12 +61,12 @@ Chain <- function (fix, stimmat, env = parent.frame(n = 3)) {
   # assign last run
   mean.y <- mean(fix$yn[fix$linerun == fix$linerun[nrow(fix)]], na.rm = T)
   
-  if (mean.y > (max(stimmat$ye) + env$exp$setup$font$height * env$exp$setup$assign$outlierY) | 
-      mean.y < (min(stimmat$ys) - env$exp$setup$font$height * env$exp$setup$assign$outlierY)) {
-    
-    fix$type[fix$linerun == fix$linerun[nrow(fix)]] <- "out"
-    
-  } else {
+  # if (mean.y > (max(stimmat$ye) + env$exp$setup$font$height * env$exp$setup$assign$outlierY) | 
+  #     mean.y < (min(stimmat$ys) - env$exp$setup$font$height * env$exp$setup$assign$outlierY)) {
+  #   
+  #   fix$type[fix$linerun == fix$linerun[nrow(fix)]] <- "out"
+  #   
+  # } else {
     
     out <- NULL
     
@@ -76,7 +76,7 @@ Chain <- function (fix, stimmat, env = parent.frame(n = 3)) {
     
     fix$line[fix$linerun == fix$linerun[nrow(fix)]] <- which.min(out)
     
-  }
+  # }
   
   return(fix)
   

@@ -165,9 +165,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   # method interactive
   if (env$exp$setup$assign$lineMethod == "interactive") {
     
-    fix <- BuildSequences(fix)
-    fix <- SelectLine(fix, stimmat)
-    fix <- LineInteractive(fix, stimmat)
+    fix <- Interactive(fix, stimmat)
     
   }
   

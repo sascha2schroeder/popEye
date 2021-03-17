@@ -1,5 +1,5 @@
 
-LineInteractive <- function(fix, stimmat, env = parent.frame(n = 1)) {
+LineInteractive <- function(fix, stimmat, env = parent.frame(n = 2)) {
   
   print(env$trial)
   
@@ -13,16 +13,18 @@ LineInteractive <- function(fix, stimmat, env = parent.frame(n = 1)) {
   fixtmp$line <- NA
   fix$line <- NULL
   
-  
   i <- 1
   while (i <=length(run)) {
     
     # print(paste("Run", i, "of", length(run)))
     
+    ydif <- max(stimmat$ye) - min(stimmat$ys)
+    
     # basic plot
-    plot(stimmat$xs, stimmat$ym, xlim = c(0, max(stimmat$xe)), 
-         ylim = c(max(stimmat$ye), min(stimmat$ys)), type = "n",
-         xlab = "x (px)", ylab = "y (px)", main = paste("Trial", env$trial))
+    plot(stimmat$xs, stimmat$ym, 
+         xlim = c(0, max(stimmat$xe)), 
+         ylim = c(max(stimmat$ye) + ydif * 1/10, min(stimmat$ys) - ydif * 1/10), 
+         type = "n", xlab = "x (px)", ylab = "y (px)", main = paste("Trial", env$trial))
     
     for (j in 1:max(lines)){
       
