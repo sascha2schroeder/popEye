@@ -1056,8 +1056,20 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                    "\u0038","\u0039","\u0043","\u0049","\u004f","\u0054","\u0056")
   }
   
+  # TahomaChinese 8 pt
+  if (font$name == "TahomaChinese" & font$size == 8) {
+    font$letpix <- data.frame(letter = " ", pixel = 20)
+    font$height <- 21
+    font$width <- 20
+    font$lead <- 6
+    font$right <- FALSE
+    font$fixed <- TRUE
+    font$half <- c("1", "9", "3", "6", "", "(", ")")
+    font$wrap <- FALSE
+  }
+  
   # TahomaChinese 10 pt
-  if (font$name == "TahomaTraditionalChinese" & font$size == 10) {
+  if (font$name == "TahomaChinese" & font$size == 10) {
     font$letpix <- data.frame(letter = " ", pixel = 27)
     font$height <- 25
     font$width <- 27
