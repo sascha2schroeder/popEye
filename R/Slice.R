@@ -4,8 +4,7 @@
 # lineS is the multiplier of line height for runs that are considered the same line
 # lineN is the multiplier of line height for maximum distance of runs that are considered adjacent line
 
-Slice = function(fix, stim, runH = 0.5, runW = 3, lineS = 0.5, lineN = 1.4) {
-# Slice = function(fix, stim, lineS = 0.5, lineN = 1.4, env = parent.frame(n = 3)) {
+Slice = function(fix, stim, lineS = 0.5, lineN = 1.4, env = parent.frame(n = 3)) {
     
   # plot(fix$xn, fix$yn, type="l", col="lightgrey", ylim=c(max(fix$yn), min(fix$yn)))
   line_Y <- tapply(stim$ym, stim$line, max) # contains the Y position of all lines
@@ -16,15 +15,15 @@ Slice = function(fix, stim, runH = 0.5, runW = 3, lineS = 0.5, lineN = 1.4) {
   fix$distx[2:length(fix$distx)] <- diff(fix$xn)
   fix$disty[2:length(fix$disty)] <- diff(fix$yn)
   fix$run[1] <- 1
-  for (i in 2:nrow(fix)) {
-    fix$run[i] <- fix$run[i - 1] + (abs(fix$disty[i]) >= (runH * lineHeight) | abs(fix$distx[i]) >= runW * lineHeight)
-  }
-  # for (i in 2:nrow(fix)) {
-  #   fix$run[i] <- fix$run[i - 1] + 
-  #     (abs(fix$disty[i]) >= env$exp$setup$font$height * env$exp$setup$assign$lineY | 
-  #        abs(fix$distx[i]) >= env$exp$setup$font$width * env$exp$setup$assign$lineX)
-  # }
   
+  runY = lineHeight * env$exp$setup$assign$lineY
+  # runY = 0.25 * lineHeight * env$exp$setup$assign$lineY
+  # runY = 0.25 * lineHeight * 2
+  runX = 0.75 * env$exp$setup$font$width * env$exp$setup$assign$lineX
+  # runX = 0.75 * 15 * 35
+  for (i in 2:nrow(fix)) {
+    fix$run[i] <- fix$run[i - 1] + (abs(fix$disty[i]) >= runY | abs(fix$distx[i]) >= runX)
+  }
   fix$distx <- fix$disty <- NULL
   # for(r in unique(fix$run)) {
   #   lines(fix$xn[fix$run == r], fix$yn[fix$run == r], type="l", col="black")
@@ -35,8 +34,10 @@ Slice = function(fix, stim, runH = 0.5, runW = 3, lineS = 0.5, lineN = 1.4) {
   nrMax <- which.max(lapply(lRuns(fix), FUN = function(r) return(max(r$xn) - min(r$xn))))
   fix$l[fix$run == nrMax] <- 0
   # lines(fix$xn[fix$l==0 & !is.na(fix$l)], fix$yn[fix$l==0 & !is.na(fix$l)], col="blue")
-  
-  while(max(fix$l, na.rm = T) - min(fix$l, na.rm = T) < (length(line_Y) - 1) & sum(is.na(fix$l)) > 0) {
+  fix$num = fix$start = fix$stop = fix$xs = fix$ys = fix$blink = fix$dur = NULL
+  j = 0
+  while(sum(is.na(fix$l)) > 0 & j < length(line_Y) * 2) {
+    j = j + 1
     nrUp <- min(fix$l, na.rm = T)
     rds <- runDists(nrUp, fix)
     if (nrow(rds) > 0) {
@@ -51,6 +52,7 @@ Slice = function(fix, stim, runH = 0.5, runW = 3, lineS = 0.5, lineN = 1.4) {
                     data.frame(xn = c(mean(fix$xn)), 
                                yn = c(mean(fix$yn[fix$l == nrUp & !is.na(fix$l)]) - lineHeight),
                                orig = F, run = max(fix$run) + 1, l = nrUp - 1))
+        # points(mean(fix$xn), mean(fix$yn[fix$l == nrUp & !is.na(fix$l)]) - lineHeight)
       }
     }
     nrDown <- max(fix$l, na.rm = T)
@@ -70,11 +72,20 @@ Slice = function(fix, stim, runH = 0.5, runW = 3, lineS = 0.5, lineN = 1.4) {
       }
     }
   }
-  
+  # missing line assignments
   missing <- is.na(fix$l)
   for (i in 1:sum(missing)) {
     fix$l[missing][i] <- which.min(abs(fix$yn[missing][i] - tapply(fix$yn, fix$l, mean))) + (min(fix$l, na.rm = T) - 1)
   }
+  # prune thin lines
+  while(max(fix$l) - min(fix$l) > length(line_Y) - 1) {
+    if (sum(fix$l == max(fix$l) & fix$orig) > sum(fix$l == min(fix$l) & fix$orig)) {
+      fix$l[fix$l == min(fix$l)] = min(fix$l) + 1
+    } else {
+      fix$l[fix$l == max(fix$l)] = max(fix$l) - 1
+    } 
+  }
+  
   fix$l <- fix$l - min(fix$l) + 1
   # text(fix$xn, fix$yn, fix$l)
   fix$yn <- fix$l

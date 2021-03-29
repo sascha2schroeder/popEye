@@ -25,7 +25,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # parse out ia delimiter and target indicator and split into letters
   tmp_letter <- stim
-  # tmp <- gsub(env$exp$setup$indicator$target, "", tmp)
+  tmp_letter <- gsub(env$exp$setup$indicator$target, "", tmp_letter)
   tmp_letter <- gsub(env$exp$setup$indicator$line, "", tmp_letter)
   # tmp <- gsub(env$exp$setup$indicator$word, "", tmp)
   # if (env$exp$setup$indicator$ia != " ") {
@@ -123,16 +123,14 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   sentmem <- FALSE
   
   # IA
-  ia.delim <- env$exp$setup$indicator$ia
-  
-  if (ia.delim != "") {
+  if (env$exp$setup$indicator$ia != "") {
     
     tmp_ia <- stim
     tmp_ia <- gsub(env$exp$setup$indicator$target, "", tmp_ia)
     tmp_ia <- gsub(env$exp$setup$indicator$line, "", tmp_ia)
     tmp_ia <- gsub(env$exp$setup$indicator$word, "", tmp_ia)
     
-    ias <- unlist(strsplit(tmp_ia, ia.delim))
+    ias <- unlist(strsplit(tmp_ia, env$exp$setup$indicator$ia))
     ianum <- 1
     stimmat$ianum <- NA
     stimmat$ia <- NA
@@ -189,7 +187,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     }
     
     # IA
-    if (ia.delim == "") {
+    if (env$exp$setup$indicator$ia == "") {
       
       stimmat$ianum[i] <- stimmat$wordnum[i]
       stimmat$ia[i] <- stimmat$word[i]
@@ -401,9 +399,13 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
     
     stimmat$target <- NA
-    
-    dat$item[[trial]]$meta$target <- 
-      grep(env$exp$setup$indicator$target, unlist(strsplit(stim, env$exp$setup$indicator$ia)))
+    if (env$exp$setup$indicator$ia != "") {
+      dat$item[[trial]]$meta$target <- 
+        grep(env$exp$setup$indicator$target, unlist(strsplit(stim, env$exp$setup$indicator$ia)))
+    } else {
+      dat$item[[trial]]$meta$target <- 
+        grep(env$exp$setup$indicator$target, unlist(strsplit(stim, env$exp$setup$separator$word)))
+    }
     
     stimmat$target[stimmat$ianum == dat$item[[trial]]$meta$target] <- "n"
     stimmat$target[stimmat$ianum == dat$item[[trial]]$meta$target - 1] <- "n-1"

@@ -100,7 +100,7 @@
 #' @param assign.lineMethod Method used to assign fixations to lines ("attach",
 #' "chain" or "merge", "chain" is default; see Vignette)
 #' @param assign.lineX Parameter used to detect runs on the x axsis (default is 35)
-#' @param assign.lineY Parameter used to detect runs on the y axsis (default is 2)
+#' @param assign.lineY Parameter used to detect runs on the y axsis (default is 0.5)
 #' @param clean.stage1Dur Minimum duration for fixation during stage 1 
 #' cleaning (default: 80 ms)
 #' @param clean.stage1Dist Minimum distance between fixations (in number
@@ -152,7 +152,7 @@
 #' Select a set of trials by providing a vector, e.g., skip.trials = c(10, 11).
 #' @param debug Perform analysis only for specific steps of the analysis 
 #' ("setup", "subjects", "read", "remove", "create", "add", "extract", "assign",
-#' "line", "aggregate")
+#' "line", "combine", "aggregate")
 
 popEye <- function(datpath, 
                    stimulus.file,
@@ -470,6 +470,10 @@ popEye <- function(datpath,
       message(".. Combine events")
       
       dat <- CombineEvents(dat)
+      
+      if (debug == "combine") {
+        return (dat)
+      }
       
       
       # cleaning
