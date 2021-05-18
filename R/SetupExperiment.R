@@ -523,6 +523,20 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   } 
   
   
+  # LucidaConsole
+  # --------------
+  
+  # Lucida Console, 15 pt
+  if (font$name == "LucidaConsole" & font$size == 15) {
+    font$letpix <- data.frame(letter = " ", pixel = 12)
+    font$height <- 17
+    font$width <- 12
+    font$lead <- 1
+    font$right <- FALSE
+    font$fixed <- TRUE
+  }
+  
+  
   # TimesNew Roman
   # ---------------
   
@@ -962,7 +976,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   #              16, 16, 16, 16, 16, 16, 16,
   #              16, 16, 16, 16, 16, 16, 16,
   #              16, 16, 16, 16, 16, 16, 16,
-  #              32,32,32,32,32,32,32,
+  #              32,32,32,32,32,Simplified32,32,
   #              32,32,32,32,32,32,32,
   #              32,32,32,32,32,32,32,
   #              32,32,32,32,32,32,32,
@@ -1056,8 +1070,8 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                    "\u0038","\u0039","\u0043","\u0049","\u004f","\u0054","\u0056")
   }
   
-  # TahomaChinese 8 pt
-  if (font$name == "TahomaChinese" & font$size == 8) {
+  # ChineseSimplified 8 pt
+  if (font$name == "ChineseSimplified" & font$size == 8) {
     font$letpix <- data.frame(letter = " ", pixel = 20)
     font$height <- 21
     font$width <- 20
@@ -1068,15 +1082,15 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$wrap <- FALSE
   }
   
-  # TahomaChinese 10 pt
-  if (font$name == "TahomaChinese" & font$size == 10) {
+  # ChineseTraditional 10 pt
+  if (font$name == "ChineseTraditional" & font$size == 10) {
     font$letpix <- data.frame(letter = " ", pixel = 27)
     font$height <- 25
     font$width <- 27
     font$lead <- 10
     font$right <- FALSE
     font$fixed <- TRUE
-    font$half <- c("１", "３","９", "６", "(", ")")
+    font$half <- c("(", ")")
     font$wrap <- FALSE
   }
   

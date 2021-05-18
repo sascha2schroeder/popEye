@@ -151,6 +151,11 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     dat <- gsub("!V DRAW_LIST", "DRAW_LIST", dat)
   }
   
+  # FIX: if stop message is empty
+  if (env$exp$setup$message$stop == "TRIAL_RESULT") {
+      dat <- gsub("TRIAL_RESULT", "0 TRIAL_RESULT", dat) 
+  }
+  
   start <- dat[grep(paste("\\b", env$exp$setup$message$start, "\\b", sep = ""), dat)]
   stop <- dat[grep(paste("\\b", env$exp$setup$message$stop, "\\b", sep = ""), dat)]
   

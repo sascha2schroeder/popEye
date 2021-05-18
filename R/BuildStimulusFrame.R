@@ -17,7 +17,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # calculate cut-off
   x.cut <- env$exp$setup$display$resolutionX - env$exp$setup$display$marginRight
-  # x.cut <- 1180
   
   
   # compute letter
@@ -308,15 +307,15 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   while (n == m) {
     
     # env$exp$setup$font$wrap <- F
-    
-    if (env$exp$setup$font$wrap == T) {
+   
+    if (env$exp$setup$font$wrap == T & length(stimmat$wordnum[stimmat$line == n]) > 0) {
       
       # set line break
       line.cut <- max(stimmat$wordnum[stimmat$line == n & stimmat$xe <= x.cut])
       
       if (stimmat$letter[max(stimmat$letternum[stimmat$wordnum == line.cut])] == "-") {
         line.cut <- line.cut + 1
-      }
+      }   
       
       if (max(stimmat$xe[stimmat$line == n]) > x.cut) {
         

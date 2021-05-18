@@ -7,6 +7,7 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   fix <- dat$item[[trial]]$fix
   stimmat <- dat$item[[trial]]$meta$stimmat
   
+  
   if (env$exp$setup$font$right == T) {
     fix$xs <- env$exp$setup$display$resolutionX - fix$xs
   }
