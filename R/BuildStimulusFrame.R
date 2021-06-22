@@ -36,7 +36,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # compute letters
   letters <- unlist(strsplit(tmp_letter, ""))
-  
+ 
   tmp_word <- stim
   tmp_word <- gsub(env$exp$setup$indicator$target, "", tmp_word)
   tmp_word <- gsub(env$exp$setup$indicator$line, "", tmp_word)
