@@ -412,7 +412,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   # Menlo, 14 pt
   if (font$name == "Menlo" & font$size == 14) {
     font$letpix <- data.frame(letter = " ", pixel = 22)
-    font$height <- 36
+    font$height <- 35
     font$width <- 22
     font$lead <- 6
     font$right <- FALSE

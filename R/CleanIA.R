@@ -2,8 +2,8 @@
 CleanIA <- function(dat, env = parent.frame(n = 1)) {
   
   # TODO: same output format even if no cleaning
-  
-  trial = 1
+ 
+  #trial <- 1 
   while (trial <= length(dat$item)) {
 
     if (env$exp$setup$clean$stage3 == T) {
