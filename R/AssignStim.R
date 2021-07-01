@@ -109,12 +109,12 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     fix <- Chain(fix, stimmat)
   }
   
-  # regress method
-  if (env$exp$setup$assign$lineMethod == "regress") {
-   
+  # cluster method
+  if (env$exp$setup$assign$lineMethod == "cluster") {
+    
     fixation_XY <- fix[, c("xn", "yn")]
     line_Y <- tapply(stimmat$ym, stimmat$line, max)
-    fix$line <- Regress(fixation_XY, line_Y)
+    fix$line <- as.numeric(as.factor(Cluster(fixation_XY, line_Y)$yn))
     
     if (sum(is.na(fix$line)) > 0) {
       fix <- Attach(fix, stimmat)
@@ -125,22 +125,27 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     
   }
   
+  # interactive method
+  if (env$exp$setup$assign$lineMethod == "interactive") {
+    fix <- Interactive(fix, stimmat)
+  }
+  
   # merge method
   if (env$exp$setup$assign$lineMethod == "merge") {
     fix <- Merge(fix, stimmat)
   }
   
-  # warp method
-  if (env$exp$setup$assign$lineMethod == "warp") {
+  # regress method
+  if (env$exp$setup$assign$lineMethod == "regress") {
     
-    # extract xy position of fixation and words and y position of lines
-    fixation_XY <- fix[c("xn", "yn")]
-    word_XY <- data.frame(cbind(
-      tapply(stimmat$xm, stimmat$ianum, mean), 
-      tapply(stimmat$ym, stimmat$ianum, mean)
-    ))
+    fixation_XY <- fix[, c("xn", "yn")]
+    line_Y <- tapply(stimmat$ym, stimmat$line, max)
+    fix$line <- Regress(fixation_XY, line_Y)
     
-    fix$line <- as.numeric(as.factor(Warp(fixation_XY, word_XY)$yn))
+    if (sum(is.na(fix$line)) > 0) {
+      fix <- Attach(fix, stimmat)
+    }
+    
     fix$run <- NA
     fix$linerun <- NA
     
@@ -163,10 +168,51 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     
   }
   
-  # method interactive
-  if (env$exp$setup$assign$lineMethod == "interactive") {
+  # split method
+  if (env$exp$setup$assign$lineMethod == "split") {
     
-    fix <- Interactive(fix, stimmat)
+    fixation_XY <- fix[, c("xn", "yn")]
+    line_Y <- tapply(stimmat$ym, stimmat$line, max)
+    fix$line <- as.numeric(as.factor(Split(fixation_XY, line_Y)$yn))
+    
+    if (sum(is.na(fix$line)) > 0) {
+      fix <- Attach(fix, stimmat)
+    }
+    
+    fix$run <- NA
+    fix$linerun <- NA
+    
+  }
+  
+  # stretch method
+  if (env$exp$setup$assign$lineMethod == "stretch") {
+    
+    fixation_XY <- fix[, c("xn", "yn")]
+    line_Y <- tapply(stimmat$ym, stimmat$line, max)
+    fix$line <- as.numeric(as.factor(Stretch(fixation_XY, line_Y)$yn))
+    
+    if (sum(is.na(fix$line)) > 0) {
+      fix <- Attach(fix, stimmat)
+    }
+    
+    fix$run <- NA
+    fix$linerun <- NA
+    
+  }
+  
+  # warp method
+  if (env$exp$setup$assign$lineMethod == "warp") {
+    
+    # extract xy position of fixation and words and y position of lines
+    fixation_XY <- fix[c("xn", "yn")]
+    word_XY <- data.frame(cbind(
+      tapply(stimmat$xm, stimmat$ianum, mean), 
+      tapply(stimmat$ym, stimmat$ianum, mean)
+    ))
+    
+    fix$line <- as.numeric(as.factor(Warp(fixation_XY, word_XY)$yn))
+    fix$run <- NA
+    fix$linerun <- NA
     
   }
   
