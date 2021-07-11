@@ -66,17 +66,21 @@
 #' "CourierNew","Consolas", "Times New Roman", and "Symbol" are supported for most
 #' font sizes between 12 and 24 pt in steps of 2)
 #' @param font.size Size of the font (in pixels, 16 by default)
-#' @param font.spacing Spacing between lines (1, 1.5, or 2, 2 by default)
+#' @param font.spacing Spacing between lines (numeric, 2 by default)
 #' @param analysis.eyelink Should the real-time parsing from the eyelink system 
 #' be used? (TRUE or FALSE, default is TRUE)
+#' @param analysis.smooth Amount of smoothing applied to raw x and y data. 
+#' Number of samples used to compute a (two-sided) moving average 
+#' (numeric, default is 5)
 #' @param analysis.vfac Velocity threshold used for saccade detection (see Engbert & Kliegl, 
 #' 2003; default is 5)
 #' @param analysis.mindur Minimum duration of a saccade (see Engbert & Kliegl, 2003; 
 #' default is 10 ms)
 #' @param analysis.postdur Minimum duration of a fixation (see Engbert & Kliegl, 
 #' 2003; default is 30 ms)
-#' @param analysis.drift Treat fixations with drift in x or y dimension as blinks
-#' (TRUE or FALSE; default is TRUE. See Engbert & Kliegl, 2003)
+#' @param analysis.drift Threshold for the decision whether a fixation is treated 
+#' as a blink; amount of drift on the x or y dimension in terms of the font height
+#' (numeric; default is 1. See Engbert & Kliegl, 2003)
 #' @param analysis.sparse If TRUE, the msg, sample, and event slots are cleaned
 #' during the analysis (TRUE or FALSE, default is TRUE)
 #' @param assign.driftX If TRUE fixation is corrected for drift on the x
@@ -151,8 +155,8 @@
 #' Select a single trial by providing the corresponding trial ID, e.g., skip.trials = 10. 
 #' Select a set of trials by providing a vector, e.g., skip.trials = c(10, 11).
 #' @param debug Perform analysis only for specific steps of the analysis 
-#' ("setup", "subjects", "read", "remove", "create", "add", "extract", "assign",
-#' "line", "combine", "aggregate")
+#' ("setup", "subjects", "read", "remove", "create", "add", "extract", "line", 
+#' "assign", "combine", "aggregate")
 
 popEye <- function(datpath, 
                    stimulus.file,
@@ -195,12 +199,12 @@ popEye <- function(datpath,
                    font.spacing = 2,
                    font.wrap = TRUE,
                    analysis.eyelink = TRUE, 
+                   analysis.smooth = 5, 
                    analysis.vfac = 5, 
                    analysis.mindur = 10, 
                    analysis.postdur = 30,
-                   analysis.drift = TRUE, 
+                   analysis.drift = 1, 
                    analysis.sparse = TRUE,
-                   
                    assign.driftX = FALSE, 
                    assign.driftY = FALSE,
                    assign.outlier = TRUE,
@@ -274,7 +278,9 @@ popEye <- function(datpath,
     }  
   } else if (tracker.software == "ET") {
     version.list <- ""
-  }
+  } else if (tracker.software == "psychopy") {
+    version.list <- ""
+  } 
   
   # initialize number of subjects
   nsub <- 0
@@ -304,10 +310,17 @@ popEye <- function(datpath,
     if (tracker.software == "EB") {
       filepath <- paste(datpath, version.list[v], "results/", sep = "")  
       sub.list <- list.files(filepath)
+      sub.list <- gsub(".asc", "", sub.list)
     } else if (tracker.software == "ET") {
       filepath <- paste(datpath, version.list[v], sep = "")  
       sub.list <- list.files(filepath)
       sub.list <- sub.list[grep("asc", sub.list)]
+      sub.list <- gsub(".asc", "", sub.list)
+    } else if (tracker.software == "psychopy") {
+      filepath <- paste(datpath, version.list[v], sep = "")  
+      sub.list <- list.files(filepath)
+      sub.list <- sub.list[grep("hdf5", sub.list)]
+      sub.list <- gsub(".hdf5", "", sub.list)
     }
     
     # select subjects
@@ -340,7 +353,7 @@ popEye <- function(datpath,
       # generate header slot
       header <- list()
       
-      subid <- gsub("\\.asc", "", sub.list[s])
+      subid <- sub.list[s]
       header$subid <- subid
       header$version <- v
       

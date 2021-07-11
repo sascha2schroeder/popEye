@@ -19,7 +19,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   
   num <- 0
   for (trial in trials) {
-
+   
     num <- num + 1
     
     start <- min(dat$msg$time[dat$msg$trialid == trial])
@@ -57,25 +57,44 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
         
       } else {
         
-        meta <- list(trialid = max(tmp$msg$trialid), 
-                     trialnum = max(tmp$msg$trialnum), 
-                     itemid = max(tmp$msg$itemid), 
-                     condition = max(tmp$msg$condition), 
-                     dependency = max(tmp$msg$dependency),
-                     start = time,
-                     calibration.method = sel$method,
-                     calibration.eye = sel$eye,
-                     calibration.avg = as.numeric(sel$avg),
-                     calibration.max = as.numeric(sel$max),
-                     drift = env$header$trial$drift[trial],
-                     drift.x = as.numeric(as.character(env$header$trial$drift.x[trial])),
-                     drift.y = as.numeric(as.character(env$header$trial$drift.y[trial]))
-        )    
-        
+        if (env$exp$setup$tracker$model == "eyelink") {
+          
+          meta <- list(trialid = max(tmp$msg$trialid), 
+                       trialnum = max(tmp$msg$trialnum), 
+                       itemid = max(tmp$msg$itemid), 
+                       condition = max(tmp$msg$condition), 
+                       dependency = max(tmp$msg$dependency),
+                       start = time,
+                       calibration.method = sel$method,
+                       calibration.eye = sel$eye,
+                       calibration.avg = as.numeric(sel$avg),
+                       calibration.max = as.numeric(sel$max),
+                       drift = env$header$trial$drift[trial],
+                       drift.x = as.numeric(as.character(env$header$trial$drift.x[trial])),
+                       drift.y = as.numeric(as.character(env$header$trial$drift.y[trial]))
+          )    
+          
+        } else if (env$exp$setup$tracker$model == "gazepoint") {
+          
+          meta <- list(trialid = max(tmp$msg$trialid), 
+                       trialnum = max(tmp$msg$trialnum), 
+                       itemid = max(tmp$msg$itemid), 
+                       condition = max(tmp$msg$condition), 
+                       dependency = max(tmp$msg$dependency),
+                       start = time,
+                       calibration.method = sel$method,
+                       calibration.eye = "",
+                       calibration.avg = as.numeric(sel$error),
+                       calibration.max = "",
+                       drift = env$header$trial$drift[trial],
+                       drift.x = "",
+                       drift.y = ""
+          )
+        }
       }
       
     } else {
-     
+      
       meta <- list(trialid = max(tmp$msg$trialid),
                    trialnum = max(tmp$msg$trialnum), 
                    itemid = max(tmp$msg$itemid), 
@@ -84,8 +103,8 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                    start = time,
                    calibration.method = env$header$calibration$method,
                    calibration.eye = env$header$calibration$eye
-                   )
-                   
+      )
+      
     }
     
     tmp$msg$trialnum <- NULL # remove trialnum from msg object
@@ -93,13 +112,19 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     tmp$msg$condition <- NULL # remove condition from msg object
     tmp$msg$dependency <- NULL # remove condition from msg object
     
+    tmp$event <- tmp$event[is.na(tmp$event$time) == F, ]
+    
     
     # create event slot
     # ------------------
     
-    # FIX: select left eye if tracking was binocular (corresponds to sample data)
-    if (env$header$calibration$eye == "LR") {
-      tmp$event <- tmp$event[tmp$event$eye == "L", ]
+    if (env$exp$setup$tracker$model == "eyelink") {
+      
+      # FIX: select left eye if tracking was binocular (corresponds to sample data)
+      if (env$header$calibration$eye == "LR") {
+        tmp$event <- tmp$event[tmp$event$eye == "L", ]
+      }
+      
     }
     
     # FIX: skip if there are less than three fixations in trial
@@ -122,13 +147,16 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
         
       } else {
         
-        xy <- SmoothData(data.frame(tmp$samp[, c("time", "x", "y")]))
+        # TODO: window as parameter on popEye level
+        
+        xy <- SmoothData(data.frame(tmp$samp[, c("time", "x", "y")]), k = env$exp$setup$analysis$smooth)
         vxy <- ComputeVelocity(xy, type = 2)
+        
         
         # parse events
         # -------------
         
-        if (env$exp$setup$analysis$eyelink == FALSE) {
+        if (env$exp$setup$analysis$eyelink == FALSE | env$exp$setup$tracker$model == "gazepoint") {
           
           out <- ComputeEvents(xy, vxy) 
           
@@ -169,10 +197,11 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
 
   }
   
+  
   # check for empty slots and save
   for (i in length(ret):1) {
     
-    if (is.na(ret[[i]]$parse) == T) {
+    if (is.null(nrow(ret[[i]]$parse)) == T) {
       ret[[i]] <- NULL
     } 
     

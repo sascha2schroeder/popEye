@@ -7,7 +7,6 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
   fix <- dat$item[[trial]]$fix
   stimmat <- dat$item[[trial]]$meta$stimmat
   
-  
   if (env$exp$setup$font$right == T) {
     fix$xs <- env$exp$setup$display$resolutionX - fix$xs
   }
@@ -282,13 +281,13 @@ AssignStim <- function(dat, trial, env = parent.frame(n = 2)) {
     }
     
   }
-  
+ 
   
   # align fixations on y axis
-  # --------------------------
+  # -------------------------
   
   for (i in 1:max(stimmat$line)) {
-    fix$ym[fix$line == i & is.na(fix$line) == F] <- stimmat$ym[stimmat$line == i]
+    fix$ym[fix$line == i & is.na(fix$line) == F] <- stimmat$ym[stimmat$line == i][1]
   }
   
   

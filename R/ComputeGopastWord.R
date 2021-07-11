@@ -1,18 +1,7 @@
 
-# ComputeGopastWord
-
-# takes fixation out file as input
-# returns gopast and selective gopast times for each fixation
-# can then be aggregated
-
-# NOTE: split in seperate functions?
-
-# functional hierarchy
-# -> AggregateWord
-# -> -> CombineWord
-# -> -> -> popEye
-
 ComputeGopastWord <- function(dat) {
+ 
+  options(warn = -1)
   
   # create response vectors
   dat$gopast <- rep(NA, nrow(dat))
@@ -24,16 +13,14 @@ ComputeGopastWord <- function(dat) {
   
   # trial id
   for (i in 1:length(ids)){
-  # for (i in 1:1){
-    # i = 1
+  # i = 1
     
     # compute vector of words in trial
     ias <- as.numeric(unlist(dimnames(table(dat$wordnum[id == ids[i]]))))
     
     # compute measures
-    for (j in 1:length(ias)){
-    # for (j in 2:2){
-      # j = 1
+    for (j in 1:(length(ias) - 1)){
+    # j = 8
       
         dat$gopast[id == ids[i]][dat$wordnum[id == ids[i]] == ias[j]] <- 
           sum(
@@ -54,15 +41,11 @@ ComputeGopastWord <- function(dat) {
                 ]
               , na.rm = T)
         
-        # # delete gopast for last word (visited)
-        # dat$gopast[id == ids[i]][dat$wordnum[id == ids[i]] == dat$wordnum[id == ids[i]][length(dat$wordnum[id == ids[i]])]] <- NA
-        # dat$selgopast[id == ids[i]][dat$wordnum[id == ids[i]] == dat$wordnum[id == ids[i]][length(dat$wordnum[id == ids[i]])]] <- NA
-        # # NOTE: Do we really want that?
-        
-        # print(j)
     }
-    # print(i)
+    
   }
+  
+  options(warn = 0)
   
   return(dat)
 }

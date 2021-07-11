@@ -43,10 +43,11 @@ popEye(
   font.spacing = 2,
   font.wrap = TRUE,
   analysis.eyelink = TRUE,
+  analysis.smooth = 5,
   analysis.vfac = 5,
   analysis.mindur = 10,
   analysis.postdur = 30,
-  analysis.drift = TRUE,
+  analysis.drift = 1,
   analysis.sparse = TRUE,
   assign.driftX = FALSE,
   assign.driftY = FALSE,
@@ -182,10 +183,14 @@ font sizes between 12 and 24 pt in steps of 2)}
 
 \item{font.size}{Size of the font (in pixels, 16 by default)}
 
-\item{font.spacing}{Spacing between lines (1, 1.5, or 2, 2 by default)}
+\item{font.spacing}{Spacing between lines (numeric, 2 by default)}
 
 \item{analysis.eyelink}{Should the real-time parsing from the eyelink system 
 be used? (TRUE or FALSE, default is TRUE)}
+
+\item{analysis.smooth}{Amount of smoothing applied to raw x and y data. 
+Number of samples used to compute a (two-sided) moving average 
+(numeric, default is 5)}
 
 \item{analysis.vfac}{Velocity threshold used for saccade detection (see Engbert & Kliegl, 
 2003; default is 5)}
@@ -196,8 +201,9 @@ default is 10 ms)}
 \item{analysis.postdur}{Minimum duration of a fixation (see Engbert & Kliegl, 
 2003; default is 30 ms)}
 
-\item{analysis.drift}{Treat fixations with drift in x or y dimension as blinks
-(TRUE or FALSE; default is TRUE. See Engbert & Kliegl, 2003)}
+\item{analysis.drift}{Threshold for the decision whether a fixation is treated 
+as a blink; amount of drift on the x or y dimension in terms of the font height
+(numeric; default is 1. See Engbert & Kliegl, 2003)}
 
 \item{analysis.sparse}{If TRUE, the msg, sample, and event slots are cleaned
 during the analysis (TRUE or FALSE, default is TRUE)}
@@ -303,8 +309,8 @@ Select a single trial by providing the corresponding trial ID, e.g., skip.trials
 Select a set of trials by providing a vector, e.g., skip.trials = c(10, 11).}
 
 \item{debug}{Perform analysis only for specific steps of the analysis 
-("setup", "subjects", "read", "remove", "create", "add", "extract", "assign",
-"line", "combine", "aggregate")}
+("setup", "subjects", "read", "remove", "create", "add", "extract", "line", 
+"assign", "combine", "aggregate")}
 
 \item{exclude.blink}{If TRUE a trial is flagged as critical if at least one
 blink has occured on it (default is FALSE)}

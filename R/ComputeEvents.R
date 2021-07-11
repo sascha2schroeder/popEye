@@ -5,8 +5,9 @@ ComputeEvents <- function(xy, vxy, env = parent.frame(n = 1)) {
   # -----------------------------------------
   
   # SAC
-  sac <- ComputeSaccades(xy, vxy)$sac
+  sac <- ComputeSaccades(xy, vxy, env$meta$calibration.method)$sac
   
+  # CHECK: saccade positions correct?
   
   # FIX: check number of saccades
   # ------------------------------
@@ -57,8 +58,19 @@ ComputeEvents <- function(xy, vxy, env = parent.frame(n = 1)) {
       out2$after[i + 1] <- 1
     }
   }
-  
+ 
   out2$del <- 0
+  for (i in 2:nrow(out2)) {
+    if (out2$before[i] == 1 & out2$after[i] == 1) {
+      out2$stop[i - 1] <- out2$stop[i + 1]
+      out2$xs[i - 1] <- NA
+      out2$ys[i - 1] <- NA
+      out2$del[i] <- 1
+      out2$del[i + 1] <- 1
+    }
+  }
+  out2 <- out2[out2$del == 0, ]
+  
   for (i in 2:nrow(out2)) {
     if (out2$before[i] == 1) {
       out2$start[i + 1] <- out2$start[i]
@@ -76,7 +88,7 @@ ComputeEvents <- function(xy, vxy, env = parent.frame(n = 1)) {
       out2$del[i] <- 1
     }
   }
-  
+ 
   out3 <- out2[out2$del == 0, ]
   out3$num <- 1:nrow(out3)
   out3$del <- NULL

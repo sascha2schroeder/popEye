@@ -387,6 +387,16 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$fixed <- TRUE
   }
   
+  # CourierNew, 24 pt
+  if (font$name == "CourierNew" & font$size == 24) {
+    font$letpix <- data.frame(letter = " ", pixel = 20)
+    font$height <- 36
+    font$width <- 20
+    font$lead <- 6
+    font$right <- FALSE
+    font$fixed <- TRUE
+  }
+  
   # CourierHebrew 20 pt
   if (font$name == "CourierHebrew" & font$size == 20) {
     # letter <- c(" ", "-", "–", "," , ":", ".", "'", "\"", "0", "1", "2", "8", "C", 
@@ -1108,6 +1118,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$wrap <- FALSE
   }
   
+  if (env$tracker.software == "psychopy") {
+    font$lead <- 0
+  }
+  
   # print classes
   font$print$up <- c("A","E","I","O","U","Q","W","R","T","Z","P","S","D","F",
                      "G","H","J","K","L","Y","X","C","V","B","N","M","Ä","Ö",
@@ -1117,8 +1131,11 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   font$print$de <- c("q","p","g","j","y")
   font$print$pu <- c(".",",","–")
   
+  
+  
   # analysis
   analysis <- list(eyelink = env$analysis.eyelink, 
+                   smooth = env$analysis.smooth,
                    vfac = env$analysis.vfac,
                    mindur = env$analysis.mindur, 
                    postdur = env$analysis.postdur,

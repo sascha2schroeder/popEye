@@ -1,18 +1,7 @@
 
-# ComputeGopastSentence
-
-# takes fixation out file as input
-# returns gopast and selective gopast times for each fixation
-# can then be aggregated
-
-# NOTE: split in seperate functions?
-
-# functional hierarchy
-# -> AggregateIA
-# -> -> CombineIA
-# -> -> -> popEye
-
 ComputeGopastSentence <- function(dat) {
+  
+  options(warn = -1)
   
   # create response vectors
   dat$gopast <- rep(NA, nrow(dat))
@@ -24,16 +13,14 @@ ComputeGopastSentence <- function(dat) {
   
   # trial id
   for (i in 1:length(ids)){
-  # for (i in 1:1){
-    # i = 1
+  # i = 1
     
     # compute vector of IAs in trial
     ias <- as.numeric(unlist(dimnames(table(dat$sentnum[id == ids[i]]))))
     
     # compute measures
     for (j in 1:length(ias)){
-    # for (j in 2:2){
-      # j = 1
+    # j = 1
       
         dat$gopast[id == ids[i]][dat$sentnum[id == ids[i]]== ias[j]] <- 
           sum(
@@ -54,10 +41,12 @@ ComputeGopastSentence <- function(dat) {
                 & is.na(dat$sentnum[id == ids[i]]) == F
                 ]
               , na.rm = T)
-        # print(j)
+        
     }
-    # print(i)
+    
   }
+  
+  options(warn = 0)
   
   return(dat)
 }

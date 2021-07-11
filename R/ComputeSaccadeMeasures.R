@@ -22,7 +22,7 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
   sac$amp.angle <- NA
   
   for (s in 1:nrow(sac)) {
-    # s = 1
+   # s = 1
     
     # on-/offset
     a <- sac$start[s]
@@ -32,7 +32,7 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
         dat$item[[trial]]$xy$x[a:b] <- NA
     }
     
-    if (is.na(dat$item[[trial]]$xy$x[a:b]) == FALSE) {
+    if (is.na(dat$item[[trial]]$xy$x[a:b])[1] == FALSE) {
       
       # saccade peak velocity (vpeak)
       

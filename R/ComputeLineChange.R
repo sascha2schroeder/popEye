@@ -12,7 +12,7 @@ ComputeLineChange <- function(dat, trial) {
     
     for (j in 2:nrow(tmp)) {
       
-      if (is.na(tmp$line)) next
+      if (is.na(tmp$line[j])) next
       tmp$line.change[j] <- tmp$line[j] - tmp$line[j - 1] 
       
     }  

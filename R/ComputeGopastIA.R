@@ -1,18 +1,7 @@
 
-# ComputeGopastIA
-
-# takes fixation out file as input
-# returns gopast and selective gopast times for each fixation
-# can then be aggregated
-
-# NOTE: split in seperate functions?
-
-# functional hierarchy
-# -> AggregateIA
-# -> -> CombineIA
-# -> -> -> popEye
-
 ComputeGopastIA <- function(dat) {
+  
+  options(warn = -1)
   
   # create response vectors
   dat$gopast <- rep(NA, nrow(dat))
@@ -24,16 +13,14 @@ ComputeGopastIA <- function(dat) {
   
   # trial id
   for (i in 1:length(ids)){
-  # for (i in 1:1){
-    # i = 1
+  # i = 1
     
     # compute vector of IAs in trial
     ias <- as.numeric(unlist(dimnames(table(dat$ianum[id == ids[i]]))))
     
     # compute measures
     for (j in 1:length(ias)){
-    # for (j in 2:2){
-      # j = 1
+    # j = 1
       
         dat$gopast[id == ids[i]][dat$ianum[id == ids[i]]== ias[j]] <- 
           sum(
@@ -44,7 +31,6 @@ ComputeGopastIA <- function(dat) {
               ]
             , na.rm = T)
         
-        
         dat$selgopast[id == ids[i]][dat$ianum[id == ids[i]]== ias[j]] <- 
           sum(
               dat$dur[id == ids[i]][
@@ -54,10 +40,12 @@ ComputeGopastIA <- function(dat) {
                 & is.na(dat$ianum[id == ids[i]]) == F
                 ]
               , na.rm = T)
-        # print(j)
+        
     }
-    # print(i)
+    
   }
+  
+  options(warn = 0)
   
   return(dat)
 }

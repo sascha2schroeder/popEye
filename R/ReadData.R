@@ -6,11 +6,13 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
  
   # create names for files
   if (env$exp$setup$tracker$software == "EB") {
-    # edffile <- paste(filepath, "/", subid, "/", subid, ".edf", sep = "")
-    ascfile <- paste(filepath, subid, "/", subid, ".asc", sep = "")
+    # infile <- paste(filepath, "/", subid, "/", subid, ".edf", sep = "")
+    infile <- paste(filepath, subid, "/", subid, ".asc", sep = "")
   } else if(env$exp$setup$tracker$software == "ET") {
-    # edffile <- paste(filepath, "/", subid, ".EDF", sep = "")
-    ascfile <- paste(filepath, "/", subid, ".asc", sep = "")
+    # infile <- paste(filepath, "/", subid, ".EDF", sep = "")
+    infile <- paste(filepath, "/", subid, ".asc", sep = "")
+  } else if(env$exp$setup$tracker$software == "psychopy") {
+    infile <- paste(filepath, "/", subid, ".hdf5", sep = "")
   }
   
   # setwd
@@ -18,25 +20,34 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
   
   if (env$exp$setup$tracker$software == "EB") {
     newwd <- paste(filepath, subid, "/",sep = "")
-  } else if (env$exp$setup$tracker$software == "ET") {
-  }
+  } 
   
   # # check whether EDF file exists
-  # if (file.exists(edffile) == F){
+  # if (file.exists(infile) == F){
   #   message("... No EDF file in directory")
   #   setwd(oldwd)
   #   return()
   # }
   
   # extract raw data
-  # if (file.exists(ascfile) == F) {
+  # if (file.exists(infile) == F) {
   #   message(".. Read EDF file")
-  #   ConvertEDF(edffile)  
+  #   ConvertEDF(infile)  
   # }
-  
-  # read ASC
-  infile <- readLines(ascfile, encoding = "UTF-8")
-  
+ 
+  # read infile
+  if (env$exp$setup$tracker$software == "EB" | env$exp$setup$tracker$software == "ET" ) {
+    
+    infile <- readLines(infile, encoding = "UTF-8")
+    
+  } else if(env$exp$setup$tracker$software == "psychopy") {
+    
+    library(hdf5r)
+    infile <- H5File$new(infile, mode="r")
+    infile 
+    
+  }
+
   # extract data
   ExtractSetup(infile)
   ExtractHeader(infile)

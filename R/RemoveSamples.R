@@ -34,6 +34,7 @@ RemoveSamples <- function(dat, env = parent.frame(n = 2)) {
   dat$msg <- msg[-1, ]
   dat$samp <- samp[-1, ]
   dat$event <- event[-1, ]
+  dat$event <- dat$event[is.na(dat$event) == F, ]
   
   return(dat)
   
