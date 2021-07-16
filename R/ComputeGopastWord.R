@@ -45,7 +45,7 @@ ComputeGopastWord <- function(dat) {
     
   }
   
-  options(warn = 0)
+  options(warn = 1)
   
   return(dat)
 }

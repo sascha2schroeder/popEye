@@ -31,7 +31,14 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   #   tmp <- gsub(env$exp$setup$indicator$ia, "", tmp)
   # }
   
-  # TODO: Include target in letter loop or parse out target indicator
+  # TODO: this is only EB behavior; maybe condition on software
+  # replace hyphen within word with different character
+  tmp_letter <- unlist(strsplit(tmp_letter, " "))
+  sel <- grep(".-.", tmp_letter)
+  tmp_letter[sel] <- gsub("[-]", "\u20de", tmp_letter[sel])
+  tmp_letter <- paste(tmp_letter, collapse = " ")
+  
+  
   
   
   # compute letters
@@ -58,22 +65,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   if (env$exp$setup$indicator$ia != " ") {
     tmp_sent2 <- gsub(env$exp$setup$indicator$ia, "", tmp_sent2)
   }
-  
-  # TODO: check hyphen treatment
-  
-  # # replace hyphen within word with different character
-  # tmp2 <- unlist(strsplit(tmp, " "))
-  # sel <- grep(".-.", tmp2)
-  # tmp2[sel] <- gsub("[-]", "\u20de", tmp2[sel])
-  # tmp3 <- paste(tmp2, collapse = " ")
-  # 
-  # # replace hyphen within words with blank
-  # tmp2 <- unlist(strsplit(tmp, " "))
-  # sel <- grep(".-.", tmp2)
-  # tmp2[sel] <- gsub("-", "- ", tmp2[sel])
-  # tmp4 <- paste(tmp2, collapse = " ")
-  # 
-  # letters2 <- unlist(strsplit(tmp3, ""))
   
   
   # compute stimmat
@@ -313,7 +304,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
       # set line break
       line.cut <- max(stimmat$wordnum[stimmat$line == n & stimmat$xe <= x.cut])
       
-      if (stimmat$letter[max(stimmat$letternum[stimmat$wordnum == line.cut])] == "-") {
+      if (stimmat$letter[max(stimmat$letternum[stimmat$wordnum == line.cut])] == "\u20de") {
         line.cut <- line.cut + 1
       }   
       
@@ -323,8 +314,8 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
         stimmat$line[stimmat$wordnum >= line.cut] <- stimmat$line[stimmat$wordnum >= line.cut] + 1
         
         # delete blank before line break
-        if (stimmat$letter[min(stimmat$letternum[stimmat$line == n + 1]) - 1] != "-") {
-          stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
+        if (stimmat$letter[min(stimmat$letternum[stimmat$line == n + 1]) - 1] != "\u20de") {
+            stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
         }
         
         # recompute letter number
@@ -383,13 +374,10 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$ym <- (stimmat$ys + stimmat$ye) / 2
 
   
-  # # reconstruct hyphens
-  # # --------------------
-  # # TODO: hyph position is not correct after line breaks
-  # 
-  # if (length(hyph) > 0) {
-  #   stimmat$letter[hyph] <- "-"
-  # }
+  # reconstruct hyphens
+  # --------------------
+  
+  stimmat$letter <- gsub("\u20de", "-", stimmat$letter)
   
     
   # determine target IA
@@ -444,6 +432,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
       stimmat$letia[stimmat$ianum == i] <- stimmat$letia[stimmat$ianum == i] - 1
     }
   }
+  
   
   # word positions
   # ---------------
