@@ -4,7 +4,10 @@
 # lineS is the multiplier of line height for runs that are considered the same line
 # lineN is the multiplier of line height for maximum distance of runs that are considered adjacent line
 
-Slice = function(fix, stim, lineS = 0.5, lineN = 1.4, env = parent.frame(n = 3)) {
+Slice = function(fix, stim, env = parent.frame(n = 3)) {
+  
+  lineS <- env$exp$setup$assign$lineS
+  lineN <- env$exp$setup$assign$lineN
     
   # plot(fix$xn, fix$yn, type="l", col="lightgrey", ylim=c(max(fix$yn), min(fix$yn)))
   line_Y <- tapply(stim$ym, stim$line, max) # contains the Y position of all lines

@@ -103,8 +103,12 @@
 #' into text area (TRUE or FALSE, default is FALSE)
 #' @param assign.lineMethod Method used to assign fixations to lines ("attach",
 #' "chain" or "merge", "chain" is default; see Vignette)
-#' @param assign.lineX Parameter used to detect runs on the x axsis (default is 35)
-#' @param assign.lineY Parameter used to detect runs on the y axsis (default is 0.5)
+#' @param assign.lineX Parameter used to detect runs on the x axis (default is 35)
+#' @param assign.lineY Parameter used to detect runs on the y axis (default is 0.5)
+#' @param assign.lineS Parameter used to decide that two lines are the same 
+#' (only relevant for the slice assignment method, default is 0.45)
+#' @param assign.lineN Parameter used to decide that two lines are different 
+#' (only relevant for the slice assignment method, default is 0.5)
 #' @param clean.stage1Dur Minimum duration for fixation during stage 1 
 #' cleaning (default: 80 ms)
 #' @param clean.stage1Dist Minimum distance between fixations (in number
@@ -216,6 +220,8 @@ popEye <- function(datpath,
                    
                    assign.lineX = 35,
                    assign.lineY = 0.5,
+                   assign.lineS = 0.45,
+                   assign.lineN = 1.5,
                    
                    clean.stage1Dur = 80, 
                    clean.stage1Dist = 1,
