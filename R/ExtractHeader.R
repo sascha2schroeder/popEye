@@ -66,25 +66,22 @@ ExtractHeader <- function(infile, env = parent.frame(n = 2)){
     tmp <- msg[grep("CALIBRATION VALID_POINTS", msg$text), ]
     env$header$calibration <- data.frame(matrix(NA, nrow(tmp), 4))
     colnames(env$header$calibration) <- c("time", "method", "points", "error")
-   
+    
     tmp <- msg[grep("CALIBRATION VALID_POINTS", msg$text), ]
     env$header$calibration$time <- tmp$time
     
     tmp <- msg[grep("CALIBRATION TYPE", msg$text), ]
-    tmp <- sapply(strsplit(tmp$text, " "), "[[", 3)
-    
-    # TODO: calibration method on block level 
-    if (tmp == "NINE_POINTS") {
-      tmp <- "HV9"
-    }
-    
-    env$header$calibration$method <- tmp
+    tmp_text <- sapply(strsplit(tmp$text, " "), "[[", 3)
+    tmp_time <- round(tmp$time, 1)
+    env$header$calibration$method <- tmp_text[duplicated(tmp_time) == F]
     
     tmp <- msg[grep("CALIBRATION VALID_POINTS", msg$text), ]
     env$header$calibration$points <- sapply(strsplit(tmp$text, " "), "[[", 3)
+    env$header$calibration$points[env$header$calibration$points == "unknown"] <- NA
     
     tmp <- msg[grep("CALIBRATION ERROR", msg$text), ]
     env$header$calibration$error <- sapply(strsplit(tmp$text, " "), "[[", 3)
+    env$header$calibration$error[env$header$calibration$error == "unknown"] <- 0
     
   }
   

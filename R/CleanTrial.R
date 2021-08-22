@@ -3,7 +3,6 @@ CleanTrial <- function(dat, env = parent.frame(n = 2)) {
   
   for (trial in 1:length(dat$item)) {
     # trial = 48
-    # print(trial)
     
     # set up output slot
     dat$item[[trial]]$clean$trial <- list(calibration = 0, 
