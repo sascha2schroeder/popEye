@@ -48,7 +48,7 @@ Slice = function(fix, stim, env = parent.frame(n = 3)) {
       fix$l[fix$run %in% rds$run[abs(rds$ym) < lineS * lineHeight]] <- nrUp
       # lines(fix$xn[fix$l==nrUp & !is.na(fix$l)], fix$yn[fix$l==nrUp & !is.na(fix$l)], col="blue")
       # one line up
-      fix$l[fix$run %in% rds$run[rds$ym <= (-lineS) * lineHeight & rds$ym >= (-lineN) * lineHeight]] = nrUp - 1
+      fix$l[fix$run %in% rds$run[rds$ym <= (lineS * -1) * lineHeight & rds$ym >= (lineN * -1) * lineHeight]] = nrUp - 1
       # lines(fix$xn[fix$l==(nrUp-1) & !is.na(fix$l)], fix$yn[fix$l==(nrUp-1) & !is.na(fix$l)], col="red")
       if (sum(fix$l == (nrUp - 1), na.rm = T) == 0 & sum(fix$yn < min(fix$yn[!is.na(fix$l)])) > 0) {
         fix = rbind(fix, 
