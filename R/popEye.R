@@ -162,6 +162,7 @@
 #' ("setup", "subjects", "read", "remove", "create", "add", "extract", "line", 
 #' "assign", "combine", "aggregate")
 
+
 popEye <- function(datpath, 
                    stimulus.file,
                    # NOTE: maybe change name to stimfile
