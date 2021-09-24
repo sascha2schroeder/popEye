@@ -19,7 +19,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
   
   num <- 0
   for (trial in trials) {
-   
+    
     num <- num + 1
     
     start <- min(dat$msg$time[dat$msg$trialid == trial])
@@ -36,7 +36,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     
     if (is.null(env$header$calibration$time) == F) {
       
-      sel <- tail(env$header$calibration[env$header$calibration$time < time, ], n = 1)
+      sel <- tail(env$header$calibration[round(env$header$calibration$time * 1000) < time, ], n = 1)
       
       if(length(sel$method) == 0) {
         
@@ -75,7 +75,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
           )    
           
         } else if (env$exp$setup$tracker$model == "gazepoint") {
-          
+
           meta <- list(trialid = max(tmp$msg$trialid), 
                        trialnum = max(tmp$msg$trialnum), 
                        itemid = max(tmp$msg$itemid), 
@@ -86,7 +86,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                        calibration.eye = "",
                        calibration.avg = as.numeric(sel$error),
                        calibration.max = "",
-                       drift = env$header$trial$drift[trial],
+                       drift = "",
                        drift.x = "",
                        drift.y = ""
           )
@@ -168,10 +168,9 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
         
       }
      
-      
       # clean
       # ------
-      
+
       if (sum(out$msg == "SAC") > 0) { # FIX: do not clean if no saccade detected
         clean <- Cleaning(out)
       } else {

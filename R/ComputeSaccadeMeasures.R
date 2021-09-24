@@ -28,44 +28,55 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
     a <- sac$start[s]
     b <- sac$stop[s]
     
-    if (is.null(dat$item[[trial]]$xy$x[a:b]) == TRUE) {
+    if (is.null(dat$item[[trial]]$xy$x[dat$item[[trial]]$xy$time >= a & dat$item[[trial]]$xy$time <= b]) == TRUE) {
         dat$item[[trial]]$xy$x[a:b] <- NA
     }
     
-    if (is.na(dat$item[[trial]]$xy$x[a:b])[1] == FALSE) {
+    if (is.na(dat$item[[trial]]$xy$x[dat$item[[trial]]$xy$time >= a & dat$item[[trial]]$xy$time <= b])[1] == FALSE) {
       
       # saccade peak velocity (vpeak)
-      
       if (is.na(dat$item[[trial]]$meta$calibration.method) == F) {
         
         if (dat$item[[trial]]$meta$calibration.method != "H3") {
-          sac$peak.vel[s] <- round(max(sqrt(dat$item[[trial]]$vxy$x[a:b]^2
-                                            + dat$item[[trial]]$vxy$y[a:b]^2), 
+          sac$peak.vel[s] <- round(max(sqrt(dat$item[[trial]]$vxy$x[dat$item[[trial]]$vxy$time >= a & 
+                                                                      dat$item[[trial]]$vxy$time <= b]^2
+                                            + dat$item[[trial]]$vxy$y[dat$item[[trial]]$vxy$time >= a & 
+                                                                        dat$item[[trial]]$vxy$time <= b]^2), 
                                        na.rm = T))
         } else {
-          sac$peak.vel[s] <- round(max(sqrt(dat$item[[trial]]$vxy$x[a:b]^2), 
+          sac$peak.vel[s] <- round(max(sqrt(dat$item[[trial]]$vxy$x[dat$item[[trial]]$vxy$time >= a & 
+                                                                      dat$item[[trial]]$vxy$time <= b]^2), 
                                        na.rm = T))
         }
         
         # saccade distance (dx, dy)
-        sac$dx[s] <- round(dat$item[[trial]]$xy[b, 2] - dat$item[[trial]]$xy[a, 2])
+        sac$dx[s] <- round(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time == b, 2] - 
+                             dat$item[[trial]]$xy[dat$item[[trial]]$xy$time == a, 2])
         if (dat$item[[trial]]$meta$calibration.method != "H3") {
-          sac$dy[s] <- round(dat$item[[trial]]$xy[b, 3] - dat$item[[trial]]$xy[a, 3])
+          sac$dy[s] <- round(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time == b, 3] - 
+                               dat$item[[trial]]$xy[dat$item[[trial]]$xy$time == a, 3])
         }
         
         # saccade amplitude (dX, dY)
-        i <- sac[s, 2]:sac[s, 3]
-        minx <- min(dat$item[[trial]]$xy[i, 2])
-        maxx <- max(dat$item[[trial]]$xy[i, 2])
+        minx <- min(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a 
+                                         & dat$item[[trial]]$xy$time <= b, 2])
+        maxx <- max(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a 
+                                         & dat$item[[trial]]$xy$time <= b, 2])
         if (dat$item[[trial]]$meta$calibration.method != "H3") {
-          miny <- min(dat$item[[trial]]$xy[i, 3])
-          maxy <- max(dat$item[[trial]]$xy[i, 3])
+          miny <- min(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a 
+                                           & dat$item[[trial]]$xy$time <= b, 3])
+          maxy <- max(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a 
+                                           & dat$item[[trial]]$xy$time <= b, 3])
         }
-        ix1 <- which.min(dat$item[[trial]]$xy[i, 2])
-        ix2 <- which.max(dat$item[[trial]]$xy[i, 2])
+        ix1 <- which.min(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a 
+                                              & dat$item[[trial]]$xy$time <= b, 2])
+        ix2 <- which.max(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a 
+                                              & dat$item[[trial]]$xy$time <= b, 2])
         if (dat$item[[trial]]$meta$calibration.method != "H3") {
-          iy1 <- which.min(dat$item[[trial]]$xy[i, 3])
-          iy2 <- which.max(dat$item[[trial]]$xy[i, 3])
+          iy1 <- which.min(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a 
+                                                & dat$item[[trial]]$xy$time <= b, 3])
+          iy2 <- which.max(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a 
+                                                & dat$item[[trial]]$xy$time <= b, 3])
         }
         sac$dX[s] <- round(sign(ix2 - ix1) * (maxx - minx))
         if (dat$item[[trial]]$meta$calibration.method != "H3") {
@@ -98,7 +109,7 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
     sac$dist.let[s] <- sac$lete[s] - sac$lets[s]
     
     # duration
-    sac$dur[s] <- round((b - a + 1) * 1000 / env$exp$setup$tracker$samp)
+    sac$dur[s] <- b - a + 1
     
   }
   
@@ -108,7 +119,7 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
   # names and return
     names <- c("subid", "trialid", "trialnum", "itemid", "cond", "sacid", "msg", 
                "xs", "xe", "ys", "ye", "xsn", "xen", "ysn", "yen", "start", "stop", 
-               "dist.px", "dist.let", "peak.vel", "dur")
+               "dist.px", "dist.angle", "dist.let", "peak.vel", "dur")
   sac <- sac[names]
   
   # treat very long saccades as blinks (controlled by exclude.sac)
