@@ -38,19 +38,22 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   tmp_letter[sel] <- gsub("[-]", "\u20de", tmp_letter[sel])
   tmp_letter <- paste(tmp_letter, collapse = " ")
   
-  
   # compute letters
   letters <- unlist(strsplit(tmp_letter, ""))
  
-  tmp_word <- stim
-  tmp_word <- gsub(env$exp$setup$indicator$target, "", tmp_word)
-  tmp_word <- gsub(env$exp$setup$indicator$line, "", tmp_word)
-  if (env$exp$setup$indicator$ia != " ") {
-    tmp_word <- gsub(env$exp$setup$indicator$ia, "", tmp_word)
-  }
-  sel <- grep(".-.", tmp_word)
-  #tmp_word[sel] <- gsub("[-]", "\u20de", tmp_word[sel])
-  tmp_word[sel] <- gsub("[-]", "- ", tmp_word[sel])
+  # tmp_word <- stim
+  # tmp_word <- gsub(env$exp$setup$indicator$target, "", tmp_word)
+  # tmp_word <- gsub(env$exp$setup$indicator$line, "", tmp_word)
+  # if (env$exp$setup$indicator$ia != " ") {
+  #   tmp_word <- gsub(env$exp$setup$indicator$ia, "", tmp_word)
+  # }
+  # sel <- grep(".-.", tmp_word)
+  # tmp_word[sel] <- gsub("[-]", "- ", tmp_word[sel])
+  
+  # segment words
+  tmp_word <- tmp_letter
+  tmp_word <- gsub("\u20de", "\u20de ", tmp_word)
+  tmp_word <- gsub("\u20de", "-", tmp_word)
   
   tmp_sent <- stim
   tmp_sent <- gsub(env$exp$setup$indicator$target, "", tmp_sent)
@@ -87,9 +90,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   stimmat$letternum <- 1:length(letters)
   stimmat$letter <- letters
   stimmat$width <- NA
-  
-  # env$exp$setup$indicator$word <- c(env$exp$setup$indicator$word, "\u20de")
-  # env$exp$setup$separator$word <- c(env$exp$setup$separator$word, "\u20de")
   
   # words
   # TODO: punctuation part of word?
@@ -383,7 +383,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   # --------------------
   
   stimmat$letter <- gsub("\u20de", "-", stimmat$letter)
-  
     
   # determine target IA
   # --------------------
