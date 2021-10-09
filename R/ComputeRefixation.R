@@ -2,16 +2,16 @@
 ComputeRefixation <- function(dat, trial) {
   
   # initialize
-  dat$item[[trial]]$fix$word.refix <- NA
-  dat$item[[trial]]$fix$ia.refix <- NA
-  dat$item[[trial]]$fix$sent.refix <- NA
+  dat$item[[trial]]$fix$word.refix <- 0
+  dat$item[[trial]]$fix$ia.refix <- 0
+  dat$item[[trial]]$fix$sent.refix <- 0
   
   for (j in 2:nrow(dat$item[[trial]]$fix)){
     # j <- 2
     
-    dat$item[[trial]]$fix$word.refix[1] <- 0
-    dat$item[[trial]]$fix$ia.refix[1] <- 0
-    dat$item[[trial]]$fix$sent.refix[1] <- 0
+    # dat$item[[trial]]$fix$word.refix[1] <- 0
+    # dat$item[[trial]]$fix$ia.refix[1] <- 0
+    # dat$item[[trial]]$fix$sent.refix[1] <- 0
     
     # skip outliers
     if(is.na(dat$item[[trial]]$fix$wordnum[j]) | is.na(dat$item[[trial]]$fix$wordnum[j - 1])) next
