@@ -1152,7 +1152,9 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                  moveY = env$assign.moveY,
                  lineMethod = env$assign.lineMethod,
                  lineX = env$assign.lineX,
-                 lineY = env$assign.lineY)
+                 lineY = env$assign.lineY,
+                 lineS = env$assign.lineS,
+                 lineN = env$assign.lineN)
   
   # cleaning
   clean <- list(stage1Dur = env$clean.stage1Dur, 
