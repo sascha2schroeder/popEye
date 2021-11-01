@@ -35,29 +35,10 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     time <- env$header$trial$time[trial]
     
     if (is.null(env$header$calibration$time) == F) {
-      
-      sel <- tail(env$header$calibration[round(env$header$calibration$time * 1000) < time, ], n = 1)
-      
-      if(length(sel$method) == 0) {
-        
-        meta <- list(trialid = max(tmp$msg$trialid),
-                     trialnum = max(tmp$msg$trialnum), 
-                     itemid = max(tmp$msg$itemid), 
-                     condition = max(tmp$msg$condition), 
-                     dependency = max(tmp$msg$dependency),
-                     start = time,
-                     calibration.method = "",
-                     calibration.eye = "",
-                     calibration.avg = "",
-                     calibration.max = "",
-                     drift = "",
-                     drift.x = "",
-                     drift.y = ""
-        )    
-        
-      } else {
-        
+     
         if (env$exp$setup$tracker$model == "eyelink") {
+          
+          sel <- tail(env$header$calibration[round(env$header$calibration$time) < time, ], n = 1)
           
           meta <- list(trialid = max(tmp$msg$trialid), 
                        trialnum = max(tmp$msg$trialnum), 
@@ -76,6 +57,8 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
           
         } else if (env$exp$setup$tracker$model == "gazepoint") {
 
+          sel <- tail(env$header$calibration[round(env$header$calibration$time * 1000) < time, ], n = 1)
+          
           meta <- list(trialid = max(tmp$msg$trialid), 
                        trialnum = max(tmp$msg$trialnum), 
                        itemid = max(tmp$msg$itemid), 
@@ -91,7 +74,6 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                        drift.y = ""
           )
         }
-      }
       
     } else {
       
