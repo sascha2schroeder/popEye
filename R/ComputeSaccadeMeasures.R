@@ -50,11 +50,19 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
         }
         
         # saccade distance (dx, dy)
-        sac$dx[s] <- round(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time == b, 2] - 
-                             dat$item[[trial]]$xy[dat$item[[trial]]$xy$time == a, 2])
+        
+        # sac$dx[s] <- round(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time == b, 2] - 
+        #                      dat$item[[trial]]$xy[dat$item[[trial]]$xy$time == a, 2])
+        # if (dat$item[[trial]]$meta$calibration.method != "H3") {
+        #   sac$dy[s] <- round(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time == b, 3] - 
+        #                        dat$item[[trial]]$xy[dat$item[[trial]]$xy$time == a, 3])
+        # }
+        
+        sac$dx[s] <- round(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time <= b, 2] - 
+                             dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a, 2])
         if (dat$item[[trial]]$meta$calibration.method != "H3") {
-          sac$dy[s] <- round(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time == b, 3] - 
-                               dat$item[[trial]]$xy[dat$item[[trial]]$xy$time == a, 3])
+          sac$dy[s] <- round(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time <= b, 3] - 
+                               dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a, 3])
         }
         
         # saccade amplitude (dX, dY)

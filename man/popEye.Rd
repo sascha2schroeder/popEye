@@ -302,8 +302,8 @@ Select a single item by providing the corresponding item ID, e.g., select.items 
 Select a set of itemss by providing a vector, e.g., select.items = c("item01", item02").}
 
 \item{skip.items}{Remove a subset of items (within a version) from the analysis.
-Select a single item by providing the corresponding item ID, e.g., skip.subjects = "t01". 
-Select a set of items by providing a vector, e.g., skip.items = c("t01", t02").}
+Select a single item by providing the corresponding item ID, e.g., skip.item = "item01". 
+Select a set of items by providing a vector, e.g., skip.items = c("item01", "item02").}
 
 \item{select.trials}{Restrict analysis to a subset of trials (usually within a single subject).
 The difference between "items" and "trials" is just that the trials are selected

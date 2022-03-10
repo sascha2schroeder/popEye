@@ -147,8 +147,8 @@
 #' Select a single item by providing the corresponding item ID, e.g., select.items = "item01". 
 #' Select a set of itemss by providing a vector, e.g., select.items = c("item01", item02").
 #' @param skip.items Remove a subset of items (within a version) from the analysis.
-#' Select a single item by providing the corresponding item ID, e.g., skip.subjects = "t01". 
-#' Select a set of items by providing a vector, e.g., skip.items = c("t01", t02").
+#' Select a single item by providing the corresponding item ID, e.g., skip.item = "item01". 
+#' Select a set of items by providing a vector, e.g., skip.items = c("item01", "item02").
 #' @param select.trials Restrict analysis to a subset of trials (usually within a single subject).
 #' The difference between "items" and "trials" is just that the trials are selected
 #' by their item ID and "trials" by the position within the analysis. Both arguments
