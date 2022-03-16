@@ -218,6 +218,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
       } else {
         weight <- 1
       }
+      
       stimmat$width[i] <- letpix$pixel[1]*weight
       
     }
@@ -384,6 +385,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   stimmat$letter <- gsub("\u20de", "-", stimmat$letter)
     
+  
   # determine target IA
   # --------------------
   
