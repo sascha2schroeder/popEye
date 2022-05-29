@@ -1,26 +1,23 @@
 
-CombineWords <- function(exp) {
+CombineWords <- function(fix, wordfirst, wordtmp) {
   
   # word
-  exp$out$wordtmp$id <- 
-    factor(exp$out$wordtmp$subid):factor(exp$out$wordtmp$trialnum):factor(exp$out$wordtmp$wordnum)
+  wordtmp$id <- factor(wordtmp$trialnum):factor(wordtmp$wordnum)
   names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "sentnum",
-             "wordnum", "word", "blink", "skip", "nrun", "reread", "nfix", "refix", "reg.in", 
-             "reg.out", "dur", "gopast", "gopast.sel")
-  wordtmp <- exp$out$wordtmp[names]
+             "wordnum", "word", "blink", "skip", "nrun", "reread", "nfix", 
+             "refix", "reg.in", "reg.out", "dur", "gopast", "gopast.sel")
+  wordtmp <- wordtmp[names]
   
   # first run
-  exp$out$wordfirst$id <- 
-    factor(exp$out$wordfirst$subid):factor(exp$out$wordfirst$trialnum):factor(exp$out$wordfirst$wordnum)
+  wordfirst$id <- factor(wordfirst$trialnum):factor(wordfirst$wordnum)
   names <- c("id", "firstrun.skip", "firstrun.nfix", "firstrun.refix", 
              "firstrun.reg.in", "firstrun.reg.out", "firstrun.dur", 
              "firstrun.gopast", "firstrun.gopast.sel")
-  wordfirsttmp <- exp$out$wordfirst[names]
+  wordfirsttmp <- wordfirst[names]
   
   # first fixation
-  exp$out$fix$id <- 
-    factor(exp$out$fix$subid):factor(exp$out$fix$trialnum):factor(exp$out$fix$wordnum)
-  fixtmp <- exp$out$fix[exp$out$fix$word.run == 1 & exp$out$fix$word.run.fix == 1, ]
+  fix$id <- factor(fix$trialnum):factor(fix$wordnum)
+  fixtmp <- fix[fix$word.run == 1 & fix$word.run.fix == 1, ]
   names <- c("id", "sac.in", "sac.out", "word.launch", "word.land", "word.cland", "dur")
   fixtmp <- fixtmp[names]
   colnames(fixtmp) <- c("id", "firstfix.sac.in", "firstfix.sac.out", 
@@ -32,79 +29,77 @@ CombineWords <- function(exp) {
   comb$id <- NULL
   
   # clean up
-  exp$out$fix$id <- NULL
-  exp$out$wordtmp <- NULL
-  exp$out$wordfirst <- NULL
+  fix$id <- NULL
+  wordtmp <- NULL
+  wordfirst <- NULL
   
-  exp$out$words <- comb
-  exp$out$words <- exp$out$words[order(exp$out$words$subid, 
-                                       exp$out$words$trialnum, 
-                                       exp$out$words$wordnum), ]
-  row.names(exp$out$words) <- NULL
+  comb <- comb[order(comb$trialnum, comb$wordnum), ]
+  row.names(comb) <- NULL
   
   
   # recompute firstrun skip (skips are also firstkips)
-  exp$out$words$firstrun.skip[exp$out$words$skip == 1] <- 1
+  comb$firstrun.skip[comb$skip == 1] <- 1
   
   # gopast time in firstrun
-  exp$out$words$firstrun.gopast <- exp$out$words$gopast
-  exp$out$words$firstrun.gopast.sel <- exp$out$words$gopast.sel
-  exp$out$words$gopast <- NULL
-  exp$out$words$gopast.sel <- NULL
+  comb$firstrun.gopast <- comb$gopast
+  comb$firstrun.gopast.sel <- comb$gopast.sel
+  comb$gopast <- NULL
+  comb$gopast.sel <- NULL
+  
   
   # # delete firstrun measures if firstrun.skip
-  # exp$out$words$firstrun.nfix[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstrun.refix[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstrun.reg.in[exp$out$words$firstrun.skip == 1] <- NA  
-  # exp$out$words$firstrun.reg.out[exp$out$words$firstrun.skip == 1] <- NA  
-  # exp$out$words$firstrun.dur[exp$out$words$firstrun.skip == 1] <- NA  
-  # exp$out$words$firstrun.gopast[exp$out$words$firstrun.skip == 1] <- NA  
-  # exp$out$words$firstrun.gopast.sel[exp$out$words$firstrun.skip == 1] <- NA  
+  # comb$firstrun.nfix[comb$firstrun.skip == 1] <- NA
+  # comb$firstrun.refix[comb$firstrun.skip == 1] <- NA
+  # comb$firstrun.reg.in[comb$firstrun.skip == 1] <- NA  
+  # comb$firstrun.reg.out[comb$firstrun.skip == 1] <- NA  
+  # comb$firstrun.dur[comb$firstrun.skip == 1] <- NA  
+  # comb$firstrun.gopast[comb$firstrun.skip == 1] <- NA  
+  # comb$firstrun.gopast.sel[comb$firstrun.skip == 1] <- NA  
   
   # # delete firstfix measures if firstrun.skip
-  # exp$out$words$firstfix.sac.in[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstfix.sac.out[exp$out$words$firstrun.skip == 1] <- NA
-  # exp$out$words$firstfix.launch[exp$out$words$firstrun.skip == 1] <- NA  
-  # exp$out$words$firstfix.land[exp$out$words$firstrun.skip == 1] <- NA  
-  # exp$out$words$firstfix.cland[exp$out$words$firstrun.skip == 1] <- NA  
-  # exp$out$words$firstfix.dur[exp$out$words$firstrun.skip == 1] <- NA  
+  # comb$firstfix.sac.in[comb$firstrun.skip == 1] <- NA
+  # comb$firstfix.sac.out[comb$firstrun.skip == 1] <- NA
+  # comb$firstfix.launch[comb$firstrun.skip == 1] <- NA  
+  # comb$firstfix.land[comb$firstrun.skip == 1] <- NA  
+  # comb$firstfix.cland[comb$firstrun.skip == 1] <- NA  
+  # comb$firstfix.dur[comb$firstrun.skip == 1] <- NA  
   
   
   # compute single fixation measures
   # ---------------------------------
   
   # singlefix indicator
-  exp$out$words$singlefix <- 0
-  exp$out$words$singlefix[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1] <- 1
+  comb$singlefix <- 0
+  comb$singlefix[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1] <- 1
   
   # sac.in
-  exp$out$words$singlefix.sac.in <- NA
-  exp$out$words$singlefix.sac.in[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1] <- exp$out$words$firstfix.sac.in[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1]
+  comb$singlefix.sac.in <- NA
+  comb$singlefix.sac.in[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1] <- comb$firstfix.sac.in[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1]
   
   # sac.out
-  exp$out$words$singlefix.sac.out <- NA
-  exp$out$words$singlefix.sac.out[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1] <- exp$out$words$firstfix.sac.out[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1]
+  comb$singlefix.sac.out <- NA
+  comb$singlefix.sac.out[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1] <- comb$firstfix.sac.out[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1]
   
   # launch
-  exp$out$words$singlefix.launch <- NA
-  exp$out$words$singlefix.launch[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1] <- exp$out$words$firstfix.launch[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1]
+  comb$singlefix.launch <- NA
+  comb$singlefix.launch[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1] <- comb$firstfix.launch[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1]
   
   # launch
-  exp$out$words$singlefix.launch <- NA
-  exp$out$words$singlefix.launch[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1] <- exp$out$words$firstfix.launch[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1]
+  comb$singlefix.launch <- NA
+  comb$singlefix.launch[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1] <- comb$firstfix.launch[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1]
   
   # land
-  exp$out$words$singlefix.land <- NA
-  exp$out$words$singlefix.land[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1] <- exp$out$words$firstfix.land[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1]
+  comb$singlefix.land <- NA
+  comb$singlefix.land[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1] <- comb$firstfix.land[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1]
   
   # cland
-  exp$out$words$singlefix.cland <- NA
-  exp$out$words$singlefix.cland[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1] <- exp$out$words$firstfix.cland[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1]
+  comb$singlefix.cland <- NA
+  comb$singlefix.cland[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1] <- comb$firstfix.cland[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1]
   
   # duration
-  exp$out$words$singlefix.dur <- NA
-  exp$out$words$singlefix.dur[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1] <- exp$out$words$firstfix.dur[is.na(exp$out$words$firstrun.nfix) == F & exp$out$words$firstrun.nfix == 1]
+  comb$singlefix.dur <- NA
+  comb$singlefix.dur[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1] <- comb$firstfix.dur[is.na(comb$firstrun.nfix) == F & comb$firstrun.nfix == 1]
   
-  return(exp)
+  return(comb)
   
 }

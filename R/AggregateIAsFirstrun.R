@@ -1,10 +1,9 @@
 
-AggregateIAsFirstrun <- function(exp) {
+AggregateIAsFirstrun <- function(fix) {
   
   # create outfile  
-  firstruntmp <- exp$out$fix[exp$out$fix$ia.run == 1, ]
-  firstruntmp$id <- as.character(paste(firstruntmp$subid, firstruntmp$trialnum, 
-                                       firstruntmp$ianum, sep = ":"))
+  firstruntmp <- fix[fix$ia.run == 1, ]
+  firstruntmp$id <- as.character(paste(firstruntmp$trialnum, firstruntmp$ianum, sep = ":"))
   firstrun <- firstruntmp[duplicated(firstruntmp$id) == F, ]
   names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia")
   firstrun <- firstrun[names]  

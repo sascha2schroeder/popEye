@@ -1,9 +1,9 @@
 
-AggregateTrials <- function(exp, env = parent.frame(n = 1)) {
+AggregateTrials <- function(fix, wordcomb) {
 
   # create outfile  
-  trialtmp <- exp$out$fix
-  trialtmp$id <- paste(trialtmp$subid, trialtmp$trialnum, sep = ":")
+  trialtmp <- fix
+  trialtmp$id <- trialtmp$trialnum
   
   tmp <- trialtmp[is.na(trialtmp$trial.nwords) == F, ]
   trial <- tmp[duplicated(tmp$id) == F, ]
@@ -51,8 +51,8 @@ AggregateTrials <- function(exp, env = parent.frame(n = 1)) {
   trial$rate <- round(60000 / (trial$total / trial$trial.nwords))
   
   # match with word-level file 
-  word <- exp$out$words
-  word$id <- paste(word$subid, word$trialnum, sep = ":")
+  word <- wordcomb
+  word$id <- word$trialnum
   
   trial$skip <- round(as.numeric(tapply(word$firstrun.skip, list(word$id), mean, na.rm = T)), 3)
   trial$refix <- round(as.numeric(tapply(word$refix, list(word$id), mean, na.rm = T)), 3)
@@ -72,11 +72,10 @@ AggregateTrials <- function(exp, env = parent.frame(n = 1)) {
              "sac", "skip", "refix", "reg", "mfix", "firstpass", 
              "rereading", "total", "rate")
   
-  exp$out$trials <- trial[order(trial$subid, trial$trialnum), names]
-  # trial$id <- NULL
-  row.names(exp$out$trials) <- NULL
+  trials <- trial[trial$trialnum, names]
+  trials$id <- NULL
+  row.names(trials) <- NULL
   
-  return(exp)
+  return(trials)
   
 }
-

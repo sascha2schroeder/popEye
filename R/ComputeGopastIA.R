@@ -8,7 +8,7 @@ ComputeGopastIA <- function(dat) {
   dat$selgopast <- rep(NA, nrow(dat))
   
   # compute trialid within person 
-  id <- paste(dat$subid, dat$trialid, sep = ":")
+  id <- dat$trialid
   ids <- unlist(dimnames(table(id)))
   
   # trial id
@@ -48,4 +48,5 @@ ComputeGopastIA <- function(dat) {
   options(warn = 1)
   
   return(dat)
+  
 }

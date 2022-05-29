@@ -1,10 +1,9 @@
 
-AggregateSentences <- function(exp) {
+AggregateSentences <- function(fix, sent.item) {
   
   # create outfile  
-  senttmp <- exp$out$fix[exp$out$fix$type == "in", ]
-  senttmp$id <- as.character(paste(senttmp$subid, senttmp$trialnum, 
-                                   senttmp$sentnum, sep = ":"))
+  senttmp <- fix[fix$type == "in", ]
+  senttmp$id <- as.character(paste(senttmp$trialnum, senttmp$sentnum, sep = ":"))
   senttmp <- senttmp[order(senttmp$id), ]
   
   sent <- senttmp[duplicated(senttmp$id) == F, ]
@@ -34,8 +33,8 @@ AggregateSentences <- function(exp) {
   # delete variables
   sent <- sent[, -match(c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent"), colnames(sent))]
   
-  item <- exp$out$sent.item
-  item$id <- as.character(paste(item$subid, item$trialnum, item$sentnum, sep = ":"))
+  item <- sent.item
+  item$id <- as.character(paste(item$trialnum, item$sentnum, sep = ":"))
   sent <- merge(sent, item, by = "id", all.y = T)
   sent$skip <- 0
   sent$skip[is.na(sent$blink) == T] <- 1
@@ -52,7 +51,7 @@ AggregateSentences <- function(exp) {
              "reg.in", "reg.out", "dur", "gopast", "gopast.sel", "rate")
   
   sent <- sent[names]
-  sent <- sent[order(sent$subid, sent$trialnum, sent$sentnum), ]
+  sent <- sent[order(sent$trialnum, sent$sentnum), ]
   
   return(sent)
   

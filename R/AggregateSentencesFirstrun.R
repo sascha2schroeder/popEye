@@ -1,10 +1,9 @@
 
-AggregateSentencesFirstrun <- function(exp) {
+AggregateSentencesFirstrun <- function(fix) {
   
   # create outfile  
-  firstruntmp <- exp$out$fix[exp$out$fix$sent.run == 1, ]
-  firstruntmp$id <- as.character(paste(firstruntmp$subid, firstruntmp$trialnum, 
-                                       firstruntmp$sentnum, sep = ":"))
+  firstruntmp <- fix[fix$sent.run == 1, ]
+  firstruntmp$id <- as.character(paste(firstruntmp$trialnum, firstruntmp$sentnum, sep = ":"))
   firstrun <- firstruntmp[duplicated(firstruntmp$id) == F, ]
   names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent")
   firstrun <- firstrun[names]  

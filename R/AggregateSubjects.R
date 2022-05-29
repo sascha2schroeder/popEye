@@ -53,18 +53,18 @@ AggregateSubjects <- function(exp) {
   }
   
   # trial
-  sagg <- aggregate(cbind(exp$out$trial$nrun, 
-                          exp$out$trial$nfix, 
-                          exp$out$trial$nblink >= 1, 
-                          exp$out$trial$nout >= 1,
-                          exp$out$trial$skip, 
-                          exp$out$trial$sac, 
-                          exp$out$trial$refix, 
-                          exp$out$trial$reg, 
-                          exp$out$trial$mfix, 
-                          exp$out$trial$total, 
-                          exp$out$trial$rate),
-                    list(exp$out$trial$subid), mean, na.rm = T)
+  sagg <- aggregate(cbind(exp$out$trials$nrun, 
+                          exp$out$trials$nfix, 
+                          exp$out$trials$nblink >= 1, 
+                          exp$out$trials$nout >= 1,
+                          exp$out$trials$skip, 
+                          exp$out$trials$sac, 
+                          exp$out$trials$refix, 
+                          exp$out$trials$reg, 
+                          exp$out$trials$mfix, 
+                          exp$out$trials$total, 
+                          exp$out$trials$rate),
+                    list(exp$out$trials$subid), mean, na.rm = T)
   colnames(sagg) <- c("subid", "nrun", "nfix", "nblink", "nout", 
                       "skip", "sac", "refix", "reg", "mfix", "total", 
                       "rate")
@@ -82,7 +82,7 @@ AggregateSubjects <- function(exp) {
   sagg$rate <- round(sagg$rate)
   
   # number of trials
-  sagg$ntrial <- tapply(exp$out$trial$trialnum, exp$out$trial$subid, length)
+  sagg$ntrial <- tapply(exp$out$trials$trialnum, exp$out$trials$subid, length)
   
   # number of exclusions
   sagg$nexc <- sapply(lapply(exp$subjects, "[[", 1), "[[", "exclusion")
