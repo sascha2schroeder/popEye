@@ -17,9 +17,9 @@ PlotText <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
   
   tmp <- SelectSubjectTrial(exp, subject, trial)
   
-  #palette(topo.colors(max(tmp$meta$stimmat$sentnum)))
+  palette(topo.colors(max(tmp$meta$stimmat$sentnum)))
   
-  palette(c("red", "blue"))
+  # palette(c("red", "blue"))
   
   # data
   fix <- tmp$fix
@@ -40,13 +40,13 @@ PlotText <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
   
   for (i in 1:nrow(tmp$meta$stimmat)){
     
+    rect(tmp$meta$stimmat$xs[i], tmp$meta$stimmat$ys[i] + 0.5*exp$setup$font$size,
+         tmp$meta$stimmat$xe[i], tmp$meta$stimmat$ye[i] - 0.5*exp$setup$font$size,
+         border = NA, col = MakeTransparent(tmp$meta$stimmat$sentnum[i], alpha = .1))
+    
     # rect(tmp$meta$stimmat$xs[i], tmp$meta$stimmat$ys[i] + 0.5*exp$setup$font$size, 
     #      tmp$meta$stimmat$xe[i], tmp$meta$stimmat$ye[i] - 0.5*exp$setup$font$size,
-    #      border = NA, col = MakeTransparent(tmp$meta$stimmat$sentnum[i], alpha = .1))  
-    
-    rect(tmp$meta$stimmat$xs[i], tmp$meta$stimmat$ys[i] + 0.5*exp$setup$font$size, 
-         tmp$meta$stimmat$xe[i], tmp$meta$stimmat$ye[i] - 0.5*exp$setup$font$size,
-         border = NA, col = MakeTransparent("blue", alpha = .1))  
+    #      border = NA, col = MakeTransparent("blue", alpha = .1))  
     
     
     text(tmp$meta$stimmat$xm[i], tmp$meta$stimmat$ym[i], 
@@ -57,10 +57,10 @@ PlotText <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
   # add fixations
   points(fix$xn, fix$ymtmp, type = "l", pch = 16, col = "black")
   for (i in 1:nrow(fix)) {
-    # points(fix$xn[i], fix$ymtmp[i], type = "p", pch = 16, col = fix$sentnum[i],
-    #        cex = fix$dur[i] / mean(fix$dur))
-    points(fix$xn[i], fix$ymtmp[i], type = "p", pch = 16, col = "blue",
+    points(fix$xn[i], fix$ymtmp[i], type = "p", pch = 16, col = fix$sentnum[i],
            cex = fix$dur[i] / mean(fix$dur))
+    # points(fix$xn[i], fix$ymtmp[i], type = "p", pch = 16, col = "blue",
+    #        cex = fix$dur[i] / mean(fix$dur))
   }
   
   # # TODO: add blinks
