@@ -12,6 +12,9 @@ ComputeRun <- function(dat, trial) {
   tmp$ia.runid <- 1
   tmp$sent.runid <- 1
   
+  mem <- NA
+  point <- 0
+  
   # fixation loop
   if (nrow(tmp) > 1) {
     
@@ -34,13 +37,13 @@ ComputeRun <- function(dat, trial) {
       
       # sent
       if (tmp$sent.reg.in[j] == 1 & tmp$sent.reg.in[j - 1] != 1) {
-        tmp$sent.runid[j] <- tmp$sent.runid[j - 1] + 1
+          tmp$sent.runid[j] <- tmp$sent.runid[j - 1] + 1
       } else {
         tmp$sent.runid[j] <- tmp$sent.runid[j - 1]
       }
-      
-      # print(j)
+
     }
+    
   }
   
   # fixid
@@ -98,7 +101,7 @@ ComputeRun <- function(dat, trial) {
   tmp$id <- NULL
   tmp <- tmp[order(tmp$num), ]
   
-  # fixnum in ia.run
+  # fixnum in sent.run
   tmp$id <- paste(tmp$sentnum, tmp$sent.run, sep = ":")
   tmp$sent.run.fix <- ave(tmp$num, tmp$id, FUN = rank)
   tmp$id <- NULL

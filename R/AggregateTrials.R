@@ -72,7 +72,7 @@ AggregateTrials <- function(fix, wordcomb) {
              "sac", "skip", "refix", "reg", "mfix", "firstpass", 
              "rereading", "total", "rate")
   
-  trials <- trial[trial$trialnum, names]
+  trials <- trial[order(trial$trialnum), names]
   trials$id <- NULL
   row.names(trials) <- NULL
   

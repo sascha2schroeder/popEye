@@ -70,6 +70,8 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "word.cland",
                  "word.reg.out",
                  "word.reg.in",
+                 "word.reg.out.to",
+                 "word.reg.in.from",
                  
                  "ia.fix", 
                  "ia.run", 
@@ -82,6 +84,8 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "ia.cland",
                  "ia.reg.out", 
                  "ia.reg.in", 
+                 "ia.reg.out.to", 
+                 "ia.reg.in.from", 
                  
                  "sent.fix",
                  "sent.run",
@@ -90,7 +94,9 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "sent.firstskip",
                  "sent.refix",
                  "sent.reg.out", 
-                 "sent.reg.in"
+                 "sent.reg.in",
+                 "sent.reg.out.to", 
+                 "sent.reg.in.from"
       )
       
     } else {
@@ -142,6 +148,8 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "word.cland",
                  "word.reg.out",
                  "word.reg.in",
+                 "word.reg.out.to",
+                 "word.reg.in.from",
                  
                  "ia.fix", 
                  "ia.run", 
@@ -154,6 +162,8 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "ia.cland",
                  "ia.reg.out", 
                  "ia.reg.in", 
+                 "ia.reg.out.to", 
+                 "ia.reg.in.from", 
                  
                  "sent.word",
                  "sent.fix",
@@ -163,7 +173,9 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "sent.firstskip",
                  "sent.refix",
                  "sent.reg.out", 
-                 "sent.reg.in"
+                 "sent.reg.in",
+                 "sent.reg.out.to", 
+                 "sent.reg.in.from"
       )
     }
     

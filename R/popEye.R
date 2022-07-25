@@ -193,8 +193,8 @@ popEye <- function(datpath,
                    indicator.target = "\\*", 
                    indicator.line = "\\\\n",
                    separator.word = " ",
-                   separator.sentence = c(".", "!", "?", "\""),
-                   separator.sentence2 = c("\""),
+                   separator.sentence = c(".", "!", "?", ";"),
+                   separator.sentence2 = c(" ", "\""),
                    display.marginLeft = 150, 
                    display.marginTop = 300, 
                    display.marginRight = 50, 
@@ -369,13 +369,12 @@ popEye <- function(datpath,
       
       # TODO: store other information about subject (e.g., version)
       
+      t1 <- Sys.time()
+      
       
       # --------------------------------------------
       # Modul 1: Preprocessing
       # --------------------------------------------
-      
-      # message(". Modul 1: Preprocessing")
-      
       
       # read data
       # -----------
@@ -388,6 +387,7 @@ popEye <- function(datpath,
       if (debug == "read") {
         return (dat)
       }
+      
       
       # remove data
       # --------------
@@ -416,8 +416,6 @@ popEye <- function(datpath,
       # -----------------------
       # Modul 2: Cleaning
       # -----------------------
-      
-      # message(". Modul 2: Cleaning")
       
       # add stimulus information
       # -------------------------
@@ -466,21 +464,14 @@ popEye <- function(datpath,
       # NOTE: stage3 cleaning is completely useless !
       # NOTE: stage4 cleaning is dangerous !
       # TODO: report deleted fixations
+     
+       
+      # compute measures
+      # -----------------
       
-      
-      # compute fixation measures
-      # --------------------------
-      
-      message(".. Compute fixation measures")
+      message(".. Compute measures")
       
       dat <- ComputeFixationMeasures(dat)
-      
-      
-      # retrieve saccades and blinks
-      # -----------------------------
-      
-      message(".. Compute saccade measures")
-      
       dat <- ProcessSaccades(dat)
       
       
@@ -520,7 +511,6 @@ popEye <- function(datpath,
       for (i in 1:length(dat$item)) {
         
         names(dat$item)[i] <- paste("item", dat$item[[i]]$meta$itemid, sep = ".")
-        # NOTE: select by trialid or itemid?
         
         dat$item[[i]]$fix$trialid <- i
         dat$item[[i]]$sac$trialid <- i
@@ -544,33 +534,19 @@ popEye <- function(datpath,
       # Modul 3: Aggregation
       # -----------------------
       
-      # message(". Modul 3: Aggregation")
-      
       # item file
       # -----------
       
       message(".. Load item file")
       
       word.item <- ItemFileWord(dat)
-      word.item <- word.item[-1, ]
       row.names(word.item) <- NULL
       
-      # word.itemtmp <- ItemFileWord(dat)
-      # word.item <- rbind(word.item, word.itemtmp)
-      
       ia.item <- ItemFileIA(dat)
-      ia.item <- ia.item[-1, ]
       row.names(ia.item) <- NULL
       
-      # ia.itemtmp <- ItemFileIA(dat)
-      # ia.item <- rbind(ia.item, ia.itemtmp)
-      
       sent.item <- ItemFileSent(dat)
-      sent.item <- sent.item[-1, ]
       row.names(sent.item) <- NULL
-      
-      # sent.itemtmp <- ItemFileSent(dat)
-      # sent.item <- rbind(sent.item, sent.itemtmp)
       
       
       # results file
@@ -605,28 +581,20 @@ popEye <- function(datpath,
       # aggregate data
       # ---------------
       
-      message(".. Aggregate words")
+      message(".. Aggregate")
       
       wordfirst <- AggregateWordsFirstrun(fix)
       wordtmp <- AggregateWords(fix, word.item)
       wordcomb <- CombineWords(fix, wordfirst, wordtmp)
       exp$out$words <- rbind(exp$out$words, wordcomb)
       
-      message(".. Aggregate IAs")
-      
       iafirst <- AggregateIAsFirstrun(fix)
       iatmp <- AggregateIAs(fix, ia.item, exp)
       combia <- CombineIAs(fix, iafirst, iatmp, exp)
       exp$out$ias <- rbind(exp$out$ias, combia)
       
-      message(".. Aggregate sentences")
-      
-      sentfirst <- AggregateSentencesFirstrun(fix)
-      senttmp <- AggregateSentences(fix, sent.item)
-      combsent <- CombineSentences(fix, sentfirst, senttmp)
-      exp$out$sent <- rbind(exp$out$sent, combsent)
-      
-      message(".. Aggregate trials")
+      sent <- ComputeSentenceMeasures(fix, sent.item)
+      exp$out$sent <- rbind(exp$out$sent, sent)
       
       trials <- AggregateTrials(fix, wordcomb)
       exp$out$trials <- rbind(exp$out$trials, trials)
@@ -639,6 +607,8 @@ popEye <- function(datpath,
       exp$out$sac <- rbind(exp$out$sac, sac)
       sac <- NULL
       
+      t2 <- Sys.time()
+      print(round(t2 - t1, 1))
       
     } # end subject loop
     
@@ -647,25 +617,9 @@ popEye <- function(datpath,
   # NOTE: save number of subjects in setup slot?
   
   
-  # collect output files
+  # collect results file
   # ---------------------
   
-  # exp$out$word.item <- word.item[-1, ]
-  # row.names(exp$out$word.item) <- NULL
-
-  # exp$out$ia.item <- ia.item[-1, ]
-  # row.names(exp$out$ia.item) <- NULL
-
-  # exp$out$sent.item <- sent.item[-1, ]
-  # row.names(exp$out$sent.item) <- NULL
-  
-  # exp$out$fix <- fix
-  # row.names(exp$out$fix) <- NULL
-  
-  # exp$out$sac <- sac
-  # row.names(exp$out$sac) <- NULL
-  
-  # results
   if (exp$setup$tracker$software == "EB" & exp$setup$tracker$results == T) {
     exp$out$results$text <- results$text[-1, ]
     row.names(exp$out$results$text) <- NULL
@@ -676,63 +630,11 @@ popEye <- function(datpath,
   exp$out$clean <- clean[-1, ]
   row.names(exp$out$clean) <- NULL
   
-  if (debug == "aggregate") {
-    return (exp)
-  }
-  
-  
-  # aggregate words
-  # ----------------
-  
-  # message("Aggregate words")
-  # 
-  # exp$out$wordfirst <- AggregateWordsFirstrun(exp)
-  # exp$out$wordtmp <- AggregateWords(exp)
-  # exp <- CombineWords(exp)
-  
-  
-  # aggregate IAs
-  # --------------
-  
-  # message("Aggregate IAs")
-  # 
-  # exp$out$iafirst <- AggregateIAsFirstrun(exp)
-  # exp$out$iatmp <- AggregateIAs(exp)
-  # exp <- CombineIAs(exp)
-  
-  
-  # # aggregate sentences
-  # # --------------------
-  # 
-  # message("Aggregate sentences")
-  # 
-  # exp$out$sentfirst <- AggregateSentencesFirstrun(exp)
-  # exp$out$senttmp <- AggregateSentences(exp)
-  # exp <- CombineSentences(exp)
-  
-  
-  # # aggregate trials
-  # # -----------------
-  # 
-  # message("Aggregate trials")
-  # 
-  # exp <- AggregateTrials(exp)
-  
   
   # aggregate participants
   # -----------------------
   
-  message("Aggregate participants")
-  
   exp <- AggregateSubjects(exp)
-  
-  
-  # # clean up
-  # # ----------
-  # 
-  # exp$out$ia.item <- NULL
-  # exp$out$word.item <- NULL
-  # exp$out$sent.item <- NULL
   
   
   # save

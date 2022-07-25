@@ -1,7 +1,6 @@
 
 BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
-  # trial <- 13
   
   # retrieve variables
   # ------------------
@@ -140,7 +139,7 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
   
   i <- 1
   while (i <= nrow(stimmat)) {
-    
+   
     # words
     
     # check indicator
@@ -162,6 +161,19 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     stimmat$word[i] <- words[wordnum]
   
     # sentence
+   
+    if(is.element(stimmat$letter[i], env$exp$setup$separator$sentence)) {
+      sentmem <- TRUE
+    }
+    
+    # check sentence2 separator
+    if (is.element(stimmat$letter[i], env$exp$setup$separator$sentence2) & sentmem == TRUE) {
+      sentnum <- sentnum + 1
+      sentmem <- FALSE
+    } else if (is.element(stimmat$letter[i], env$exp$setup$separator$sentence2) & sentmem == FALSE) {
+      sentmem <- FALSE
+    }
+    
     stimmat$sentnum[i] <- sentnum
     sent.let <- unlist(strsplit(sent[sentnum], ""))
     sent.n <- length(sent.let)
@@ -170,17 +182,6 @@ BuildStimulusFrame <- function(dat, trial, env = parent.frame(n = 2)) {
     stimmat$sent.nwords[i] <- sent.nwords[sentnum]
     stimmat$sent.nletters[i] <- sent.nletters[sentnum]
     
-    if(is.element(stimmat$letter[i], env$exp$setup$separator$sentence2) & sentmem == TRUE) {
-      stimmat$sentnum[i] <- sentnum - 1
-    }
-    
-    # check sentence separator
-    if (is.element(stimmat$letter[i], env$exp$setup$separator$sentence)) {
-      sentnum <- sentnum + 1
-      sentmem <- TRUE
-    } else {
-      sentmem <- FALSE
-    }
     
     # IA
     if (env$exp$setup$indicator$ia == "") {

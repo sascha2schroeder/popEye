@@ -20,7 +20,7 @@ ComputeGopastSentence <- function(dat) {
     
     # compute measures
     for (j in 1:length(ias)){
-    # j = 1
+    # j = 2
       
         dat$gopast[id == ids[i]][dat$sentnum[id == ids[i]]== ias[j]] <- 
           sum(
