@@ -27,7 +27,7 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
   env$sac <- NULL
   
   # results
-  env$results <- list(text = NA, quest = NA)
+  env$results <- NULL
   
   # clean
   if (env$exp$setup$type == "text") {

@@ -91,26 +91,11 @@ AggregateSubjects <- function(exp) {
   sagg$mcal <- sapply(lapply(lapply(lapply(exp$subjects, "[[", 1), "[[", "calibration"), "[[", "avg"), function(x) round(mean(as.numeric(x), na.rm = T), 2))
   # NOTE: weighted mean based on duration of the trial?
   
-  # results
-  if (exp$setup$tracker$software == "EB" & exp$setup$tracker$results == T) {
-    sagg$quest.acc <- round(as.numeric(tapply(exp$out$results$quest$quest.acc, 
-                                              exp$out$results$quest$subid, mean, na.rm = T)), 3)
-    sagg$quest.rt <- round(as.numeric(tapply(exp$out$results$quest$quest.rt, 
-                                             exp$out$results$quest$subid, mean, na.rm = T)))
-  }
-  
   # merge and write out
   exp$out$subjects <- merge(cagg, sagg, by = "subid")
   
-  if (exp$setup$tracker$software == "EB" & exp$setup$tracker$results == T) {
-    names <- c("subid", "ntrial", "nexc", "mcal", "pcrit", "pblink", "pout", "nrun", 
-               "nfix", "skip", "sac", "refix", "reg", "mfix", "total", "rate", 
-               "quest.acc", "quest.rt")
-  } else {
-    names <- c("subid", "ntrial", "nexc", "mcal", "pcrit", "pblink", "pout", "nrun", 
+  names <- c("subid", "ntrial", "nexc", "mcal", "pcrit", "pblink", "pout", "nrun", 
                "nfix", "skip", "sac", "refix", "reg", "mfix", "total", "rate")
-  }
-  
   exp$out$subjects <- exp$out$subjects[names]
   row.names(exp$out$subjects) <- NULL
   
