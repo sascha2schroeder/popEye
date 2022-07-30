@@ -585,26 +585,26 @@ popEye <- function(datpath,
       wordfirst <- AggregateWordsFirstrun(fix)
       wordtmp <- AggregateWords(fix, word.item)
       wordcomb <- CombineWords(fix, wordfirst, wordtmp)
-      exp$out$words <- rbind(exp$out$words, wordcomb)
+      exp$reports$words <- rbind(exp$reports$words, wordcomb)
       
       iafirst <- AggregateIAsFirstrun(fix)
       iatmp <- AggregateIAs(fix, ia.item, exp)
       combia <- CombineIAs(fix, iafirst, iatmp, exp)
-      exp$out$ias <- rbind(exp$out$ias, combia)
+      exp$reports$ias <- rbind(exp$reports$ias, combia)
       
       sent <- ComputeSentenceMeasures(fix, sent.item)
       # NOTE: rename to AggregateSentences
-      exp$out$sent <- rbind(exp$out$sent, sent)
+      exp$reports$sent <- rbind(exp$reports$sent, sent)
       
       trials <- AggregateTrials(fix, wordcomb)
-      exp$out$trials <- rbind(exp$out$trials, trials)
+      exp$reports$trials <- rbind(exp$repots$trials, trials)
       
       row.names(fix) <- NULL
-      exp$out$fix <- rbind(exp$out$fix, fix)
+      exp$reports$fix <- rbind(exp$reports$fix, fix)
       fix <- NULL
        
       row.names(sac) <- NULL
-      exp$out$sac <- rbind(exp$out$sac, sac)
+      exp$reports$sac <- rbind(exp$reports$sac, sac)
       sac <- NULL
       
       t2 <- Sys.time()
@@ -622,12 +622,12 @@ popEye <- function(datpath,
   
   if (exp$setup$tracker$software == "EB" & is.na(exp$setup$tracker$results) == F) {
     
-    exp$out$results <- results
+    exp$reports$results <- results
     
   }
   
-  exp$out$clean <- clean[-1, ]
-  row.names(exp$out$clean) <- NULL
+  exp$reports$clean <- clean[-1, ]
+  row.names(exp$reports$clean) <- NULL
   
   
   # aggregate participants

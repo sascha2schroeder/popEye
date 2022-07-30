@@ -15,22 +15,22 @@ AddTrials <- function(exp1, exp2, sub) {
       
   }
   
-  exp$out$fix <- rbind(exp1$out$fix, exp2$out$fix)
-  exp$out$fix <- exp$out$fix[order(exp$out$fix$subid, exp$out$fix$trialnum), ]
-  exp$out$sac <- rbind(exp1$out$sac, exp2$out$sac)
-  exp$out$sac <- exp$out$sac[order(exp$out$sac$subid, exp$out$sac$trialnum), ]
-  # exp1$out$clean$transformed <- 0
-  # exp2$out$clean$transformed <- 1
-  exp$out$clean <- rbind(exp1$out$clean, exp2$out$clean)
-  exp$out$clean <- exp$out$clean[order(exp$out$clean$subid, exp$out$clean$trialnum), ]
-  exp$out$words <- rbind(exp1$out$words, exp2$out$words)
-  exp$out$words <- exp$out$words[order(exp$out$words$subid, exp$out$words$trialnum), ]
-  exp$out$ias <- rbind(exp1$out$ias, exp2$out$ias)
-  exp$out$ias <- exp$out$ias[order(exp$out$ias$subid, exp$out$ias$trialnum), ]
-  exp$out$sentences <- rbind(exp1$out$sentences, exp2$out$sentences)
-  exp$out$sentences <- exp$out$sentences[order(exp$out$sentences$subid, exp$out$sentences$trialnum), ]
-  exp$out$trials <- rbind(exp1$out$trials, exp2$out$trials)
-  exp$out$trials <- exp$out$trials[order(exp$out$trials$subid, exp$out$trials$trialnum), ]
+  exp$reports$fix <- rbind(exp1$reports$fix, exp2$reports$fix)
+  exp$reports$fix <- exp$reports$fix[order(exp$reports$fix$subid, exp$reports$fix$trialnum), ]
+  exp$reports$sac <- rbind(exp1$reports$sac, exp2$reports$sac)
+  exp$reports$sac <- exp$reports$sac[order(exp$reports$sac$subid, exp$reports$sac$trialnum), ]
+  # exp1$reports$clean$transformed <- 0
+  # exp2$reports$clean$transformed <- 1
+  exp$reports$clean <- rbind(exp1$reports$clean, exp2$reports$clean)
+  exp$reports$clean <- exp$reports$clean[order(exp$reports$clean$subid, exp$reports$clean$trialnum), ]
+  exp$reports$words <- rbind(exp1$reports$words, exp2$reports$words)
+  exp$reports$words <- exp$reports$words[order(exp$reports$words$subid, exp$reports$words$trialnum), ]
+  exp$reports$ias <- rbind(exp1$reports$ias, exp2$reports$ias)
+  exp$reports$ias <- exp$reports$ias[order(exp$reports$ias$subid, exp$reports$ias$trialnum), ]
+  exp$reports$sentences <- rbind(exp1$reports$sentences, exp2$reports$sentences)
+  exp$reports$sentences <- exp$reports$sentences[order(exp$reports$sentences$subid, exp$reports$sentences$trialnum), ]
+  exp$reports$trials <- rbind(exp1$reports$trials, exp2$reports$trials)
+  exp$reports$trials <- exp$reports$trials[order(exp$reports$trials$subid, exp$reports$trials$trialnum), ]
   
   exp <- AggregateSubjects(exp)
   

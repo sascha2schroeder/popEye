@@ -2,25 +2,25 @@
 AggregateSubjects <- function(exp) {
   
   if (exp$setup$type == "text") {
-    cagg=aggregate(cbind(exp$out$clean$trial.crit, exp$out$clean$crit),
-                   list(exp$out$clean$subid), mean, na.rm = T)
+    cagg <- aggregate(cbind(exp$reports$clean$trial.crit, exp$reports$clean$crit),
+                   list(exp$reports$clean$subid), mean, na.rm = T)
     colnames(cagg) <- c("subid", "prob.trial", "prob.all")
     cagg$ncrit.trial <- round(cagg$prob.trial, 3)
     cagg$pcrit <- round(cagg$prob.all, 3)  
   }
   
   if (exp$setup$type == "sentence") {
-    cagg=aggregate(cbind(exp$out$clean$trial.crit, exp$out$clean$crit),
-                   list(exp$out$clean$subid), mean, na.rm = T)
+    cagg=aggregate(cbind(exp$reports$clean$trial.crit, exp$reports$clean$crit),
+                   list(exp$reports$clean$subid), mean, na.rm = T)
     colnames(cagg) <- c("subid", "prob.trial", "prob.all")
     cagg$ncrit.trial <- round(cagg$prob.trial, 3)
     cagg$pcrit <- round(cagg$prob.all, 3)  
   }
   
   if (exp$setup$type == "target") {
-    cagg=aggregate(cbind(exp$out$clean$trial.crit, exp$out$clean$target.crit, 
-                         exp$out$clean$crit),
-                   list(exp$out$clean$subid), mean, na.rm = T)
+    cagg <- aggregate(cbind(exp$reports$clean$trial.crit, exp$reports$clean$target.crit, 
+                         exp$reports$clean$crit),
+                   list(exp$reports$clean$subid), mean, na.rm = T)
     colnames(cagg) <- c("subid", "prob.trial", "prob.target", "prob.all")
     cagg$ncrit.trial <- round(cagg$prob.trial, 3)
     cagg$ncrit.target <- round(cagg$prob.target, 3)
@@ -28,9 +28,9 @@ AggregateSubjects <- function(exp) {
   }
   
   if (exp$setup$type == "boundary") {
-    cagg=aggregate(cbind(exp$out$clean$trial.crit, exp$out$clean$target.crit, 
-                         exp$out$clean$boundary.crit, exp$out$clean$crit),
-                   list(exp$out$clean$subid), mean, na.rm = T)
+    cagg <- aggregate(cbind(exp$reports$clean$trial.crit, exp$reports$clean$target.crit, 
+                         exp$reports$clean$boundary.crit, exp$reports$clean$crit),
+                   list(exp$reports$clean$subid), mean, na.rm = T)
     colnames(cagg)=c("subid", "prob.trial", "prob.target", "prob.boundary",
                      "prob.all")
     cagg$ncrit.trial <- round(cagg$prob.trial, 3)
@@ -40,9 +40,9 @@ AggregateSubjects <- function(exp) {
   }
   
   if (exp$setup$type == "fast") {
-    cagg=aggregate(cbind(exp$out$clean$trial.crit, exp$out$clean$target.crit, 
-                         exp$out$clean$fast.crit, exp$out$clean$crit),
-                   list(exp$out$clean$subid), mean, na.rm = T)
+    cagg <- aggregate(cbind(exp$reports$clean$trial.crit, exp$reports$clean$target.crit, 
+                         exp$reports$clean$fast.crit, exp$reports$clean$crit),
+                   list(exp$reports$clean$subid), mean, na.rm = T)
     colnames(cagg) <- c("subid", "prob.trial", "prob.target", "prob.fast",
                         "prob.all")
     cagg$ncrit.trial <- round(cagg$prob.trial, 3)
@@ -53,18 +53,18 @@ AggregateSubjects <- function(exp) {
   }
   
   # trial
-  sagg <- aggregate(cbind(exp$out$trials$nrun, 
-                          exp$out$trials$nfix, 
-                          exp$out$trials$nblink >= 1, 
-                          exp$out$trials$nout >= 1,
-                          exp$out$trials$skip, 
-                          exp$out$trials$sac, 
-                          exp$out$trials$refix, 
-                          exp$out$trials$reg, 
-                          exp$out$trials$mfix, 
-                          exp$out$trials$total, 
-                          exp$out$trials$rate),
-                    list(exp$out$trials$subid), mean, na.rm = T)
+  sagg <- aggregate(cbind(exp$reports$trials$nrun, 
+                          exp$reports$trials$nfix, 
+                          exp$reports$trials$nblink >= 1, 
+                          exp$reports$trials$nout >= 1,
+                          exp$reports$trials$skip, 
+                          exp$reports$trials$sac, 
+                          exp$reports$trials$refix, 
+                          exp$reports$trials$reg, 
+                          exp$reports$trials$mfix, 
+                          exp$reports$trials$total, 
+                          exp$reports$trials$rate),
+                    list(exp$reports$trials$subid), mean, na.rm = T)
   colnames(sagg) <- c("subid", "nrun", "nfix", "nblink", "nout", 
                       "skip", "sac", "refix", "reg", "mfix", "total", 
                       "rate")
@@ -82,7 +82,7 @@ AggregateSubjects <- function(exp) {
   sagg$rate <- round(sagg$rate)
   
   # number of trials
-  sagg$ntrial <- tapply(exp$out$trials$trialnum, exp$out$trials$subid, length)
+  sagg$ntrial <- tapply(exp$reports$trials$trialnum, exp$reports$trials$subid, length)
   
   # number of exclusions
   sagg$nexc <- sapply(lapply(exp$subjects, "[[", 1), "[[", "exclusion")
@@ -92,12 +92,12 @@ AggregateSubjects <- function(exp) {
   # NOTE: weighted mean based on duration of the trial?
   
   # merge and write out
-  exp$out$subjects <- merge(cagg, sagg, by = "subid")
+  exp$reports$subjects <- merge(cagg, sagg, by = "subid")
   
   names <- c("subid", "ntrial", "nexc", "mcal", "pcrit", "pblink", "pout", "nrun", 
                "nfix", "skip", "sac", "refix", "reg", "mfix", "total", "rate")
-  exp$out$subjects <- exp$out$subjects[names]
-  row.names(exp$out$subjects) <- NULL
+  exp$reports$subjects <- exp$reports$subjects[names]
+  row.names(exp$reports$subjects) <- NULL
   
   return(exp)
   

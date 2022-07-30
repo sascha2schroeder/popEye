@@ -40,9 +40,21 @@ CleanTrial <- function(dat, env = parent.frame(n = 2)) {
     }
     # NOTE: maybe integrate this screening in earlier steps (after outliers are excluded) 
     
-    # trial.blink: check whether there is a blink in a trial
-    if (sum(dat$item[[trial]]$fix$blink == 1) > 0) {
+    # # trial.blink: check whether there is a blink in a trial
+    # if (sum(dat$item[[trial]]$fix$blink == 1) > 0) {
+    #   dat$item[[trial]]$clean$trial$blink <- 1
+    # } 
+    
+    # trial.blink: check whether there are very long blinks (> 1000) in a trial
+    if (sum(dat$item[[trial]]$sac$dur[dat$item[[trial]]$sac$msg == "BLINK"] > 1000) > 0) {
       dat$item[[trial]]$clean$trial$blink <- 1
+      dat$item[[trial]]$clean$trial$crit <- 1
+    } 
+    
+    # trial.blink: check whether the propotion of of blink time exceeds 10%
+    if ((sum(dat$item[[trial]]$sac$dur[dat$item[[trial]]$sac$msg == "BLINK"]) / sum(dat$item[[trial]]$fix$dur)) > .1) {
+      dat$item[[trial]]$clean$trial$blink <- 1
+      dat$item[[trial]]$clean$trial$crit <- 1
     } 
     
   }

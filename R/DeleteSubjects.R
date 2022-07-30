@@ -9,17 +9,17 @@ DeleteSubjects <- function(exp, sub) {
     exp$subjects[[subpos[i]]] <- NULL
   }
   
-  exp$out$word.item <- exp$out$word.item[is.element(exp$out$word.item$subid, sub) == F, ]
-  exp$out$ia.item <- exp$out$ia.item[is.element(exp$out$ia.item$subid, sub) == F, ]
-  exp$out$sent.item <- exp$out$sent.item[is.element(exp$out$sent.item$subid, sub) == F, ]
-  exp$out$fix <- exp$out$fix[is.element(exp$out$fix$subid, sub) == F, ]
-  exp$out$sac <- exp$out$sac[is.element(exp$out$sac$subid, sub) == F, ]
-  exp$out$clean <- exp$out$clean[is.element(exp$out$clean$subid, sub) == F, ]
-  exp$out$words <- exp$out$words[is.element(exp$out$words$subid, sub) == F, ]
-  exp$out$ias <- exp$out$ias[is.element(exp$out$ias$subid, sub) == F, ]
-  exp$out$sentences <- exp$out$sentences[is.element(exp$out$sentences$subid, sub) == F, ]
-  exp$out$trials <- exp$out$trials[is.element(exp$out$trials$subid, sub) == F, ]
-  exp$out$subjects <- exp$out$subjects[is.element(exp$out$subjects$subid, sub) == F, ]
+  # exp$reports$word.item <- exp$reports$word.item[is.element(exp$reports$word.item$subid, sub) == F, ]
+  # exp$reports$ia.item <- exp$reports$ia.item[is.element(exp$reports$ia.item$subid, sub) == F, ]
+  # exp$reports$sent.item <- exp$reports$sent.item[is.element(exp$reports$sent.item$subid, sub) == F, ]
+  exp$reports$fix <- exp$reports$fix[is.element(exp$reports$fix$subid, sub) == F, ]
+  exp$reports$sac <- exp$reports$sac[is.element(exp$reports$sac$subid, sub) == F, ]
+  exp$reports$clean <- exp$reports$clean[is.element(exp$reports$clean$subid, sub) == F, ]
+  exp$reports$words <- exp$reports$words[is.element(exp$reports$words$subid, sub) == F, ]
+  exp$reports$ias <- exp$reports$ias[is.element(exp$reports$ias$subid, sub) == F, ]
+  exp$reports$sentences <- exp$reports$sentences[is.element(exp$reports$sentences$subid, sub) == F, ]
+  exp$reports$trials <- exp$reports$trials[is.element(exp$reports$trials$subid, sub) == F, ]
+  exp$reports$subjects <- exp$reports$subjects[is.element(exp$reports$subjects$subid, sub) == F, ]
   
   return(exp)
   

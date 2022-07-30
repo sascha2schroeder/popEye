@@ -89,18 +89,15 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
   # id with run
   fixin$id2 <- paste(fixin$id, fixin$sent.runid2, sep = ":")
   
-  
   # recompute sent.run
   fixtmp <- fixin[duplicated(fixin$id2) == F, ]
   fixtmp$sent.run2 <- ave(fixtmp$sent.runid2, fixtmp$id, FUN = rank)
   fixin <- merge(fixin, fixtmp[c("id2", "sent.run2")], by = "id2")
   fixin <- fixin[order(fixin$trialnum, fixin$fixid), ]
   
-  
   # compute firstpass
   fixin$firstpass <- 1
   fixin$firstpass[fixin$sent.run2 > 1] <- 0
-
 
   # create sentence outfile  
   sent <- fixin[duplicated(fixin$id) == F, ]
@@ -274,7 +271,7 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
   sent <- merge(sent, tmp, by = "id", all.x = T)
   
   # rate
-  sent$rate <- round(sent$total.dur / sent$sent.nwords)
+  sent$rate <- round(60000 / (sent$total.dur / sent$sent.nwords))
   
   
   # compute skippings
@@ -295,8 +292,8 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
   
   # save
   names <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent",
-             "skip", "nrun", "reread", "reg.in", "reg.out",
-             "total.nfix", "total.dur", 
+             "sent.nwords", "skip", "nrun", "reread", "reg.in", "reg.out",
+             "total.nfix", "total.dur", "rate",
              "gopast", "gopast.sel",
              "firstrun.skip", "firstrun.reg.in", "firstrun.reg.out",
              "firstpass.nfix", "firstpass.dur",
@@ -307,8 +304,8 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
   
   sent <- sent[names]
   colnames(sent) <- c("subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent",
-                      "skip", "nrun", "reread", "reg.in", "reg.out",
-                      "total.nfix", "total.dur", 
+                      "sent.nwords", "skip", "nrun", "reread", "reg.in", "reg.out",
+                      "total.nfix", "total.dur", "rate",
                       "gopast", "gopast.sel",
                       "firstrun.skip", "firstrun.reg.in", "firstrun.reg.out",
                       "firstpass.nfix", "firstpass.dur",

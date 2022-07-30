@@ -1,8 +1,8 @@
 
 PlotAlignSubject <- function(exp, subject) {
   
-  ntrial <- exp$out$subjects$ntrial[exp$out$subjects$subid == subject]
-  trials <- exp$out$trials$itemid[exp$out$trials$subid == subject]
+  ntrial <- exp$reports$subjects$ntrial[exp$reports$subjects$subid == subject]
+  trials <- exp$report$trials$itemid[exp$reports$trials$subid == subject]
   
   for (i in 1:ntrial) {
     
