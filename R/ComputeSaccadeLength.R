@@ -61,6 +61,7 @@ ComputeSaccadeLength <- function(dat, trial) {
         (dat$item[[trial]]$fix$letternum[j] - min(dat$item[[trial]]$meta$stimmat$letternum[dat$item[[trial]]$meta$stimmat$line == dat$item[[trial]]$fix$line[j]])) - 
         (dat$item[[trial]]$fix$letternum[j + 1] - min(dat$item[[trial]]$meta$stimmat$letternum[dat$item[[trial]]$meta$stimmat$line == dat$item[[trial]]$fix$line[j + 1]]))
     }
+    
   }
   
   return(dat)
