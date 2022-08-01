@@ -26,9 +26,23 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
       # number of practice trials
       env$exp$setup$clean$practice <- env$exp$setup$item$pracnum
       
+      # # condition
+      # 
+      # if (is.na(env$exp$setup$variable$cond) == FALSE) {
+      #   
+      #   tmp <- dat[grep("TRIAL_VAR", dat)]
+      #   ind <- sapply(strsplit(tmp, " "), "[[", 4)
+      #   condition <- sapply(strsplit(tmp[ind == env$exp$setup$variable$cond], " "), "[[", 5)
+      #   
+      # } else {
+      #   
+      #   condition <- rep(1, length(itemid))
+      #   
+      # }
+      
       # condition
       
-      if (is.na(env$exp$setup$variable$cond) == FALSE) {
+      if (sum(is.na(env$exp$setup$variable$cond) == TRUE) == 0) {
         
         if (length(env$exp$setup$variable$cond) == 1) {
           
@@ -50,6 +64,7 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
       } else {
         
         condition <- rep(1, length(itemid))
+        
       }
       
       # dependency
@@ -57,6 +72,7 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
       # NOTE: does not make much sense; store to be parallel with ET
       
     }
+    
     
     # ET
     if (env$exp$setup$tracker$software == "ET") {

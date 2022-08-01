@@ -89,10 +89,11 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
       
     }
     
-    tmp$msg$trialnum <- NULL # remove trialnum from msg object
-    tmp$msg$itemid <- NULL # remove condition from msg object
-    tmp$msg$condition <- NULL # remove condition from msg object
-    tmp$msg$dependency <- NULL # remove condition from msg object
+    # remove information from msg object
+    tmp$msg$trialnum <- NULL 
+    tmp$msg$itemid <- NULL 
+    tmp$msg$condition <- NULL
+    tmp$msg$dependency <- NULL
     
     tmp$event <- tmp$event[is.na(tmp$event$time) == F, ]
     

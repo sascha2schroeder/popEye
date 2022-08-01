@@ -3,7 +3,7 @@ CleanAll <- function(dat, env = parent.frame(n = 1)) {
   
   # trial cleaning
   dat <- CleanTrial(dat)
-
+  
   # target cleaning
   if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
     dat <- CleanTarget(dat)

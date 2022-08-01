@@ -594,7 +594,7 @@ popEye <- function(datpath,
       
       sent <- ComputeSentenceMeasures(fix, sent.item)
       # NOTE: rename to AggregateSentences
-      exp$reports$sent <- rbind(exp$reports$sent, sent)
+      exp$reports$sentences <- rbind(exp$reports$sent, sent)
       
       trials <- AggregateTrials(fix, wordcomb)
       exp$reports$trials <- rbind(exp$repots$trials, trials)
