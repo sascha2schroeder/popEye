@@ -597,7 +597,7 @@ popEye <- function(datpath,
       exp$reports$sentences <- rbind(exp$reports$sent, sent)
       
       trials <- AggregateTrials(fix, wordcomb)
-      exp$reports$trials <- rbind(exp$repots$trials, trials)
+      exp$reports$trials <- rbind(exp$reports$trials, trials)
       
       row.names(fix) <- NULL
       exp$reports$fix <- rbind(exp$reports$fix, fix)
@@ -628,6 +628,11 @@ popEye <- function(datpath,
   
   exp$reports$clean <- clean[-1, ]
   row.names(exp$reports$clean) <- NULL
+  
+  
+  if (debug == "aggregate") {
+    return (exp)
+  }
   
   
   # aggregate participants

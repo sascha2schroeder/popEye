@@ -84,7 +84,7 @@ AggregateSubjects <- function(exp) {
   # number of trials
   sagg$ntrial <- tapply(exp$reports$trials$trialnum, exp$reports$trials$subid, length)
   
-  # number of exclusions
+  # # number of exclusions
   sagg$nexc <- sapply(lapply(exp$subjects, "[[", 1), "[[", "exclusion")
   
   # mean calibration accuracy
@@ -94,8 +94,12 @@ AggregateSubjects <- function(exp) {
   # merge and write out
   exp$reports$subjects <- merge(cagg, sagg, by = "subid")
   
-  names <- c("subid", "ntrial", "nexc", "mcal", "pcrit", "pblink", "pout", "nrun", 
-               "nfix", "skip", "sac", "refix", "reg", "mfix", "total", "rate")
+  # names <- c("subid", "ntrial", "nexc", "mcal", "pcrit", "pblink", "pout", "nrun", 
+  #              "nfix", "skip", "sac", "refix", "reg", "mfix", "total", "rate")
+  
+  names <- c("subid", "ntrial", "mcal", "pcrit", "pblink", "pout", "nrun", 
+             "nfix", "skip", "sac", "refix", "reg", "mfix", "total", "rate")
+  
   exp$reports$subjects <- exp$reports$subjects[names]
   row.names(exp$reports$subjects) <- NULL
   
