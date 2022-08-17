@@ -61,7 +61,7 @@ LineInteractive <- function(fix, stimmat, env = parent.frame(n = 2)) {
     points(fixtmp$xn, fixtmp$yn, type = "p", cex = .75, col = fixtmp$line, pch=16)
     
     # show current run as number
-    if (fixtmp$linetmp[fixtmp$linerun == run[i]] != 0) {
+    if (length(fixtmp$linetmp[fixtmp$linerun == run[i]]) != 0) {
       coltmp <- fixtmp$linetmp[fixtmp$linerun == run[i]]
     } else {
       coltmp <- "grey"
@@ -69,6 +69,7 @@ LineInteractive <- function(fix, stimmat, env = parent.frame(n = 2)) {
     text(fixtmp$xn[fixtmp$linerun == run[i]], fixtmp$yn[fixtmp$linerun == run[i]],
          labels = fixtmp$linetmp[fixtmp$linerun == run[i]], col = coltmp,
          font = 2, cex = 1.5)
+    
     # text(fixtmp$xn[fixtmp$linerun == run[i]], fixtmp$yn[fixtmp$linerun == run[i]],
     #      labels = fixtmp$linetmp[fixtmp$linerun == run[i]], col = "red",
     #      font = 2, cex = 1.5)
