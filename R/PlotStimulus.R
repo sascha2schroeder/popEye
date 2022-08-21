@@ -29,8 +29,9 @@ PlotStimulus <- function(exp, subject, trial, plot = NULL, interactive = F, sub 
   # basic plot
   plot(stimmat$xs, stimmat$ys, 
        xlim = c(0, exp$setup$display$resolutionX), 
-       ylim = c(max(stimmat$ye) + 1*exp$setup$font$size,
-                min(stimmat$ys) - 1*exp$setup$font$size), 
+       # ylim = c(max(stimmat$ye) + 1*exp$setup$font$size,
+       #          min(stimmat$ys) - 1*exp$setup$font$size), 
+       ylim = c(exp$setup$display$resolutionY, 0), 
        type = "n",
        main = paste("Trial", trial), xlab = "x Position (px)", ylab = "y Position (py)")
   
