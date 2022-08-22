@@ -8,8 +8,6 @@ popEye is an integrated environment to analyze eye-tracking data from reading ex
 <br/>
 <br/>
 <br/>
-<br/>
-<br/>
 
 !!! NEW: Download the ECEM 2022 popEye poster [here](paper/ECEM_2022_popEye.pdf) !!!
 
@@ -109,8 +107,9 @@ Example scripts for EyeTrack can be found here for
 
 ## Use
 
-Some short comments about the text assignment process in `popEye`can be found [here](materials/Assign.md).
+Links to a series of short video tutorial demonstrating how to set up and analyze your data using popEye will **soon** provided here.
 
+Some short comments about the text assignment process in `popEye`can be found [here](materials/Assign.md).
 
 A short introduction explaining how to use popEye to preprocess your data can be found [here](materials/Preprocessing.md).
 
