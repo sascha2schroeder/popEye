@@ -7,7 +7,7 @@ popEye is an integrated environment to analyze eye-tracking data from reading ex
 
 !!! NEW: Download the ECEM 2022 popEye poster [here](paper/ECEM_2022_popEye.pdf) !!!
 
-<img src="materials/ECEM_2022_popEye.png">
+<img height="500"  src="materials/ECEM_2022_popEye.png">
 
 popEye will be most useful to you if
 - you work with different eye trackers and software packages at the same time.
