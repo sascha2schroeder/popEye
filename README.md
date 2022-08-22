@@ -5,6 +5,10 @@
 
 popEye is an integrated environment to analyze eye-tracking data from reading experiments. Its unique feature is that it allows to analyze data from different experimental paradigms (single sentence reading, boundary paradigm, fast priming paradigm, text reading), collected using different eye tracking devices (SR research, SMI, etc.) and software packages (EyeTrack, Experiment Builder, etc.) within the same workflow.
 
+<br/>
+<br/>
+<br/>
+
 !!! NEW: Download the ECEM 2022 popEye poster [here](paper/ECEM_2022_popEye.pdf) !!!
 
 <img height="500"  src="materials/ECEM_2022_popEye.png">
