@@ -1,12 +1,11 @@
 
 ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
   
-  for (trial in 1:length(dat$trial)) {
+  for (trial in 1:length(dat$item)) {
     # trial <- 2
     
     dat <- OutlierAsBlinks(dat, trial)
     # NOTE: not sure whether this function makes sense
-    
     dat <- ComputeLineChange(dat, trial)
     dat <- ComputeSaccadeLength(dat, trial) 
     dat <- ComputeLaunchDistance(dat, trial)
@@ -17,8 +16,8 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
     dat <- ComputeLandingPosition(dat, trial)
     
     # rename fixid
-    dat$trial[[trial]]$fix$fixid <- dat$trial[[trial]]$fix$num
-    dat$trial[[trial]]$fix$num <- NULL
+    dat$item[[trial]]$fix$fixid <- dat$item[[trial]]$fix$num
+    dat$item[[trial]]$fix$num <- NULL
     
     if (env$exp$setup$type == "target" | env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
       names <- c("subid", 
@@ -39,8 +38,6 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "sac.out",
                  "type", 
                  "blink",            
-                 "run",
-                 "linerun",
                  "line", 
                  "line.change",
                  "letternum", 
@@ -70,6 +67,8 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "word.cland",
                  "word.reg.out",
                  "word.reg.in",
+                 "word.reg.out.to",
+                 "word.reg.in.from",
                  
                  "ia.fix", 
                  "ia.run", 
@@ -82,6 +81,8 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "ia.cland",
                  "ia.reg.out", 
                  "ia.reg.in", 
+                 "ia.reg.out.to", 
+                 "ia.reg.in.from", 
                  
                  "sent.fix",
                  "sent.run",
@@ -90,7 +91,9 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "sent.firstskip",
                  "sent.refix",
                  "sent.reg.out", 
-                 "sent.reg.in"
+                 "sent.reg.in",
+                 "sent.reg.out.to", 
+                 "sent.reg.in.from"
       )
       
     } else {
@@ -113,8 +116,6 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "sac.out",
                  "type", 
                  "blink",
-                 "run",
-                 "linerun",
                  "line", 
                  "line.change",
                  "line.let",
@@ -142,6 +143,8 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "word.cland",
                  "word.reg.out",
                  "word.reg.in",
+                 "word.reg.out.to",
+                 "word.reg.in.from",
                  
                  "ia.fix", 
                  "ia.run", 
@@ -154,6 +157,8 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "ia.cland",
                  "ia.reg.out", 
                  "ia.reg.in", 
+                 "ia.reg.out.to", 
+                 "ia.reg.in.from", 
                  
                  "sent.word",
                  "sent.fix",
@@ -163,11 +168,13 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "sent.firstskip",
                  "sent.refix",
                  "sent.reg.out", 
-                 "sent.reg.in"
+                 "sent.reg.in",
+                 "sent.reg.out.to", 
+                 "sent.reg.in.from"
       )
     }
     
-    dat$trial[[trial]]$fix <- dat$trial[[trial]]$fix[names]
+    dat$item[[trial]]$fix <- dat$item[[trial]]$fix[names]
     
   }
   

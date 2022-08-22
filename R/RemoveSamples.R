@@ -3,8 +3,8 @@
 
 RemoveSamples <- function(dat, env = parent.frame(n = 2)) {
   
-  msg <- data.frame(matrix(data = NA, nrow = 1, ncol = 6)) 
-  names(msg) <- c('trialnum', 'itemid', 'condition', 'dependency', 'time',  'msg')
+  msg <- data.frame(matrix(data = NA, nrow = 1, ncol = 7)) 
+  names(msg) <- c('trialid', 'trialnum', 'itemid', 'condition', 'dependency', 'time',  'msg')
  
   samp <- data.frame(matrix(data = NA, nrow = 1, ncol = 4)) 
   names(samp) <- c('time', 'x',  'y', 'pupil')
@@ -24,7 +24,6 @@ RemoveSamples <- function(dat, env = parent.frame(n = 2)) {
     tmpmsg <- dat$msg[dat$msg$time>= start & dat$msg$time <= stop, ] 
     tmpevent <- dat$event[dat$event$time>= start & dat$event$time <= stop, ] 
     
-    
     # add to output
     samp <- rbind(samp, tmpsamp)
     msg <- rbind(msg, tmpmsg)
@@ -35,6 +34,7 @@ RemoveSamples <- function(dat, env = parent.frame(n = 2)) {
   dat$msg <- msg[-1, ]
   dat$samp <- samp[-1, ]
   dat$event <- event[-1, ]
+  dat$event <- dat$event[is.na(dat$event) == F, ]
   
   return(dat)
   

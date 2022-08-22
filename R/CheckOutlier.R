@@ -1,8 +1,5 @@
 
-CheckOutlier <- function(fix, stimmat) {
-  
-  # crit value
-  crit <- 0.2
+CheckOutlier <- function(fix, stimmat, crit=0.2) {
   
   # compute text field coordinates
   left <- min(stimmat$xs)

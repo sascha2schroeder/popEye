@@ -1,9 +1,9 @@
 
-AggregateIAs <- function(exp) {
+AggregateIAs <- function(fix, ia.item, exp) {
   
   # create outfile  
-  iatmp <- exp$out$fix[exp$out$fix$type == "in", ]
-  iatmp$id <- as.character(paste(iatmp$subid, iatmp$trialnum, iatmp$ianum, sep = ":"))
+  iatmp <- fix[fix$type == "in", ]
+  iatmp$id <- as.character(paste(iatmp$trialnum, iatmp$ianum, sep = ":"))
   ia <- iatmp[duplicated(iatmp$id) == F, ]
   
   if (exp$setup$type == "target" | exp$setup$type == "boundary" | exp$setup$type == "fast") {
@@ -45,8 +45,8 @@ AggregateIAs <- function(exp) {
                         "ianum", "ia"), colnames(ia))]
   }
   
-  item <- exp$out$ia.item
-  item$id <- as.character(paste(item$subid, item$trialnum, item$ianum, sep = ":"))
+  item <- ia.item
+  item$id <- as.character(paste(item$trialnum, item$ianum, sep = ":"))
   ia <- merge(ia, item, by = "id", all.y = T)
   
   ia$skip <- 0

@@ -1,5 +1,5 @@
 
-LineInteractive <- function(fix, stimmat, env = parent.frame(n = 1)) {
+LineInteractive <- function(fix, stimmat, env = parent.frame(n = 2)) {
   
   print(env$trial)
   
@@ -13,13 +13,18 @@ LineInteractive <- function(fix, stimmat, env = parent.frame(n = 1)) {
   fixtmp$line <- NA
   fix$line <- NULL
   
-  for (i in 1:length(run)) {
-    # i <- 1
+  i <- 1
+  while (i <=length(run)) {
+    
+    # print(paste("Run", i, "of", length(run)))
+    
+    ydif <- max(stimmat$ye) - min(stimmat$ys)
     
     # basic plot
-    plot(stimmat$xs, stimmat$ym, xlim = c(0, max(stimmat$xe)), 
-         ylim = c(max(stimmat$ye), min(stimmat$ys)), type = "n",
-         xlab = "x (px)", ylab = "y (px)", main = paste("Trial", env$trial))
+    plot(stimmat$xs, stimmat$ym, 
+         xlim = c(0, max(stimmat$xe)), 
+         ylim = c(max(stimmat$ye) + ydif * 1/10, min(stimmat$ys) - ydif * 1/10), 
+         type = "n", xlab = "x (px)", ylab = "y (px)", main = paste("Trial", env$trial))
     
     for (j in 1:max(lines)){
       
@@ -37,32 +42,56 @@ LineInteractive <- function(fix, stimmat, env = parent.frame(n = 1)) {
          max(stimmat$xe[stimmat$line == fixtmp$linetmp[is.na(fixtmp$linerun) == F & fixtmp$linerun == i]]),
          min(stimmat$ys[stimmat$line == fixtmp$linetmp[is.na(fixtmp$linerun) == F & fixtmp$linerun == i]]),
          border = fixtmp$linetmp[is.na(fixtmp$linerun) == F & fixtmp$linerun == i], lwd = 2,
-         col = MakeTransparent(palette()[fixtmp$linetmp[is.na(fixtmp$linerun) == F & fixtmp$linerun == i] %% max(lines)], alpha = .1))
+         col = MakeTransparent(palette()[fixtmp$linetmp[is.na(fixtmp$linerun) == F & fixtmp$linerun == i] %% 8], alpha = .1))
+    
+    # add words
+    words <- as.numeric(unlist(dimnames(table(stimmat$wordnum))))
+    for (j in 1:max(words)) {
+      rect(min(stimmat$xs[stimmat$wordnum == words[j]]),
+           min(stimmat$ys[stimmat$wordnum == words[j]]),
+           max(stimmat$xe[stimmat$wordnum == words[j]]),
+           max(stimmat$ye[stimmat$wordnum == words[j]]),
+           angle = NA, lwd = 1, border = MakeTransparent(palette()[stimmat$line[stimmat$wordnum == words[j]] %% 8], alpha = .1))
+    }
     
     # show previous runs
+    # points(fixtmp$xn, fixtmp$yn, type = "l", cex = 1, col = "black")
+    # text(fixtmp$xn, fixtmp$yn, labels = as.character(fixtmp$line), col = fixtmp$line, cex = 1)
     points(fixtmp$xn, fixtmp$yn, type = "l", cex = 1, col = "black")
-    text(fixtmp$xn, fixtmp$yn, labels = as.character(fixtmp$line), col = fixtmp$line, cex = 1)
+    points(fixtmp$xn, fixtmp$yn, type = "p", cex = .75, col = fixtmp$line, pch=16)
     
     # show current run as number
-    if (fixtmp$linetmp[fixtmp$linerun == run[i]] != 0) {
+    if (length(fixtmp$linetmp[fixtmp$linerun == run[i]]) != 0) {
       coltmp <- fixtmp$linetmp[fixtmp$linerun == run[i]]
     } else {
       coltmp <- "grey"
     }
     text(fixtmp$xn[fixtmp$linerun == run[i]], fixtmp$yn[fixtmp$linerun == run[i]],
          labels = fixtmp$linetmp[fixtmp$linerun == run[i]], col = coltmp,
-         font = 2, cex = 1)
-    symbols(fixtmp$xn[fixtmp$linerun == run[i]], fixtmp$yn[fixtmp$linerun == run[i]],
-            circles = fixtmp$dur[fixtmp$linerun == run[i]]/20, inches = F, fg = coltmp,
-            add = T)
+         font = 2, cex = 1.5)
+    
+    # text(fixtmp$xn[fixtmp$linerun == run[i]], fixtmp$yn[fixtmp$linerun == run[i]],
+    #      labels = fixtmp$linetmp[fixtmp$linerun == run[i]], col = "red",
+    #      font = 2, cex = 1.5)
+    # symbols(fixtmp$xn[fixtmp$linerun == run[i]], fixtmp$yn[fixtmp$linerun == run[i]],
+    #         circles = fixtmp$dur[fixtmp$linerun == run[i]]/10, inches = F, fg = coltmp,
+    #         add = T)
+    # symbols(fixtmp$xn[fixtmp$linerun == run[i]], fixtmp$yn[fixtmp$linerun == run[i]],
+    #         circles = fixtmp$dur[fixtmp$linerun == run[i]]/10, inches = F, fg = "red",
+    #         add = T)
     
     # line input
     key <- readline(prompt = "Confirm line:")
     
     if (key == "") {
       fixtmp$line[is.na(fixtmp$linerun) == F & fixtmp$linerun == run[i]] <- fixtmp$linetmp[is.na(fixtmp$linerun) == F & fixtmp$linerun == run[i]]  
+      i <- i + 1
+    } else if (key == "b") {
+      i <- i - 1
+      next
     } else {
       fixtmp$line[is.na(fixtmp$linerun) == F & fixtmp$linerun == run[i]] <- as.numeric(key)  
+      i <- i + 1
     }
     
   }
@@ -79,7 +108,7 @@ LineInteractive <- function(fix, stimmat, env = parent.frame(n = 1)) {
     rect(min(stimmat$xs[stimmat$line == j]), max(stimmat$ye[stimmat$line == j]), 
          max(stimmat$xe[stimmat$line == j]), min(stimmat$ys[stimmat$line == j]),
          border = lines[j], lwd = 2,
-         col = MakeTransparent(palette()[lines[j]], alpha = .1))  
+         col = MakeTransparent(palette()[lines[j] %% 8], alpha = .1))  
   }
   text(ym, labels = unlist(dimnames(ym)), col = lines)
   

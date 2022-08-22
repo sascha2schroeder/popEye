@@ -1,5 +1,5 @@
 
-# Adapted from Carr et al.
+# Adapted from Carr et al. (under review), Behavior Research Methods
 
 Regress <- function(fixation_XY, line_Y, k_bounds=c(-0.1, 0.1), o_bounds=c(-50, 50), s_bounds=c(1, 20)) {
   n <- nrow(fixation_XY)
@@ -21,15 +21,25 @@ Regress <- function(fixation_XY, line_Y, k_bounds=c(-0.1, 0.1), o_bounds=c(-50, 
     return(-sum(apply(density, 1, max)))
   }
   
-  best_fit <- optim(c(0, 0, 0), fit_lines)
-  line_assignments <- fit_lines(best_fit$par, TRUE)
-  for (fixation_i in 1 : n) {
-    line_i <- line_assignments[fixation_i]
-    fixation_XY[fixation_i, 2] <- line_Y[line_i]
+  tryCatch(best_fit <- optim(c(0, 0, 0), fit_lines),
+           error = function(e) {})
+ 
+  if(exists("best_fit") == T) {
+    
+    line_assignments <- fit_lines(best_fit$par, TRUE)
+    for (fixation_i in 1 : n) {
+      line_i <- line_assignments[fixation_i]
+      fixation_XY[fixation_i, 2] <- line_Y[line_i]
+    }
+    
+    line <- as.numeric(as.factor(fixation_XY[,2]))
+    
+  } else {
+    
+    line <- rep(NA, times = length(fixation_XY[,2]))
+    
   }
-  
-  line <- as.numeric(as.factor(fixation_XY[,2]))
-  
+   
   return(line)
   
 }

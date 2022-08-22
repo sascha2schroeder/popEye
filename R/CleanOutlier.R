@@ -1,7 +1,7 @@
 
 CleanOutlier <- function(dat, trial) {
   
-  out <- dat$trial[[trial]]$fix
+  out <- dat$item[[trial]]$fix
   change <- 0
   stop <- 0
   
@@ -76,9 +76,9 @@ CleanOutlier <- function(dat, trial) {
   }
   
   if (sum(out$type == "in") > 1) {
-    dat$trial[[trial]]$fix <- out
+    dat$item[[trial]]$fix <- out
   } else {
-    dat$trial[[trial]]$fix <- NULL
+    dat$item[[trial]]$fix <- NULL
   }
   
   return(dat)

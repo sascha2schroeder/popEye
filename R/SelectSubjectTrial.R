@@ -1,7 +1,7 @@
 
-SelectSubjectTrial <- function(dat, subname, trialnum) {
+SelectSubjectTrial <- function(exp, subject, trial) {
   
-  out <- SelectTrialnum(SelectSubject(dat, subname), trialnum)
+  out <- SelectTrialid(SelectSubject(exp, subject), trial)
   
   return(out)
   

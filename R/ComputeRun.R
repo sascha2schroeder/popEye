@@ -2,7 +2,7 @@
 ComputeRun <- function(dat, trial) {
   # trial = 1
   
-  tmp <- dat$trial[[trial]]$fix[dat$trial[[trial]]$fix$type == "in", ]
+  tmp <- dat$item[[trial]]$fix[dat$item[[trial]]$fix$type == "in", ]
   
   # run
   # ----
@@ -11,6 +11,9 @@ ComputeRun <- function(dat, trial) {
   tmp$word.runid <- 1
   tmp$ia.runid <- 1
   tmp$sent.runid <- 1
+  
+  mem <- NA
+  point <- 0
   
   # fixation loop
   if (nrow(tmp) > 1) {
@@ -34,13 +37,13 @@ ComputeRun <- function(dat, trial) {
       
       # sent
       if (tmp$sent.reg.in[j] == 1 & tmp$sent.reg.in[j - 1] != 1) {
-        tmp$sent.runid[j] <- tmp$sent.runid[j - 1] + 1
+          tmp$sent.runid[j] <- tmp$sent.runid[j - 1] + 1
       } else {
         tmp$sent.runid[j] <- tmp$sent.runid[j - 1]
       }
-      
-      # print(j)
+
     }
+    
   }
   
   # fixid
@@ -98,7 +101,7 @@ ComputeRun <- function(dat, trial) {
   tmp$id <- NULL
   tmp <- tmp[order(tmp$num), ]
   
-  # fixnum in ia.run
+  # fixnum in sent.run
   tmp$id <- paste(tmp$sentnum, tmp$sent.run, sep = ":")
   tmp$sent.run.fix <- ave(tmp$num, tmp$id, FUN = rank)
   tmp$id <- NULL
@@ -111,7 +114,7 @@ ComputeRun <- function(dat, trial) {
              "word.run.fix", "ia.run.fix", "sent.run.fix")
   tmp <- tmp[names]
   
-  dat$trial[[trial]]$fix <- merge(dat$trial[[trial]]$fix, tmp, by = "num", all.x = T)
+  dat$item[[trial]]$fix <- merge(dat$item[[trial]]$fix, tmp, by = "num", all.x = T)
   
   return(dat)
   

@@ -1,10 +1,9 @@
 
-AggregateIAsFirstrun <- function(exp) {
+AggregateIAsFirstrun <- function(fix) {
   
   # create outfile  
-  firstruntmp <- exp$out$fix[exp$out$fix$ia.run == 1, ]
-  firstruntmp$id <- as.character(paste(firstruntmp$subid, firstruntmp$trialnum, 
-                                       firstruntmp$ianum, sep = ":"))
+  firstruntmp <- fix[fix$ia.run == 1, ]
+  firstruntmp$id <- as.character(paste(firstruntmp$trialnum, firstruntmp$ianum, sep = ":"))
   firstrun <- firstruntmp[duplicated(firstruntmp$id) == F, ]
   names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "ianum", "ia")
   firstrun <- firstrun[names]  
@@ -14,7 +13,7 @@ AggregateIAsFirstrun <- function(exp) {
   firstrun$firstrun.blink <- as.numeric(tapply(firstruntmp$blink, list(firstruntmp$id), max))
   firstrun$firstrun.skip <- as.numeric(tapply(firstruntmp$ia.firstskip, list(firstruntmp$id), max))
   firstrun$firstrun.nfix <- as.numeric(tapply(firstruntmp$fixid, list(firstruntmp$id), length))
-  firstrun$firstrun.refix <- as.numeric(tapply(firstruntmp$ia.refix, list(firstruntmp$id), max, na.rm = T))
+  firstrun$firstrun.refix <- as.numeric(tapply(firstruntmp$ia.refix, list(firstruntmp$id), max))
   firstrun$firstrun.reg.in <- as.numeric(tapply(firstruntmp$ia.reg.in, list(firstruntmp$id), max))
   firstrun$firstrun.reg.out <- as.numeric(tapply(firstruntmp$ia.reg.out, list(firstruntmp$id), max))
   firstrun$firstrun.dur <- as.numeric(tapply(firstruntmp$dur, list(firstruntmp$id), sum))

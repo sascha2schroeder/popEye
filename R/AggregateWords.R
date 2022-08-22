@@ -1,10 +1,9 @@
 
-AggregateWords <- function(exp) {
+AggregateWords <- function(fix, word.item) {
   
   # create outfile  
-  wordtmp <- exp$out$fix[exp$out$fix$type == "in", ]
-  wordtmp$id <- as.character(paste(wordtmp$subid, wordtmp$trialnum, 
-                                   wordtmp$wordnum, sep = ":"))
+  wordtmp <- fix[fix$type == "in", ]
+  wordtmp$id <- as.character(paste(wordtmp$trialnum, wordtmp$wordnum, sep = ":"))
   
   word <- wordtmp[duplicated(wordtmp$id) == F, ]
   names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", 
@@ -31,8 +30,8 @@ AggregateWords <- function(exp) {
   word <- word[, -match(c("subid", "trialid", "trialnum", "itemid", "cond", 
                           "sentnum", "wordnum", "word"), colnames(word))]
   
-  item <- exp$out$word.item
-  item$id <- as.character(paste(item$subid, item$trialnum, item$wordnum, sep = ":"))
+  item <- word.item
+  item$id <- as.character(paste(item$trialnum, item$wordnum, sep = ":"))
   word <- merge(word, item, by = "id", all.y = T)
   word$skip <- 0
   word$skip[is.na(word$blink) == T] <- 1

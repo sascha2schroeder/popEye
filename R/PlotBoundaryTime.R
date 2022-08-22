@@ -22,20 +22,20 @@ PlotBoundaryTime <- function(exp, subject, trial, pdf = F, interactive = F,
   
   # compute offsets
   offset.time <- 50
-  offset.loc <- 130
+  offset.loc <- 150
   
   # TODO: change this
   
   if (boundary.time - offset.time > 0) {
     # create plot
     if (sub == T) {
-      plot(tmp$xy$time[(boundary.time - offset.time):(boundary.time + offset.time)],
-           tmp$xy$x[(boundary.time - offset.time):(boundary.time + offset.time)], 
+      plot(tmp$xy$time[tmp$xy$time > (boundary.time - offset.time) & tmp$xy$time < (boundary.time + offset.time)],
+           tmp$xy$x[tmp$xy$time > (boundary.time - offset.time) & tmp$xy$time < (boundary.time + offset.time)], 
            type = "l", ylim = c(boundary.loc + offset.loc, boundary.loc - offset.loc), 
            main = "Time Plot", xlab = "Time (ms)", ylab = "x Position (px)")
     } else {
-      plot(tmp$xy$time[(boundary.time - offset.time):(boundary.time + offset.time)],
-           tmp$xy$x[(boundary.time - offset.time):(boundary.time + offset.time)], 
+      plot(tmp$xy$time[tmp$xy$time > (boundary.time - offset.time) & tmp$xy$time < (boundary.time + offset.time)],
+           tmp$xy$x[tmp$xy$time > (boundary.time - offset.time) & tmp$xy$time < (boundary.time + offset.time)], 
            type = "l", ylim = c(boundary.loc + offset.loc, boundary.loc - offset.loc),  
            main = paste("Trial", trial, sep = " "), 
            xlab = "Time (ms)", ylab = "x Position (px)", xaxt = "none")

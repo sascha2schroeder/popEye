@@ -1,9 +1,11 @@
 
-ExtractEvents <- function(dat){
+ExtractEvents <- function(infile, env = parent.frame(n = 2)) {
   
+  if (env$exp$setup$tracker$model == "eyelink") {
+    
   # extract events (saccades, fixations, blinks) from *.asc file
-  dat <- dat[grep(paste(c("SSACC", "ESACC", "SFIX", "EFIX", "SBLINK", "EBLINK"),
-                        collapse = "|"),  dat, useBytes=TRUE)]
+  dat <- infile[grep(paste(c("SSACC", "ESACC", "SFIX", "EFIX", "SBLINK", "EBLINK"),
+                        collapse = "|"),  infile, useBytes=TRUE)]
   dat <- dat[nchar(dat) > 0]
   
   # SFIX
@@ -113,5 +115,62 @@ ExtractEvents <- function(dat){
   row.names(out) <- NULL
   
   return(out)
+  
+  } else if (env$exp$setup$tracker$model == "gazepoint") {
+    
+    # fixations
+    fix <- infile[["data_collection/events/eyetracker/FixationStartEvent"]]
+    fix <- fix[]
+    fix <- fix[duplicated(fix$time) == F, ]
+    
+    # SFIX
+    time <- round(fix$time*1000)
+    eye <- NA
+    msg <- rep("SFIX", length.out = length(time))
+    sf <- data.frame(cbind(time, eye, msg), stringsAsFactors = F)
+    sf$time <- as.numeric(sf$time)
+    sf$xs <- NA
+    sf$ys <- NA
+    sf$xe <- NA
+    sf$ye <- NA
+    
+    # EFIX
+    time <- round(fix$time*1000)
+    eye <- NA
+    msg <- rep("EFIX", length.out = length(time))
+    xs <- fix$gaze_x
+    xs <- as.numeric(gsub(" ", "", xs))
+    ys <- fix$gaze_y
+    ys <- as.numeric(gsub(" ", "", ys))
+    
+    ef <- data.frame(cbind(time, eye, msg, xs, ys), stringsAsFactors = F)
+    ef$time <- as.numeric(ef$time)
+    ef$msg <- as.character(ef$msg)
+    ef$xs = round((env$exp$setup$display$resolutionX / 2) + as.numeric(ef$xs))
+    ef$ys = round((env$exp$setup$display$resolutionY / 2) - as.numeric(ef$ys))
+    ef$xe <- NA
+    ef$ye <- NA
+    
+    # # SSACC
+    ss <- NA
+    
+    # # ESACC
+    es <- NA
+    
+    # SBLINK
+    sb <- NA
+    
+    # EBLINK
+    eb <- NA
+    
+    # combine and write out
+    out <- rbind(sf, ef, ss, es, sb, eb)
+    out <- out[is.na(out$time) == F, ]
+    out <- out[order(out$time), ]
+    row.names(out) <- NULL
+    
+    return(out)
+    
+  }
 
 }

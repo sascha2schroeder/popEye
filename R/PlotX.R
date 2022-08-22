@@ -13,12 +13,14 @@ PlotX <- function(exp, subject, trial, sub = F, pdf = NULL, interactive = F) {
   }
   
   tmp <- SelectSubjectTrial(exp, subject, trial)
+  #tmp <- SelectSubjectTrial(x, "2", 1)
   
   # smooth again
-  xy2 <- SmoothData(SmoothData(tmp$xy))
+  # xy2 <- SmoothData(SmoothData(tmp$xy))
+  xy2 <- tmp$xy
   
   # create plot
-  plot(xy2$x, type = "l", 
+  plot(xy2$time, xy2$x, type = "l", 
        ylim = c(max(tmp$meta$stimmat$xs) + 3*exp$setup$font$size,
                 min(tmp$meta$stimmat$xs) - 3*exp$setup$font$size),
        main = "X Plot", 
@@ -26,10 +28,11 @@ PlotX <- function(exp, subject, trial, sub = F, pdf = NULL, interactive = F) {
   
   # add start/stop
   abline (v = 0, col = "navyblue", lwd = 2)
-  abline (v = nrow(tmp$xy), col = "navyblue", lwd = 2)
+  abline (v = max(tmp$xy$time), col = "navyblue", lwd = 2)
   
   # add start saccade
   sac <- tmp$parse[tmp$parse$msg == "SAC", ]
+  # sac <- tmp$sac[tmp$sac$msg == "SAC", ]
   for (i in 1:nrow(sac)){
     abline(v = sac$start, col = "navyblue", lwd = 1, lty = 1)
   }
@@ -41,6 +44,7 @@ PlotX <- function(exp, subject, trial, sub = F, pdf = NULL, interactive = F) {
   
   # add fixations
   fix <- tmp$parse[tmp$parse$msg == "FIX", ]
+  #fix <- tmp$fix[tmp$fix$msg == "FIX", ]
   for (i in 1:nrow(fix)){
     lines(fix[i, 2]:fix[i, 3], 
           rep(fix$xs[i], fix$stop[i] - fix$start[i] + 1), 
@@ -67,7 +71,9 @@ PlotX <- function(exp, subject, trial, sub = F, pdf = NULL, interactive = F) {
   blink <- tmp$parse[tmp$parse$msg == "BLINK", ]
   if (nrow(blink) > 0){
     for (i in 1:nrow(blink)){
-      rect(blink$start[i], 1100, blink$stop[i], -100, 
+      # rect(blink$start[i], 1100, blink$stop[i], -100, 
+      #      col= MakeTransparent("darkred", alpha = .2))
+      rect(blink$start[i], max(xy2$time), blink$stop[i], -100, 
            col= MakeTransparent("darkred", alpha = .2))
     }    
   }

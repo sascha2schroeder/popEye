@@ -1,10 +1,9 @@
 
-AggregateWordsFirstrun <- function(exp) {
+AggregateWordsFirstrun <- function(fix) {
   
   # create outfile  
-  firstruntmp <- exp$out$fix[exp$out$fix$word.run == 1, ]
-  firstruntmp$id <- as.character(paste(firstruntmp$subid, firstruntmp$trialnum, 
-                                       firstruntmp$wordnum, sep = ":"))
+  firstruntmp <- fix[fix$word.run == 1, ]
+  firstruntmp$id <- as.character(paste(firstruntmp$trialnum, firstruntmp$wordnum, sep = ":"))
   firstrun <- firstruntmp[duplicated(firstruntmp$id) == F, ]
   
   names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "wordnum", 

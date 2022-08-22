@@ -9,22 +9,22 @@
 
 CleanStage4 <- function(dat, trial, env = parent.frame(n = 2)) {
 
-  dat$trial[[trial]]$fix$del <- 0
+  dat$item[[trial]]$fix$del <- 0
   
-  for (i in 1:nrow(dat$trial[[trial]]$fix)) {
-    if (dat$trial[[trial]]$fix$dur[i] < env$exp$setup$clean$stage4Min) {
-      dat$trial[[trial]]$fix$del[i] <- 1
+  for (i in 1:nrow(dat$item[[trial]]$fix)) {
+    if (dat$item[[trial]]$fix$dur[i] < env$exp$setup$clean$stage4Min) {
+      dat$item[[trial]]$fix$del[i] <- 1
       # print(paste("Stage 4: Fixation", i, "too short.", sep = " "))
-    } else if (dat$trial[[trial]]$fix$dur[i] > env$exp$setup$clean$stage4Max) {
-      dat$trial[[trial]]$fix$del[i] <- 1
+    } else if (dat$item[[trial]]$fix$dur[i] > env$exp$setup$clean$stage4Max) {
+      dat$item[[trial]]$fix$del[i] <- 1
       # print(paste("Stage 4: Fixation", i, "too long.", sep = " "))
     }
   }
   
-  dat$trial[[trial]]$fix <- 
-    dat$trial[[trial]]$fix[dat$trial[[trial]]$fix$del == 0, ]
-  dat$trial[[trial]]$fix$del <- NULL
-  dat$trial[[trial]]$fix$num <- 1:nrow(dat$trial[[trial]]$fix) 
+  dat$item[[trial]]$fix <- 
+    dat$item[[trial]]$fix[dat$item[[trial]]$fix$del == 0, ]
+  dat$item[[trial]]$fix$del <- NULL
+  dat$item[[trial]]$fix$num <- 1:nrow(dat$item[[trial]]$fix) 
   
   return(dat)
   

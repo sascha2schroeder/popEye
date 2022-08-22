@@ -18,15 +18,15 @@ CleanStage3 <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # print(env$exp$setup$clean$stage3Dur)
   
-  dat$trial[[trial]]$fix$merge.stage3 <- 0
+  dat$item[[trial]]$fix$merge.stage3 <- 0
   
-  for (i in 1:length(table(dat$trial[[trial]]$fix$ianum))) {
-    tmp <- dat$trial[[trial]]$fix[dat$trial[[trial]]$fix$ianum == 
-                                    as.numeric(unlist(dimnames(table(dat$trial[[trial]]$fix$ianum))))[i], ]
+  for (i in 1:length(table(dat$item[[trial]]$fix$ianum))) {
+    tmp <- dat$item[[trial]]$fix[dat$item[[trial]]$fix$ianum == 
+                                    as.numeric(unlist(dimnames(table(dat$item[[trial]]$fix$ianum))))[i], ]
     if (nrow(tmp) > 0) {
       if (length(tmp$dur < env$exp$setup$clean$stage3Dur) >= 3 &
-          dat$trial[[trial]]$fix$merge.stage3[dat$trial[[trial]]$fix$ianum ==
-                                              as.numeric(unlist(dimnames(table(dat$trial[[trial]]$fix$ianum))))[i]]) {
+          dat$item[[trial]]$fix$merge.stage3[dat$item[[trial]]$fix$ianum ==
+                                              as.numeric(unlist(dimnames(table(dat$item[[trial]]$fix$ianum))))[i]]) {
         # print(paste("Stage 3: Fixations on IA", i, "need to be merged", sep = " "))
       }  
     }

@@ -1,11 +1,11 @@
 Package: popEye
-Version: 0.6.8
-Date: 2020-09-07
+Version: 0.8.0
+Date: 2022-08-22
 Title: Analysis of eye-tracking data from reading experiments
 Description: popEye is an integrated environment to analyze eye-tracking data from reading experiments. Its unique feature is that it allows to analyze data from different experimental paradigms (single sentence reading, boundary paradigm, fast priming paradigm, text reading), collected using different eye tracking devices (SR research, tobii, etc.) and software packages (EyeTrack, Experiment Builder, etc.) within the same workflow.
 Author: Sascha Schroeder <sascha2schroeder@gmail.com>
 Maintainer: Sascha Schroeder <sascha2schroeder@gmail.com>
 License: GPL-4
 NeedsCompilation: no
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Encoding: UTF-8

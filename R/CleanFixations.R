@@ -3,13 +3,14 @@ CleanFixations <- function(out, dur.thresh, dist.thresh){
   
   # select events  
   fix <- ComputeDurDist(out[out$msg == "FIX", ])
-  fix$num <- 1:nrow(fix) # FIX: number of fixations
+  fix$num <- 1:nrow(fix)
   
   sac <- out[out$msg == "SAC" | out$msg == "BLINK", ]
+  sac$num <- 1:nrow(sac)
   
   i <- 1
   while (i <= nrow(fix)) {
-    
+      
     merge.before = F
     merge.after = F
     
@@ -48,27 +49,42 @@ CleanFixations <- function(out, dur.thresh, dist.thresh){
     
     # action
     if (merge == 0) i <- i + 1
+    
     if (merge == -1) {
+      
       fix$stop[i - 1] = fix$stop[i]
       fix$xs[i - 1] = round((fix$xs[i - 1] + fix$xs[i]) / 2)
       fix$ys[i - 1] = round((fix$ys[i - 1] + fix$ys[i]) / 2)
+      
       fix = fix[-i, ]
       fix$num = 1:nrow(fix)
+      
+      start <- fix$start[i -1]
+      stop <- fix$stop[i - 1]
+      
       fix = ComputeDurDist(fix)
-      sac = sac[-(i - 1), ] # deletes saccade before deleted fixation
+      sac = sac[(sac$start > start & sac$stop < stop) == F, ]
       sac$num <- 1:nrow(sac)
+      
     } 
+    
     if (merge == 1) {
+      
       fix$start[i + 1] = fix$start[i]
       fix$xs[i + 1] = round((fix$xs[i] + fix$xs[i + 1]) / 2)
       fix$ys[i + 1] = round((fix$ys[i] + fix$ys[i + 1]) / 2)
+      
       fix = fix[-i, ]
       fix$num = 1:nrow(fix)
+      
+      start <- fix$start[i]
+      stop <- fix$stop[i]
+      
       fix = ComputeDurDist(fix)
-      sac = sac[-i, ] 
+      sac = sac[(sac$start > start & sac$stop < stop) == F, ]
       sac$num <- 1:nrow(sac)
     }
-    
+  
   }
   
   # save

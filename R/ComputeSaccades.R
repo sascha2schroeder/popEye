@@ -1,7 +1,8 @@
 
-ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
+ComputeSaccades <- function(xy, vxy, calibration.method, env = parent.frame(n = 3)) {
   
   # NOTE: saccade "amplitude" in pixels, not degrees at present
+  
   
   # determine tresholds
   # ---------------------
@@ -9,7 +10,8 @@ ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
   radius <- ComputeRadius(vxy)
   
   # compute test criterion: ellipse equation
-  if (env$meta$calibration.method == "H3") {
+  # TODO: this should not work as the environment points to the experiment level
+  if (calibration.method == "H3") {
     
     test <- (vxy$x / radius$x)^2 # 3 point calibration (no y dimension)
     
@@ -18,6 +20,8 @@ ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
     test <- (vxy$x / radius$x)^2 + (vxy$y / radius$y)^2
     
   }
+ 
+  # TODO: use exact (variable) sampling rate?
   
   # compute saccades
   # -----------------
@@ -31,12 +35,13 @@ ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
   k <- 1
   while (k < N) {
     if ((indx[k + 1] - indx[k]) == 1) {
-      dur <- dur + 1
+      #dur <- dur + 1
+      dur <- dur + (1000 / env$exp$setup$tracker$samp)
     } else {
       if (dur >= env$exp$setup$analysis$mindur) {
         nsac <- nsac + 1
         b <- k
-        sac <- rbind(sac,c(indx[a], indx[b]))
+        sac <- rbind(sac,c(xy$time[indx[a]], xy$time[indx[b]]))
       }
       a <- k + 1
       dur <- 1
@@ -46,8 +51,9 @@ ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
   # check last fixation
   if (dur >= env$exp$setup$analysis$mindur) {
     nsac <- nsac + 1
-    sac <- rbind(sac,c(indx[a], indx[N]))
+    sac <- rbind(sac,c(xy$time[indx[a]], xy$time[indx[N]]))
   }
+  
   
   # FIX: check number of saccades
   # ------------------------------
@@ -58,6 +64,7 @@ ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
     results = list(sac = sacout, radius = radius)
     return(results)
   }
+ 
   
   # remove glissades
   # --------------------
@@ -86,11 +93,20 @@ ComputeSaccades <- function(xy, vxy, env = parent.frame(n = 3)) {
     # onset and offset
     sacout[s, 2] <- sac[s, 1]
     sacout[s, 3] <- sac[s, 2]
+    
     # start and end x and y position
-    sacout[s, 4] = round(xy$x[sac[s, 1]])
-    sacout[s, 5] = round(xy$y[sac[s, 1]])
-    sacout[s, 6] = round(xy$x[sac[s, 2]])
-    sacout[s, 7] = round(xy$y[sac[s, 2]])
+    
+    # FIX: if saccade starts with first sample 
+    if(length(xy$x[xy$time == sac[s, 1]]) == 0) {
+      sacout[s, 4] = round(xy$x[1])
+      sacout[s, 5] = round(xy$y[1])
+    } else {
+      sacout[s, 4] = round(xy$x[xy$time == sac[s, 1]])
+      sacout[s, 5] = round(xy$y[xy$time == sac[s, 1]])
+    }
+    
+    sacout[s, 6] = round(xy$x[xy$time == sac[s, 2]])
+    sacout[s, 7] = round(xy$y[xy$time == sac[s, 2]])
   }
   
   # output

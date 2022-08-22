@@ -2,7 +2,12 @@
 
 <img align="right" width="220" height="190" src="materials/popeye1.jpg?raw=true">
 
+
 popEye is an integrated environment to analyze eye-tracking data from reading experiments. Its unique feature is that it allows to analyze data from different experimental paradigms (single sentence reading, boundary paradigm, fast priming paradigm, text reading), collected using different eye tracking devices (SR research, SMI, etc.) and software packages (EyeTrack, Experiment Builder, etc.) within the same workflow.
+
+!!! NEW: Download the ECEM 2022 popEye poster [here](paper/ECEM_2022_popEye.pdf) !!!
+
+<img src="materials/ECEM_2022_popEye.png">
 
 popEye will be most useful to you if
 - you work with different eye trackers and software packages at the same time.
@@ -68,16 +73,13 @@ Please contact me, if you are interested in this.
 
 ## Installation
 
-The easiest way to install the most recent version of popEye (current version is 0.6.8) 
-is via the devtools package:
+=======
+The easiest way to install the most recent version of popEye (current version is 0.8.0, August 2022) is via the devtools package:
 
 ``` R
 require(devtools)
 install_github('sascha2schroeder/popEye')
 ```
-
-Alternatively, an pre-compiled version that can be installed locally (RStudio: -> Tools -> Install packages
--> Install from Package Archive) can be downloaded for [Windows](materials/popEye_0.6.8.zip), [macOS](materials/popEye_0.6.8.tgz), and [Linux](materials/popEye_0.6.8.tar.gz).
 
 
 ## How should I set up my experiment so that popEye works smoothly?
@@ -97,6 +99,9 @@ Example scripts for EyeTrack can be found here for
 
 ## Use
 
+Some short comments about the text assignment process in `popEye`can be found [here](materials/Assign.md).
+
+
 A short introduction explaining how to use popEye to preprocess your data can be found [here](materials/Preprocessing.md).
 
 A brief tutorial how to use popEye during the analysis of your data can be found [here](materials/Analysis.md).
@@ -115,3 +120,5 @@ Alternatively, you can cite the talk I gave at ECEM 2019 in Alicante:
 Schroeder, S. (2019, August). *popEye - An R package to analyse eye movement data from reading experiments.* Paper presented at the 20th European Conference of Eye Movements Alicante, Spain.
 
 The slides of the talk can be found [here](paper/ECEM_2019_popEye.pdf).
+
+Here is a [poster](paper/ECEM_2022_popEye.pdf) on popEye presented at ECEMM 2022.
