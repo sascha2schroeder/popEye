@@ -8,6 +8,8 @@ popEye is an integrated environment to analyze eye-tracking data from reading ex
 <br/>
 <br/>
 <br/>
+<br/>
+<br/>
 
 !!! NEW: Download the ECEM 2022 popEye poster [here](paper/ECEM_2022_popEye.pdf) !!!
 
@@ -125,4 +127,4 @@ Schroeder, S. (2019, August). *popEye - An R package to analyse eye movement dat
 
 The slides of the talk can be found [here](paper/ECEM_2019_popEye.pdf).
 
-Here is a [poster](paper/ECEM_2022_popEye.pdf) on popEye presented at ECEMM 2022.
+Here is a [poster](paper/ECEM_2022_popEye.pdf) on popEye presented at ECEM 2022.
