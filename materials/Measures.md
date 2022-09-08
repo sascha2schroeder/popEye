@@ -145,7 +145,8 @@ The forward, rereading, look-back, and look-from measures are computed in simila
 ### Word report
 
 - subid: Participant ID
-- trialid: Position of trial in experiment
+- trialid: Position of trial in analysis
+- trialnum: Position of trial in experiment
 - itemid: Item ID
 - cond: Condition (if applicable)
 - sentnum: Number of sentence within text
@@ -185,7 +186,8 @@ The forward, rereading, look-back, and look-from measures are computed in simila
 ### Fixation report
 
 - subid: Participant ID
-- trialid: Position of trial in experiment
+- trialid: Position of trial in analysis 
+- trialnum: Position of trial in experiment
 - itemid: Item ID
 - cond: Condition (if applicable)
 - fixid: Number of fixation in a trial
