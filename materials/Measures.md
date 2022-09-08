@@ -17,10 +17,27 @@ All reports are stored in a specific slot of the RDS file which is called `repor
 In the following, I will go through all reports from the highest to the lowest level.
 
 You can extract and store the individual reports in a new R data frame (e.g., the subject report using `sub <- myexp$reports$subject`).
+
  
 ### Subject report
 
-This data frame reports summary data on the level of the individual participant. It is available for every type of experiment and probably most useful when you want to check your data and you have decide whether some participants should be excluded (e.g., because eye tracking quality was very low or they show strange reading behavior). In addition, it will help you when you are writing the sample section of your manuscript.
+This data frame reports summary data on the level of the individual participant. It is available for every type of experiment and probably most useful to check your data and to decide whether some participants should be excluded (e.g., because eye tracking quality was very low or they show strange reading behavior). In addition, it will help you when you are writing the sample section of your manuscript.
+
+- subid: Participant ID
+- ntrial: Number of trials for the subject
+- mcal: Mean calibration accuracy
+- pcrit: Proportion of critical trials (see cleaning)
+- pplink: Proportion of trials with blinks
+- pout: Proportion of trials with outlier fixations
+- nrun: Mean number of runs across trials
+- nfix: Mean number of fixation across trials
+- skip: Mean proportion of words that have been skipped during first-pass reading across trials
+- sac: Mean (forward) saccade length
+- refix: Mean proportion of words that have been refixated across trials
+- reg: Mean proportion of words which have been regressed into across trials
+- mfix: Mean fixation duration
+- total: Mean total reading time across trials
+- rate: Mean reading rate (words per minute) across trials
 
 
 ### Trial report 
@@ -36,7 +53,7 @@ This data frame reports summary data on the level of the individual participant.
 - nrun: Number of runs on trial
 - nfix: Number of fixations on trial
 - nout: Number of outlier fixations on trial
-- sac: Mean sacade length
+- sac: Mean (forward) sacade length
 - skip: Proportion of words in the trial that have been skipped during first-pass reading
 - refix: Proportion of words in the trial that have been refixated
 - reg: Proportion of words which have been regressed into
@@ -233,4 +250,24 @@ The forward, rereading, look-back, and look-from measures are computed in simila
 - sent.reg.in: Whether a regression was made into the sentence
 
 ### Saccade report
+
+- subid: Participant ID
+- trialid: Position of trial in analysis
+- trialnum: Position of trial in experiment
+- itemid: Item ID
+- cond: Condition (if applicable)
+- sacid: Number of saccade in a trial
+- msg: type of saccade (saccade vs. blink)
+- xs: Raw start x position (in pixel)
+- ys: Raw start y position (in pixel)
+- xe: Raw end x position (in pixel)
+- ye: Raw end y position (in pixel)
+- xsn: Corrected start x position (in pixel), i.e. after drift correction and line assignment
+- ysn: Corrected start y position (in pixel), i.e. after drift correction and line assignment
+- xen: Corrected end x position (in pixel), i.e. after drift correction and line assignment
+- yen: Corrected end y position (in pixel), i.e. after drift correction and line assignment
+- start: Start time (in ms since start of the trial)
+- stop: End time (in ms since start of the trial)
+- dist.let: Saccade length (in letters)
+- dur: Duration (in ms)
 
