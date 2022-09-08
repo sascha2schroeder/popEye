@@ -59,8 +59,7 @@ You can extract the subject report e.g. using `sub <- myexp$reports$subject` and
 - lookfrom.nfix: Number of rereading fixations on another sentence initiated from the sentence
 - lookfrom.dur: Duration of lookfrom fixations on the sentence
 
-The forward, rereading, look-back, and look-from measures are computed in similar way as in the SR "Getting Reading Measures" tool (https://www.sr-suppor
-t.com/thread-350.html) which is based on the Eyelink Analysojia software (developed by the Turku Eye Labs).
+The forward, rereading, look-back, and look-from measures are computed in similar way as in the SR "Getting Reading Measures" tool (https://www.sr-support.com/thread-350.html) which is based on the Eyelink Analysojia software (developed by the Turku Eye Labs).
 
 ### Interest area report
 
