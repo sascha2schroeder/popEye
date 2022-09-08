@@ -24,16 +24,49 @@ You can extract the subject report e.g. using `sub <- myexp$reports$subject` and
 
 ### Trial report 
 
-<img align="center" width="600" height="450" src="Pics/Trilingual.png?raw=true">
-
-### Text report
-
 ### Sentence report
+
+- subid: Participant ID
+- trialid: Position of trial in analysis
+- trialnum: Position of trial in experiment
+- itemid: Item ID
+- cond: Condition (if applicable)
+- sentnum: Number of sentence in trial
+- sent: Name of sentence (abbreviated)
+- sent.nwords: Number of words in sentence
+- blink: Whether blink occured during reading the sentence
+- skip: Whether the sentence has been skipped
+- nrun: Number of times the sentence has been read
+- reread: Whether the sentence has been read more than one time
+- reg.in: Whether a regression has been made into the sentence
+- reg.out: Whether a regression has been made out of the sentence
+- total.nfix: Number of fixations made on the sentence
+- total.dur: Total sentence reading time
+- rate: Reading rate (number of words per minute)
+- gopast: Sum of all fixations durations from the time the sentence was entered until it was left to the right (regression path duration)
+- gopast.sel: Sum of all fixations on the sentence from the time it was entered until it was left to the right (selective go-past time: regression path dur ation minus the time of the regression path)
+-  firstrun.skip: Whether sentence has been skipped during first-pass reading
+- firstrun.reg.in: Whether a regression has been made into the sentence during first-pass reading
+- firstrun.reg.out: Whether a regression has been made out of the sentence during first-pass reading
+- firstpass.nfix: Number of fixation made during first-pass reading
+- firstpass.dur: First-pass reading time
+- firstpass.forward.nfix: Number of first-pass forward fixations (landing on one of the upcoming words of a sentence)
+- firstpass.forward.dur: Duration of forward fixations during first-pass reading
+- firstpass.reread.nfix: Number of first-pass rereading fixations (landing one of the words of the sentence that have been read previously)
+- firstpass.reread.dur: Duration of rereading fixations during first-pass reading
+- lookback.nfix: Number of fixations made on the sentence after regressing into it from another sentence
+- lookback.dur: Duration of lookback fixations on the sentence
+- lookfrom.nfix: Number of rereading fixations on another sentence initiated from the sentence
+- lookfrom.dur: Duration of lookfrom fixations on the sentence
+
+The forward, rereading, look-back, and look-from measures are computed in similar way as in the SR "Getting Reading Measures" tool (https://www.sr-suppor
+t.com/thread-350.html) which is based on the Eyelink Analysojia software (developed by the Turku Eye Labs).
 
 ### Interest area report
 
 - subid: Participant ID
-- trialid: Position of trial in experiment
+- trialid: Position of trial in analysis
+- trialnum: Position of trial in experiment
 - itemid: Item ID
 - cond: Condition (if applicable)
 - sentnum: Number of sentence within text
@@ -177,44 +210,7 @@ You can extract the subject report e.g. using `sub <- myexp$reports$subject` and
 - sent.reg.out: Whether a regression was made out the sentence
 - sent.reg.in: Whether a regression was made into the sentence
 
-
 ### Saccade report
 
 ### Cleaning report
-
-## Raw data
-
-### Experiment level
-
-Setup 
-
-Subject slots
-
-### Subject level
-
-Header
-
-Trial slots
-
-### Trial level
-
-Meta 
-
-XY
-
-(VXY)
-
-Parse
-
-Fix
-
-Sac
-
-All
-
-Clean
-
-
-
-
 
