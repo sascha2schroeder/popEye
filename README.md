@@ -81,7 +81,6 @@ Please contact me, if you are interested in this.
 
 ## Installation
 
-=======
 The easiest way to install the most recent version of popEye (current version is 0.8.0, August 2022) is via the devtools package:
 
 ``` R
@@ -89,7 +88,7 @@ require(devtools)
 install_github('sascha2schroeder/popEye')
 ```
 
-
+<?
 ## How should I set up my experiment so that popEye works smoothly?
 
 There are different ways how an eye tracking experiment can be programmed. 
@@ -105,6 +104,7 @@ Example scripts for EyeTrack can be found here for
 [multi line](materials/EyeTrack_MultiLine.script) experiments.
 
 
+
 ## Use
 
 Links to a series of short video tutorial demonstrating how to set up and analyze your data using popEye will **soon** provided here.
@@ -115,6 +115,11 @@ A short introduction explaining how to use popEye to preprocess your data can be
 
 A brief tutorial how to use popEye during the analysis of your data can be found [here](materials/Analysis.md).
 
+?>
+
+## Output and Measues
+
+A brief description of the output file and the variables included in the different types of reports can be found [here](materials/Measures.md).
 
 
 ## References
