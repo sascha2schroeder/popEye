@@ -112,10 +112,6 @@ You can extract the subject report e.g. using `sub <- myexp$reports$subject` and
 
 ### Fixation report
 
-
-# Fixation Report
-# ----------------
-
 - subid: Participant ID
 - trialid: Position of trial in experiment
 - itemid: Item ID
