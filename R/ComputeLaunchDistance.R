@@ -24,7 +24,7 @@ ComputeLaunchDistance <- function(dat, trial) {
       
       # word
       dat$item[[trial]]$fix$word.launch[i] <- dat$item[[trial]]$fix$sac.in[i] + 
-        dat$item[[trial]]$fix$word.land[i -1]
+        dat$item[[trial]]$fix$word.land[i - 1]
       
       # IA
       dat$item[[trial]]$fix$ia.launch[i] <- dat$item[[trial]]$fix$sac.in[i] + 
