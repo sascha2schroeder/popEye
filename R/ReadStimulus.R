@@ -3,19 +3,6 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
   
   stimfile <- env$exp$setup$stimulus$file
   
-  # # compute match variable
-  # if (is.na(env$exp$setup$stimulus$cond) == TRUE) {
-  #   
-  #   stimfile$cond <- 1
-  #   stimfile$match <- paste(stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))], 1, sep = ":")
-  #   
-  # } else {
-  #   
-  #   stimfile$match <- paste(stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))],
-  #                           stimfile [, match(env$exp$setup$stimulus$cond, colnames(stimfile))], sep = ":")
-  #   
-  # }
-  
   # compute match variable (if not provided)
   if (sum(is.na(env$exp$setup$stimulus$cond) == TRUE) > 0) {
     
@@ -30,7 +17,7 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
       # create match variable (itemid:cond)
       stimfile$match <- paste(stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))],
                               stimfile[, match(env$exp$setup$stimulus$cond, colnames(stimfile))], sep = ":")
-      
+       
     } else if (length(env$exp$setup$stimulus$cond) == 2) {
       
       # create combined condition variable
@@ -87,7 +74,7 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
       stimfile$prime <- gsub(env$exp$setup$indicator$ia, "", stimfile$prime)
     }
   }
-    
+  
   
   # compute stimmat
   # ---------------
@@ -203,6 +190,7 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
       
     } 
     
+    
     # letter loop
     # -------------
     
@@ -250,7 +238,6 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
       stimmat$sent[i] <- paste(sent.let[1:sent.n], collapse = "")
       stimmat$sent.nwords[i] <- sent.nwords[sentnum]
       stimmat$sent.nletters[i] <- sent.nletters[sentnum]
-      
       
       # IA
       if (env$exp$setup$indicator$ia == "") {
@@ -305,7 +292,7 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     # ----------------------------
     stimmat$xs <- c(x.offset, cumsum(stimmat$width) + x.offset)[1:length(stimmat$width)]
     stimmat$xe <- cumsum(stimmat$width) + x.offset
-    # NOTE: seperate start and end positions necessary?
+    # NOTE: separate start and end positions necessary?
     
     
     # compute lines
@@ -484,21 +471,22 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     
     # letter in line
     stimmat$letline <- ave(stimmat$letternum, stimmat$line, FUN = rank)
-    
+ 
     # letter in word
     stimmat$letword <- ave(stimmat$letternum, stimmat$wordnum, FUN = rank)
     for (i in 1:max(stimmat$wordnum)) {
       # i <- 1
+      
       if (is.element(stimmat$letter[stimmat$wordnum == i & stimmat$letword == 1], env$exp$setup$separator$word)) {
         stimmat$letword[stimmat$wordnum == i] <- stimmat$letword[stimmat$wordnum == i] - 1
       }
     }
-    
+     
     # letter in IA
     stimmat$letia <- ave(stimmat$letternum, stimmat$ianum, FUN = rank)
     for (i in 1:max(stimmat$ianum)) {
       # i <- 1
-      if (is.element(stimmat$letter[stimmat$ianum == i & stimmat$letia == 1], env$exp$setup$separator$word)) {
+      if (is.element(stimmat$letter[stimmat$ianum == i & stimmat$letia == 1], env$exp$setup$separator$ia)) {
         stimmat$letia[stimmat$ianum == i] <- stimmat$letia[stimmat$ianum == i] - 1
       }
     }

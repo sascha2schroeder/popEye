@@ -4,7 +4,7 @@ ExtractSetup <- function(infile, env = parent.frame(n = 2)){
   if (env$exp$setup$tracker$model == "eyelink") {
   
     # display resolution
-    tmp <- infile[grep("GAZE_COORDS", infile)][1]
+    tmp <- infile[grep("GAZE_COORDS|DISPLAY_COORDS", infile)][1]
     env$exp$setup$display$resolutionX <-
       as.numeric(sapply(strsplit(tmp, " "), "[[", 5)[1]) + 1
     env$exp$setup$display$resolutionY <-

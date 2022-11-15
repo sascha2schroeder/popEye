@@ -4,7 +4,7 @@ ExtractSamples <- function(infile, env = parent.frame(n = 2)) {
   if (env$exp$setup$tracker$model == "eyelink") {
   
   options(warn = -1)
-  
+    
   # remove messages
   dat <- infile[-grep(paste(c("^\t", "^>", "^ ", "\\*", "DISPLAY", "INPUT",
                            "START", "PRESCALER", "PUPIL", "EVENTS", "SAMPLE",
@@ -14,11 +14,13 @@ ExtractSamples <- function(infile, env = parent.frame(n = 2)) {
                            "MSG", "SSACC", "ESACC", "SFIX", "EFIX", 
                            "SBLINK", "EBLINK", "BUTTON"), collapse = "|"), 
                    infile, useBytes=TRUE)]
+  # FIX: if stimulus is included in data
+  dat <- dat[-grep("[[:alpha:]]", dat)]
   dat <- dat[nchar(dat) > 0]
   
   # select only elements with more than two elements
   dat <- dat[sapply(strsplit(dat, "\t"), length) > 3]
-  # NOTE: assuems structure timestamp, x, y, pupil, ..., ...
+  # NOTE: assumes structure timestamp, x, y, pupil, ..., ...
 
   # extract variables
   time <- as.numeric(sapply(strsplit(dat, "\t"), "[[", 1))

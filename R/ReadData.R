@@ -48,9 +48,11 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
     
   }
 
+  
   # extract data
   ExtractSetup(infile)
   ExtractHeader(infile)
+  
   msg <- ExtractMsg(infile)
   samp <- ExtractSamples(infile)
   event <- ExtractEvents(infile)
