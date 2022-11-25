@@ -471,7 +471,7 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     
     # letter in line
     stimmat$letline <- ave(stimmat$letternum, stimmat$line, FUN = rank)
- 
+    
     # letter in word
     stimmat$letword <- ave(stimmat$letternum, stimmat$wordnum, FUN = rank)
     for (i in 1:max(stimmat$wordnum)) {

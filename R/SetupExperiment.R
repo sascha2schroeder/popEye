@@ -749,7 +749,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                11,11,11,11,11,11,11,11,11,11,
                6,6,7,7,8,8,11,15,11,15,15,8,7,10,21,
                14,8,8,8,11,8,7,15,9,11,4,15,15,8,
-               10,11,15,10,10,12,7,19,12,12, 80)
+               10,11,15,10,10,12,7,19,12,12,80)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 21
     font$width <- 12
