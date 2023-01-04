@@ -85,7 +85,7 @@ AggregateSubjects <- function(exp) {
   sagg$ntrial <- tapply(exp$reports$trials$trialnum, exp$reports$trials$subid, length)
   
   # # number of exclusions
-  sagg$nexc <- sapply(lapply(exp$subjects, "[[", 1), "[[", "exclusion")
+  # sagg$nexc <- sapply(lapply(exp$subjects, "[[", 1), "[[", "exclusion")
   
   # mean calibration accuracy
   sagg$mcal <- sapply(lapply(lapply(lapply(exp$subjects, "[[", 1), "[[", "calibration"), "[[", "avg"), function(x) round(mean(as.numeric(x), na.rm = T), 2))
