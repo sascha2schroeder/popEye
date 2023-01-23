@@ -370,6 +370,16 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$fixed <- TRUE
   }
   
+  # CourierRussian 22 pt
+  if (font$name == "CourierRussian" & font$size == 22) {
+    font$letpix <- data.frame(letter = " ", pixel = 17)
+    font$height <- 22
+    font$width <- 17
+    font$lead <- 8
+    font$right <- TRUE
+    font$fixed <- TRUE
+  }
+  
   
   # Menlo
   # ------
@@ -408,6 +418,16 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$fixed <- TRUE
   }
   
+  # Consolas, 22 pt
+  if (font$name == "Consolas" & font$size == 22) {
+    font$letpix <- data.frame(letter = " ", pixel = 16)
+    font$height <- 25
+    font$width <- 16
+    font$lead <- 9
+    font$right <- FALSE
+    font$fixed <- TRUE
+  } 
+  
   # ConsolasRussian 20 pt
   if (font$name == "ConsolasRussian" & font$size == 20) {
     font$letpix <- data.frame(letter = " ", pixel = 15)
@@ -428,7 +448,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$fixed <- TRUE
   }
   
-    
   # ConsolasGreek 20 pt
   if (font$name == "ConsolasGreek" & font$size == 20) {
     font$letpix <- data.frame(letter = " ", pixel = 15)
@@ -438,16 +457,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$right <- FALSE
     font$fixed <- TRUE
   }
-  
-  # Consolas, 22 pt
-  if (font$name == "Consolas" & font$size == 22) {
-    font$letpix <- data.frame(letter = " ", pixel = 16)
-    font$height <- 25
-    font$width <- 16
-    font$lead <- 9
-    font$right <- FALSE
-    font$fixed <- TRUE
-  } 
   
   
   # LucidaConsole
