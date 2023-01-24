@@ -376,7 +376,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$height <- 22
     font$width <- 17
     font$lead <- 8
-    font$right <- TRUE
+    font$right <- FALSE 
     font$fixed <- TRUE
   }
   
