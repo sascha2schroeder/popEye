@@ -15,7 +15,11 @@ ExtractSamples <- function(infile, env = parent.frame(n = 2)) {
                            "SBLINK", "EBLINK", "BUTTON"), collapse = "|"), 
                    infile, useBytes=TRUE)]
   # FIX: if stimulus is included in data
-  dat <- dat[-grep("[[:alpha:]]", dat)]
+  
+  if (length(grep("[[:alpha:]]", dat)) != 0) {
+    dat <- dat[-grep("[[:alpha:]]", dat)]
+  }
+  
   dat <- dat[nchar(dat) > 0]
   
   # select only elements with more than two elements

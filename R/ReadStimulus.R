@@ -110,9 +110,12 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     # compute letters
     letters <- unlist(strsplit(tmp_letter, ""))
     
+    
     # segment words
     tmp_word <- tmp_letter
-    tmp_word <- gsub("\u20de", "\u20de ", tmp_word)
+    if (env$exp$setup$stimulus$hyphenwrap == T) {
+      tmp_word <- gsub("\u20de", "\u20de ", tmp_word)
+    }
     tmp_word <- gsub("\u20de", "-", tmp_word)
     
     tmp_sent <- stim
@@ -210,8 +213,10 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
       # check separator
       if (is.element(stimmat$letter[i], env$exp$setup$separator$word)) wordnum <- wordnum + 1
       # TODO: Check hyphens
-      if (i > 1) {
-        if (stimmat$letter[i - 1] == "\u20de") wordnum <- wordnum + 1
+      if (env$exp$setup$stimulus$hyphenwrap == T) {
+        if (i > 1) {
+          if (stimmat$letter[i - 1] == "\u20de") wordnum <- wordnum + 1
+        }
       }
       
       stimmat$wordnum[i] <- wordnum
@@ -259,7 +264,7 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
         stimmat$ia[i] <- paste(ia.let[1:ia.n], collapse = "")
         
       }
-      
+       
       # compute width
       if (env$exp$setup$font$fixed == FALSE) {
         
@@ -362,8 +367,10 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
         # set line break
         line.cut <- max(stimmat$wordnum[stimmat$line == n & stimmat$xe <= x.cut])
         
-        if (stimmat$letter[max(stimmat$letternum[stimmat$wordnum == line.cut])] == "\u20de") {
-          line.cut <- line.cut + 1
+        if (env$exp$setup$stimulus$hyphenwrap == T) {
+          if (stimmat$letter[max(stimmat$letternum[stimmat$wordnum == line.cut])] == "\u20de") {
+            line.cut <- line.cut + 1
+          }
         }
         
         if (max(stimmat$xe[stimmat$line == n]) > x.cut) {
@@ -375,6 +382,7 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
           if (stimmat$letter[min(stimmat$letternum[stimmat$line == n + 1]) - 1] != "\u20de") {
             stimmat <- stimmat[-min(stimmat$letternum[stimmat$line == n + 1]), ]
           }
+          
           
           # recompute letter number
           stimmat$letternum <- 1:nrow(stimmat)

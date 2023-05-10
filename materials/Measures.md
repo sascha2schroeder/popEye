@@ -132,7 +132,7 @@ The forward, rereading, look-back, and look-from measures are computed in simila
 - firstfix.sac.out: Outgoing saccade length (in letters) for the first fixation on the IA
 - firstfix.launch: Launch site distance (incoming saccade length until the space before the IA)
 - firstfix.land: Landing position (letter) of the first fixation on the IA
-- firstfix.cland: Centered landing position of the first fixation on the IA (Vitu et al., 2001: (landing position - (wordlength + 1)) / 2)
+- firstfix.cland: Centered landing position of the first fixation on the IA (Vitu et al., 2001: landing position - ((wordlength + 1) / 2))
 - firstfix.dur: Duration of the first fixation on the IA (first fixation duration)
 - singlefix: Variable indicating whether the IA was fixated only once during first-pass reading
 - singlefix.sac.in: Incoming saccade length (in letters) for the first fixation on the IA when it was fixated only once during first-pass reading
@@ -173,7 +173,7 @@ The forward, rereading, look-back, and look-from measures are computed in simila
 - firstfix.sac.out: Outgoing saccade length (in letters) for the first fixation on the word
 - firstfix.launch: Launch site distance (incoming saccade length until the space before the word)
 - firstfix.land: Landing position (letter) of the first fixation on the word
-- firstfix.cland: Centered landing position of the first fixation on the word (Vitu et al., 2001: (landing position - (wordlength + 1)) / 2)
+- firstfix.cland: Centered landing position of the first fixation on the word (Vitu et al., 2001: landing position - ((wordlength + 1) / 2)
 - firstfix.dur: Duration of the first fixation on the word (first fixation duration)
 - singlefix: Variable indicating whether the word was fixated only once during first-pass reading
 - singlefix.sac.in: Incoming saccade length (in letters) for the first fixation on the word when it was fixated only once during first-pass reading

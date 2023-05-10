@@ -1,6 +1,5 @@
 
-PlotStimulus <- function(exp, subject, trial, plot = NULL, interactive = F, sub = F,
-                         cex = 1) {
+PlotStimulus <- function(exp, item, plot = NULL, interactive = F, sub = F, cex = 1) {
   
   # TODO: resize y dimension?
   # TODO: align letters 
@@ -23,8 +22,7 @@ PlotStimulus <- function(exp, subject, trial, plot = NULL, interactive = F, sub 
     }
   }
   
-  tmp <- SelectSubjectTrial(exp, subject, trial)
-  stimmat <- tmp$meta$stimmat
+  stimmat <- exp$setup$stimulus$stimmat[[item]]
   
   # basic plot
   plot(stimmat$xs, stimmat$ys, 
@@ -33,7 +31,7 @@ PlotStimulus <- function(exp, subject, trial, plot = NULL, interactive = F, sub 
        #          min(stimmat$ys) - 1*exp$setup$font$size), 
        ylim = c(exp$setup$display$resolutionY, 0), 
        type = "n",
-       main = paste("Trial", trial), xlab = "x Position (px)", ylab = "y Position (py)")
+       main = paste("Item", item), xlab = "x Position (px)", ylab = "y Position (py)")
   
   # add letters
   letters <- stimmat$letter
@@ -63,12 +61,8 @@ PlotStimulus <- function(exp, subject, trial, plot = NULL, interactive = F, sub 
   
   # turn off device  
   if (missing(plot) == F) {
-    # title(paste("Trial", SelectSubjectTrial(exp, subject, trial)$meta$trialnum, 
-                # sep = " "), outer = T, cex.main = 3.75)
     dev.off()
   } else {
-    # title(paste("Trial", SelectSubjectTrial(exp, subject, trial)$meta$trialnum, 
-                # sep = " "), outer = T, cex.main = 2)
     par(mfrow = c(1, 1), cex = 1, oma = c(0, 0, 0, 0))
     if (interactive == T) par(ask = F)
   }

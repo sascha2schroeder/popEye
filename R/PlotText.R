@@ -17,9 +17,9 @@ PlotText <- function(exp, subject, trial, pdf = F, interactive = F, sub = F) {
   
   tmp <- SelectSubjectTrial(exp, subject, trial)
   
-  palette(topo.colors(max(tmp$meta$stimmat$sentnum)))
+  # palette(topo.colors(max(tmp$meta$stimmat$sentnum)))
+  palette(palette.colors(n = max(tmp$meta$stimmat$sentnum), palette = "Okabe-Ito", recycle = T))
   
-  # palette(c("red", "blue"))
   
   # data
   fix <- tmp$fix

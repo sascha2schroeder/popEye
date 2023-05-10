@@ -27,6 +27,7 @@ popEye(
   stimulus.preview = "preview",
   stimulus.prime = "prime",
   stimulus.text = "text",
+  stimulus.hyphenwrap = T,
   indicator.word = "",
   indicator.ia = "",
   indicator.target = "\\\\*",
@@ -143,13 +144,16 @@ in stimulus file}
 stimulus file}
 
 \item{stimulus.preview}{Name of the column providing the preview display
-in the stimulus file (only relevant for boundary and fast priming exeriments)}
+in the stimulus file (only relevant for boundary and fast priming experiments)}
 
 \item{stimulus.prime}{Name of the column providing the prime display in the 
 stimulus file (only relevant for fast priming experiments)}
 
 \item{stimulus.text}{Name of the column providing the target (or only) display
 in the stimulus file}
+
+\item{stimulus.hyphenwrap}{Indicator whether words are split at hyphens at 
+line breaks (default is TRUE)}
 
 \item{indicator.word}{Indicator used to separate words from each other
 (empty by default)}

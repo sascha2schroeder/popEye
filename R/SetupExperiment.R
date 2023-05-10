@@ -39,7 +39,8 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                    cond = env$stimulus.cond,
                    preview = env$stimulus.preview,
                    prime = env$stimulus.prime,
-                   text = env$stimulus.text)
+                   text = env$stimulus.text,
+                   hyphenwrap = env$stimulus.hyphenwrap)
   
   # indicator
   indicator <- list(word = env$indicator.word,
@@ -296,6 +297,71 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   }
   
   
+  # Calibri
+  # -------
+  
+  # Calibri, 18 pt
+  if (font$name == "Calibri" & font$size == 18) {
+    letter <- c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+                "ä","ö","ü",
+                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                "N",  "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+                "Ä","Ö","Ü",
+                "0","1", "2", "3", "4", "5", "6", "7", "8", "9",
+                ".",",",";",":","-","_","#","*","+","~","\u0022","!","?","%",
+                "&","/","(",")","$","[","]","=","\"", "\u00A7","'","<",">","|",
+                "°","\u20AC","^","{","}","\u0020","@","\u00B5","ß", "–")
+    pixel <- c(12,13,10,13,12,7,11,13,6,6,11,6,19,
+               13,13,13,13,8,9,8,13,11,17,10,11,9,
+               12,13,13,
+               14,13,13,15,12,11,15,15,6,8,12,10,21,
+               16,16,12,16,13,11,12,15,14,21,12,12,11,
+               14,16,15,
+               12,12,12,12,12,12,12,12,12,12,
+               6,6,6,6,7,12,12,12,12,12,10,8,11,17,
+               16,9,7,7,12,7,7,12,9,12,5,12,12,11,
+               8,12,12,8,8,13,5,21,13,13)
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    font$height <- 26
+    font$width <- 0
+    font$lead <- 8
+    font$right <- FALSE
+    font$fixed <- FALSE
+  }
+  
+  # Calibri, 23 pt
+  if (font$name == "Calibri" & font$size == 23) {
+    letter <- c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+                "ä","ö","ü",
+                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                "N",  "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+                "Ä","Ö","Ü",
+                "0","1", "2", "3", "4", "5", "6", "7", "8", "9",
+                ".",",",";",":","-","_","#","*","+","~","\u0022","!","?","%",
+                "&","/","(",")","$","[","]","=","\"", "\u00A7","'","<",">","|",
+                "°","\u20AC","^","{","}","\u0020","@","\u00B5","ß", "–", "\u202F")
+    pixel <- c(15,16,13,16,15,9,15,16,7,7,14,7,25,
+               16,16,16,16,11,12,10,16,14,22,13,14,12,
+               15,16,16,
+               18,17,17,19,15,14,20,19,8,10,16,13,27,
+               20,21,16,21,17,14,15,20,18,28,16,15,15,
+               18,21,21,
+               16,16,16,16,16,16,16,16,16,16,
+               8,8,8,8,9,15,15,15,15,15,12,10,14,23,
+               21,11,9,9,16,10,10,15,12,15,7,15,15,14,
+               11,16,15,10,10,16,7,28,16,27,7)
+    pixel <- pixel - 1
+    font$letpix <- data.frame(letter = letter, pixel = pixel)
+    font$height <- 26
+    font$width <- 16
+    font$lead <- 8
+    font$right <- FALSE
+    font$fixed <- FALSE
+  }
+  
+  
   # CourierNew
   # -----------
   
@@ -397,6 +463,16 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   
   # Consolas
   # --------
+  
+  # Consolas, 10 pt
+  if (font$name == "Consolas" & font$size == 10) {
+    font$letpix <- data.frame(letter = " ", pixel = 11)
+    font$height <- 18
+    font$width <- 11
+    font$lead <- 4
+    font$right <- FALSE
+    font$fixed <- TRUE
+  }
   
   # Consolas, 18 pt
   if (font$name == "Consolas" & font$size == 18) {
@@ -747,7 +823,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                 "Ä","Ö","Ü",
                 "0","1", "2", "3", "4", "5", "6", "7", "8", "9",
                 ".",",",";",":","-","\u20de", "_","#","*","+","~","\u0022","!","?","%",
-                "&","/","(",")","$","[","]","=","\",", "\u00A7","'","<",">","|",
+                "&","/","(",")","$","[","]","=","\"","“", "”","\u00A7","'","’","<",">","|",
                 "°","\u20AC","^","{","}","\u0020","@","\u00B5","ß", "\u0095", "\u00F7")
     pixel <- c(11,12,10,12,11,7,12,12,5,6,10,5,18,
                12,11,12,12,8,9,7,12,10,16,10,10,9,
@@ -757,7 +833,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                13,15,14,
                11,11,11,11,11,11,11,11,11,11,
                6,6,7,7,8,8,11,15,11,15,15,8,7,10,21,
-               14,8,8,8,11,8,7,15,9,11,4,15,15,8,
+               14,8,8,8,11,8,7,15,9,9,9,11,4,4,15,15,8,
                10,11,15,10,10,12,7,19,12,12,80)
     font$letpix <- data.frame(letter = letter, pixel = pixel)
     font$height <- 21
@@ -819,7 +895,9 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   font$print$pu <- c(".",",","–")
   
   # analysis
-  analysis <- list(eyelink = env$analysis.eyelink, 
+  analysis <- list(version = sessionInfo()$otherPkgs$popEye$Version,
+                   datpath = env$datpath,
+                   eyelink = env$analysis.eyelink, 
                    smooth = env$analysis.smooth,
                    vfac = env$analysis.vfac,
                    mindur = env$analysis.mindur, 

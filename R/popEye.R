@@ -39,11 +39,13 @@
 #' @param stimulus.cond Name of the column providing the condition name in the
 #' stimulus file
 #' @param stimulus.preview Name of the column providing the preview display
-#' in the stimulus file (only relevant for boundary and fast priming exeriments)
+#' in the stimulus file (only relevant for boundary and fast priming experiments)
 #' @param stimulus.prime Name of the column providing the prime display in the 
 #' stimulus file (only relevant for fast priming experiments)
 #' @param stimulus.text Name of the column providing the target (or only) display
 #' in the stimulus file 
+#' @param stimulus.hyphenwrap Indicator whether words are split at hyphens at 
+#' line breaks (default is TRUE)
 #' @param indicator.word Indicator used to separate words from each other
 #' (empty by default)
 #' @param indicator.ia Indicator used to separate interest areas from each other
@@ -188,6 +190,7 @@ popEye <- function(datpath,
                    stimulus.preview = "preview",
                    stimulus.prime = "prime", 
                    stimulus.text = "text", 
+                   stimulus.hyphenwrap = T,
                    indicator.word = "", 
                    indicator.ia = "", 
                    indicator.target = "\\*", 
