@@ -38,7 +38,8 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
   # read infile
   if (env$exp$setup$tracker$software == "EB" | env$exp$setup$tracker$software == "ET" ) {
     
-    infile <- readLines(infile, encoding = "UTF-8")
+    # infile <- readLines(infile, encoding = "UTF-8")
+    infile <- readLines(infile)
     
   } else if(env$exp$setup$tracker$software == "psychopy") {
     
@@ -47,7 +48,6 @@ ReadData <- function(filepath, subid, env = parent.frame(n = 1)) {
     infile 
     
   }
-
   
   # extract data
   ExtractSetup(infile)
