@@ -29,21 +29,19 @@ ReadImages <- function(exp) {
   
   # read stimfile and parse out indicators
   stim <- exp$setup$stimulus$file[, exp$setup$stimulus$text]
-  # TODO: parse out indicators
-  # stimfile <- env$exp$setup$stimulus$file
-  # stimfile$stim <- stimfile[, match(env$exp$setup$stimulus$text, colnames(stimfile))]
-  # stimfile$text <- gsub(env$exp$setup$indicator$target, "", stimfile$stim)
-  # if (env$exp$setup$indicator$word != "") {
-  #   stimfile$text <- gsub(env$exp$setup$indicator$word, " ", stimfile$text)
-  # }
-  # stimfile$text <- gsub(env$exp$setup$indicator$line, " ", stimfile$text)
-  # if (env$exp$setup$indicator$ia != " ") {
-  #   stimfile$text <- gsub(env$exp$setup$indicator$ia, "", stimfile$text)
-  # }
+  stim_red <- stim
+  stim_red <- gsub(exp$setup$indicator$target, "", stim_red)
+  if (exp$setup$indicator$word != "") {
+    stim_red <- gsub(exp$setup$indicator$word, "", stim_red)
+  }
+  if (exp$setup$indicator$ia != " ") {
+    stim_red <- gsub(exp$setup$indicator$ia, "", stim_red)
+  }
   
+  # retrieve item number
   for (i in 1:nrow(data)) {
-    if (identical(agrep(data$text[i], stim), integer(0))) next
-    data$number[i] <- agrep(data$text[i], stim)
+    if (identical(agrep(data$text[i], stim_red), integer(0))) next
+    data$number[i] <- agrep(data$text[i], stim_red)
   }
   
   texts <- data[is.na(data$number) == F, ]
