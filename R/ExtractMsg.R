@@ -6,6 +6,7 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     
     # remove non-message events
     dat <- infile[grep("MSG", infile, useBytes = T)]
+    dat <- dat[(validUTF8(dat)) == T]
     
     
     # extract trials
@@ -19,7 +20,7 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     if (env$exp$setup$tracker$software == "EB") {
       
       # itemid
-      tmp <- dat[grep("TRIAL_VAR", dat)]
+      tmp <- dat[grep("TRIAL_VAR", dat, useBytes = T)]
       ind <- sapply(strsplit(tmp, " "), "[[", 4)
       itemid <- sapply(strsplit(tmp[ind == env$exp$setup$variable$id], " "), "[[", 5)
       
