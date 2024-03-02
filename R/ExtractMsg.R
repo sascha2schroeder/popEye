@@ -168,7 +168,7 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     
     # FIX: if start message is empty
     if (env$exp$setup$message$start == "DRAW_LIST") {
-      dat <- gsub("!V DRAW_LIST", "DRAW_LIST", dat)
+      dat <- gsub("!V DRAW_LIST", "DRAW_LIST", dat, useBytes = T)
     }
     
     # FIX: if stop message is empty
@@ -294,6 +294,7 @@ ExtractMsg <- function(infile, env = parent.frame(n = 2)) {
     } else {
 
       condition <- rep(1, length(itemid))
+      
     }
     
     # dependency
