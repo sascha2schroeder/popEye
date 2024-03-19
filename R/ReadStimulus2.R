@@ -1,5 +1,5 @@
 
-ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
+ReadStimulus2 <- function(dat, env = parent.frame(n = 1)) {
   
   stimfile <- env$exp$setup$stimulus$file
   
@@ -90,29 +90,29 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
   env$exp$setup$stimulus$stimmat <- list()
   
   for (s in 1:nrow(stimfile)) {
+    # s <- 10
     
     stim <- trimws(stimfile$stim[s], which = "both")
   
-    # compute letter
+    # compute code points
     
-    # parse out ia delimiter and target indicator and split into letters
-    tmp_letter <- stim
-    tmp_letter <- gsub(env$exp$setup$indicator$target, "", tmp_letter)
-    tmp_letter <- gsub(env$exp$setup$indicator$line, "", tmp_letter)
+    # split into Unicode code points and parse out ia delimiter and target indicator
+    tmp_points <- stim
+    tmp_points <- gsub(env$exp$setup$indicator$target, "", tmp_points)
+    tmp_points <- gsub(env$exp$setup$indicator$line, "", tmp_points)
     
     # TODO: this is only EB behavior; maybe condition on software
     # replace hyphen within word with different character
-    tmp_letter <- unlist(strsplit(tmp_letter, " "))
-    sel <- grep(".-.", tmp_letter)
-    tmp_letter[sel] <- gsub("[-]", "\u20de", tmp_letter[sel])
-    tmp_letter <- paste(tmp_letter, collapse = " ")
+    tmp_points <- unlist(strsplit(tmp_points, " "))
+    sel <- grep(".-.", tmp_points)
+    tmp_points[sel] <- gsub("[-]", "\u20de", tmp_points[sel])
+    tmp_points <- paste(tmp_points, collapse = " ")
     
-    # compute letters
-    letters <- unlist(strsplit(tmp_letter, ""))
-    
+    # compute code points
+    points <- unlist(strsplit(tmp_points, ""))
     
     # segment words
-    tmp_word <- tmp_letter
+    tmp_word <- tmp_points
     if (env$exp$setup$stimulus$hyphenwrap == T) {
       tmp_word <- gsub("\u20de", "\u20de ", tmp_word)
     }
@@ -133,23 +133,29 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
       tmp_sent2 <- gsub(env$exp$setup$indicator$ia, "", tmp_sent2)
     }
     
-    # compute stimmat
+    # compute pointmat
     
-    stimmat <- data.frame(matrix(NA, length(letters), 1))
-    colnames(stimmat) <- c("match")
+    pointmat <- data.frame(matrix(NA, length(points), 1))
+    colnames(pointmat) <- c("match")
     # TODO: assign screen, assign text
     # TODO: only one letter loop?
     
     # structural variables
     
-    stimmat$match <- stimfile$match[s]
-    stimmat$itemid <- stimfile[s, match(env$exp$setup$stimulus$id, colnames(stimfile))]
-    stimmat$cond <- stimfile$cond[s]
+    pointmat$match <- stimfile$match[s]
+    pointmat$itemid <- stimfile[s, match(env$exp$setup$stimulus$id, colnames(stimfile))]
+    pointmat$cond <- stimfile$cond[s]
     
-    # letter
-    stimmat$letternum <- 1:length(letters)
-    stimmat$letter <- letters
-    stimmat$width <- NA
+    # point, letter, glyph
+    pointmat$pointnum <- 1:length(points)
+    pointmat$point <- points
+    pointmat$pointwidth <- NA
+    pointmat$letternum <- NA
+    pointmat$letter <- NA
+    # pointmat$letterwidth <- NA
+    pointmat$glyphnum <- NA
+    pointmat$glyph <- NA
+    # pointmat$glyphwidth <- NA
     
     # words
     # TODO: punctuation part of word?
@@ -160,8 +166,8 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     }
     
     wordnum <- 1
-    stimmat$wordnum <- NA
-    stimmat$word <- NA
+    pointmat$wordnum <- NA
+    pointmat$word <- NA
     
     # sentences
     sep_sent <- paste(paste("\\", apply(expand.grid(env$exp$setup$separator$sentence, env$exp$setup$separator$sentence2), 1, paste, collapse = ""), sep = ""), collapse = "|")
@@ -173,8 +179,8 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     }
     sent.nletters <- sapply(strsplit(unlist(strsplit(tmp_sent, sep_sent)), ""), length)
     sentnum <- 1
-    stimmat$sentnum <- NA
-    stimmat$sent <- NA
+    pointmat$sentnum <- NA
+    pointmat$sent <- NA
     sentmem <- FALSE
     
     # IA
@@ -187,101 +193,251 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
       
       ias <- unlist(strsplit(tmp_ia, env$exp$setup$indicator$ia))
       ianum <- 1
-      stimmat$ianum <- NA
-      stimmat$ia <- NA
+      pointmat$ianum <- NA
+      pointmat$ia <- NA
       mem <- nchar(ias[ianum])
       
     } 
     
     
-    # letter loop
-    # -------------
+    # code point loop
+    # ----------------
+    
+    lig <- F
+    letternum <- 0
+    glyphnum <- 0
     
     i <- 1
-    while (i <= nrow(stimmat)) {
+    while (i <= nrow(pointmat)) {
+    # while (i <= 40) {
       
       # words
       
       # check indicator
-      if (is.element(stimmat$letter[i], env$exp$setup$indicator$word)) {
+      if (is.element(pointmat$point[i], env$exp$setup$indicator$word)) {
         wordnum <- wordnum + 1
-        stimmat <- stimmat[-i, ]
-        #i <- i - 1
+        pointmat <- pointmat[-i, ]
+        # i <- i - 1
         next
       }
       
       # check separator
-      if (is.element(stimmat$letter[i], env$exp$setup$separator$word)) wordnum <- wordnum + 1
+      if (is.element(pointmat$point[i], env$exp$setup$separator$word)) wordnum <- wordnum + 1
       # TODO: Check hyphens
       if (env$exp$setup$stimulus$hyphenwrap == T) {
         if (i > 1) {
-          if (stimmat$letter[i - 1] == "\u20de") wordnum <- wordnum + 1
+          if (pointmat$point[i - 1] == "\u20de") wordnum <- wordnum + 1
         }
       }
       
-      stimmat$wordnum[i] <- wordnum
-      stimmat$word[i] <- words[wordnum]
+      pointmat$wordnum[i] <- wordnum
+      pointmat$word[i] <- words[wordnum]
       
       # sentence
       
-      if(is.element(stimmat$letter[i], env$exp$setup$separator$sentence)) {
+      if(is.element(pointmat$point[i], env$exp$setup$separator$sentence)) {
         sentmem <- TRUE
       }
       
       # check sentence2 separator
-      if (is.element(stimmat$letter[i], env$exp$setup$separator$sentence2) & sentmem == TRUE) {
+      if (is.element(pointmat$point[i], env$exp$setup$separator$sentence2) & sentmem == TRUE) {
         sentnum <- sentnum + 1
         sentmem <- FALSE
-      } else if (is.element(stimmat$letter[i], env$exp$setup$separator$sentence2) & sentmem == FALSE) {
+      } else if (is.element(pointmat$point[i], env$exp$setup$separator$sentence2) & sentmem == FALSE) {
         sentmem <- FALSE
       }
       
-      stimmat$sentnum[i] <- sentnum
+      pointmat$sentnum[i] <- sentnum
       sent.let <- unlist(strsplit(sent[sentnum], ""))
       sent.n <- length(sent.let)
       if (sent.n > 20) sent.n <- 20
-      stimmat$sent[i] <- paste(sent.let[1:sent.n], collapse = "")
-      stimmat$sent.nwords[i] <- sent.nwords[sentnum]
-      stimmat$sent.nletters[i] <- sent.nletters[sentnum]
+      pointmat$sent[i] <- paste(sent.let[1:sent.n], collapse = "")
+      pointmat$sent.nwords[i] <- sent.nwords[sentnum]
+      pointmat$sent.nletters[i] <- sent.nletters[sentnum]
+      # TODO: maybe rename letter -> code
       
       # IA
       if (env$exp$setup$indicator$ia == "") {
         
-        stimmat$ianum[i] <- stimmat$wordnum[i]
-        stimmat$ia[i] <- stimmat$word[i]
+        pointmat$ianum[i] <- pointmat$wordnum[i]
+        pointmat$ia[i] <- pointmat$word[i]
         
       } else {
         
-        if (stimmat$letternum[i] > mem) {
+        if (pointmat$pointnum[i] > mem) {
           ianum <- ianum + 1
           mem <- mem + nchar(ias[ianum])
         }
         
-        stimmat$ianum[i] <- ianum
+        pointmat$ianum[i] <- ianum
         ia.let <- unlist(strsplit(ias[ianum], ""))
         ia.n <- length(ia.let)
         if (ia.n > 20) ia.n <- 20
-        stimmat$ia[i] <- paste(ia.let[1:ia.n], collapse = "")
+        pointmat$ia[i] <- paste(ia.let[1:ia.n], collapse = "")
+        # TODO: maybe rename letter -> code
         
       }
-       
-      # compute width
+      
+      # compute code point width
       if (env$exp$setup$font$fixed == FALSE) {
         
-        if (is.element(stimmat$letter[i], letpix$letter) == F) {
-          print(paste("Letter", stimmat$letter[i], "missing.", sep = " "))
+        if (is.element(pointmat$point[i], letpix$letter) == F) {
+          print(paste("Code point", pointmat$point[i], "missing.", sep = " "))
         }
-        stimmat$width[i] <- letpix$pixel[letpix$letter == stimmat$letter[i]]
+        
+        if (i < nrow(pointmat)) {
+          
+          if (pointmat$point[i] == "\u094d") {
+            # TODO: set as parameter in popEye 
+            
+            if (is.element(pointmat$point[i - 1], env$exp$setup$font$dia) == F) {
+              
+              pointmat$pointwidth[i] <- letpix$pixel[letpix$letter == pointmat$point[i]]
+              
+              pointmat$pointwidth[i - 1] <- env$exp$setup$font$lig_letpix$pixel[env$exp$setup$font$lig_letpix$letter == pointmat$point[i - 1]]
+              
+              # irregular halants
+              if (pointmat$point[i - 1] == "\u0915" & pointmat$point[i + 1] == "\u0924") pointmat$pointwidth[i - 1] <- 7
+              if (pointmat$point[i - 1] == "\u0915" & pointmat$point[i + 1] == "\u0937") pointmat$pointwidth[i - 1] <- 5
+              if (pointmat$point[i - 1] == "\u0915" & pointmat$point[i + 1] == "\u0930") pointmat$pointwidth[i - 1] <- 11
+              if (pointmat$point[i - 1] == "\u0916" & pointmat$point[i + 1] == "\u092f") pointmat$pointwidth[i - 1] <- 17
+              if (pointmat$point[i - 1] == "\u0916" & pointmat$point[i + 1] == "\u0924") pointmat$pointwidth[i - 1] <- 17 
+              if (pointmat$point[i - 1] == "\u0917" & pointmat$point[i + 1] == "\u0930") pointmat$pointwidth[i - 1] <- 6
+              if (pointmat$point[i - 1] == "\u091c" & pointmat$point[i + 1] == "\u091e") pointmat$pointwidth[i - 1] <- -3 
+              if (pointmat$point[i - 1] == "\u091f" & pointmat$point[i + 1] == "\u0920") pointmat$pointwidth[i - 1] <- -2
+              if (pointmat$point[i - 1] == "\u091f" & pointmat$point[i + 1] == "\u0930") pointmat$pointwidth[i - 1] <- 4
+              if (pointmat$point[i - 1] == "\u0921" & pointmat$point[i + 1] == "\u0930") pointmat$pointwidth[i - 1] <- 6
+              if (pointmat$point[i - 1] == "\u0924" & pointmat$point[i + 1] == "\u0924") pointmat$pointwidth[i - 1] <- 2
+              if (pointmat$point[i - 1] == "\u0924" & pointmat$point[i + 1] == "\u0930") pointmat$pointwidth[i - 1] <- 4
+              if (pointmat$point[i - 1] == "\u0926" & pointmat$point[i + 1] == "\u0926") pointmat$pointwidth[i - 1] <- -1
+              if (pointmat$point[i - 1] == "\u0926" & pointmat$point[i + 1] == "\u0927") pointmat$pointwidth[i - 1] <- 2
+              if (pointmat$point[i - 1] == "\u0926" & pointmat$point[i + 1] == "\u092c") pointmat$pointwidth[i - 1] <- -2
+              if (pointmat$point[i - 1] == "\u0926" & pointmat$point[i + 1] == "\u092e") pointmat$pointwidth[i - 1] <- 2
+              if (pointmat$point[i - 1] == "\u0926" & pointmat$point[i + 1] == "\u092f") pointmat$pointwidth[i - 1] <- 2
+              if (pointmat$point[i - 1] == "\u0926" & pointmat$point[i + 1] == "\u0930") pointmat$pointwidth[i - 1] <- 4
+              if (pointmat$point[i - 1] == "\u0926" & pointmat$point[i + 1] == "\u0935") pointmat$pointwidth[i - 1] <- -2
+              if (pointmat$point[i - 1] == "\u092a" & pointmat$point[i + 1] == "\u0924") pointmat$pointwidth[i - 1] <- 0
+              if (pointmat$point[i - 1] == "\u092a" & pointmat$point[i + 1] == "\u0930") pointmat$pointwidth[i - 1] <- 5
+              if (pointmat$point[i - 1] == "\u092b" & pointmat$point[i + 1] == "\u0930") pointmat$pointwidth[i - 1] <- 10
+              if (pointmat$point[i - 1] == "\u0936" & pointmat$point[i + 1] == "\u091a") pointmat$pointwidth[i - 1] <- 0
+              if (pointmat$point[i - 1] == "\u0936" & pointmat$point[i + 1] == "\u0930") pointmat$pointwidth[i - 1] <- 8
+              if (pointmat$point[i - 1] == "\u0936" & pointmat$point[i + 1] == "\u0932") pointmat$pointwidth[i - 1] <- 6
+              if (pointmat$point[i - 1] == "\u0936" & pointmat$point[i + 1] == "\u0935") pointmat$pointwidth[i - 1] <- 2
+              if (pointmat$point[i - 1] == "\u0937" & pointmat$point[i + 1] == "\u091f") pointmat$pointwidth[i - 1] <- 1
+              if (pointmat$point[i - 1] == "\u0937" & pointmat$point[i + 1] == "\u0920") pointmat$pointwidth[i - 1] <- 0
+              if (pointmat$point[i - 1] == "\u0939" & pointmat$point[i + 1] == "\u092e") pointmat$pointwidth[i - 1] <- 3
+              if (pointmat$point[i - 1] == "\u0939" & pointmat$point[i + 1] == "\u092f") pointmat$pointwidth[i - 1] <- 5
+              
+              # halant chains
+              if (i > 3) {
+
+                if (pointmat$point[i - 3] == "\u0937" & 
+                    pointmat$point[i - 2] == "\u094d" & 
+                    pointmat$point[i - 1] == "\u091f" & 
+                    pointmat$point[i + 1] == "\u0930") pointmat$pointwidth[i] <- 8
+                
+                if (pointmat$point[i - 3] == "\u0938" & 
+                    pointmat$point[i - 2] == "\u094d" & 
+                    pointmat$point[i - 1] == "\u0924" & 
+                    pointmat$point[i + 1] == "\u0930") pointmat$pointwidth[i] <- -5
+                
+              }
+              
+            } else {
+              
+              # if diacritic before halant, revise consonant before
+              pointmat$pointwidth[i - 2] <- env$exp$setup$font$lig_letpix$pixel[env$exp$setup$font$lig_letpix$letter == pointmat$point[i - 2]]
+              # pointmat$letterwidth[i - 2] <- env$exp$setup$font$lig_letpix$pixel[env$exp$setup$font$lig_letpix$letter == pointmat$point[i - 2]]
+              # pointmat$glyphwidth[i - 2] <- env$exp$setup$font$lig_letpix$pixel[env$exp$setup$font$lig_letpix$letter == pointmat$point[i - 2]]
+              
+              pointmat$pointwidth[i] <- letpix$pixel[letpix$letter == pointmat$point[i]]
+              
+            }
+            
+          } else if (pointmat$point[i] == "\u0942") {
+
+            pointmat$pointwidth[i] <- letpix$pixel[letpix$letter == pointmat$point[i]]
+
+            if (pointmat$point[i - 1] == "\u0930") pointmat$pointwidth[i - 1] <- 19
+            
+          } else if (pointmat$point[i] == "\u0941") {
+            
+            pointmat$pointwidth[i] <- letpix$pixel[letpix$letter == pointmat$point[i]]
+            
+            if (pointmat$point[i - 1] == "\u0930") pointmat$pointwidth[i - 1] <- 13
+            
+          } else {
+            
+            pointmat$pointwidth[i] <- letpix$pixel[letpix$letter == pointmat$point[i]]
+            
+          }
+          
+        } else {
+          
+          pointmat$pointwidth[i] <- letpix$pixel[letpix$letter == pointmat$point[i]]
+          
+        } 
         
       } else {
         
-        if (is.element(stimmat$letter[i], env$exp$setup$font$half) == T) {
+        if (is.element(pointmat$point[i], env$exp$setup$font$half) == T) {
           weight <- .5
         } else {
           weight <- 1
         }
         
-        stimmat$width[i] <- letpix$pixel[1]*weight
+        pointmat$pointwidth[i] <- letpix$pixel[1]*weight
+        
+      }
+      
+      # compute letter 
+      
+      letternum <- letternum + 1
+      glyphnum <- glyphnum + 1
+      
+      if (is.element(pointmat$point[i], env$exp$setup$font$dia)) {
+        
+        letternum <- letternum - 1
+        pointmat$letternum[i] <- letternum
+        pointmat$letter[i] <- paste(pointmat$letter[i - 1], pointmat$point[i], collapse = "", sep = "")
+        # pointmat$letterwidth[i] <- pointmat$letterwidth[i - 1] + pointmat$pointwidth[i]
+        
+        glyphnum <- glyphnum - 1
+        pointmat$glyphnum[i] <- glyphnum
+        pointmat$glyph[i] <- paste(pointmat$glyph[i - 1], pointmat$point[i], collapse = "", sep = "")
+        # pointmat$glyphwidth[i] <- pointmat$glyphwidth[i - 1] + pointmat$pointwidth[i]
+        
+        if (pointmat$point[i] == "\u094d") {
+          lig <- T
+        }
+        
+      } else {
+        
+        if (lig == F) {
+          
+          pointmat$letternum[i] <- letternum
+          pointmat$letter[i] <- pointmat$point[i]
+          # pointmat$letterwidth[i] <- pointmat$pointwidth[i]
+          
+          pointmat$glyphnum[i] <- glyphnum
+          pointmat$glyph[i] <- pointmat$point[i]
+          # pointmat$glyphwidth[i] <- pointmat$pointwidth[i]
+          
+          
+        } else {
+          
+          pointmat$letternum[i] <- letternum
+          pointmat$letter[i] <- pointmat$point[i]
+          # pointmat$letterwidth[i] <- pointmat$pointwidth[i - 1]
+          
+          glyphnum <- glyphnum - 1
+          pointmat$glyphnum[i] <- glyphnum
+          pointmat$glyph[i] <- paste(pointmat$glyph[i - 1], pointmat$point[i], collapse = "", sep = "")
+          # pointmat$glyphwidth[i] <- pointmat$glyphwidth[i - 1] + pointmat$pointwidth[i]
+          
+          lig <- F
+          
+        }
         
       }
       
@@ -289,15 +445,92 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
       
     }
     
-    stimmat$letternum <- 1:nrow(stimmat)
-    row.names(stimmat) <- NULL
+    pointmat$pointnum <- 1:nrow(pointmat)
+    row.names(pointmat) <- NULL
+    
+    
+    # # -----------------------------------------------------
+    # 
+    # # aggregate on letter level
+    # letmat <- aggregate(. ~ letternum, data = stimmat, FUN = tail, 1)
+    # 
+    # # number code points
+    # npoints <- aggregate(stimmat$pointnum, list(stimmat$letternum), length)
+    # colnames(npoints) <- c("letternum", "npoints")
+    # 
+    # letmat2 <- merge(letmat, npoints)
+    # letmat2$pointnum <- NULL
+    # letmat2$point <- NULL
+    # letmat2$pointwidth <- NULL
+    # letmat2$glyphnum <- NULL
+    # letmat2$glyph <- NULL
+    # letmat2$glyphwidth <- NULL
+    # 
+    # 
+    # # compute initial x positions
+    # # ----------------------------
+    # letmat2$xs <- c(x.offset, cumsum(letmat2$letterwidth) + x.offset)[1:length(letmat2$letterwidth)]
+    # letmat2$xe <- cumsum(letmat2$letterwidth) + x.offset
+    # # NOTE: separate start and end positions necessary?
+    # 
+    # stimmat <- letmat2
+    # stimmat <- stimmat[order(stimmat$letternum, stimmat$wordnum), ]
+    # stimmat$itemid <- as.numeric(stimmat$itemid)
+    # stimmat$width <- as.numeric(stimmat$letterwidth)
+    # stimmat$wordnum <- as.numeric(stimmat$wordnum)
+    # stimmat$sentnum <- as.numeric(stimmat$sentnum)
+    # stimmat$sent.nwords <- as.numeric(stimmat$sent.nwords)
+    # stimmat$sent.nletters <- as.numeric(stimmat$sent.nletters)
+    # stimmat$ianum <- as.numeric(stimmat$ianum)
+    # 
+    # # -----------------------------------------------------
+    
+    # -----------------------------------------------------
+    
+    
+    # glyphmat <- pointmat[c(1, diff(pointmat$glyphnum)) == 1, ]
+    
+    glyphmat <- pointmat[duplicated(pointmat$glyphnum, fromLast = T) == F, ]
+    
+    # number code points
+    glypthwidth <- aggregate(pointmat$pointwidth, list(pointmat$glyphnum), sum)
+    colnames(glypthwidth) <- c("glyphnum", "glyphwidth")
+    glyphpoints <- aggregate(pointmat$pointnum, list(pointmat$glyphnum), length)
+    colnames(glyphpoints) <- c("glyphnum", "npoints")
+    
+    glyphmat2 <- merge(merge(glyphmat, glypthwidth, by = "glyphnum"), glyphpoints, by = "glyphnum")
+    glyphmat2$pointnum <- NULL
+    glyphmat2$point <- NULL
+    glyphmat2$pointwidth <- NULL
+    glyphmat2$letternum <- NULL
+    glyphmat2$letter <- NULL
+    glyphmat2$letterwidth <- NULL
     
     
     # compute initial x positions
     # ----------------------------
-    stimmat$xs <- c(x.offset, cumsum(stimmat$width) + x.offset)[1:length(stimmat$width)]
-    stimmat$xe <- cumsum(stimmat$width) + x.offset
+    glyphmat2$xs <- c(x.offset, cumsum(glyphmat2$glyphwidth) + x.offset)[1:length(glyphmat2$glyphwidth)]
+    glyphmat2$xe <- cumsum(glyphmat2$glyphwidth) + x.offset
     # NOTE: separate start and end positions necessary?
+    
+    stimmat <- glyphmat2
+    stimmat$letternum <- stimmat$glyphnum
+    stimmat$glyphnum <- NULL
+    stimmat$letter <- stimmat$glyph
+    stimmat$letterwdith <- stimmat$glyphwidth
+    stimmat$glyph <- NULL
+    stimmat <- stimmat[order(stimmat$letternum, stimmat$wordnum), ]
+    stimmat$itemid <- as.numeric(stimmat$itemid)
+    stimmat$width <- as.numeric(stimmat$glyphwidth)
+    stimmat$glyphwidth <- NULL
+    stimmat$wordnum <- as.numeric(stimmat$wordnum)
+    stimmat$sentnum <- as.numeric(stimmat$sentnum)
+    stimmat$sent.nwords <- as.numeric(stimmat$sent.nwords)
+    stimmat$sent.nletters <- as.numeric(stimmat$sent.nletters)
+    stimmat$ianum <- as.numeric(stimmat$ianum)
+    
+    
+    # -----------------------------------------------------
     
     
     # compute lines
@@ -320,16 +553,18 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
       }
       
       line.length <- sapply(unlist(strsplit(tmp_line, line.delim)), nchar)
+      line.length2 <- pointmat$glyphnum[line.length]
       
       nlines <- length(line.length)
+      
       
       # line loop
       for (n in 1:(nlines - 1)) {
         # n <- 1
         
-        if (line.length[n] == 0) next 
+        if (line.length2[n] == 0) next 
         
-        stimmat$line[stimmat$line == n  & stimmat$letternum > cumsum(line.length)[n]] <- n + 1
+        stimmat$line[stimmat$line == n  & stimmat$letternum > cumsum(line.length2)[n]] <- n + 1
         
         # recompute x positions
         stimmat$xs[stimmat$line == n + 1] <- c(x.offset, cumsum(stimmat$width[stimmat$line == n + 1]) + x.offset)[1:length(stimmat$width[stimmat$line == n + 1])]
@@ -533,6 +768,7 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
                  "letline", "letword", "letia", "wordline", "wordsent")
     }
     
+    env$exp$setup$stimulus$pointmat[[s]] <- pointmat
     env$exp$setup$stimulus$stimmat[[s]] <- stimmat[names]
     names(env$exp$setup$stimulus$stimmat)[s] <- stimmat$match[1]
     
