@@ -950,7 +950,8 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                    mindur = env$analysis.mindur, 
                    postdur = env$analysis.postdur,
                    drift = env$analysis.drift, 
-                   sparse = env$analysis.sparse)
+                   sparse = env$analysis.sparse,
+                   saccades = env$analysis.saccades)
   
   # assign
   assign <- list(driftX = env$assign.driftX, 

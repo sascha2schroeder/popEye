@@ -85,6 +85,8 @@
 #' (numeric; default is 1. See Engbert & Kliegl, 2003)
 #' @param analysis.sparse If TRUE, the msg, sample, and event slots are cleaned
 #' during the analysis (TRUE or FALSE, default is TRUE)
+#' @param analysis.saccades If TRUE, more detailed measures for saccades, 
+#' such as peak velocity, are computed (TRUE or FALSE, default is FALSE)
 #' @param assign.driftX If TRUE fixation is corrected for drift on the x
 #' axis (TRUE or FALSE, default is FALSE; only relevant for EB experiments in
 #' which the drift correct element is used) 
@@ -213,6 +215,8 @@ popEye <- function(datpath,
                    analysis.postdur = 30,
                    analysis.drift = 1, 
                    analysis.sparse = TRUE,
+                   analysis.saccades = FALSE,
+                   
                    assign.driftX = FALSE, 
                    assign.driftY = FALSE,
                    assign.outlier = TRUE,
