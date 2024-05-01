@@ -922,7 +922,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$lig_letpix <- data.frame(letter = lig_letter, pixel = lig_pixel)
     
     font$height <- 32
-    font$width <- 0
+    font$width <- 13
     font$lead <- 0
     font$right <- FALSE
     font$fixed <- FALSE
