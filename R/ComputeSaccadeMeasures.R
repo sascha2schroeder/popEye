@@ -58,11 +58,19 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
           }
           
           # saccade distance (dx, dy)
-          sac$dx[s] <- round(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time <= b, 2] -
-                               dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a, 2])
+          
+          sac$dx[s] <- sac$xen[s] - sac$xsn[s]
+          
+          # sac$dx[s] <- round(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time <= b, 2] -
+          #                      dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a, 2])
+          
           if (dat$item[[trial]]$meta$calibration.method != "H3") {
-            sac$dy[s] <- round(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time <= b, 3] -
-                                 dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a, 3])
+            
+            sac$dy[s] <- sac$yen[s] - sac$ysn[s]
+            
+            # sac$dy[s] <- round(dat$item[[trial]]$xy[dat$item[[trial]]$xy$time <= b, 3] -
+            #                      dat$item[[trial]]$xy[dat$item[[trial]]$xy$time >= a, 3])
+            
           }
           
           # saccade amplitude (dX, dY)
@@ -131,19 +139,24 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
   
   if (env$exp$setup$analysis$saccades == T) {
     
-    names <- c("subid", "trialid", "trialnum", "itemid", "cond", "sacid", "msg",
-               "xs", "xe", "ys", "ye", "xsn", "xen", "ysn", "yen", "start", "stop",
-               "dist.px", "dist.angle", "dist.let", "peak.vel", "dur")
+    # names <- c("subid", "trialid", "trialnum", "itemid", "cond", "sacid", "msg",
+    #            "xs", "xe", "ys", "ye", "xsn", "xen", "ysn", "yen", "start", "stop",
+    #            "dist.px", "dist.angle", "dist.let", "peak.vel", "dur")
+    # 
+    # sac <- sac[names]
+    
+    sac <- sac
     
   } else {
     
     names <- c("subid", "trialid", "trialnum", "itemid", "cond", "sacid", "msg",
                "xs", "xe", "ys", "ye", "xsn", "xen", "ysn", "yen", "start", "stop",
-               "dist.let", "dur")
+               "dist.px", "dist.angle", "dist.let", "peak.vel", "dur")
+    
+    sac <- sac[names]
     
   }
   
-  sac <- sac[names]
   
   # treat very long saccades as blinks (controlled by exclude.sac)
   sac$msg[sac$dur > env$exp$setup$exclude$sac] <- "BLINK"
