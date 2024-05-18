@@ -407,9 +407,9 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   
   # CourierNew, 24 pt
   if (font$name == "CourierNew" & font$size == 24) {
-    font$letpix <- data.frame(letter = " ", pixel = 20)
+    font$letpix <- data.frame(letter = " ", pixel = 19)
     font$height <- 26
-    font$width <- 20
+    font$width <- 19
     font$lead <- 6
     font$right <- FALSE
     font$fixed <- TRUE
@@ -474,7 +474,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$fixed <- TRUE
   }
   
-  # Consolas, 18 pt
+  # Consolas
   if (font$name == "Consolas" & font$size == 18) {
     font$letpix <- data.frame(letter = " ", pixel = 13)
     font$height <- 22
