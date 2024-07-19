@@ -50,7 +50,6 @@ popEye(
   analysis.postdur = 30,
   analysis.drift = 1,
   analysis.sparse = TRUE,
-  analysis.saccades = FALSE,
   assign.driftX = FALSE,
   assign.driftY = FALSE,
   assign.outlier = TRUE,
@@ -214,9 +213,6 @@ as a blink; amount of drift on the x or y dimension in terms of the font height
 
 \item{analysis.sparse}{If TRUE, the msg, sample, and event slots are cleaned
 during the analysis (TRUE or FALSE, default is TRUE)}
-
-\item{analysis.saccades}{If TRUE, more detailed measures for saccades, 
-such as peak velocity, are computed (TRUE or FALSE, default is FALSE)}
 
 \item{assign.driftX}{If TRUE fixation is corrected for drift on the x
 axis (TRUE or FALSE, default is FALSE; only relevant for EB experiments in
