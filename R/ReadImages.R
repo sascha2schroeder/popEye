@@ -42,6 +42,15 @@ ReadImages <- function(exp) {
     text[i] <- paste(unlist(split[i])[1:(pos[i] - 1)], collapse = " ")
   }
   
+  text <- gsub(exp$setup$indicator$target, "", text)
+  if (exp$setup$indicator$word != "") {
+    tet <- gsub(exp$setup$indicator$word, "", text)
+  }
+  if (exp$setup$indicator$ia != " ") {
+    text <- gsub(exp$setup$indicator$ia, "", text)
+  }
+  
+  
   data <- data.frame(cbind(text, pic))
   colnames(data) <- c("text", "image")
   data$number <- NA
