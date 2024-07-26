@@ -4,9 +4,28 @@ ReadImages <- function(exp) {
   require(magick)
   
   dir <- exp$setup$analysis$datpath
-  filepath <- paste(dir, "runtime/", sep = "")
+ 
+  if (length(grep("^/", dir)) == 0) {
+    tmpwd <- getwd()
+    dir <- paste(tmpwd, dir, sep = "/")
+  } 
   
-  file <- paste(filepath, "imagelst.dat", sep = "")
+  dir <- gsub("/$", "", dir)
+  dirtmp <- list.files(dir, full.names = T)
+  
+  if (length(grep("runtime", dirtmp)) == 0) {
+    
+    dirtmp2 <- dirtmp[1]
+    dirtmp2 <- list.files(dirtmp2, full.names = T)
+    filepath <- dirtmp2[grep("runtime", dirtmp2)]
+    
+  } else {
+    
+    filepath <- dirtmp[grep("runtime", dirtmp)]
+    
+  }
+  
+  file <- paste(filepath, "/imagelst.dat", sep = "")
   
   tmp <- readLines(file)
   tmp2 <- tmp[grep("^[0-9]|^-", tmp)]
@@ -53,19 +72,15 @@ ReadImages <- function(exp) {
   image_list$number <- texts$number
   image_list$file <- texts$image
   
-  images <- NULL 
+  # images <- NULL 
   for (i in 1:nrow(texts)) {
-    file <- paste(dir, "runtime/images/", texts$image[i], ".png", sep = "")
+    file <- paste(filepath, "/images/", texts$image[i], ".png", sep = "")
     img <- magick::image_read(file)
-    images <- c(images, img)
+    image_list$image[[i]] <- image_data(img, "rgba")
   }
-  image_list$image <- images  
   
   exp$setup$stimulus$images <- image_list
   
   return(exp)
   
 }
-
-# exp3 <- ReadImages(exp3)
-

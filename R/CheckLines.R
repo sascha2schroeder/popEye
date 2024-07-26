@@ -1,6 +1,4 @@
 
-# Check OCR
-
 CheckLines <- function(exp, lang = "eng") {
   
   require(tesseract)
@@ -20,7 +18,7 @@ CheckLines <- function(exp, lang = "eng") {
   for (i in 1:length(exp$setup$stimulus$stimmat)) {
     
     stim <- exp$setup$stimulus$stimmat[[i]]
-    ocr <- tesseract::ocr(exp$setup$stimulus$images$image[[i]], engine = engine)
+    ocr <- tesseract::ocr(magick::image_read(exp$setup$stimulus$images$image[[i]]), engine = engine)
     
     stim_split <- NULL
     for (j in 1:max(stim$line)) {
@@ -50,7 +48,3 @@ CheckLines <- function(exp, lang = "eng") {
   }
   
 }
-
-# PlotStimulus2(exp, 1)
-# PlotImage(exp, 1)
-# PlotCompare(exp, 3)

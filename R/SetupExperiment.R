@@ -40,7 +40,8 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                    preview = env$stimulus.preview,
                    prime = env$stimulus.prime,
                    text = env$stimulus.text,
-                   hyphenwrap = env$stimulus.hyphenwrap)
+                   hyphenwrap = env$stimulus.hyphenwrap,
+                   readimage = env$stimulus.readimage)
   
   # indicator
   indicator <- list(word = env$indicator.word,

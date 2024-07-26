@@ -14,10 +14,10 @@ PlotCompare <- function(exp, item, plot = NULL, interactive = F, cex = 1) {
     tmp <- unlist(strsplit(plot, "\\."))
     if (tmp[length(tmp)] == "pdf") {
       pdf(plot, width = 16, height = 8.5)
-      par(mfrow = c(1, 1), cex = cex, oma = c(1, 0, 2, 0))
+      par(mfrow = c(1, 2), cex = cex, oma = c(1, 0, 2, 0))
     } else if (tmp[length(tmp)] == "png") {
       png(plot, width = 2000, height = 1000)
-      par(mfrow = c(1, 1), cex = cex, oma = c(1, 0, 2, 0))
+      par(mfrow = c(1, 2), cex = cex, oma = c(1, 0, 2, 0))
     }
   }
   
@@ -58,7 +58,9 @@ PlotCompare <- function(exp, item, plot = NULL, interactive = F, cex = 1) {
          angle = NA, lwd = 2, border = "navyblue")
   }
   
-  plot(exp$setup$stimulus$images$image[[item]])
+  # plot(exp$setup$stimulus$images$image[[item]])
+  plot(magick::image_read(exp$setup$stimulus$images$image[[item]]))
+  
   
   # turn off device
   if (missing(plot) == F) {

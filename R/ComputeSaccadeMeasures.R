@@ -3,6 +3,8 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # trial <- 1
   
+  # print(trial)
+  
   sac <- dat$item[[trial]]$sac
   
   sac$subid <- env$subid
@@ -34,6 +36,10 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
     # duration
     sac$dur[s] <- b - a + 1
     
+    # saccade distance in letters
+    sac$dist.let[s] <- sac$lete[s] - sac$lets[s]
+    
+    # treat negative positions as missing
     dat$item[[trial]]$xy$x[dat$item[[trial]]$xy$x < 0] <- NA
     dat$item[[trial]]$xy$y[dat$item[[trial]]$xy$y < 0] <- NA
     
@@ -44,9 +50,6 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
         sum(is.na(dat$item[[trial]]$xy$x[dat$item[[trial]]$xy$time >= a & dat$item[[trial]]$xy$time <= b])) == 0 &
         length(dat$item[[trial]]$xy$y[dat$item[[trial]]$xy$time >= a & dat$item[[trial]]$xy$time <= b]) > 0 & 
         sum(is.na(dat$item[[trial]]$xy$y[dat$item[[trial]]$xy$time >= a & dat$item[[trial]]$xy$time <= b])) == 0) {
-      
-      # saccade distance in letters
-      sac$dist.let[s] <- sac$lete[s] - sac$lets[s]
       
       # saccade distance px (dx, dy)
       sac$dx[s] <- sac$xen[s] - sac$xsn[s]
@@ -61,7 +64,7 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
         sac$dist.angle[s] <- round(atan2(sac$dy[s], sac$dx[s]), 2)
       } else {
         sac$dist.px[s] <- round(sac$dx[s])
-        sac$dist.angle[s] <- round(atan2(sac$dx[s]), 2)
+        sac$dist.angle[s] <- round(atan(sac$dx[s]), 2)
       }
       
       if (is.na(dat$item[[trial]]$meta$calibration.method) == F) {
@@ -110,8 +113,8 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
           sac$amp.px[s] <- round(sqrt(sac$dX[s]^2 + sac$dY[s]^2))
           sac$amp.angle[s] <- round(atan2(sac$dY[s], sac$dX[s]), 2)
         } else {
-          sac$amp.px[s] <- NA
-          sac$amp.angle[s] <- NA
+          sac$amp.px[s] <- sac$dX[s]
+          sac$amp.angle[s] <- round(atan(sac$dX[s]), 2)
         }
         
       }
@@ -140,6 +143,10 @@ ComputeSaccadeMeasures <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # treat very long saccades as blinks (controlled by exclude.sac)
   sac$msg[sac$dur > env$exp$setup$exclude$sac] <- "BLINK"
+  names <- c("dx", "dy", "dist.px", "dist.angle", "dX", "dY", "amp.px", "amp.angle", "peak.vel")
+  sac[sac$dur > env$exp$setup$exclude$sac, names] <- NA
+  
+
 
   dat$item[[trial]]$sac <- sac[is.na(sac$start) == F, ]
   

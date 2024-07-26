@@ -28,6 +28,7 @@ popEye(
   stimulus.prime = "prime",
   stimulus.text = "text",
   stimulus.hyphenwrap = T,
+  stimulus.readimage = F,
   indicator.word = "",
   indicator.ia = "",
   indicator.target = "\\\\*",
@@ -74,7 +75,7 @@ popEye(
   clean.delete = FALSE,
   clean.outlier = FALSE,
   exclude.nfix = 3,
-  exclude.sac = 150,
+  exclude.sac = 200,
   outpath = getwd(),
   outname = "",
   select.version = NULL,
@@ -154,6 +155,9 @@ in the stimulus file}
 
 \item{stimulus.hyphenwrap}{Indicator whether words are split at hyphens at 
 line breaks (default is TRUE)}
+
+\item{stimulus.readimage}{If TRUE images for the individual trials are retrieved 
+from the experiment and saved in the RDS file (TRUE or FALSE, default is FALSE)}
 
 \item{indicator.word}{Indicator used to separate words from each other
 (empty by default)}

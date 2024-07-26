@@ -46,6 +46,8 @@
 #' in the stimulus file 
 #' @param stimulus.hyphenwrap Indicator whether words are split at hyphens at 
 #' line breaks (default is TRUE)
+#' @param stimulus.readimage If TRUE images for the individual trials are retrieved 
+#' from the experiment and saved in the RDS file (TRUE or FALSE, default is FALSE)
 #' @param indicator.word Indicator used to separate words from each other
 #' (empty by default)
 #' @param indicator.ia Indicator used to separate interest areas from each other
@@ -191,6 +193,7 @@ popEye <- function(datpath,
                    stimulus.prime = "prime", 
                    stimulus.text = "text", 
                    stimulus.hyphenwrap = T,
+                   stimulus.readimage = F,
                    indicator.word = "", 
                    indicator.ia = "", 
                    indicator.target = "\\*", 
@@ -239,7 +242,7 @@ popEye <- function(datpath,
                    clean.delete = FALSE,
                    clean.outlier = FALSE,
                    exclude.nfix = 3, 
-                   exclude.sac = 150,
+                   exclude.sac = 200,
                    outpath = getwd(), 
                    outname = "",
                    # NOTE: Maybe combine outpath and outname to one parameter?
@@ -644,6 +647,17 @@ popEye <- function(datpath,
   # -----------------------
   
   exp <- AggregateSubjects(exp)
+  
+  
+  # ReadImages
+  # -------------
+  
+  if (stimulus.readimage == T) {
+    
+    print("Be careful: Magick needed!")
+    exp <- ReadImages(exp)
+    
+  }
   
   
   # save

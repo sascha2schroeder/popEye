@@ -3,7 +3,8 @@ PlotImage <- function(exp, item, plot = NULL, interactive = F, sub = F, cex = 1)
   
   require(magick)
   
-  plot(exp$setup$stimulus$images$image[[item]])
+  # plot(exp$setup$stimulus$images$image[[item]])
+  plot(magick::image_read(exp$setup$stimulus$images$image[[item]]))
   
 }
 
