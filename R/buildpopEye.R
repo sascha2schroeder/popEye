@@ -1,5 +1,5 @@
 
-buildpopEye <- function(inc = F, date = F, m = NULL) {
+buildpopEye <- function(inc = F, m = NULL) {
   
   library(devtools)
   # setwd("~/popEye")
@@ -32,7 +32,7 @@ incVer <- function(){
     patch <- splitVer[4]
     
     incpatch <- as.character(as.numeric(patch) + 1)
-    newVer <- paste(high, major, minor, incpatch, sep = ".")
+    newVer <- paste(paste(high, major, minor, sep = "."), incpatch, sep = "-")
     
     f[2] <- newVer
     f[3] <- format (Sys.time(), "%Y-%m-%d")
