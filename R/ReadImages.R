@@ -17,11 +17,11 @@ ReadImages <- function(exp) {
     
     dirtmp2 <- dirtmp[1]
     dirtmp2 <- list.files(dirtmp2, full.names = T)
-    filepath <- dirtmp2[grep("runtime", dirtmp2)]
+    filepath <- dirtmp2[grep("runtime$", dirtmp2)]
     
   } else {
     
-    filepath <- dirtmp[grep("runtime", dirtmp)]
+    filepath <- dirtmp[grep("runtime$", dirtmp)]
     
   }
   
