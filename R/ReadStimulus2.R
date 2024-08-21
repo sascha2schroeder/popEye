@@ -90,7 +90,7 @@ ReadStimulus2 <- function(dat, env = parent.frame(n = 1)) {
   env$exp$setup$stimulus$stimmat <- list()
   
   for (s in 1:nrow(stimfile)) {
-    # s <- 10
+    # s <- 1
     
     stim <- trimws(stimfile$stim[s], which = "both")
   
@@ -542,7 +542,7 @@ ReadStimulus2 <- function(dat, env = parent.frame(n = 1)) {
     
     # Stage 1: compute manual line breaks
     
-    if (grepl(line.delim, stim)) {
+    if (grepl(line.delim, stim) == T) {
       
       # TODO: move up?
       tmp_line <- stim
@@ -556,7 +556,6 @@ ReadStimulus2 <- function(dat, env = parent.frame(n = 1)) {
       line.length2 <- pointmat$glyphnum[line.length]
       
       nlines <- length(line.length)
-      
       
       # line loop
       for (n in 1:(nlines - 1)) {
