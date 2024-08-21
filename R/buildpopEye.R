@@ -24,12 +24,13 @@ incVer <- function(){
   
     curVer <- f[2]
     
-    splitVer <- strsplit(curVer, "\\.")[[1]]
+    splitTmp <- strsplit(curVer, "\\-")[[1]]
+    splitVer <- strsplit(splitTmp, "\\.")[[1]]
     
     high <- splitVer[1]
     major <- splitVer[2]
     minor <- splitVer[3]
-    patch <- splitVer[4]
+    patch <- splitTmp[2]
     
     incpatch <- as.character(as.numeric(patch) + 1)
     newVer <- paste(paste(high, major, minor, sep = "."), incpatch, sep = "-")
