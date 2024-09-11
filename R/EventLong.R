@@ -37,9 +37,9 @@ EventLong <- function(out) {
     # screen for empty events
     # ------------------------
     
-    tmplong$dur <- tmplong$stop - tmplong$start
-    tmplong <- tmplong[tmplong$dur > 0, ]
-    tmplong$dur <- NULL
+    # tmplong$dur <- tmplong$stop - tmplong$start
+    # tmplong <- tmplong[tmplong$dur > 0, ]
+    # tmplong$dur <- NULL
     
     
     # integrate BLINK and SAC

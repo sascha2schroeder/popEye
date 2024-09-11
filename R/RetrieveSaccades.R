@@ -45,7 +45,7 @@ RetrieveSaccades <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # NOTE: deletes first saccade (if there is one)
   # NOTE: deletes last saccade (if there is one)
- 
+
    
   # drift correct
   # ---------------
