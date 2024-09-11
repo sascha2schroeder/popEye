@@ -5,7 +5,7 @@ ReadImages <- function(exp) {
   
   dir <- exp$setup$analysis$datpath
   
-  if (length(grep("^/", dir)) == 0 & grep("^~", dir) == 0) {
+  if (length(grep("^/", dir)) == 0 & length(grep("^~", dir)) == 0) {
     tmpwd <- getwd()
     dir <- paste(tmpwd, dir, sep = "/")
   } 
