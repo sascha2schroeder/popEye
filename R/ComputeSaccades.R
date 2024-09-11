@@ -112,6 +112,9 @@ ComputeSaccades <- function(xy, vxy, calibration.method, env = parent.frame(n = 
   # output
   sacout <- data.frame(sacout)
   names(sacout) <- c('num', 'start', 'stop', 'xs', 'ys', 'xe', 'ye')
+  sacout$ps <- NA
+  sacout$amp <- NA
+  sacout$pv <- NA
   
   # return
   results = list(sac = sacout, radius = radius)

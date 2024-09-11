@@ -154,6 +154,10 @@ ComputeFixations <- function(xy, sac, env = parent.frame(n = 3)){
     fix$xdrift <- NULL
     fix$ydrift <- NULL  
   #}
+    
+  fix$ps <- NA
+  fix$amp <- NA
+  fix$pv <- NA
   
   return(fix)
   

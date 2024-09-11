@@ -112,6 +112,7 @@ ComputeFixationMeasures <- function(dat, env = parent.frame(n = 1)) {
                  "yn", 
                  "ym", 
                  "dur", 
+                 "ps",
                  "sac.in",
                  "sac.out",
                  "type", 

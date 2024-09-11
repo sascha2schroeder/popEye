@@ -88,7 +88,7 @@ CleanFixations <- function(out, dur.thresh, dist.thresh){
   }
   
   # save
-  names <- c("num", "start", "stop", "xs", "ys", "xe", "ye", "msg", "blink")
+  names <- c("num", "start", "stop", "xs", "ys", "xe", "ye", "ps", "amp", "pv", "msg", "blink")
   out <- rbind(fix[names], sac[names])
   out <- out[order(out$start), ]
   out$num <- 1:nrow(out)

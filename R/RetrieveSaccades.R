@@ -5,9 +5,9 @@ RetrieveSaccades <- function(dat, trial, env = parent.frame(n = 2)) {
   
   # setup output
   dat$item[[trial]]$sac <- 
-    data.frame(matrix(NA, (nrow(dat$item[[trial]]$fix) - 1), 12))
+    data.frame(matrix(NA, (nrow(dat$item[[trial]]$fix) - 1), 11))
   colnames(dat$item[[trial]]$sac) <- 
-    c("num", "start", "stop", "xs", "ys", "xe", "ye", "msg", "lines", "linee", 
+    c("num", "start", "stop", "xs", "ys", "xe", "ye", "lines", "linee", 
       "lets", "lete")
   
   # extract saccades
@@ -23,65 +23,74 @@ RetrieveSaccades <- function(dat, trial, env = parent.frame(n = 2)) {
     dat$item[[trial]]$sac$linee[i] <- dat$item[[trial]]$fix$line[i + 1]
     dat$item[[trial]]$sac$lets[i] <- dat$item[[trial]]$fix$line.let[i]
     dat$item[[trial]]$sac$lete[i] <- dat$item[[trial]]$fix$line.let[i + 1]
-    dat$item[[trial]]$sac$msg <- "SAC"
+    # dat$item[[trial]]$sac$msg <- "SAC"
   }
   
-  # check blinks
-  blink <- dat$item[[trial]]$parse[dat$item[[trial]]$parse$msg == "BLINK", 1:7]
+  # # check blinks
+  # blink <- dat$item[[trial]]$parse[dat$item[[trial]]$parse$msg == "BLINK", 1:7]
+  # for (i in 1:nrow(dat$item[[trial]]$sac)) {
+  #   if (dat$item[[trial]]$sac$start[i] %in% blink$start) {
+  #     dat$item[[trial]]$sac$msg[i] <- "BLINK"
+  #   }
+  # }
+  
+  # retrieve saccade features
+  tmp <- dat$item[[trial]]$parse[dat$item[[trial]]$parse$msg == "SAC" | dat$item[[trial]]$parse$msg == "BLINK", ]
+  
+  tmp2 <- NULL
   for (i in 1:nrow(dat$item[[trial]]$sac)) {
-    if (dat$item[[trial]]$sac$start[i] %in% blink$start) {
-      dat$item[[trial]]$sac$msg[i] <- "BLINK"
-    }
+    tmp2 <- rbind(tmp2, cbind(dat$item[[trial]]$sac[i, ], tmp[tmp$start == dat$item[[trial]]$sac$start[i], c("msg", "amp", "pv")]))
   }
+  dat$item[[trial]]$sac <- tmp2
   
   # NOTE: deletes first saccade (if there is one)
   # NOTE: deletes last saccade (if there is one)
-  
-  
-  # drift correct 
+ 
+   
+  # drift correct
   # ---------------
-  
+
   # x axis
   if (env$exp$setup$assign$driftX == T) {
-    
+
     if (is.na(dat$item[[trial]]$meta$drift) == F) {
-      
+
       dat$item[[trial]]$sac$xsn <- dat$item[[trial]]$sac$xs - dat$item[[trial]]$meta$drift.x
       dat$item[[trial]]$sac$xen <- dat$item[[trial]]$sac$xe - dat$item[[trial]]$meta$drift.x
-      
+
     } else {
-      
+
       dat$item[[trial]]$sac$xsn <- dat$item[[trial]]$sac$xs
       dat$item[[trial]]$sac$xen <- dat$item[[trial]]$sac$xe
     }
-    
+
   } else {
-    
+
     dat$item[[trial]]$sac$xsn <- dat$item[[trial]]$sac$xs
     dat$item[[trial]]$sac$xen <- dat$item[[trial]]$sac$xe
-    
+
   }
-  
+
   # y axis
   if (env$exp$setup$assign$driftY == T) {
-    
+
     if (is.na(dat$item[[trial]]$meta$drift) == F) {
-      
+
       dat$item[[trial]]$sac$ysn <- dat$item[[trial]]$sac$ys - dat$item[[trial]]$meta$drift.y + env$exp$setup$font$height / 2
       dat$item[[trial]]$sac$yen <- dat$item[[trial]]$sac$ye - dat$item[[trial]]$meta$drift.y + env$exp$setup$font$height / 2
-      
+
     } else {
-      
+
       dat$item[[trial]]$sac$ysn <- dat$item[[trial]]$sac$ys
       dat$item[[trial]]$sac$yen <- dat$item[[trial]]$sac$ye
-      
+
     }
-    
+
   } else {
-    
+
     dat$item[[trial]]$sac$ysn <- dat$item[[trial]]$sac$ys
     dat$item[[trial]]$sac$yen <- dat$item[[trial]]$sac$ye
-    
+
   }
   
   return(dat)

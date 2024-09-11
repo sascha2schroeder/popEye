@@ -18,6 +18,9 @@ ExtractEvents <- function(infile, env = parent.frame(n = 2)) {
   sf$ys <- NA
   sf$xe <- NA
   sf$ye <- NA
+  sf$ps <- NA
+  sf$amp <- NA
+  sf$pv <- NA
   
   # EFIX
   time <- sapply(strsplit(dat[grep("EFIX", dat)], "\t"), "[[", 2)
@@ -27,14 +30,19 @@ ExtractEvents <- function(infile, env = parent.frame(n = 2)) {
   xs <- as.numeric(gsub(" ", "", xs))
   ys <- sapply(strsplit(dat[grep("EFIX", dat)],"\t"), "[[", 5)
   ys <- as.numeric(gsub(" ", "", ys))
+  ps <- sapply(strsplit(dat[grep("EFIX", dat)],"\t"), "[[", 6)
+  ps <- as.numeric(gsub(" ", "", ps))
   
-  ef <- data.frame(cbind(time, eye, msg, xs, ys), stringsAsFactors = F)
+  ef <- data.frame(cbind(time, eye, msg, xs, ys, ps), stringsAsFactors = F)
   ef$time <- as.numeric(ef$time)
   ef$msg <- as.character(ef$msg)
-  ef$xs <- round(as.numeric(ef$xs))
-  ef$ys <- round(as.numeric(ef$ys))
+  ef$xs <- round(as.numeric(ef$xs), 1)
+  ef$ys <- round(as.numeric(ef$ys), 1)
   ef$xe <- NA
   ef$ye <- NA
+  ef$ps <- round(as.numeric(ef$ps))
+  ef$amp <- NA
+  ef$pv <- NA
   
   # SSACC
   time <- sapply(strsplit(dat[grep("SSACC", dat)], " "), "[[", 4)
@@ -46,6 +54,9 @@ ExtractEvents <- function(infile, env = parent.frame(n = 2)) {
   ss$ys <- NA
   ss$xe <- NA
   ss$ye <- NA
+  ss$ps <- NA
+  ss$amp <- NA
+  ss$pv <- NA
   
   # ESACC
   time <- sapply(strsplit(dat[grep("ESACC", dat)], "\t"), "[[", 2)
@@ -59,14 +70,22 @@ ExtractEvents <- function(infile, env = parent.frame(n = 2)) {
   xe <- as.numeric(gsub(" ", "", xe))
   ye <- sapply(strsplit(dat[grep("ESACC", dat)], "\t"), "[[", 7)
   ye <- as.numeric(gsub(" ", "", ye))
+  amp <- sapply(strsplit(dat[grep("ESACC", dat)], "\t"), "[[", 8)
+  amp <- as.numeric(gsub(" ", "", amp))
+  pv <- sapply(strsplit(dat[grep("ESACC", dat)], "\t"), "[[", 9)
+  pv <- as.numeric(gsub(" ", "", pv))
   
-  es <- data.frame(cbind(time, eye, msg, xs, ys, xe, ye), stringsAsFactors = F)
+  #es <- data.frame(cbind(time, eye, msg, xs, ys, xe, ye), stringsAsFactors = F)
+  es <- data.frame(cbind(time, eye, msg, xs, ys, xe, ye, amp, pv), stringsAsFactors = F)
   es$time <- as.numeric(es$time)
   es$msg <- as.character(es$msg)
-  es$xs <- round(as.numeric(es$xs))
-  es$ys <- round(as.numeric(es$ys))
-  es$xe <- round(as.numeric(es$xe))
-  es$ye <- round(as.numeric(es$ye))
+  es$xs <- round(as.numeric(es$xs), 1)
+  es$ys <- round(as.numeric(es$ys), 1)
+  es$xe <- round(as.numeric(es$xe), 1)
+  es$ye <- round(as.numeric(es$ye), 1)
+  es$ps <- NA
+  es$amp <- round(as.numeric(es$amp), 2)
+  es$pv <- round(as.numeric(es$pv))
   
   # SBLINK
   if (sum(grepl("SBLINK", dat)) > 0) {
@@ -80,11 +99,14 @@ ExtractEvents <- function(infile, env = parent.frame(n = 2)) {
     sb$ys <- NA
     sb$xe <- NA
     sb$ye <- NA
+    sb$ps <- NA
+    sb$amp <- NA
+    sb$pv <- NA
     
   } else {
     
-    sb <- data.frame(matrix(ncol = 7, nrow = 0))
-    colnames(sb) <- c("time", "eye", "msg", "xs", "ys", "xe", "ye")
+    sb <- data.frame(matrix(ncol = 10, nrow = 0))
+    colnames(sb) <- c("time", "eye", "msg", "xs", "ys", "xe", "ye", "ps", "amp", "pv")
     
   }
   
@@ -101,11 +123,14 @@ ExtractEvents <- function(infile, env = parent.frame(n = 2)) {
     eb$ys <- NA
     eb$xe <- NA
     eb$ye <- NA
+    eb$ps <- NA
+    eb$amp <- NA
+    eb$pv <- NA
   
   } else {
     
-    eb <- data.frame(matrix(ncol = 7, nrow = 0))
-    colnames(eb) <- c("time", "eye", "msg", "xs", "ys", "xe", "ye")
+    eb <- data.frame(matrix(ncol = 10, nrow = 0))
+    colnames(eb) <- c("time", "eye", "msg", "xs", "ys", "xe", "ye", "ps", "amp", "pv")
     
   }
   

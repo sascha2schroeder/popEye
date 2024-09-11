@@ -524,9 +524,9 @@ popEye <- function(datpath,
         
         fix <- rbind(fix, dat$item[[i]]$fix)
         row.names(fix) <- NULL
-        
+
         sac <- rbind(sac, dat$item[[i]]$sac)
-        
+
         dat$item[[i]]$parse <- CleanParse(fix, sac, i)
         
       }

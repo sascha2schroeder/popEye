@@ -7,16 +7,16 @@ TimestampToEvent <- function(dat, env = parent.frame(n = 1)) {
   # initialize output matrices
   # ---------------------------
   
-  fix <- data.frame(matrix(NA, 1, 7))
-  colnames(fix) <- c("num", "start", "stop", "xs", "ys", "xe", "ye") 
+  fix <- data.frame(matrix(NA, 1, 10))
+  colnames(fix) <- c("num", "start", "stop", "xs", "ys", "xe", "ye", "ps", "amp", "pv") 
   fixnum <- 0
   
-  sac <- data.frame(matrix(NA, 1, 7))
-  colnames(sac) <- c("num", "start", "stop", "xs", "ys", "xe", "ye") 
+  sac <- data.frame(matrix(NA, 1, 10))
+  colnames(sac) <- c("num", "start", "stop", "xs", "ys", "xe", "ye", "ps", "amp", "pv") 
   sacnum <- 0
   
-  blink <- data.frame(matrix(NA, 1, 7))
-  colnames(blink) <- c("num", "start", "stop", "xs", "ys", "xe", "ye") 
+  blink <- data.frame(matrix(NA, 1, 10))
+  colnames(blink) <- c("num", "start", "stop", "xs", "ys", "xe", "ye", "ps", "amp", "pv") 
   blinknum <- 0
   
   
@@ -66,6 +66,7 @@ TimestampToEvent <- function(dat, env = parent.frame(n = 1)) {
              fix$stop[fixnum] <- dat$event$time[i]
              fix$xs[fixnum] <- dat$event$xs[i]
              fix$ys[fixnum] <- dat$event$ys[i]
+             fix$ps[fixnum] <- dat$event$ps[i]
            },
            "SSACC" = {
              sacnum <- sacnum + 1
@@ -79,6 +80,8 @@ TimestampToEvent <- function(dat, env = parent.frame(n = 1)) {
              sac$ys[sacnum] <- dat$event$ys[i]
              sac$xe[sacnum] <- dat$event$xe[i]
              sac$ye[sacnum] <- dat$event$ye[i]
+             sac$amp[sacnum] <- dat$event$amp[i]
+             sac$pv[sacnum] <- dat$event$pv[i]
            },
            "SBLINK" = {
              blinknum <- blinknum + 1

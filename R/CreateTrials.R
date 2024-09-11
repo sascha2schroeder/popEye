@@ -151,6 +151,7 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
         }
         
       }
+      
      
       # clean
       # ------
