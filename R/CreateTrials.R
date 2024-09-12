@@ -103,10 +103,10 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
     
     if (env$exp$setup$tracker$model == "eyelink") {
       
-      # FIX: select left eye if tracking was binocular (corresponds to sample data)
+      # FIX: select right eye if tracking was binocular (corresponds to sample data)
       # FIX: select only last calibration if several have been conducted
       if (tail(env$header$calibration$eye, n = 1) == "LR") {
-        tmp$event <- tmp$event[tmp$event$eye == names(sort(table(tmp$event$eye))), ]
+        tmp$event <- tmp$event[tmp$event$eye == "R", ]
       }
       
     }
