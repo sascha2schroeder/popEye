@@ -1,6 +1,18 @@
 
 SetupExperiment <- function(env = parent.frame(n = 1)) {
   
+  # popEye version
+  version <- sessionInfo()$otherPkgs$popEye$Version
+  
+  if(Sys.getenv("RSTUDIO") == 1) {
+    script <- rstudioapi::getSourceEditorContext()$path
+  } else {
+    script <- NA
+  }
+  
+  popEye <- list(version = version, 
+                 script = script)
+  
   # setup tracker
   tracker <- list(model = env$tracker.model, 
                   software = env$tracker.software,
@@ -987,10 +999,11 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                   sac = env$exclude.sac)
   
   # write out
-  setup <- list(tracker = tracker, type = type, message = message, item = item,
-                variable = variable, stimulus = stimulus, indicator = indicator, 
-                separator = separator, display = display, font = font, clean = clean, 
-                analysis = analysis, assign = assign, exclude = exclude)
+  setup <- list(popEye = popEye, tracker = tracker, type = type, message = message, 
+                item = item, variable = variable, stimulus = stimulus, 
+                indicator = indicator, separator = separator, display = display, 
+                font = font, clean = clean, analysis = analysis, assign = assign, 
+                exclude = exclude)
   
   return(setup)
   
