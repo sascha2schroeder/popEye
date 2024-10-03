@@ -1,18 +1,6 @@
 
 SetupExperiment <- function(env = parent.frame(n = 1)) {
   
-  # popEye version
-  version <- sessionInfo()$otherPkgs$popEye$Version
-  
-  if(Sys.getenv("RSTUDIO") == 1) {
-    script <- rstudioapi::getSourceEditorContext()$path
-  } else {
-    script <- NA
-  }
-  
-  popEye <- list(version = version, 
-                 script = script)
-  
   # setup tracker
   tracker <- list(model = env$tracker.model, 
                   software = env$tracker.software,
@@ -954,8 +942,17 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   font$print$de <- c("q","p","g","j","y")
   font$print$pu <- c(".",",","–")
   
+  
   # analysis
+  
+  if(Sys.getenv("RSTUDIO") == 1) {
+    script <- rstudioapi::getSourceEditorContext()$path
+  } else {
+    script <- NA
+  }
+  
   analysis <- list(version = sessionInfo()$otherPkgs$popEye$Version,
+                   script = script,
                    datpath = env$datpath,
                    eyelink = env$analysis.eyelink, 
                    smooth = env$analysis.smooth,
