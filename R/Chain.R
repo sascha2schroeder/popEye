@@ -11,7 +11,6 @@ Chain <- function (fix, stimmat, env = parent.frame(n = 3)) {
   linem <- tapply(stimmat$ym, stimmat$line, mean)
   
   # initialize variables
-  fix$type <- "in"
   fix$run <- NA
   fix$linerun <- NA
   fix$linerun[1] <- 1
