@@ -996,11 +996,10 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                   sac = env$exclude.sac)
   
   # write out
-  setup <- list(popEye = popEye, tracker = tracker, type = type, message = message, 
-                item = item, variable = variable, stimulus = stimulus, 
-                indicator = indicator, separator = separator, display = display, 
-                font = font, clean = clean, analysis = analysis, assign = assign, 
-                exclude = exclude)
+  setup <- list(tracker = tracker, type = type, message = message, item = item, 
+                variable = variable, stimulus = stimulus, indicator = indicator, 
+                separator = separator, display = display, font = font, 
+                clean = clean, analysis = analysis, assign = assign, exclude = exclude)
   
   return(setup)
   
