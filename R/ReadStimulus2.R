@@ -90,7 +90,7 @@ ReadStimulus2 <- function(dat, env = parent.frame(n = 1)) {
   env$exp$setup$stimulus$stimmat <- list()
   
   for (s in 1:nrow(stimfile)) {
-    # s <- 1
+    # s <- 2
     
     stim <- trimws(stimfile$stim[s], which = "both")
   
@@ -235,18 +235,20 @@ ReadStimulus2 <- function(dat, env = parent.frame(n = 1)) {
       
       # sentence
       
-      if(is.element(pointmat$point[i], env$exp$setup$separator$sentence)) {
-        sentmem <- TRUE
-      }
+      # if(is.element(pointmat$point[i], env$exp$setup$separator$sentence)) {
+      #   sentmem <- TRUE
+      # }
       
       # check sentence2 separator
       if (is.element(pointmat$point[i], env$exp$setup$separator$sentence2) & sentmem == TRUE) {
         sentnum <- sentnum + 1
         sentmem <- FALSE
-      } else if (is.element(pointmat$point[i], env$exp$setup$separator$sentence2) & sentmem == FALSE) {
+      } else if (is.element(pointmat$point[i], env$exp$setup$separator$sentence) == TRUE & sentmem == FALSE) {
+        sentmem <- TRUE
+      } else if (is.element(pointmat$point[i], env$exp$setup$separator$sentence2) == FALSE & sentmem == TRUE) {
         sentmem <- FALSE
       }
-      
+    
       pointmat$sentnum[i] <- sentnum
       sent.let <- unlist(strsplit(sent[sentnum], ""))
       sent.n <- length(sent.let)
