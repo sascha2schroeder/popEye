@@ -882,6 +882,45 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$wrap <- FALSE
   }
   
+  # MingLiu 18 pt
+  if (font$name == "MingLIU" & font$size == 18) {
+    font$letpix <- data.frame(letter = " ", pixel = 36)
+    font$height <- 36
+    font$width <- 36
+    font$lead <- 7
+    font$right <- FALSE
+    font$fixed <- TRUE
+    font$half <- c("1", "9", "3", "6", "", "(", ")")
+    #font$half <- c("(", ")")
+    font$wrap <- FALSE
+  }
+  
+  # MingLiu 20 pt
+  if (font$name == "MingLIU" & font$size == 20) {
+    font$letpix <- data.frame(letter = " ", pixel = 40)
+    font$height <- 40
+    font$width <- 40
+    font$lead <- 8
+    font$right <- FALSE
+    font$fixed <- TRUE
+    font$half <- c("1", "9", "3", "6", "", "(", ")")
+    #font$half <- c("(", ")")
+    font$wrap <- FALSE
+  }
+  
+  # MingLiu 32 pt
+  if (font$name == "MingLIU" & font$size == 32) {
+    font$letpix <- data.frame(letter = " ", pixel = 44)
+    font$height <- 44
+    font$width <- 44
+    font$lead <- 10
+    font$right <- FALSE
+    font$fixed <- TRUE
+    font$half <- c("1", "9", "3", "6", "", "(", ")")
+    #font$half <- c("(", ")")
+    font$wrap <- FALSE
+  }
+  
   if (env$tracker.software == "psychopy") {
     font$lead <- 0
   }
