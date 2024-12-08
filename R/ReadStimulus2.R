@@ -719,7 +719,6 @@ ReadStimulus2 <- function(dat, env = parent.frame(n = 1)) {
     stimmat$letword <- ave(stimmat$letternum, stimmat$wordnum, FUN = rank)
     for (i in 1:max(stimmat$wordnum)) {
       # i <- 1
-      
       if (is.element(stimmat$letter[stimmat$wordnum == i & stimmat$letword == 1], env$exp$setup$separator$word)) {
         stimmat$letword[stimmat$wordnum == i] <- stimmat$letword[stimmat$wordnum == i] - 1
       }
