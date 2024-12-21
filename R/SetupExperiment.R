@@ -447,6 +447,16 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$fixed <- TRUE
   }
   
+  # Adyghe 20 pt
+  if (font$name == "Adyghe" & font$size == 20) {
+    font$letpix <- data.frame(letter = " ", pixel = 18)
+    font$height <- 30
+    font$width <- 18
+    font$lead <- 8
+    font$right <- FALSE 
+    font$fixed <- TRUE
+  }
+  
   
   # Menlo
   # ------
@@ -878,7 +888,19 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$lead <- 10
     font$right <- FALSE
     font$fixed <- TRUE
-    font$half <- c("(", ")")
+    font$half <- c("(", ")", "１", "９", "３", "６")
+    font$wrap <- FALSE
+  }
+  
+  # Macao
+  if (font$name == "Macao" & font$size == 20) {
+    font$letpix <- data.frame(letter = " ", pixel = 44)
+    font$height <- 40
+    font$width <- 27
+    font$lead <- 10
+    font$right <- FALSE
+    font$fixed <- TRUE
+    font$half <- c("(", ")", "C")
     font$wrap <- FALSE
   }
   
@@ -891,7 +913,6 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$right <- FALSE
     font$fixed <- TRUE
     font$half <- c("1", "9", "3", "6", "", "(", ")")
-    #font$half <- c("(", ")")
     font$wrap <- FALSE
   }
   
@@ -910,9 +931,9 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
   
   # MingLiu 32 pt
   if (font$name == "MingLiU" & font$size == 32) {
-    font$letpix <- data.frame(letter = " ", pixel = 44)
-    font$height <- 44
-    font$width <- 44
+    font$letpix <- data.frame(letter = " ", pixel = 43)
+    font$height <- 43
+    font$width <- 43
     font$lead <- 10
     font$right <- FALSE
     font$fixed <- TRUE
