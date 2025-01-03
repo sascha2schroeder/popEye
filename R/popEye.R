@@ -164,7 +164,7 @@
 #' Select a set of trials by providing a vector, e.g., skip.trials = c(10, 11).
 #' @param debug Perform analysis only for specific steps of the analysis 
 #' ("setup", "subjects", "read", "remove", "create", "add", "extract", "line", 
-#' "assign", "combine", "aggregate")
+#' "assign", "clean", "combine", "aggregate")
 
 
 popEye <- function(datpath, 
@@ -471,6 +471,10 @@ popEye <- function(datpath,
       # NOTE: stage4 cleaning is dangerous !
       # TODO: report deleted fixations
      
+      if (debug == "clean") {
+        return (dat)
+      }
+      
        
       # compute measures
       # -----------------
@@ -479,8 +483,8 @@ popEye <- function(datpath,
       
       dat <- ComputeFixationMeasures(dat)
       dat <- ProcessSaccades(dat)
-      
-      
+     
+       
       # combine events
       # ----------------
       

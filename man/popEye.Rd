@@ -326,7 +326,7 @@ Select a set of trials by providing a vector, e.g., skip.trials = c(10, 11).}
 
 \item{debug}{Perform analysis only for specific steps of the analysis 
 ("setup", "subjects", "read", "remove", "create", "add", "extract", "line", 
-"assign", "combine", "aggregate")}
+"assign", "clean", "combine", "aggregate")}
 
 \item{exclude.blink}{If TRUE a trial is flagged as critical if at least one
 blink has occured on it (default is FALSE)}

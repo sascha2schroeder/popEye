@@ -13,8 +13,8 @@ RetrieveSaccades <- function(dat, trial, env = parent.frame(n = 2)) {
   # extract saccades
   for (i in 1:(nrow(dat$item[[trial]]$fix) - 1)){
     dat$item[[trial]]$sac$num[i] <- i
-    dat$item[[trial]]$sac$start[i] <- dat$item[[trial]]$fix$stop[i] + 1
-    dat$item[[trial]]$sac$stop[i] <- dat$item[[trial]]$fix$start[i + 1] - 1
+    dat$item[[trial]]$sac$start[i] <- dat$item[[trial]]$fix$stop[i] + 1 * (1000 / env$exp$setup$tracker$samp)
+    dat$item[[trial]]$sac$stop[i] <- dat$item[[trial]]$fix$start[i + 1] - 1 * (1000 / env$exp$setup$tracker$samp)
     dat$item[[trial]]$sac$xs[i] <- dat$item[[trial]]$fix$xs[i]
     dat$item[[trial]]$sac$ys[i] <- dat$item[[trial]]$fix$ys[i]
     dat$item[[trial]]$sac$xe[i] <- dat$item[[trial]]$fix$xs[i + 1]
