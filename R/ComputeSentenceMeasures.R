@@ -6,7 +6,7 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
   
   
    fixin <- fix[fix$type == "in", ]
-  
+   
    
    # compute sentence measures
    # -------------------------
@@ -16,7 +16,9 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
    
    for (i in 1:max(fixin$trialid)) {
      # i <- 1
-
+    
+     # print(i)
+      
      for (j in 2:(nrow(fixin[fixin$trialid == i, ]) - 2)) {
        # j <- 13
 
@@ -52,7 +54,6 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
    fixin$firstpass <- NA
    fixin$forward <- NA
    
-   
    for (i in 1:max(fixin$trialid)) {
      # i <- 1
      
@@ -62,10 +63,9 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
      wordmem <- fixin$wordnum[fixin$trialid == i][1]
      fixin$forward[fixin$trialid == i][1] <- 1
      
-     
      for (j in 2:nrow(fixin[fixin$trialid == i, ])) {
        # j <- 1
-       
+      
        # compute last
        fixin$last[fixin$trialid == i][j] <- fixin$id[fixin$trialid == i][j - 1]
        
@@ -144,8 +144,7 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
        fixin$forward[i + 2] <- 1
      }
      
-   }
-   
+   } 
    
    # id with run
    fixin$id2 <- paste(fixin$id, fixin$sent.runid2, sep = ":")
@@ -154,6 +153,7 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
    names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "sentnum2", "sent", "sent.nwords")
    sent <- sent[names]  
    colnames(sent) <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent", "sent.nwords")
+   
    
    # compute firstrun skip
    sent$firstrun.skip <- 0

@@ -112,10 +112,10 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
       
     }
     
-    # FIX: skip if there are less than three fixations in trial
+    # FIX: skip if there are more than three fixations in trial
     # FIX: exclude trials with negative x and y values?
     count <- 0
-    if (sum(tmp$event$msg == "EFIX" & tmp$event$xs > 0 & tmp$event$ys > 0, na.rm = T) > 2) { 
+    if (sum(tmp$event$msg == "EFIX" & tmp$event$xs > 0 & tmp$event$ys > 0, na.rm = T) > 4) { 
       
     # TODO: this only works for Eyelink -> FIX
     # TODO: define as parameter?
