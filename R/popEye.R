@@ -559,7 +559,7 @@ popEye <- function(datpath,
       
       sent.item <- ItemFileSent(dat)
       row.names(sent.item) <- NULL
-      
+    
       
       # results file
       # -------------
