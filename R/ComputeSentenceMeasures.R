@@ -15,12 +15,12 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
   fixin$sentnum2 <- fixin$sentnum
   
   for (i in 1:max(fixin$trialid)) {
-    # i <- 1
-    
-    # print(i)
+    # i <- 2
+    print(i)
     
     for (j in 2:(nrow(fixin[fixin$trialid == i, ]) - 2)) {
-      # j <- 13
+      # j <- 2
+      print(j)
       
       if (fixin$sentnum2[fixin$trialid == i][j] != fixin$sentnum2[fixin$trialid == i][j - 1]) {
         
@@ -55,7 +55,7 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
   fixin$forward <- NA
   
   for (i in 1:max(fixin$trialid)) {
-    # i <- 1
+    # i <- 2
     
     fixin$last[fixin$trialid == i][1] <- fixin$id[fixin$trialid == i][1]
     fixin$firstpass[fixin$trialid == i][1] <- 1
@@ -161,7 +161,7 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
   sent$firstrun.skip <- 0
   
   for (i in 1:max(sent$trialid)) {
-    # i <- 10
+    # i <- 2
     
     mem <- NULL
     
@@ -242,26 +242,36 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
     sent$lookback.dur[is.na(sent$lookback.dur)] <- 0
     
     # lookfrom
-    fixin$id2 <- paste(fixin$id, fixin$sent.runid2, sep = ":")
+    
     sent2 <- fixin[duplicated(fixin$id2) == F, ]
-    sent3 <- sent2[sent2$firstpass == 0 & is.na(sent2$sent.reg.in.from) == F, ]
     
-    tmp <- aggregate(fixin$dur[fixin$id2 %in% sent3$id2], list(fixin$id2[fixin$id2 %in% sent3$id2]), length)
-    colnames(tmp) <- c("id2", "lookfrom.nfix")
-    tmp2 <- merge(tmp, sent3)
-    tmp3 <- aggregate(tmp2$lookfrom.nfix, list(tmp2$last), sum)
-    colnames(tmp3) <- c("last", "lookfrom.nfix")
-    sent <- merge(sent, tmp3, by.x = "id", by.y = "last", all.x = T)
-    sent$lookfrom.nfix[is.na(sent$lookfrom.nfix)] <- 0
+    if(sum(is.na(sent2$sent.reg.in.from) == F) != 0) {
+      
+      sent3 <- sent2[sent2$firstpass == 0 & is.na(sent2$sent.reg.in.from) == F, ]
+      
+      tmp <- aggregate(fixin$dur[fixin$id2 %in% sent3$id2], list(fixin$id2[fixin$id2 %in% sent3$id2]), length)
+      colnames(tmp) <- c("id2", "lookfrom.nfix")
+      tmp2 <- merge(tmp, sent3)
+      tmp3 <- aggregate(tmp2$lookfrom.nfix, list(tmp2$last), sum)
+      colnames(tmp3) <- c("last", "lookfrom.nfix")
+      sent <- merge(sent, tmp3, by.x = "id", by.y = "last", all.x = T)
+      sent$lookfrom.nfix[is.na(sent$lookfrom.nfix)] <- 0
+      
+      tmp <- aggregate(fixin$dur[fixin$id2 %in% sent3$id2], list(fixin$id2[fixin$id2 %in% sent3$id2]), sum)
+      colnames(tmp) <- c("id2", "lookfrom.dur")
+      tmp2 <- merge(tmp, sent3)
+      tmp3 <- aggregate(tmp2$lookfrom.dur, list(tmp2$last), sum)
+      colnames(tmp3) <- c("last", "lookfrom.dur")
+      sent <- merge(sent, tmp3, by.x = "id", by.y = "last", all.x = T)
+      sent$lookfrom.dur[is.na(sent$lookfrom.dur)] <- 0 
+      
+    } else {
     
-    tmp <- aggregate(fixin$dur[fixin$id2 %in% sent3$id2], list(fixin$id2[fixin$id2 %in% sent3$id2]), sum)
-    colnames(tmp) <- c("id2", "lookfrom.dur")
-    tmp2 <- merge(tmp, sent3)
-    tmp3 <- aggregate(tmp2$lookfrom.dur, list(tmp2$last), sum)
-    colnames(tmp3) <- c("last", "lookfrom.dur")
-    sent <- merge(sent, tmp3, by.x = "id", by.y = "last", all.x = T)
-    sent$lookfrom.dur[is.na(sent$lookfrom.dur)] <- 0
-    
+      sent$lookfrom.nfix <- 0
+      sent$lookfrom.dur <- 0
+        
+    }
+      
     
   } else {
     

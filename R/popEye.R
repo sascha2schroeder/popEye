@@ -541,7 +541,7 @@ popEye <- function(datpath,
       # names for participant slot
       names(exp$subjects)[nsub] <- paste("subject", subid, sep = ".")
       
-      
+    
       # -----------------------
       # Modul 3: Aggregation
       # -----------------------
