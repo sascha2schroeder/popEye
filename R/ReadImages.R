@@ -29,16 +29,16 @@ ReadImages <- function(exp) {
   
   tmp <- readLines(file)
   tmp2 <- tmp[grep("^[0-9]|^-", tmp)]
-  tmp2 <- tmp2[-grep("png", tmp2)]
-  tmp3 <- sapply(strsplit(tmp2, "_"), "[[", 2)
-  tmp3 <- trimws(tmp3, which = "both")
+  tmp3 <- tmp2[-grep(".png", tmp2)]
+  tmp4 <- sapply(strsplit(tmp3, "_"), "[[", 2)
+  tmp5 <- trimws(tmp4, which = "both")
   
-  split <- strsplit(tmp3, " ")
+  split <- strsplit(tmp5, " ")
   pos <- sapply(split, length)
   
   pic <- NULL
   text <- NULL
-  for (i in 1:length(tmp3)) {
+  for (i in 1:length(tmp5)) {
     pic[i] <- unlist(split[i])[pos[i]]
     text[i] <- paste(unlist(split[i])[1:(pos[i] - 1)], collapse = " ")
   }
