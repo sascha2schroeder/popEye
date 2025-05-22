@@ -485,7 +485,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$fixed <- TRUE
   }
   
-  # Consolas
+  # Consolas 18 pt
   if (font$name == "Consolas" & font$size == 18) {
     font$letpix <- data.frame(letter = " ", pixel = 13)
     font$height <- 22
@@ -515,6 +515,16 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$fixed <- TRUE
   } 
   
+  # Consolas, 24 pt
+  if (font$name == "Consolas" & font$size == 24) {
+    font$letpix <- data.frame(letter = " ", pixel = 18)
+    font$height <- 29
+    font$width <- 18
+    font$lead <- 6
+    font$right <- FALSE
+    font$fixed <- TRUE
+  }
+  
   # ConsolasRussian 20 pt
   if (font$name == "ConsolasRussian" & font$size == 20) {
     font$letpix <- data.frame(letter = " ", pixel = 15)
@@ -543,6 +553,19 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$lead <- 9
     font$right <- FALSE
     font$fixed <- TRUE
+  }
+  
+  # Japanese 24 pt
+  if (font$name == "Japanese" & font$size == 24) {
+    font$letpix <- data.frame(letter = " ", pixel = 32)
+    font$height <- 32
+    font$width <- 32
+    font$lead <- 0
+    font$right <- FALSE
+    font$fixed <- TRUE
+    # font$half <- c("1", "9", "3", "6", "", "(", ")")
+    # font$half <- c("(", ")")
+    font$wrap <- FALSE
   }
   
   

@@ -16,11 +16,11 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
   
   for (i in 1:max(fixin$trialid)) {
     # i <- 2
-    print(i)
+    # print(i)
     
     for (j in 2:(nrow(fixin[fixin$trialid == i, ]) - 2)) {
       # j <- 2
-      print(j)
+      # print(j)
       
       if (fixin$sentnum2[fixin$trialid == i][j] != fixin$sentnum2[fixin$trialid == i][j - 1]) {
         

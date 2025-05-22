@@ -87,10 +87,10 @@ ReadStimulus2 <- function(dat, env = parent.frame(n = 1)) {
   font.lead <- env$exp$setup$font$lead
   x.cut <- env$exp$setup$display$resolutionX - env$exp$setup$display$marginRight
   
-  env$exp$setup$stimulus$stimmat <- list()
+  # env$exp$setup$stimulus$stimmat <- list()
   
   for (s in 1:nrow(stimfile)) {
-    # s <- 2
+    # s <- 1
     
     stim <- trimws(stimfile$stim[s], which = "both")
   
