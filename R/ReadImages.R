@@ -29,7 +29,12 @@ ReadImages <- function(exp) {
   
   tmp <- readLines(file)
   tmp2 <- tmp[grep("^[0-9]|^-", tmp)]
-  tmp3 <- tmp2[-grep(".png", tmp2)]
+  if (length(grep(".png", tmp2)) > 0) {
+    tmp3 <- tmp2[-grep(".png", tmp2)]
+  } else {
+    tmp3 <- tmp2
+  }
+  
   tmp4 <- sapply(strsplit(tmp3, "_"), "[[", 2)
   tmp5 <- trimws(tmp4, which = "both")
   
