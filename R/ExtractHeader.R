@@ -6,7 +6,7 @@ ExtractHeader <- function(infile, env = parent.frame(n = 2)){
     
     # date
     tmp <- infile[grep("DATE:", infile)]
-    env$header$date <- paste(unlist(strsplit(tmp, " "), "[[")[c(4, 5, 7, 6)], collapse = " ")
+    env$header$date <- paste(unlist(strsplit(tmp, " "))[c(4, 5, 7, 6)], collapse = " ")
     
     
     # calibration
