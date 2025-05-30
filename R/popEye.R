@@ -428,7 +428,7 @@ popEye <- function(datpath,
       
       message(".. Add stimulus")
       
-      dat <- ReadStimulus2(dat)
+      dat <- ReadStimulus(dat)
       
       if (debug == "add") {
         return (dat)
