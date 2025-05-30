@@ -237,13 +237,23 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
       
       # sentence
       
+      pointmat$sentnum[i] <- sentnum
+      sent.let <- unlist(strsplit(sent[sentnum], ""))
+      sent.n <- length(sent.let)
+      if (sent.n > 20) sent.n <- 20
+      pointmat$sent[i] <- paste(sent.let[1:sent.n], collapse = "")
+      pointmat$sent.nwords[i] <- sent.nwords[sentnum]
+      pointmat$sent.nletters[i] <- sent.nletters[sentnum]
+      
+      
+      # check sentence boundary
       if(is.element(pointmat$point[i], env$exp$setup$separator$sentence)) {
         sentmem <- TRUE
       }
 
       # check sentence2 separator
       
-      if (env$exp$setup$separator$sentence2 == "") {
+      if (sum(env$exp$setup$separator$sentence2 == "") == 0) {
         
         if (sentmem == TRUE) {
           sentnum <- sentnum + 1
@@ -252,7 +262,7 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
         
       } else {
         
-        if (is.element(pointmat$point[i], sent_sep) & sentmem == TRUE) {
+        if (is.element(pointmat$point[i], env$exp$setup$separator$sentence2) & sentmem == TRUE) {
           sentnum <- sentnum + 1
           sentmem <- FALSE
         } else if (is.element(pointmat$point[i], env$exp$setup$separator$sentence) == TRUE & sentmem == FALSE) {
@@ -260,16 +270,9 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
         } else if (is.element(pointmat$point[i], env$exp$setup$separator$sentence2) == FALSE & sentmem == TRUE) {
           sentmem <- FALSE
         }
-        
+      
       }
     
-      pointmat$sentnum[i] <- sentnum
-      sent.let <- unlist(strsplit(sent[sentnum], ""))
-      sent.n <- length(sent.let)
-      if (sent.n > 20) sent.n <- 20
-      pointmat$sent[i] <- paste(sent.let[1:sent.n], collapse = "")
-      pointmat$sent.nwords[i] <- sent.nwords[sentnum]
-      pointmat$sent.nletters[i] <- sent.nletters[sentnum]
       # TODO: maybe rename letter -> code
       
       # IA
