@@ -237,44 +237,42 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
       
       # sentence
       
-      pointmat$sentnum[i] <- sentnum
+      if (sentmem == TRUE) {
+        
+        if (sum(env$exp$setup$separator$sentence2 == "") != 0) {
+          sentnum <- sentnum + 1
+          sentmem <- FALSE
+          
+        } else {
+          
+          if (is.element(pointmat$point[i], env$exp$setup$separator$sentence2)) {
+            sentnum <- sentnum + 1
+            sentmem <- FALSE
+            
+          } else {
+            sentmem <- FALSE
+          }
+          
+        }
+      
+      } else {
+        
+        if(is.element(pointmat$point[i], env$exp$setup$separator$sentence)) {
+          sentmem <- TRUE
+        } 
+        
+      }
+      
       sent.let <- unlist(strsplit(sent[sentnum], ""))
       sent.n <- length(sent.let)
       if (sent.n > 20) sent.n <- 20
+      
+      pointmat$sentnum[i] <- sentnum
       pointmat$sent[i] <- paste(sent.let[1:sent.n], collapse = "")
       pointmat$sent.nwords[i] <- sent.nwords[sentnum]
       pointmat$sent.nletters[i] <- sent.nletters[sentnum]
       
-      
-      # check sentence boundary
-      if(is.element(pointmat$point[i], env$exp$setup$separator$sentence)) {
-        sentmem <- TRUE
-      }
 
-      # check sentence2 separator
-      
-      if (sum(env$exp$setup$separator$sentence2 == "") == 0) {
-        
-        if (sentmem == TRUE) {
-          sentnum <- sentnum + 1
-          sentmem <- FALSE
-        }
-        
-      } else {
-        
-        if (is.element(pointmat$point[i], env$exp$setup$separator$sentence2) & sentmem == TRUE) {
-          sentnum <- sentnum + 1
-          sentmem <- FALSE
-        } else if (is.element(pointmat$point[i], env$exp$setup$separator$sentence) == TRUE & sentmem == FALSE) {
-          sentmem <- TRUE
-        } else if (is.element(pointmat$point[i], env$exp$setup$separator$sentence2) == FALSE & sentmem == TRUE) {
-          sentmem <- FALSE
-        }
-      
-      }
-    
-      # TODO: maybe rename letter -> code
-      
       # IA
       if (env$exp$setup$indicator$ia == "") {
         
