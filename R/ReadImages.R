@@ -50,7 +50,7 @@ ReadImages <- function(exp) {
   
   text <- gsub(exp$setup$indicator$target, "", text)
   if (exp$setup$indicator$word != "") {
-    tet <- gsub(exp$setup$indicator$word, "", text)
+    text <- gsub(exp$setup$indicator$word, "", text)
   }
   if (exp$setup$indicator$ia != " ") {
     text <- gsub(exp$setup$indicator$ia, "", text)
@@ -74,8 +74,9 @@ ReadImages <- function(exp) {
   
   # retrieve item number
   for (i in 1:nrow(data)) {
-    if (identical(agrep(data$text[i], stim_red), integer(0))) next
-    data$number[i] <- agrep(data$text[i], stim_red)
+    tmpout <- agrep(data$text[i], stim_red)
+    if (length(tmpout) != 1) next
+    data$number[i] <- tmpout
   }
   
   texts <- data[is.na(data$number) == F, ]
