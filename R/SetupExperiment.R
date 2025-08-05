@@ -536,6 +536,16 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$fixed <- TRUE
   }
   
+  # Consolas, 25 pt
+  if (font$name == "Consolas" & font$size == 25) {
+    font$letpix <- data.frame(letter = " ", pixel = 19)
+    font$height <- 30
+    font$width <- 19
+    font$lead <- 9
+    font$right <- FALSE
+    font$fixed <- TRUE
+  }
+  
   # ConsolasRussian 20 pt
   if (font$name == "ConsolasRussian" & font$size == 20) {
     font$letpix <- data.frame(letter = " ", pixel = 15)
