@@ -1,6 +1,8 @@
 
 ExtractSetup <- function(infile, env = parent.frame(n = 2)){
-  
+
+  options(warn = -1)
+    
   if (env$exp$setup$tracker$model == "eyelink") {
   
     # display resolution
@@ -42,5 +44,7 @@ ExtractSetup <- function(infile, env = parent.frame(n = 2)){
     env$exp$setup$tracker$samp <- as.numeric(sapply(strsplit(tmp, " "), "[[", 2))
     
   }
+  
+  options(warn = 0)
   
 }
