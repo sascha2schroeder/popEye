@@ -1,10 +1,10 @@
 
 ExtractSamples <- function(infile, env = parent.frame(n = 2)) {
   
+  options(warn = -1)
+  
   if (env$exp$setup$tracker$model == "eyelink") {
   
-  options(warn = -1)
-    
   # remove messages
   dat <- infile[-grep(paste(c("^\t", "^>", "^ ", "\\*", "DISPLAY", "INPUT",
                            "START", "PRESCALER", "PUPIL", "EVENTS", "SAMPLE",
@@ -35,8 +35,6 @@ ExtractSamples <- function(infile, env = parent.frame(n = 2)) {
   
   return(out)
   
-  options(warn = 0)
-  
   } else if (env$exp$setup$tracker$model == "gazepoint") {
     
     dat <- infile[["data_collection/events/eyetracker/BinocularEyeSampleEvent"]]
@@ -58,5 +56,7 @@ ExtractSamples <- function(infile, env = parent.frame(n = 2)) {
     return(out)
     
   }
+  
+  options(warn = 0)
   
 }

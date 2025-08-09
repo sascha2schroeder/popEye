@@ -1,6 +1,7 @@
 
 ExtractHeader <- function(infile, env = parent.frame(n = 2)){
   
+  options(warn = -1)
   
   if (env$exp$setup$tracker$model == "eyelink") {
     
@@ -84,5 +85,7 @@ ExtractHeader <- function(infile, env = parent.frame(n = 2)){
     env$header$calibration$error[env$header$calibration$error == "unknown"] <- 0
     
   }
+  
+  options(warn = 0)
   
 }
