@@ -584,7 +584,7 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$lead <- 0
     font$right <- FALSE
     font$fixed <- TRUE
-    # font$half <- c("1", "9", "3", "6", "", "(", ")")
+    font$half <- c("1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "C")
     # font$half <- c("(", ")")
     font$wrap <- FALSE
   }
