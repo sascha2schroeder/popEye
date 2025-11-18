@@ -1,12 +1,10 @@
 
-ComputeSentenceMeasures <- function(fix, sent.item) {
+AggregateSentences <- function(fix, sent.item) {
   
   # NOTE: necessary to recompute sentnum and runid due to exception rule
   # NOTE: Be careful: Regressions etc. on fixation-level do not correspond to sentence-level measures anymore
   
-  
   fixin <- fix[fix$type == "in", ]
-  
   
   # compute sentence measures
   # -------------------------
@@ -18,15 +16,19 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
     # i <- 2
     # print(i)
     
-    for (j in 2:(nrow(fixin[fixin$trialid == i, ]) - 2)) {
-      # j <- 2
-      # print(j)
+    if (length(fixin$sentnum2[fixin$trialid == i]) > 3) {
       
-      if (fixin$sentnum2[fixin$trialid == i][j] != fixin$sentnum2[fixin$trialid == i][j - 1]) {
+      for (j in 2:(nrow(fixin[fixin$trialid == i, ]) - 2)) {
+        # j <- 2
+        # print(j)
         
-        if (fixin$sentnum2[fixin$trialid == i][j + 1] == fixin$sentnum2[fixin$trialid == i][j - 1] |
-            fixin$sentnum2[fixin$trialid == i][j + 2] == fixin$sentnum2[fixin$trialid == i][j - 1]) {
-          fixin$sentnum2[fixin$trialid == i][j] <- fixin$sentnum2[fixin$trialid == i][j - 1]
+        if (fixin$sentnum2[fixin$trialid == i][j] != fixin$sentnum2[fixin$trialid == i][j - 1]) {
+          
+          if (fixin$sentnum2[fixin$trialid == i][j + 1] == fixin$sentnum2[fixin$trialid == i][j - 1] |
+              fixin$sentnum2[fixin$trialid == i][j + 2] == fixin$sentnum2[fixin$trialid == i][j - 1]) {
+            fixin$sentnum2[fixin$trialid == i][j] <- fixin$sentnum2[fixin$trialid == i][j - 1]
+          }
+          
         }
         
       }
@@ -35,10 +37,8 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
     
   }
   
-  
   # compute indicator
   fixin$id <- as.character(paste(fixin$trialid, fixin$sentnum2, sep = ":"))
-  
   
   # recompute measures
   
@@ -63,6 +63,8 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
     wordmem <- fixin$wordnum[fixin$trialid == i][1]
     fixin$forward[fixin$trialid == i][1] <- 1
     
+    if(nrow(fixin[fixin$trialid == i, ]) < 2) next
+     
     for (j in 2:nrow(fixin[fixin$trialid == i, ])) {
       # j <- 2
       
@@ -98,16 +100,12 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
           }
           
         } else {
-          
           mem <- c(mem, fixin$sentnum2[fixin$trialid == i][j])
           fixin$firstpass[fixin$trialid == i][j] <- 1
-          
         }
         
       } else {
-        
         fixin$firstpass[fixin$trialid == i][j] <- 0
-        
       }
       
       # compute forward
@@ -122,31 +120,39 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
       }
       
     }
-    
-  }
-  
-  
-  # return sweeps
-  for (i in 1:(nrow(fixin) - 3)) {
-    
-    if (fixin$line.change[i] > 0) {
-      fixin$wordnum[i] <- 0
-      fixin$forward[i + 1] <- 1
-      fixin$forward[i + 2] <- 1
-      fixin$forward[i + 3] <- 1
+
+    if (nrow(fixin[fixin$trialid == i, ]) > 4) {
+      
+      # return sweeps
+      for (j in 1:(nrow(fixin[fixin$trialid == i, ]) - 3)) {
+        
+        if (fixin$line.change[fixin$trialid == i][j] > 0) {
+          fixin$wordnum[fixin$trialid == i][j] <- 0
+          fixin$forward[fixin$trialid == i][j + 1] <- 1
+          fixin$forward[fixin$trialid == i][j + 2] <- 1
+          fixin$forward[fixin$trialid == i][j + 3] <- 1
+        } else {
+          fixin$forward[fixin$trialid == i][j] <- 1
+        }
+        
+      }
+      
+      # sentence begin
+      for (j in 2:(nrow(fixin[fixin$trialid == i, ]) - 3)) {
+        
+        if (fixin$sentnum2[fixin$trialid == i][j] > fixin$sentnum2[fixin$trialid == i][j - 1]) {
+          fixin$forward[fixin$trialid == i][j + 1] <- 1
+          fixin$forward[fixin$trialid == i][j + 2] <- 1
+        } else {
+          fixin$forward[fixin$trialid == i][j] <- 1
+        }
+        
+      } 
+      
     }
     
   }
   
-  # sentence begin
-  for (i in 2:(nrow(fixin) - 3)) {
-    
-    if (fixin$sentnum2[i] > fixin$sentnum2[i - 1]) {
-      fixin$forward[i + 1] <- 1
-      fixin$forward[i + 2] <- 1
-    }
-    
-  } 
   
   # id with run
   fixin$id2 <- paste(fixin$id, fixin$sent.runid2, sep = ":")
@@ -155,7 +161,6 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
   names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "sentnum2", "sent", "sent.nwords")
   sent <- sent[names]  
   colnames(sent) <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "sentnum", "sent", "sent.nwords")
-  
   
   # compute firstrun skip
   sent$firstrun.skip <- 0
@@ -217,16 +222,25 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
   sent <- merge(sent, tmp, by = "id", all.x = T)
   sent$firstpass.forward.dur[is.na(sent$firstpass.forward.dur)] <- 0
   
-  # firstpass-reread
-  tmp <- aggregate(fixin$dur[fixin$firstpass == 1 & fixin$forward == 0], list(fixin$id[fixin$firstpass == 1 & fixin$forward == 0]), length)
-  colnames(tmp) <- c("id", "firstpass.reread.nfix")
-  sent <- merge(sent, tmp, by = "id", all.x = T)
-  sent$firstpass.reread.nfix[is.na(sent$firstpass.reread.nfix)] <- 0
-  
-  tmp <- aggregate(fixin$dur[fixin$firstpass == 1 & fixin$forward == 0], list(fixin$id[fixin$firstpass == 1 & fixin$forward == 0]), sum)
-  colnames(tmp) <- c("id", "firstpass.reread.dur")
-  sent <- merge(sent, tmp, by = "id", all.x = T)
-  sent$firstpass.reread.dur[is.na(sent$firstpass.reread.dur)] <- 0
+  if (nrow(fixin[fixin$firstpass == 1 & fixin$forward == 0, ]) > 0) {
+    
+    # firstpass-reread
+    tmp <- aggregate(fixin$dur[fixin$firstpass == 1 & fixin$forward == 0], list(fixin$id[fixin$firstpass == 1 & fixin$forward == 0]), length)
+    colnames(tmp) <- c("id", "firstpass.reread.nfix")
+    sent <- merge(sent, tmp, by = "id", all.x = T)
+    sent$firstpass.reread.nfix[is.na(sent$firstpass.reread.nfix)] <- 0
+    
+    tmp <- aggregate(fixin$dur[fixin$firstpass == 1 & fixin$forward == 0], list(fixin$id[fixin$firstpass == 1 & fixin$forward == 0]), sum)
+    colnames(tmp) <- c("id", "firstpass.reread.dur")
+    sent <- merge(sent, tmp, by = "id", all.x = T)
+    sent$firstpass.reread.dur[is.na(sent$firstpass.reread.dur)] <- 0
+    
+  } else {
+    
+    sent$firstpass.reread.nfix <- 0
+    sent$firstpass.reread.dur <- 0
+    
+  }
   
   if(sum(fixin$firstpass == 0) != 0) {
     
@@ -282,7 +296,6 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
     
   }
   
-  
   # firstrun
   # ---------
   
@@ -299,7 +312,7 @@ ComputeSentenceMeasures <- function(fix, sent.item) {
   sent <- merge(sent, tmp, by = "id", all.x = T)
   sent$firstrun.reg.out[is.na(sent$firstrun.reg.out)] <- 0
   
-  
+    
   # complete sentence
   # -----------------
   

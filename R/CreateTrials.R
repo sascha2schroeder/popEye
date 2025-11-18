@@ -39,6 +39,11 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
         if (env$exp$setup$tracker$model == "eyelink") {
           
           sel <- tail(env$header$calibration[round(env$header$calibration$time) < time, ], n = 1)
+         
+          # FIX: if trials were not calibrated 
+          if (nrow(sel) == 0) {
+            sel[1, ] <- NA
+          }
           
           meta <- list(trialid = max(tmp$msg$trialid), 
                        trialnum = max(tmp$msg$trialnum), 
@@ -180,7 +185,6 @@ CreateTrials <- function(dat, env = parent.frame(n = 1)) {
                            parse = clean)
 
   }
-  
   
   # check for empty slots and save
   for (i in length(ret):1) {

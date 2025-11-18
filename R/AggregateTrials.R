@@ -6,6 +6,7 @@ AggregateTrials <- function(fix, wordcomb) {
   trialtmp$id <- trialtmp$trialnum
   
   tmp <- trialtmp[is.na(trialtmp$trial.nwords) == F, ]
+  #tmp <- trialtmp
   trial <- tmp[duplicated(tmp$id) == F, ]
   names <- c("id", "subid", "trialid", "trialnum", "itemid", "cond", "trial", 
              "trial.nwords")
@@ -20,7 +21,7 @@ AggregateTrials <- function(fix, wordcomb) {
   blink <- aggregate(tmp$blink[tmp$type == "in"], list(tmp$id[tmp$type == "in"]), function(x) round(sum(x) / 2))
   colnames(blink) <- c("id", "nblink")
   trial <- merge(trial, blink, all.x = T)
-
+  
   # number of runs
   trial$nrun <- as.numeric(tapply(tmp$word.runid[tmp$type == "in"], list(tmp$id[tmp$type == "in"]), max, na.rm = T))
   
@@ -34,10 +35,16 @@ AggregateTrials <- function(fix, wordcomb) {
   
   # compute forward saccade length (in letters)
   tmp$sac <- (tmp$word.land + tmp$word.launch)
-  sac <- aggregate(tmp$sac[tmp$sac >= 0 & is.na(tmp$sac) == F], list(tmp$id[tmp$sac >= 0 & is.na(tmp$sac) == F]), mean, na.rm = T)
-  colnames(sac) <- c("id", "sac")
-  sac$sac <- round(sac$sac, 3)
-  trial <- merge(trial, sac, all.x = T)
+  # tmp$sac <- apply(cbind(tmp$word.land, tmp$word.launch), 1, sum, na.rm = T)
+  tmpsac <- tmp[tmp$sac >= 0 & is.na(tmp$sac) == F, ]
+  if (nrow(tmpsac) > 0) {
+    sac <- aggregate(tmpsac$sac, list(tmpsac$id), mean, na.rm = T)
+    colnames(sac) <- c("id", "sac")
+    sac$sac <- round(sac$sac, 3)
+    trial <- merge(trial, sac, all.x = T)
+  } else {
+    trial$sac <- NA
+  }
   
   # mean fixation duration
   trial$mfix <- round(as.numeric(tapply(tmp$dur[tmp$type == "in"], list(tmp$id[tmp$type == "in"]), mean)))

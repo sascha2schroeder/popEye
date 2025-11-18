@@ -29,6 +29,8 @@ CreateOutput <- function(env = parent.frame(n = 1)) {
   # results
   env$results <- NULL
   
+  
+  
   # clean
   if (env$exp$setup$type == "text") {
     

@@ -604,8 +604,7 @@ popEye <- function(datpath,
       combia <- CombineIAs(fix, iafirst, iatmp, exp)
       exp$reports$ias <- rbind(exp$reports$ias, combia)
       
-      sent <- ComputeSentenceMeasures(fix, sent.item)
-      # NOTE: rename to AggregateSentences
+      sent <- AggregateSentences(fix, sent.item)
       exp$reports$sentences <- rbind(exp$reports$sent, sent)
       
       trials <- AggregateTrials(fix, wordcomb)
@@ -627,6 +626,7 @@ popEye <- function(datpath,
   } # end version loop
   
   # NOTE: save number of subjects in setup slot?
+  
   
   
   # collect results file

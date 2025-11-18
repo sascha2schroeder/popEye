@@ -102,17 +102,17 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     if (length(tmp$fixid[tmp$type == "out"]) > 0) {
       
       # target.pre.out: check whether there is an outlying fixation before target fixation
-      if (tmp$fixid[tmp$type == "out"] < target.start$fixid) {
+      if (min(tmp$fixid[tmp$type == "out"] < target.start$fixid)) {
         dat$item[[trial]]$clean$target$pre.out <- 1
         dat$item[[trial]]$clean$target$crit <- 1
       }
       
       # target.out: check whether there is an outlying fixation directly before or after target fixation
-      if (tmp$fixid[tmp$type == "out"] == target.end$fixid - 1) {
+      if (min(tmp$fixid[tmp$type == "out"]) == target.end$fixid - 1) {
         dat$item[[trial]]$clean$target$out <- 1
         dat$item[[trial]]$clean$target$crit <- 1
       }
-      if (tmp$fixid[tmp$type == "out"] == target.end$fixid + 1) {
+      if (min(tmp$fixid[tmp$type == "out"]) == target.end$fixid + 1) {
         dat$item[[trial]]$clean$target$out <- 1
         dat$item[[trial]]$clean$target$crit <- 1
       }
@@ -148,9 +148,14 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     # NOTE: needed?
     
     # target.pre.refix: check whether there is a refixation before target
-    if (tmpin$ia.refix[tmpin$fixid == (target.start$fixid - 1)] == 1) {
+    if (length(tmpin$ia.refix[tmpin$fixid == (target.start$fixid - 1)]) != 0) {
+      if (tmpin$ia.refix[tmpin$fixid == (target.start$fixid - 1)] == 1) {
+        dat$item[[trial]]$clean$target$pre.refix <- 1 
+      }
+    } else {
       dat$item[[trial]]$clean$target$pre.refix <- 1 
     }
+    
     # target.pre.refix: check whether there is a refixation before the target word,
     # that has been entered from the right
     # if (tmpin$ia.refix[tmpin$fixid == (target.start$fixid - 1)] == 1 & tmpin$sac.in[tmpin$fixid == (target.start$fixid - 1)] < 0) {
@@ -197,10 +202,18 @@ CleanTarget <- function(dat, env = parent.frame(n = 2)) {
     }
     
     # post.reg: check whether last fixation on target is forward-oriented
-    if (target.end$sac.out < 0) {
+    if (is.na(target.end$sac.out) == F) {
+      
+      if (target.end$sac.out < 0) {
+        dat$item[[trial]]$clean$target$post.reg <- 1
+      } 
+      
+    } else {
+      
       dat$item[[trial]]$clean$target$post.reg <- 1
+      
     }
-    
+   
   }
   
   return(dat)
