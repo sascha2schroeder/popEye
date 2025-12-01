@@ -100,6 +100,9 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     tmp_points <- stim
     tmp_points <- gsub(env$exp$setup$indicator$target, "", tmp_points)
     tmp_points <- gsub(env$exp$setup$indicator$line, "", tmp_points)
+    if (env$exp$setup$indicator$ia != " ") {
+      tmp_points <- gsub(env$exp$setup$indicator$ia, "", tmp_points)
+    }
     
     # TODO: this is only EB behavior; maybe condition on software
     # replace hyphen within word with different character
