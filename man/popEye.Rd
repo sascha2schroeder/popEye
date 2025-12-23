@@ -29,6 +29,7 @@ popEye(
   stimulus.text = "text",
   stimulus.hyphenwrap = T,
   stimulus.readimage = F,
+  indicator.sentence = "",
   indicator.word = "",
   indicator.ia = "",
   indicator.target = "\\\\*",
@@ -158,6 +159,9 @@ line breaks (default is TRUE)}
 
 \item{stimulus.readimage}{If TRUE images for the individual trials are retrieved 
 from the experiment and saved in the RDS file (TRUE or FALSE, default is FALSE)}
+
+\item{indicator.sentence}{Indicator used to separate sentences from each other
+(empty by default)}
 
 \item{indicator.word}{Indicator used to separate words from each other
 (empty by default)}

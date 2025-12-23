@@ -44,7 +44,8 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
                    readimage = env$stimulus.readimage)
   
   # indicator
-  indicator <- list(word = env$indicator.word,
+  indicator <- list(sentence = env$indicator.sentence,
+                    word = env$indicator.word,
                     ia = env$indicator.ia,
                     target = env$indicator.target,
                     line = env$indicator.line)                 

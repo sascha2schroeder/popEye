@@ -48,6 +48,8 @@
 #' line breaks (default is TRUE)
 #' @param stimulus.readimage If TRUE images for the individual trials are retrieved 
 #' from the experiment and saved in the RDS file (TRUE or FALSE, default is FALSE)
+#' @param indicator.sentence Indicator used to separate sentences from each other
+#' (empty by default)
 #' @param indicator.word Indicator used to separate words from each other
 #' (empty by default)
 #' @param indicator.ia Indicator used to separate interest areas from each other
@@ -194,6 +196,7 @@ popEye <- function(datpath,
                    stimulus.text = "text", 
                    stimulus.hyphenwrap = T,
                    stimulus.readimage = F,
+                   indicator.sentence = "", 
                    indicator.word = "", 
                    indicator.ia = "", 
                    indicator.target = "\\*", 
@@ -428,7 +431,8 @@ popEye <- function(datpath,
       
       message(".. Add stimulus")
       
-      dat <- ReadStimulus(dat)
+      # dat <- ReadStimulus(dat)
+      dat <- ReadStimulus2(dat)
       
       if (debug == "add") {
         return (dat)

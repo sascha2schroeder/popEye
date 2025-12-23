@@ -1,6 +1,6 @@
 Package: popEye
-Version: 0.8.3-15
-Date: 2025-12-01
+Version: 0.8.3-16
+Date: 2025-12-23
 Title: Analysis of eye-tracking data from reading experiments
 Description: popEye is an integrated environment to analyze eye-tracking data
         from reading experiments. Its unique feature is that it allows to
