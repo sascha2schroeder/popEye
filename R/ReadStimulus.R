@@ -41,6 +41,9 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
   # parse out indicator characters from text display
   stimfile$stim <- stimfile[, match(env$exp$setup$stimulus$text, colnames(stimfile))]
   stimfile$text <- gsub(env$exp$setup$indicator$target, "", stimfile$stim)
+  if (env$exp$setup$indicator$sentence != "") {
+    stimfile$text <- gsub(env$exp$setup$indicator$sentence, " ", stimfile$text)
+  }
   if (env$exp$setup$indicator$word != "") {
     stimfile$text <- gsub(env$exp$setup$indicator$word, " ", stimfile$text)
   }
@@ -53,6 +56,9 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
   if (env$exp$setup$type == "boundary" | env$exp$setup$type == "fast") {
     stimfile$preview <- stimfile[, match(env$exp$setup$stimulus$preview, colnames(stimfile))]
     stimfile$preview <- gsub(env$exp$setup$indicator$target, "", stimfile$preview)
+    if (env$exp$setup$indicator$sentence != "") {
+      stimfile$preview <- gsub(env$exp$setup$indicator$sentence, " ", stimfile$preview)
+    }
     if (env$exp$setup$indicator$word != "") {
       stimfile$preview <- gsub(env$exp$setup$indicator$word, " ", stimfile$preview)
     }
@@ -66,6 +72,9 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
   if (env$exp$setup$type == "fast") {
     stimfile$prime <- stimfile[, match(env$exp$setup$stimulus$prime, colnames(stimfile))]
     stimfile$prime <- gsub(env$exp$setup$indicator$target, "", stimfile$prime)
+    if (env$exp$setup$indicator$sentence != "") {
+      stimfile$prime <- gsub(env$exp$setup$indicator$sentence, " ", stimfile$prime)
+    }
     if (env$exp$setup$indicator$word != "") {
       stimfile$prime <- gsub(env$exp$setup$indicator$word, " ", stimfile$prime)
     }
@@ -86,8 +95,6 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
   font.height <- env$exp$setup$font$height
   font.lead <- env$exp$setup$font$lead
   x.cut <- env$exp$setup$display$resolutionX - env$exp$setup$display$marginRight
-  
-  # env$exp$setup$stimulus$stimmat <- list()
   
   for (s in 1:nrow(stimfile)) {
     # s <- 1
@@ -116,6 +123,11 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     
     # segment words
     tmp_word <- tmp_points
+    tmp_word <- gsub(env$exp$setup$indicator$target, "", tmp_word)
+    tmp_word <- gsub(env$exp$setup$indicator$line, "", tmp_word)
+    tmp_word <- gsub(env$exp$setup$indicator$word, "", tmp_word)
+    tmp_word <- gsub(env$exp$setup$indicator$sentence, "", tmp_word)
+    
     if (env$exp$setup$stimulus$hyphenwrap == T) {
       tmp_word <- gsub("\u20de", "\u20de ", tmp_word)
     }
@@ -173,12 +185,22 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     pointmat$word <- NA
     
     # sentences
-    sep_sent <- paste(paste("\\", apply(expand.grid(env$exp$setup$separator$sentence, env$exp$setup$separator$sentence2), 1, paste, collapse = ""), sep = ""), collapse = "|")
+    
+    if (env$exp$setup$indicator$sentence != "") {
+      sep_sent <- env$exp$setup$indicator$sentence
+    } else {
+      sep_sent <- paste(paste("\\", apply(expand.grid(env$exp$setup$separator$sentence, env$exp$setup$separator$sentence2), 1, paste, collapse = ""), sep = ""), collapse = "|")
+    }
+    
     sent <- unlist(strsplit(tmp_sent, sep_sent))
     if (env$exp$setup$indicator$word != "") {
-      sent.nwords <- sapply(strsplit(unlist(strsplit(tmp_sent2, sep_sent)), env$exp$setup$indicator$word), length)
+      tmp <- unlist(strsplit(tmp_sent2, sep_sent))
+      tmp <- trimws(tmp, which = "both")
+      sent.nwords <- sapply(strsplit(tmp, env$exp$setup$indicator$word), length)
     } else {
-      sent.nwords <- sapply(strsplit(unlist(strsplit(tmp_sent2, sep_sent)), env$exp$setup$separator$word), length)
+      tmp <- unlist(strsplit(tmp_sent2, sep_sent))
+      tmp <- trimws(tmp, which = "both")
+      sent.nwords <- sapply(strsplit(tmp, env$exp$setup$separator$word), length)
     }
     sent.nletters <- sapply(strsplit(unlist(strsplit(tmp_sent, sep_sent)), ""), length)
     sentnum <- 1
@@ -240,31 +262,45 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
       
       # sentence
       
-      if (sentmem == TRUE) {
+      # check sentence indicator
+      if (is.element(pointmat$point[i], env$exp$setup$indicator$sentence)) {
+        sentnum <- sentnum + 1
+        sentmem <- FALSE
+        pointmat <- pointmat[-i, ]
+        # i <- i - 1
+        next
         
-        if (sum(env$exp$setup$separator$sentence2 == "") != 0) {
-          sentnum <- sentnum + 1
-          sentmem <- FALSE
+      } else {
+        
+        if (sentmem == TRUE) {
           
-        } else {
-          
-          if (is.element(pointmat$point[i], env$exp$setup$separator$sentence2)) {
+          if (sum(env$exp$setup$separator$sentence2 == "") != 0) {
             sentnum <- sentnum + 1
             sentmem <- FALSE
             
           } else {
-            sentmem <- FALSE
+            
+            if (is.element(pointmat$point[i], env$exp$setup$separator$sentence2)) {
+              sentnum <- sentnum + 1
+              sentmem <- FALSE
+              
+            } else {
+              sentmem <- FALSE
+            }
+            
           }
           
+        } else {
+          
+          if(is.element(pointmat$point[i], env$exp$setup$separator$sentence)) {
+            sentmem <- TRUE
+          } 
+          
         }
-      
-      } else {
-        
-        if(is.element(pointmat$point[i], env$exp$setup$separator$sentence)) {
-          sentmem <- TRUE
-        } 
         
       }
+      
+      
       
       sent.let <- unlist(strsplit(sent[sentnum], ""))
       sent.n <- length(sent.let)
