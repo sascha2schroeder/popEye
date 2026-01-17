@@ -8,6 +8,7 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     
     # create match variable (itemid)
     stimfile$cond <- 1
+    env$exp$setup$stimulus$cond <- "cond"
     stimfile$match <- paste(stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))], 1, sep = ":")
     
   } else {
@@ -544,9 +545,6 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     stimmat$ianum <- as.numeric(stimmat$ianum)
     
     
-    # -----------------------------------------------------
-    
-    
     # compute lines
     # --------------
     
@@ -695,6 +693,7 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     
     
     # TODO: Extract target position during trial assignment
+    
     # determine target IA
     # --------------------
 
