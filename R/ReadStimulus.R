@@ -159,7 +159,7 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     
     pointmat$match <- stimfile$match[s]
     pointmat$itemid <- stimfile[s, match(env$exp$setup$stimulus$id, colnames(stimfile))]
-    pointmat$cond <- stimfile$cond[s]
+    pointmat$cond <- stimfile[s, match(env$exp$setup$stimulus$cond, colnames(stimfile))]
     
     # point, letter, glyph
     pointmat$pointnum <- 1:length(points)
@@ -503,48 +503,6 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     
     pointmat$pointnum <- 1:nrow(pointmat)
     row.names(pointmat) <- NULL
-    
-    
-    # # -----------------------------------------------------
-    # 
-    # # aggregate on letter level
-    # letmat <- aggregate(. ~ letternum, data = stimmat, FUN = tail, 1)
-    # 
-    # # number code points
-    # npoints <- aggregate(stimmat$pointnum, list(stimmat$letternum), length)
-    # colnames(npoints) <- c("letternum", "npoints")
-    # 
-    # letmat2 <- merge(letmat, npoints)
-    # letmat2$pointnum <- NULL
-    # letmat2$point <- NULL
-    # letmat2$pointwidth <- NULL
-    # letmat2$glyphnum <- NULL
-    # letmat2$glyph <- NULL
-    # letmat2$glyphwidth <- NULL
-    # 
-    # 
-    # # compute initial x positions
-    # # ----------------------------
-    # letmat2$xs <- c(x.offset, cumsum(letmat2$letterwidth) + x.offset)[1:length(letmat2$letterwidth)]
-    # letmat2$xe <- cumsum(letmat2$letterwidth) + x.offset
-    # # NOTE: separate start and end positions necessary?
-    # 
-    # stimmat <- letmat2
-    # stimmat <- stimmat[order(stimmat$letternum, stimmat$wordnum), ]
-    # stimmat$itemid <- as.numeric(stimmat$itemid)
-    # stimmat$width <- as.numeric(stimmat$letterwidth)
-    # stimmat$wordnum <- as.numeric(stimmat$wordnum)
-    # stimmat$sentnum <- as.numeric(stimmat$sentnum)
-    # stimmat$sent.nwords <- as.numeric(stimmat$sent.nwords)
-    # stimmat$sent.nletters <- as.numeric(stimmat$sent.nletters)
-    # stimmat$ianum <- as.numeric(stimmat$ianum)
-    # 
-    # # -----------------------------------------------------
-    
-    # -----------------------------------------------------
-    
-    
-    # glyphmat <- pointmat[c(1, diff(pointmat$glyphnum)) == 1, ]
     
     glyphmat <- pointmat[duplicated(pointmat$glyphnum, fromLast = T) == F, ]
     

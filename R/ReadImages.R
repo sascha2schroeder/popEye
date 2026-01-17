@@ -74,7 +74,9 @@ ReadImages <- function(exp) {
   
   # retrieve item number
   for (i in 1:nrow(data)) {
-    tmpout <- agrep(data$text[i], stim_red)
+    # TODO: grep or agrep?
+    # tmpout <- agrep(data$text[i], stim_red)
+    tmpout <- grep(data$text[i], stim_red)
     if (length(tmpout) != 1) next
     data$number[i] <- tmpout
   }
