@@ -8,12 +8,16 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     
     # create match variable (itemid)
     stimfile$cond <- 1
-    env$exp$setup$stimulus$cond <- "cond"
+    
+    condvar <- "cond"
+    
     stimfile$match <- paste(stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))], 1, sep = ":")
     
   } else {
     
     if (length(env$exp$setup$stimulus$cond) == 1) {
+      
+      condvar <- env$exp$setup$stimulus$cond
       
       # create match variable (itemid:cond)
       stimfile$match <- paste(stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))],
@@ -27,6 +31,8 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
       
       stimfile$cond <- paste(stimfile[, match(cond1, colnames(stimfile))],
                              stimfile[, match(cond2, colnames(stimfile))], sep = ":")
+      
+      condvar <- "cond"
       
       # create match variable (itemid:cond)
       stimfile$match <- paste(stimfile[, match(env$exp$setup$stimulus$id, colnames(stimfile))],
@@ -160,7 +166,7 @@ ReadStimulus <- function(dat, env = parent.frame(n = 1)) {
     
     pointmat$match <- stimfile$match[s]
     pointmat$itemid <- stimfile[s, match(env$exp$setup$stimulus$id, colnames(stimfile))]
-    pointmat$cond <- stimfile[s, match(env$exp$setup$stimulus$cond, colnames(stimfile))]
+    pointmat$cond <- stimfile[s, match(condvar, colnames(stimfile))]
     
     # point, letter, glyph
     pointmat$pointnum <- 1:length(points)
