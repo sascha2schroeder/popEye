@@ -71,14 +71,8 @@ ReadImages <- function(exp) {
   if (exp$setup$indicator$ia != " ") {
     stim_red <- gsub(exp$setup$indicator$ia, "", stim_red)
   }
-  if (exp$setup$separator$word != " ") {
-    stim_red <- gsub(exp$setup$separator$word, "", stim_red)
-  }
-  if (exp$setup$indicator$word != " ") {
-    stim_red <- gsub(exp$setup$indicator$word, "", stim_red)
-  }
-  if (exp$setup$separator$sentence != " ") {
-    stim_red <- gsub(exp$setup$separator$sentence, "", stim_red)
+  if (exp$setup$indicator$sentence != " ") {
+    stim_red <- gsub(exp$setup$indicator$sentence, "", stim_red)
   }
   
   # retrieve item number
