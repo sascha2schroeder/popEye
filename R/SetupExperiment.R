@@ -989,6 +989,18 @@ SetupExperiment <- function(env = parent.frame(n = 1)) {
     font$wrap <- FALSE
   }
   
+  # ChineseSimplified 15 pt
+  if (font$name == "ChineseSimplified" & font$size == 15) {
+    font$letpix <- data.frame(letter = " ", pixel = 27)
+    font$height <- 28
+    font$width <- 27
+    font$lead <- 6
+    font$right <- FALSE
+    font$fixed <- TRUE
+    font$half <- c("1", "9", "3", "6", "", "(", ")")
+    font$wrap <- FALSE
+  }
+  
   # ChineseTraditional 10 pt
   if (font$name == "ChineseTraditional" & font$size == 10) {
     font$letpix <- data.frame(letter = " ", pixel = 27)
